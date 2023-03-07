@@ -18,12 +18,6 @@ local function deprioritize_snippet(entry1, entry2)
 	end
 end
 
-local has_words_before = function()
-	unpack = unpack or table.unpack
-	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
 -- ╭──────────────────────────────────────────────────────────╮
 -- │ Setup                                                    │
 -- ╰──────────────────────────────────────────────────────────╯
@@ -44,16 +38,16 @@ local source_mapping = {
 	zsh = icons.terminal .. "ZSH",
 }
 
-local buffer_option = {
-	-- Complete from all visible buffers (splits)
-	get_bufnrs = function()
-		local bufs = {}
-		for _, win in ipairs(vim.api.nvim_list_wins()) do
-			bufs[vim.api.nvim_win_get_buf(win)] = true
-		end
-		return vim.tbl_keys(bufs)
-	end,
-}
+-- local buffer_option = {
+-- 	-- Complete from all visible buffers (splits)
+-- 	get_bufnrs = function()
+-- 		local bufs = {}
+-- 		for _, win in ipairs(vim.api.nvim_list_wins()) do
+-- 			bufs[vim.api.nvim_win_get_buf(win)] = true
+-- 		end
+-- 		return vim.tbl_keys(bufs)
+-- 	end,
+-- }
 
 -- vim.opt.completeopt = "menuone,noselect"
 
@@ -76,7 +70,10 @@ cmp.setup({
 			end
 		end, { "i", "c" }),
 		["<ESC>"] = cmp.mapping({
-			i = cmp.mapping.abort(),
+			i = function(_)
+				cmp.abort()
+				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<ESC>", true, true, true), "n", true)
+			end,
 			c = cmp.mapping.close(),
 		}),
 		["<CR>"] = cmp.mapping.confirm({
@@ -90,8 +87,6 @@ cmp.setup({
 				luasnip.expand()
 			elseif luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
-				-- elseif has_words_before() then
-				-- 	cmp.complete()
 			else
 				fallback()
 			end
