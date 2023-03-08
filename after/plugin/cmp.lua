@@ -49,7 +49,7 @@ local source_mapping = {
 -- 	end,
 -- }
 
--- vim.opt.completeopt = "menuone,noselect"
+vim.o.completeopt = "menu,menuone,noselect"
 
 cmp.setup({
 	snippet = {
@@ -125,7 +125,7 @@ cmp.setup({
 		{ name = "npm", priority = 9 },
 		{ name = "copilot", priority = 8 },
 		{ name = "cmp_tabnine", priority = 8, max_num_results = 3 },
-		-- { name = "luasnip",     priority = 7, max_item_count = 8 },
+		{ name = "luasnip", priority = 7, max_item_count = 8 },
 		-- { name = "buffer",      priority = 7, keyword_length = 5, option = buffer_option, max_item_count = 8 },
 		{ name = "nvim_lua", priority = 5 },
 		{ name = "path", priority = 4 },
@@ -148,7 +148,6 @@ cmp.setup({
 	},
 	window = {
 		completion = cmp.config.window.bordered({
-			-- winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
 			winhighlight = "Normal:CmpNormal,NormalFloat:NormalFloat,FloatBorder:FloatBorder",
 			border = "rounded",
 		}),
@@ -158,9 +157,12 @@ cmp.setup({
 	},
 	experimental = {
 		ghost_text = true,
-		native_menu = false,
+		-- native_menu = true,
 	},
 	preselect = cmp.PreselectMode.Item,
+	view = {
+		-- entries = "native",
+	},
 })
 
 -- ╭──────────────────────────────────────────────────────────╮
