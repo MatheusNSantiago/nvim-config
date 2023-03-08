@@ -1,4 +1,4 @@
-vim.keymap.set({ "n", "v" }, "<leader>cb", require("comment-box").accbox)
+vim.keymap.set({ "n", "v" }, "<leader>cb", require("comment-box").cbox)
 
 require("comment-box").setup({
 	doc_width = 80, -- width of the document
