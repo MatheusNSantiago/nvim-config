@@ -9,6 +9,7 @@ local general_highlights = {
 	-- StatusLineNC = { bg = "None" },
 	-- """ Vim editor
 	-- LineNr= { fg = "#5B6268", bg = "None" },
+	FloatBorder  = { bg = "None" },
 	Boolean = { fg = c.red },
 	Conditional = { fg = c.purple },
 	-- Cursor = { fg = c.bg, bg = c.white },
@@ -53,6 +54,7 @@ local telescope_highlights = {
 	TelescopeBorder = { fg = "#488dff" },
 	TelescopeMatching = { fg = c.secondary },
 	TelescopePromptPrefix = { bg = "None" },
+	TelescopePromptCounter = {bg = "None"},
 }
 
 local cmp_highlights = {
