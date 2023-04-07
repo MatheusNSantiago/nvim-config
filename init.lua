@@ -1,7 +1,5 @@
-require("core.plugins")
-require("core.options")
-require("core.keymappings")
+require("options")
 
-require('lsp.config')
-require('lsp.setup')
-require('lsp.functions')
+require("plugins")
+require("config.lsp.config")
+require("keymappings")

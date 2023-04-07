@@ -1,0 +1,16 @@
+return {
+	secondary = "#FFA630",
+	bg = "#23262e",
+	comments = "#5f6167",
+	white = "#ffffff",
+	invisible = "#333844",
+	dark_bg = "#061115",
+	bg_highlight = "#292e42",
+	black = "#1b1d23",
+	cyan = "#00e8c6",
+	red = "#ee5d43",
+	green = "#96e072",
+	purple = "#c74ded",
+	yellow = "#ffe66d",
+	orange = "#f39c12",
+}
