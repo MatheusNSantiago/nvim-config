@@ -1,9 +1,15 @@
 local M = {}
-local c = require("utils.colors")
 local map = require("utils").map
 
 function M.setup()
-	M.set_keymaps()
+
+	map("n", "<leader>sf", ":Telescope find_files", { desc = "[S]earch [F]iles" })
+	map("n", "<leader>sg", ":Telescope live_grep", { desc = "[S]earch by [G]rep" })
+	map("n", "<leader>s/", ":Telescope current_buffer_fuzzy_find", { desc = "Search in file" })
+	map("n", "<leader>sof", ":Telescope oldfiles", { desc = "[S]earch [O]ld [F]iles" })
+	map("n", "<leader>sh", ":Telescope help_tags", { desc = "[S]earch [H]elp" })
+	map("n", "<leader>sw", ":Telescope grep_string", { desc = "[S]earch [W]ord" })
+	map("n", "<leader>sd", ":Telescope diagnostics", { desc = "[S]earch [D]iagnostics" })
 
 	return {
 		"nvim-telescope/telescope.nvim",
@@ -13,24 +19,7 @@ function M.setup()
 	}
 end
 
-function M.set_keymaps()
-	local is_installed, _ = pcall(require, "telescope")
-	if not is_installed then
-		return
-	end
-
-	local builtin = require("telescope.builtin")
-
-	map("n", "<leader>sgf", builtin.git_files, { desc = "[S]each [G]it [F]iles" })
-	map("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find recently opened files" })
-	-- map('n', '<leader><leader>r', builtin.buffers, { desc = '[ ] Find existing buffers' })
-	map("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
-	map("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
-	map("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-	map("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
-	map("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
-end
-
+local c = require("utils.colors")
 M.highlights = {
 	TelescopeTitle = { fg = c.secondary, bold = true },
 	TelescopeNormal = { bg = "None", ctermbg = "White" }, -- ctermbg white faz ficar transparente
@@ -42,7 +31,6 @@ M.highlights = {
 
 function M.config()
 	local telescope = require("telescope")
-	telescope.load_extension("fzf")
 	local icons = require("utils.icons")
 
 	local git_icons = {
@@ -103,15 +91,15 @@ function M.config()
 				case_mode = "smart_case",
 			},
 		},
-		vimgrep_arguments = {
-			"rg",
-			"--color=never",
-			"--no-heading",
-			"--with-filename",
-			"--line-number",
-			"--column",
-			"--smart-case",
-		},
+		-- vimgrep_arguments = {
+		-- 	"rg",
+		-- 	"--color=never",
+		-- 	"--no-heading",
+		-- 	"--with-filename",
+		-- 	"--line-number",
+		-- 	"--column",
+		-- 	"--smart-case",
+		-- },
 		layout_config = {
 			horizontal = {
 				preview_cutoff = 120,
@@ -127,6 +115,8 @@ function M.config()
 		grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
 		qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 	})
+
+	telescope.load_extension("fzf")
 end
 
 return M
