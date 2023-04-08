@@ -1,10 +1,13 @@
 local M = {}
 
 function M.setup()
-	vim.api.nvim_create_autocmd(
-		"BufEnter",
-		{ command = [[ColorizerAttachToBuffer]] }
-	)
+	local is_installed = pcall(require, "colorizer")
+	if is_installed then
+		vim.api.nvim_create_autocmd(
+			"BufEnter",
+			{ command = [[ColorizerAttachToBuffer]] }
+		)
+	end
 	return {
 		"norcalli/nvim-colorizer.lua",
 		event = "BufRead",
