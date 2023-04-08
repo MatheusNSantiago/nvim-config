@@ -3,13 +3,13 @@ local map = require("utils").map
 
 function M.setup()
 
-	map("n", "<leader>sf", ":Telescope find_files", { desc = "[S]earch [F]iles" })
-	map("n", "<leader>sg", ":Telescope live_grep", { desc = "[S]earch by [G]rep" })
-	map("n", "<leader>s/", ":Telescope current_buffer_fuzzy_find", { desc = "Search in file" })
-	map("n", "<leader>sof", ":Telescope oldfiles", { desc = "[S]earch [O]ld [F]iles" })
-	map("n", "<leader>sh", ":Telescope help_tags", { desc = "[S]earch [H]elp" })
-	map("n", "<leader>sw", ":Telescope grep_string", { desc = "[S]earch [W]ord" })
-	map("n", "<leader>sd", ":Telescope diagnostics", { desc = "[S]earch [D]iagnostics" })
+	map("n", "<leader>sf", ":Telescope find_files<CR>", { desc = "[S]earch [F]iles" })
+	map("n", "<leader>sg", ":Telescope live_grep<CR>", { desc = "[S]earch by [G]rep" })
+	map("n", "<leader>s/", ":Telescope current_buffer_fuzzy_find<CR>", { desc = "Search in file" })
+	map("n", "<leader>sof", ":Telescope oldfiles<CR>", { desc = "[S]earch [O]ld [F]iles" })
+	map("n", "<leader>sh", ":Telescope help_tags<CR>", { desc = "[S]earch [H]elp" })
+	map("n", "<leader>sw", ":Telescope grep_string<CR>", { desc = "[S]earch [W]ord" })
+	map("n", "<leader>sd", ":Telescope diagnostics<CR>", { desc = "[S]earch [D]iagnostics" })
 
 	return {
 		"nvim-telescope/telescope.nvim",
