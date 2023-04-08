@@ -15,6 +15,7 @@ function M.config()
 		ensure_installed = {
 			"javascript",
 			"typescript",
+			"ruby",
 			"tsx",
 			"python",
 			"dart",
@@ -27,16 +28,12 @@ function M.config()
 			"markdown_inline",
 			"toml",
 			"fish",
-			"yaml",
 			"jsdoc",
-			"json",
 			"regex",
 			"yaml",
 			"bash",
 		},
-		autotag = {
-			enable = true,
-		},
+		autotag = { enable = true },
 		refactor = {
 			highlight_definitions = { enable = true },
 			highlight_current_scope = { enable = false },
@@ -50,23 +47,15 @@ function M.config()
 				-- node_decremental = "<bs>",
 			},
 		},
-		highlight = {
-			enable = true,
-			use_languagetree = true,
-			disable = {},
-		},
-		indent = {
-			enable = true,
-			disable = {},
-		},
+		highlight = { enable = true, use_languagetree = true },
+		indent = { enable = true, disable = {} },
 		rainbow = {
 			enable = true,
 			extended_mode = true,
+			colors = { "#cc241d", "#a89984", "#b16286", "#d79921", "#689d6a", "#d65d0e", "#458588" },
+			termcolors = { "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White" },
 		},
-		context_commentstring = {
-			enable = true,
-			enable_autocmd = false,
-		},
+		context_commentstring = { enable = true, enable_autocmd = false },
 		textobjects = {
 			move = {
 				enable = true,
@@ -75,13 +64,13 @@ function M.config()
 					["]]"] = "@function.outer",
 					["]m"] = "@class.outer",
 				},
-				goto_next_end = {
-					["]["] = "@function.outer",
-					["]M"] = "@class.outer",
-				},
 				goto_previous_start = {
 					["[["] = "@function.outer",
 					["[m"] = "@class.outer",
+				},
+				goto_next_end = {
+					["]["] = "@function.outer",
+					["]M"] = "@class.outer",
 				},
 				goto_previous_end = {
 					["[]"] = "@function.outer",
@@ -101,23 +90,17 @@ function M.config()
 				},
 				include_surrounding_whitespace = false,
 			},
-			swap = {
-				enable = false,
-				swap_next = {
-					-- ["~"] = "@parameter.inner",
-				},
-			},
+			swap = { enable = false, swap_next = {} },
 		},
 		matchup = {
-			enable = true, -- mandatory, false will disable the whole extension
+			enable = false, -- mandatory, false will disable the whole extension
 			disable = {}, -- optional, list of language that will be disabled
 			disable_virtual_text = true,
 			-- include_match_words = false,
 		},
 	})
-
-	local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-	parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+	-- local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+	-- parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 end
 
 return M

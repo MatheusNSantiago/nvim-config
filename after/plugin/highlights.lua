@@ -22,7 +22,7 @@ for _, file in ipairs(plugin_files) do
 end
 
 --
-local colorizer_is_installed, colorizer = pcall(require, "colorizer")
-if colorizer_is_installed then
-	colorizer.setup()
-end
+-- local colorizer_is_installed, colorizer = pcall(require, "colorizer")
+-- if colorizer_is_installed then
+-- 	colorizer.setup()
+-- end

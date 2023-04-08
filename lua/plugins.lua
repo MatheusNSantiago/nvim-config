@@ -25,7 +25,10 @@ local function plugins(use)
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                        Interface                         │
 	--  ╰──────────────────────────────────────────────────────────╯
+
 	setup("ui.tokyonight") -- Tema
+	use({ "catppuccin/nvim", as = "catppuccin" })
+
 	setup("ui.nvim-tree") -- File Explorer
 	setup("ui.lualine") -- Status Line
 	setup("ui.indent-blankline")
@@ -45,7 +48,6 @@ local function plugins(use)
 	--  │                       Movimentação                       │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-
 	setup("moviment.telescope", {
 		{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 	})
@@ -55,6 +57,7 @@ local function plugins(use)
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
 	--  ╰──────────────────────────────────────────────────────────╯
+
 	setup("edit.vim-autopairs") -- Completar (), [], {}
 	setup("edit.stay-in-place") -- mantém a posição do mouse ao indentar
 	setup("edit.comment")    -- "gcc" to comment visual regions/lines
@@ -132,7 +135,6 @@ local function plugins(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("language.flutter-tools")
-
 	use("jose-elias-alvarez/typescript.nvim")
 
 	-- Bootstrap Neovim

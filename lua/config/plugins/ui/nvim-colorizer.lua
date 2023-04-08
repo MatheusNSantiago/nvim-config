@@ -1,6 +1,10 @@
 local M = {}
 
 function M.setup()
+	vim.api.nvim_create_autocmd(
+		"BufEnter",
+		{ command = [[ColorizerAttachToBuffer]] }
+	)
 	return {
 		"norcalli/nvim-colorizer.lua",
 		event = "BufRead",
