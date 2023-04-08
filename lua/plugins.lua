@@ -23,7 +23,6 @@ local function plugins(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("ui.tokyonight") -- Tema
-	use({ "catppuccin/nvim", as = "catppuccin" })
 
 	setup("ui.nvim-tree") -- File Explorer
 	setup("ui.lualine") -- Status Line
@@ -138,8 +137,8 @@ local function plugins(use)
 	--  │                           Git                            │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	use("tpope/vim-fugitive")
-	setup("git.gitsigns")
+	setup("git.vim-fugitive") -- base git plugin
+	setup("git.gitsigns") -- gutter signs
 
 	-- Bootstrap Neovim
 	if is_boostrap then
