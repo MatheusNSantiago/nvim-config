@@ -15,7 +15,7 @@ end
 
 ---@diagnostic disable-next-line: lowercase-global
 function M.map(mode, remap, command, opts)
-	local options = { noremap = true }
+	local options = { noremap = true, silent = true }
 
 	if opts then
 		options = vim.tbl_extend("force", options, opts)
