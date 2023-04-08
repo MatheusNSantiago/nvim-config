@@ -48,7 +48,7 @@ local function plugins(use)
 	})
 	setup("moviment.hop") -- tipo o easymotion
 	setup("moviment.tabout") -- tabout
-	use("chaoren/vim-wordmotion") -- |Camel|Case|ACRONYM|Words_|underscore|1234
+	setup("moviment.marks") -- marks
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
