@@ -53,9 +53,12 @@ map("n", "<C-j>", "<C-w>h") -- Left
 map("n", "<C-l>", "<C-w>k") -- Top
 map("n", "<C-k>", "<C-w>j") --  Bottom
 
--- Mover no cmdline
-map("c", "<C-k>", "<Right>")
-map("c", "<C-l>", "<Left>")
+-- Mover no command mode
+map("c", "C-k", 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true})
+map("c", "C-l", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true})
+-- map("c", "<C-k>", "<Right>")
+-- map("c", "<C-l>", "<Left>")
+
 
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Edição                          │
@@ -95,7 +98,7 @@ map({ "n", "v" }, "<leader>d", '"_d')
 
 -- Resize Panes
 
-map("n", "<C-Left>", ":vertical resize +1<CR>", silent)
-map("n", "<C-Right>", ":vertical resize -1<CR>", silent)
-map("n", "<C-Down>", ":resize -1<CR>", silent)
-map("n", "<C-Up>", ":resize +1<CR>", silent)
+map("n", "<C-Up>", ":resize -2<CR>", silent)
+map("n", "<C-Down>", ":resize +2<CR>", silent)
+map("n", "<C-Left>", ":vertical resize +2<CR>", silent)
+map("n", "<C-Right>", ":vertical resize -2<CR>", silent)
