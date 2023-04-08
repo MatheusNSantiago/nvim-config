@@ -145,8 +145,8 @@ function M.config()
 		-- You should specify your *installed* sources.
 		sources = cmp.config.sources({
 			{ name = "path", priority = 2000, max_item_count = 4 },
-			{ name = "copilot", priority = 950 },
-			{ name = "nvim_lsp", priority = 900, max_item_count = 15 },
+			{ name = "nvim_lsp", priority = 950, max_item_count = 15 },
+			{ name = "copilot", priority = 900 },
 			{ name = "npm", priority = 900 },
 			{ name = "luasnip", priority = 700, max_item_count = 5 },
 			{ name = "nvim_lua", priority = 600 },
@@ -176,8 +176,7 @@ function M.config()
 		},
 		confirm_opts = {
 			behavior = cmp.ConfirmBehavior.Replace,
-			-- select = true,
-			select = false,
+			select = true,
 		},
 		window = {
 			completion = cmp.config.window.bordered({
@@ -193,7 +192,7 @@ function M.config()
 			ghost_text = true,
 			-- native_menu = true,
 		},
-		preselect = cmp.PreselectMode.None,
+		preselect = cmp.PreselectMode.Item,
 		view = {
 			-- entries = "native",
 			entries = "custom",
