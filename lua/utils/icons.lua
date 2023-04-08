@@ -1,4 +1,5 @@
 local M = {}
+
 M.base = {
 	abc = "  ",
 	array = "  ",
@@ -125,6 +126,7 @@ M.base = {
 	watch = "  ",
 	wrench = "  ",
 }
+
 M.ui = {
 	BookMark = "",
 	Bomb = "",
@@ -164,19 +166,24 @@ M.ui = {
 	Terminal = "",
 	Tree = "",
 }
+
 M.diagnostics = {
 	Error = "",
 	Hint = "",
 	Information = "",
 	Question = "",
 	Warning = "",
+	Trace = "✎",
 }
+
 M.lsp = {
 	server_installed = "✓",
 	server_pending = "➜",
 	server_uninstalled = "✗",
 }
+
 M.git = {
+	Git = "",
 	Add = "",
 	Branch = "",
 	Diff = "",
@@ -186,14 +193,15 @@ M.git = {
 	Remove = "",
 	Rename = "➜",
 	Repo = "",
-	Staged = "S",
+	Staged = "✓", -- "S",
 	Unmerged = "",
-	Unstaged = "",
-	Untracked = "U",
+	Unstaged = "✗", -- "",
+	Untracked = "★", -- "U",
+	Conflict = "",
 }
 
 M.lspkind = {
-	Npm = "[NPM]", -- M.ui.Terminal,
+	Npm = "[NPM]",   -- M.ui.Terminal,
 	Copilot = M.ui.copilot,
 	Nvim_lsp = "[LSP]", -- M.ui.Paragraph,
 	Luasnip = "[SNP]", -- M.ui.Snippet,
@@ -210,14 +218,14 @@ M.lspkind = {
 	Constructor = "",
 	Key = "",
 	Namespace = "",
-	Null = "NULL",
-	Number = "#",
-	Object = "",
+	Null = "ﳠ",
+	Number = "",
+	Object = "", -- "",
 	Package = "",
-	Property = "",
+	Property = "",
 	String = "",
 	TypeParameter = "",
-	Unit = "",
+	Unit = "", -- "",
 	Text = "",
 	Function = "",
 	Field = "ﰠ",
@@ -236,7 +244,7 @@ M.lspkind = {
 	Struct = "",
 	Event = "",
 	Keyword = "",
-	Snippet = M.ui.Snippet,
+	Snippet = "", -- "",
 	Constant = "",
 	Operator = "",
 }
