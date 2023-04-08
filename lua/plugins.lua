@@ -1,7 +1,3 @@
--- local M = {}
---
--- function M.setup()
--- Indicate first time installation
 local is_boostrap = false
 
 local function plugins(use)
@@ -53,6 +49,7 @@ local function plugins(use)
 	})
 	setup("moviment.hop") -- tipo o easymotion
 	setup("moviment.tabout") -- tabout
+	use("chaoren/vim-wordmotion") -- |Camel|Case|ACRONYM|Words_|underscore|1234
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
@@ -60,7 +57,7 @@ local function plugins(use)
 
 	setup("edit.vim-autopairs") -- Completar (), [], {}
 	setup("edit.stay-in-place") -- mantém a posição do mouse ao indentar
-	setup("edit.comment")    -- "gcc" to comment visual regions/lines
+	setup("edit.comment") -- "gcc" to comment visual regions/lines
 	setup("edit.comment-box") -- comment box
 	setup("edit.prettier")
 	setup("edit.nvim-ufo", { -- folding
@@ -68,10 +65,10 @@ local function plugins(use)
 	})
 	setup("edit.template-string") -- muda pra template-string automaticamente
 
-	use("tpope/vim-surround")    -- (cs"'
-	use("tpope/vim-repeat")      -- deixa o vim-surrond usar o '.'
+	use("tpope/vim-surround") -- (cs"'
+	use("tpope/vim-repeat") -- deixa o vim-surrond usar o '.'
 	-- -- use("mg979/vim-visual-multi")
-	use("wellle/targets.vim")    -- adiciona novos textobjects
+	use("wellle/targets.vim") -- adiciona novos textobjects
 	use("AndrewRadev/undoquit.vim") -- restaurar tabs fechadas
 
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -79,16 +76,16 @@ local function plugins(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("lsp.mason", {
-		"neovim/nvim-lspconfig",       -- LSP
+		"neovim/nvim-lspconfig", -- LSP
 		"jay-babu/mason-null-ls.nvim", -- deixa mais fácil usar mason + null-ls
 		"williamboman/mason-lspconfig.nvim", -- configs pro mason funfar
 		"jose-elias-alvarez/nvim-lsp-ts-utils",
 	})
-	setup("lsp.null-ls")     -- Diagnostics/Formating/Code Actions
-	setup("lsp.lspsaga")     -- LSP UIs
-	setup("lsp.illuminate")  -- higlight a palavra em cima do cursor
-	setup("lsp.lsp-colors")  -- agrupa os erros do LSP por cor
-	setup("lsp.hlargs")      -- highlight argumentos
+	setup("lsp.null-ls") -- Diagnostics/Formating/Code Actions
+	setup("lsp.lspsaga") -- LSP UIs
+	setup("lsp.illuminate") -- higlight a palavra em cima do cursor
+	setup("lsp.lsp-colors") -- agrupa os erros do LSP por cor
+	setup("lsp.hlargs") -- highlight argumentos
 
 	use("b0o/schemastore.nvim") -- schemas para json
 	use("folke/neodev.nvim") -- docs for nvim Lua API
@@ -104,7 +101,7 @@ local function plugins(use)
 	--  │                       Completions                        │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	setup("copilot")      -- copilot
+	setup("copilot") -- copilot
 	setup("cmp", {
 		"hrsh7th/cmp-buffer", -- nvim-cmp source for buffer words
 		"hrsh7th/cmp-path", -- nvim-cmp source for filesystem paths.
@@ -125,8 +122,8 @@ local function plugins(use)
 		"nvim-treesitter/nvim-treesitter-refactor", -- Refactorings via treesitter
 		"nvim-treesitter/nvim-treesitter-textobjects", -- Additional text objects via treesitter
 		"RRethy/nvim-treesitter-textsubjects",
-		"p00f/nvim-ts-rainbow",                  -- rainbow parentheses
-		"windwp/nvim-ts-autotag",                -- tag completion
+		"p00f/nvim-ts-rainbow", -- rainbow parentheses
+		"windwp/nvim-ts-autotag", -- tag completion
 		"JoosepAlviste/nvim-ts-context-commentstring", -- conserta comments para jsx
 	})
 
@@ -188,11 +185,6 @@ local packer = require("packer")
 
 -- Performance
 pcall(require, "impatient")
--- pcall(require, "packer_compiled")
 
 packer.init(conf)
 packer.startup(plugins)
--- end
---
--- return M
--- return M
