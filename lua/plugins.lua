@@ -137,6 +137,13 @@ local function plugins(use)
 	setup("language.flutter-tools")
 	use("jose-elias-alvarez/typescript.nvim")
 
+	--  ╭──────────────────────────────────────────────────────────╮
+	--  │                           Git                            │
+	--  ╰──────────────────────────────────────────────────────────╯
+
+	use("tpope/vim-fugitive")
+	setup("git.gitsigns")
+
 	-- Bootstrap Neovim
 	if is_boostrap then
 		require("packer").sync()

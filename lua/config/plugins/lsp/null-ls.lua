@@ -27,12 +27,13 @@ function M.config()
 
       -- Code Actions
       b.code_actions.eslint_d,
+      null_ls.builtins.code_actions.gitsigns,
       require("typescript.extensions.null-ls.code-actions"),
     },
     on_attach = function(client, bufnr)
       vim.keymap.set("n", "<Leader>ff", function()
         vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-      end, { buffer = bufnr})
+      end, { buffer = bufnr })
     end,
   })
 end
