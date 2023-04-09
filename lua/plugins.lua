@@ -107,7 +107,7 @@ local function plugins(use)
 		"hrsh7th/cmp-cmdline", -- nvim-cmp source for vim's cmdline.
 		"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in LSP
 		"hrsh7th/cmp-nvim-lua", -- nvim-cmp source for Neovim Lua API.
-
+		"davidsierradz/cmp-conventionalcommits",
 		"David-Kunz/cmp-npm", -- autocomplete npm packages and its versions
 		"saadparwaiz1/cmp_luasnip",
 		"onsails/lspkind.nvim", -- Auto completions gui tipo do vscode
