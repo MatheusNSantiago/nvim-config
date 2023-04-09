@@ -77,8 +77,12 @@ map("v", "<M-l>", ":m '<-2<CR>gv=gv", silent)
 map("v", "<M-k>", ":m '>+1<CR>gv=gv", silent)
 
 -- Copiar a linha horizontalmente
-map({ "n", "i" }, "<S-M-l>", 'mz"yyy"ypg`z')
-map({ "n", "i" }, "<S-M-k>", 'mz"yyy"yPg`zkj')
+
+map({ "n", "i", "v"}, "<S-M-l>", ':t-1<CR>')
+map({ "n", "i", "v" }, "<S-M-k>", ':t.<CR>')
+
+-- map({ "n", "i" }, "<S-M-l>", 'mz"yyy"ypg`z')
+-- map({ "n", "i" }, "<S-M-k>", 'mz"yyy"yPg`zkj')
 
 map("v", "<S-M-l>", "yPgv:'<,'>m '.-1<CR>gv")
 map("v", "<S-M-k>", "yPgv")
