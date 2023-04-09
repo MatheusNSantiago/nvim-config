@@ -22,3 +22,19 @@ api.nvim_create_autocmd(
 	"BufReadPost",
 	{ command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]] }
 )
+
+-- Strip trailing spaces before write
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+    pattern = { '*' },
+    callback = function()
+        vim.cmd([[ %s/\s\+$//e ]])
+    end,
+})
+
+-- Auto create dir when saving a file, in case some intermediate directory does not exist
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+    callback = function(event)
+        local file = vim.loop.fs_realpath(event.match) or event.match
+        vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
+    end,
+})
