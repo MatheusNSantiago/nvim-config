@@ -30,35 +30,16 @@ function M.set_keymaps()
 
 	-- if you only want these mappings for toggle term use term://*toggleterm#* instead
 	vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+
+	vim.api.nvim_create_autocmd({"BufEnter"}, {
+		pattern = "*toggleterm#*",
+		callback = function()
+			vim.api.nvim_feedkeys("i", "n", false) -- enter insert mode
+		end,
+	})
 end
 
 function M.config()
-	-- local Terminal = require("toggleterm.terminal").Terminal
-	-- local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
-
-	-- local lazygit = Terminal:new({
-	-- 	cmd = "lazygit",
-	-- 	dir = "git_dir",
-	-- 	direction = "float",
-	-- 	float_opts = {
-	-- 		border = "double",
-	-- 	},
-	-- 	-- function to run on opening the terminal
-	-- 	on_open = function(term)
-	-- 		vim.cmd("startinsert!")
-	-- 		vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
-	-- 	end,
-	-- 	-- function to run on closing the terminal
-	-- 	on_close = function(term)
-	-- 		vim.cmd("startinsert!")
-	-- 	end,
-	-- })
-
-	-- local function _lazygit_toggle()
-	-- 	lazygit:toggle()
-	-- end
-	--
-	-- vim.api.nvim_set_keymap("n", "<leader>g", _lazygit_toggle, { noremap = true, silent = true })
 
 	require("toggleterm").setup({
 		-- size can be a number or function which is passed the current terminal
@@ -69,7 +50,7 @@ function M.config()
 				return vim.o.columns * 0.25
 			end
 		end,
-		open_mapping = [[<c-x>]],
+		-- open_mapping = [[<c-x>]],
 		hide_numbers = true, -- hide the number column in toggleterm buffers
 		shade_filetypes = {},
 		shade_terminals = false,
@@ -91,9 +72,6 @@ function M.config()
 						vim.cmd("wincmd j") -- Vai para baixo
 					end
 				end
-
-				-- -- close NvimTree
-				-- tree.close()
 			end
 		end,                -- function to run when the terminal opens
 		direction = "horizontal", --'horizontal', -- 'vertical' | 'horizontal' | 'window' | 'float',
@@ -120,6 +98,12 @@ function M.config()
 			Normal = {
 				-- guifg = "red",
 			},
+		},
+		winbar = {
+			enabled = false,
+			name_formatter = function(term) --  term: Terminal
+				return term.name
+			end,
 		},
 	})
 end
