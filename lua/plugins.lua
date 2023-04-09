@@ -56,7 +56,7 @@ local function plugins(use)
 
 	setup("edit.vim-autopairs") -- Completar (), [], {}
 	setup("edit.stay-in-place") -- mantém a posição do mouse ao indentar
-	setup("edit.comment") -- "gcc" to comment visual regions/lines
+	setup("edit.comment")    -- "gcc" to comment visual regions/lines
 	setup("edit.comment-box") -- comment box
 	setup("edit.prettier")
 	setup("edit.nvim-ufo", { -- folding
@@ -64,10 +64,10 @@ local function plugins(use)
 	})
 	setup("edit.template-string") -- muda pra template-string automaticamente
 
-	use("tpope/vim-surround") -- (cs"'
-	use("tpope/vim-repeat") -- deixa o vim-surrond usar o '.'
+	use("tpope/vim-surround")    -- (cs"'
+	use("tpope/vim-repeat")      -- deixa o vim-surrond usar o '.'
 	-- -- use("mg979/vim-visual-multi")
-	use("wellle/targets.vim") -- adiciona novos textobjects
+	use("wellle/targets.vim")    -- adiciona novos textobjects
 	use("AndrewRadev/undoquit.vim") -- restaurar tabs fechadas
 
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -75,16 +75,16 @@ local function plugins(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("lsp.mason", {
-		"neovim/nvim-lspconfig", -- LSP
+		"neovim/nvim-lspconfig",       -- LSP
 		"jay-babu/mason-null-ls.nvim", -- deixa mais fácil usar mason + null-ls
 		"williamboman/mason-lspconfig.nvim", -- configs pro mason funfar
 		"jose-elias-alvarez/nvim-lsp-ts-utils",
 	})
-	setup("lsp.null-ls") -- Diagnostics/Formating/Code Actions
-	setup("lsp.lspsaga") -- LSP UIs
-	setup("lsp.illuminate") -- higlight a palavra em cima do cursor
-	setup("lsp.lsp-colors") -- agrupa os erros do LSP por cor
-	setup("lsp.hlargs") -- highlight argumentos
+	setup("lsp.null-ls")     -- Diagnostics/Formating/Code Actions
+	setup("lsp.lspsaga")     -- LSP UIs
+	setup("lsp.illuminate")  -- higlight a palavra em cima do cursor
+	setup("lsp.lsp-colors")  -- agrupa os erros do LSP por cor
+	setup("lsp.hlargs")      -- highlight argumentos
 
 	use("b0o/schemastore.nvim") -- schemas para json
 	use("folke/neodev.nvim") -- docs for nvim Lua API
@@ -100,17 +100,19 @@ local function plugins(use)
 	--  │                       Completions                        │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	setup("copilot") -- copilot
+	setup("copilot")      -- copilot
 	setup("cmp", {
 		"hrsh7th/cmp-buffer", -- nvim-cmp source for buffer words
 		"hrsh7th/cmp-path", -- nvim-cmp source for filesystem paths.
 		"hrsh7th/cmp-cmdline", -- nvim-cmp source for vim's cmdline.
 		"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in LSP
 		"hrsh7th/cmp-nvim-lua", -- nvim-cmp source for Neovim Lua API.
+
 		"David-Kunz/cmp-npm", -- autocomplete npm packages and its versions
 		"saadparwaiz1/cmp_luasnip",
 		"onsails/lspkind.nvim", -- Auto completions gui tipo do vscode
 		"zbirenbaum/copilot-cmp",
+		{ "tzachar/cmp-tabnine", run = "./install.sh" },
 	})
 
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -121,8 +123,8 @@ local function plugins(use)
 		"nvim-treesitter/nvim-treesitter-refactor", -- Refactorings via treesitter
 		"nvim-treesitter/nvim-treesitter-textobjects", -- Additional text objects via treesitter
 		"RRethy/nvim-treesitter-textsubjects",
-		"p00f/nvim-ts-rainbow", -- rainbow parentheses
-		"windwp/nvim-ts-autotag", -- tag completion
+		"p00f/nvim-ts-rainbow",                  -- rainbow parentheses
+		"windwp/nvim-ts-autotag",                -- tag completion
 		"JoosepAlviste/nvim-ts-context-commentstring", -- conserta comments para jsx
 	})
 
@@ -138,7 +140,7 @@ local function plugins(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("git.vim-fugitive") -- base git plugin
-	setup("git.gitsigns") -- gutter signs
+	setup("git.gitsigns")  -- gutter signs
 
 	-- Bootstrap Neovim
 	if is_boostrap then

@@ -56,14 +56,8 @@ function M.config()
 		}
 	end
 
-	-- local function has_words_before()
-	-- 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-	-- 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-	-- end
-
 	local source_mapping = require("utils.icons").lspkind
 	cmp.setup({
-		-- completion = { completeopt = "menu,menuone,noinsert", keyword_length = 1 },
 		snippet = {
 			expand = function(args)
 				luasnip.lsp_expand(args.body)
@@ -97,82 +91,48 @@ function M.config()
 				end,
 				c = cmp.mapping.close(),
 			}),
-			-- ["<Tab>"] = cmp.mapping(function(fallback)
-			-- 	if cmp.visible() then
-			-- 		cmp.select_next_item()
-			-- 	elseif luasnip.expand_or_jumpable() then
-			-- 		luasnip.expand_or_jump()
-			-- 	elseif has_words_before() then
-			-- 		cmp.complete()
-			-- 		-- elseif luasnip.expandable() then
-			-- 		-- 	luasnip.expand()
-			-- 	else
-			-- 		fallback()
-			-- 	end
-			-- end, { "i", "s" }),
-			-- ["<S-Tab>"] = cmp.mapping(function(fallback)
-			-- 	if cmp.visible() then
-			-- 		cmp.select_prev_item()
-			-- 	elseif luasnip.jumpable(-1) then
-			-- 		luasnip.jump(-1)
-			-- 	else
-			-- 		fallback()
-			-- 	end
-			-- end, { "i", "s" }),
-			-- ["<C-e>"] = function() end,
 		}),
-		formatting = {
-			fields = { "kind", "abbr", "menu" },
-			format = lspkind.cmp_format({
-				-- mode = "symbol_text",
-				mode = "symbol",
-				max_width = 40,
-				symbol_map = source_mapping,
-				-- ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
-				-- before = function(entry, vim_item)
-				-- 	vim_item.kind = lspkind.symbolic(vim_item.kind, { with_text = true })
-				-- 	-- vim_item.kind = lspkind.presets.default[vim_item.kind]
-				--
-				-- 	local menu = source_mapping[entry.source.name]
-				-- 	-- local maxwidth = 50
-				-- 	-- vim_item.abbr = string.sub(vim_item.abbr, 1, maxwidth)
-				--
-				-- 	vim_item.menu = menu
-				-- 	return vim_item
-				-- end,
-			}),
-		},
 		-- You should specify your *installed* sources.
 		sources = cmp.config.sources({
 			{ name = "path", priority = 2000, max_item_count = 4 },
 			{ name = "nvim_lsp", priority = 950, max_item_count = 15 },
-			{ name = "copilot", priority = 900 },
+			{ name = "cmp_tabnine", priority = 950 },
+			{ name = "copilot", priority = 950 },
 			{ name = "npm", priority = 900 },
 			{ name = "luasnip", priority = 700, max_item_count = 5 },
-			{ name = "nvim_lua", priority = 600 },
-			{ name = "treesitter", max_item_count = 600 },
+			-- { name = "nvim_lua",   priority = 600 },
+			-- { name = "treesitter", max_item_count = 600 },
 			{ name = "buffer", priority = 500, keyword_length = 5, max_item_count = 5 },
 		}),
 		sorting = {
 			priority_weight = 2,
 			comparators = {
 				require("copilot_cmp.comparators").prioritize,
-				cmp.config.compare.score,
-				cmp.config.compare.recently_used,
+				require("cmp_tabnine.compare"),
 				cmp.config.compare.offset,
 				cmp.config.compare.exact,
+				cmp.config.compare.score,
+				cmp.config.compare.recently_used,
 				cmp.config.compare.kind,
-				cmp.config.compare.locality,
 				cmp.config.compare.sort_text,
+				cmp.config.compare.locality,
 				cmp.config.compare.order,
 			},
 		},
-		duplicates = {
-			nvim_lsp = 1,
-			luasnip = 1,
-			cmp_tabnine = 1,
-			buffer = 1,
-			path = 1,
+		-- duplicates = {
+		-- 	nvim_lsp = 1,
+		-- 	luasnip = 1,
+		-- 	cmp_tabnine = 1,
+		-- 	buffer = 1,
+		-- 	path = 1,
+		-- },
+		formatting = {
+			fields = { "kind", "abbr", "menu" },
+			format = lspkind.cmp_format({
+				mode = "symbol",
+				max_width = 80,
+				symbol_map = source_mapping,
+			}),
 		},
 		confirm_opts = {
 			behavior = cmp.ConfirmBehavior.Replace,
@@ -212,6 +172,36 @@ function M.config()
 			{ name = "cmdline" },
 		}),
 	})
+	--
+	--  ╭──────────────────────────────────────────────────────────╮
+	--  │                      tabnine setup                       │
+	--  ╰──────────────────────────────────────────────────────────╯
+
+	local tabnine = require("cmp_tabnine.config")
+
+	tabnine:setup({
+		max_lines = 1000,
+		max_num_results = 20,
+		sort = true,
+		run_on_every_keystroke = true,
+		snippet_placeholder = "..",
+		ignored_file_types = {
+			-- default is not to ignore
+			-- uncomment to ignore in lua:
+			-- lua = true
+		},
+		show_prediction_strength = false,
+	})
+
+	local prefetch = vim.api.nvim_create_augroup("prefetch", { clear = true })
+
+	vim.api.nvim_create_autocmd("BufRead", {
+		group = prefetch,
+		pattern = "*.{js,ts,jsx,tsx,py,dart,java,c,cpp,html,css}",
+		callback = function()
+			require("cmp_tabnine"):prefetch(vim.fn.expand("%:p"))
+		end,
+	})
 
 	-- ╭──────────────────────────────────────────────────────────╮
 	-- │ Copilot Setup                                            │
@@ -224,7 +214,6 @@ function M.config()
 			preview = require("copilot_cmp.format").deindent,
 		},
 	})
-
 end
 
 return M

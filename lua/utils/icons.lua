@@ -201,9 +201,9 @@ M.git = {
 }
 
 M.lspkind = {
-	Npm = "[NPM]",   -- M.ui.Terminal,
-	Copilot = M.ui.copilot,
-	Nvim_lsp = "[LSP]", -- M.ui.Paragraph,
+	Npm = "[NPM]", -- M.ui.Terminal,
+	Copilot = "",
+	TabNine = "", -- '', 	Nvim_lsp = "[LSP]", -- M.ui.Paragraph,
 	Luasnip = "[SNP]", -- M.ui.Snippet,
 	Buffer = "[BUF]", -- M.ui.Buffer,
 	Nvim_lua = "[LUA]", -- M.ui.Bomb,
@@ -244,7 +244,7 @@ M.lspkind = {
 	Struct = "",
 	Event = "",
 	Keyword = "",
-	Snippet = "", -- "",
+	Snippet = "", --"",
 	Constant = "",
 	Operator = "",
 }
