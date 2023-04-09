@@ -48,7 +48,7 @@ function M.config()
 			kind = {},
 		},
 		rename = {
-			quit = "q",
+			quit = "<C-c>",
 			exec = "<CR>",
 			mark = "x",
 			confirm = "<CR>",

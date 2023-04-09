@@ -11,6 +11,7 @@ function M.config()
   local null_ls = require("null-ls")
   local b = null_ls.builtins
 
+  -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
   null_ls.setup({
     sources = {
       -- Formatting
@@ -27,7 +28,7 @@ function M.config()
 
       -- Code Actions
       b.code_actions.eslint_d,
-      null_ls.builtins.code_actions.gitsigns,
+      b.code_actions.gitsigns,
       require("typescript.extensions.null-ls.code-actions"),
     },
     on_attach = function(client, bufnr)

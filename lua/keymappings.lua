@@ -54,10 +54,10 @@ map("n", "<C-l>", "<C-w>k") -- Top
 map("n", "<C-k>", "<C-w>j") --  Bottom
 
 -- Mover no command mode
-map("c", "C-k", 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true})
-map("c", "C-l", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true})
--- map("c", "<C-k>", "<Right>")
--- map("c", "<C-l>", "<Left>")
+-- map("c", "C-k", 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true})
+-- map("c", "C-l", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true})
+map("c", "<C-k>", "<Right>")
+map("c", "<C-l>", "<Left>")
 
 
 --  ╭──────────────────────────────────────────────────────────╮
@@ -67,7 +67,7 @@ map("c", "C-l", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true})
 map({ "n", "v" }, "<leader>q", ":q<CR>", silent)          -- [Q]uit
 -- map({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>", silent) -- [W]rite
 -- map({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>:PackerCompile<CR>", silent) -- [W]rite
-map({ "n", "v" }, "<leader>w", ":w<CR>", silent) -- [W]rite
+map({ "n", "v" }, "<leader>w", ":wa<CR>", silent) -- [W]rite
 
 -- Mover a linha verticalmente
 map("n", "<M-k>", ":m +1<CR>==", silent)
@@ -100,5 +100,5 @@ map({ "n", "v" }, "<leader>d", '"_d')
 
 map("n", "<C-Up>", ":resize -2<CR>", silent)
 map("n", "<C-Down>", ":resize +2<CR>", silent)
-map("n", "<C-Left>", ":vertical resize +2<CR>", silent)
-map("n", "<C-Right>", ":vertical resize -2<CR>", silent)
+map("n", "<C-Left>", ":vertical resize -2<CR>", silent)
+map("n", "<C-Right>", ":vertical resize +2<CR>", silent)

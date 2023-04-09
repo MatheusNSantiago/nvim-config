@@ -1,15 +1,14 @@
 local M = {}
 
 function M.setup()
-    return {
-        "zbirenbaum/copilot.lua",
-        event = "InsertEnter",
-                  cmd = "Copilot",
-        config = M.config,
-    }
-end
+    require("copilot_cmp").setup({
+        formatters = {
+            label = require("copilot_cmp.format").format_label_text,
+            insert_text = require("copilot_cmp.format").remove_existing,
+            preview = require("copilot_cmp.format").deindent,
+        },
+    })
 
-function M.config()
     require("copilot").setup({
         panel = {
             enabled = false,
