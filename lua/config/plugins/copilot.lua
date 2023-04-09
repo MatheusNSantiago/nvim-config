@@ -42,7 +42,8 @@ function M.config()
         },
         filetypes = {
             help = false,
-            gitcommit = false,
+            -- gitcommit = false,
+            markdown = true,
             gitrebase = false,
             hgcommit = false,
             svn = false,
