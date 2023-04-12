@@ -9,6 +9,7 @@ end
 
 function M.config()
 	local cmp = require("cmp")
+	local types = require("cmp.types.cmp")
 
 	local lspkind = require("lspkind")
 	local luasnip = require("luasnip")
@@ -32,9 +33,14 @@ function M.config()
 				priority = 10,
 				-- max_item_count = 10,
 				entry_filter = require("plugins.cmp.utils.limit_completions"),
-				-- keyword_length = 1,
 			},
-			{ name = "copilot", priority = 9 },
+			{
+				name = "copilot",
+				priority = 9,
+				trigger_characters = {
+					{ ".", ":", "(", "'", '"', "[", ",", "#", "*", "@", "|", "=", "-", "{", "/", "\\", "+", "?", " " }, -- "\t", "\n",
+				},
+			},
 			{ name = "npm",     priority = 9 },
 			-- { name = "cmp_tabnine", priority = 9,  max_item_count = 3 },
 			{ name = "luasnip", priority = 7,  max_item_count = 5, keyword_length = 2 },
@@ -51,7 +57,7 @@ function M.config()
 			comparators = {
 				require("plugins.cmp.utils.comparators").deprioritize_snippet,
 				require("copilot_cmp.comparators").prioritize,
-				require("copilot_cmp.comparators").score,
+					require("copilot_cmp.comparators").score,
 				-- require("cmp_tabnine.compare"),
 				cmp.config.compare.exact,
 				cmp.config.compare.locality,
@@ -86,7 +92,7 @@ function M.config()
 			}),
 		},
 		confirm_opts = {
-			behavior = cmp.ConfirmBehavior.Replace,
+			behavior = types.ConfirmBehavior.Replace,
 			-- select = true,
 			select = false,
 		},

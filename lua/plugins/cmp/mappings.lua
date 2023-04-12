@@ -1,6 +1,6 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local utils = require("plugins.cmp.utils")
+local types = require("cmp.types.cmp")
 
 local function check_backspace()
 	local col = vim.fn.col(".") - 1
@@ -16,11 +16,11 @@ local function has_words_before()
 end
 
 return cmp.mapping.preset.insert({
-	["<C-l>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-	["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+	["<C-l>"] = cmp.mapping.select_prev_item({ behavior = types.SelectBehavior.Select }),
+	["<C-p>"] = cmp.mapping.select_prev_item({ behavior = types.SelectBehavior.Select }),
 	--
-	["<C-k>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-	["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+	["<C-k>"] = cmp.mapping.select_next_item({ behavior = types.SelectBehavior.Select }),
+	["<C-n>"] = cmp.mapping.select_next_item({ behavior = types.SelectBehavior.Select }),
 	--
 	["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
 	["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
@@ -32,16 +32,11 @@ return cmp.mapping.preset.insert({
 			cmp.complete()
 		end
 	end, { "i", "c" }),
-	["<CR>"] = cmp.mapping.confirm({
-		behavior = cmp.ConfirmBehavior.Replace,
-		select = false,
-		-- select = true,
-	}),
 	["<Tab>"] = cmp.mapping(function(fallback)
 		if cmp.visible() then
 			cmp.select_next_item()
 		elseif cmp.visible() and has_words_before() then
-			cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+			cmp.select_next_item({ behavior = types.SelectBehavior.Select })
 		elseif luasnip.expandable() then
 			luasnip.expand()
 		elseif luasnip.expand_or_jumpable() then
@@ -68,4 +63,34 @@ return cmp.mapping.preset.insert({
 		end,
 		c = cmp.mapping.close(),
 	}),
+	-- ["<CR>"] = cmp.mapping.confirm({
+	-- 	behavior = cmp.ConfirmBehavior.Replace,
+	-- 	select = false,
+	-- }),
+	["<CR>"] = cmp.mapping(function(fallback)
+		if cmp.visible() then
+			-- confirm_opts é a mesma que está no init
+			local confirm_opts = {
+				behavior = types.ConfirmBehavior.Replace,
+				select = false,
+			}
+
+			local is_insert_mode = function()
+				return vim.api.nvim_get_mode().mode:sub(1, 1) == "i"
+			end
+			if is_insert_mode() then -- prevent overwriting brackets
+				confirm_opts.behavior = types.ConfirmBehavior.Insert
+			end
+			local entry = cmp.get_selected_entry()
+			local is_copilot = entry and entry.source.name == "copilot"
+			if is_copilot then
+				confirm_opts.behavior = types.ConfirmBehavior.Replace
+				confirm_opts.select = true
+			end
+			if cmp.confirm(confirm_opts) then
+				return -- success, exit early
+			end
+		end
+		fallback() -- if not exited early, always fallback
+	end),
 })
