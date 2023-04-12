@@ -146,7 +146,7 @@ M.config = function()
 			sync = {
 				open = true,
 				close = true,
-				ignore = {},
+				ignore = { "gitcommit" },
 			},
 		},
 		-- disables netrw completely
@@ -159,9 +159,6 @@ M.config = function()
 		open_on_tab = false,
 		-- hijack the cursor in the tree to put it at the start of the filename
 		hijack_cursor = false,
-		ignore_ft_on_setup = {
-			"gitcommit", -- Don't Open nvim-tree When Creating Git Commit Message
-		},
 		-- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
 		update_cwd = true,
 		-- opens in place of the unnamed buffer if it's empty
@@ -198,6 +195,19 @@ M.config = function()
 			},
 			icons = {
 				glyphs = {
+					default = icons.ui.Text,
+					symlink = icons.ui.FileSymlink,
+					bookmark = icons.ui.BookMark,
+					folder = {
+						arrow_closed = icons.ui.TriangleShortArrowRight,
+						arrow_open = icons.ui.TriangleShortArrowDown,
+						default = icons.ui.Folder,
+						open = icons.ui.FolderOpen,
+						empty = icons.ui.EmptyFolder,
+						empty_open = icons.ui.EmptyFolderOpen,
+						symlink = icons.ui.FolderSymlink,
+						symlink_open = icons.ui.FolderOpen,
+					},
 					git = {
 						unstaged = icons.git.Unstaged, --"",
 						staged = icons.git.Staged, --"",
@@ -230,7 +240,10 @@ M.config = function()
 		},
 		filters = {
 			dotfiles = false,
-			custom = {},
+			git_clean = false,
+			no_buffer = false,
+			custom = { "node_modules", "\\.cache" },
+			exclude = {},
 		},
 		git = {
 			enable = true,
