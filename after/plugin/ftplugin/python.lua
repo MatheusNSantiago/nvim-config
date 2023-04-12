@@ -1,3 +1,3 @@
-local map = require('utils').map
+-- local map = require('utils').map
 
-map("n", "<leader>r", ":w<CR>:TermExec cmd='python %'<CR>")
+-- map("n", "<leader>r", ":w<CR>:TermExec cmd='python %'<CR>")

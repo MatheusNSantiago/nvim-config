@@ -3,12 +3,22 @@ local map = require("utils").map
 local silent = { silent = true }
 
 --  ╭──────────────────────────────────────────────────────────╮
+--  │                          Debug                           │
+--  ╰──────────────────────────────────────────────────────────╯
+
+map({ "n" }, "<leader>c", ":PackerCompile<CR>")
+map({ "n" }, "<leader>s", ":PackerSync<CR>")
+map({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>", silent) -- [W]rite
+-- map({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>:PackerCompile<CR>", silent) -- [W]rite
+
+--  ╭──────────────────────────────────────────────────────────╮
 --  │                          Geral                           │
 --  ╰──────────────────────────────────────────────────────────╯
 map({ "n", "v" }, "<Space>", "<Nul>", silent)                                            -- Tira a movimentação no space
 map({ "n", "v" }, "<C-n>", ":nohl<CR>", silent)                                          -- Remove Highlights
 
 map({ "n", "x" }, "gx", ":silent execute '!open ' . shellescape('<cWORD>')<CR>", silent) -- Abrir links com o cursor
+
 
 map({ "n" }, "<leader><leader>q", ":quitall!<CR>")
 
@@ -54,8 +64,6 @@ map("n", "<C-l>", "<C-w>k") -- Top
 map("n", "<C-k>", "<C-w>j") --  Bottom
 
 -- Mover no command mode
--- map("c", "C-k", 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true})
--- map("c", "C-l", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true})
 map("c", "<C-k>", "<Right>")
 map("c", "<C-l>", "<Left>")
 
@@ -65,9 +73,7 @@ map("c", "<C-l>", "<Left>")
 --  ╰──────────────────────────────────────────────────────────╯
 
 map({ "n", "v" }, "<leader>q", ":q<CR>", silent)          -- [Q]uit
--- map({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>", silent) -- [W]rite
--- map({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>:PackerCompile<CR>", silent) -- [W]rite
-map({ "n", "v" }, "<leader>w", ":wa<CR>", silent) -- [W]rite
+-- map({ "n", "v" }, "<leader>w", ":wa<CR>", silent) -- [W]rite
 
 -- Mover a linha verticalmente
 map("n", "<M-k>", ":m +1<CR>==", silent)

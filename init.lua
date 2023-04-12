@@ -1,4 +1,5 @@
 require("options")
+require("autocommands")
 require("plugins")
-require("config.lsp.config")
+require("plugins.lsp")
 require("keymappings")

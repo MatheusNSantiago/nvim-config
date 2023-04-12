@@ -1,8 +1,21 @@
-local is_boostrap = false
+local function ensure_packer()
+	local fn = vim.fn
+	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+	if fn.empty(fn.glob(install_path)) > 0 then
+		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+		vim.cmd([[packadd packer.nvim]])
+		return true
+	end
+	return false
+end
+local is_boostrap = ensure_packer()
 
-local function plugins(use)
+
+pcall(require, "impatient") -- performance
+return require("packer").startup(function(use)
+
 	local function setup(file, requires)
-		local cfg = require("config." .. file).setup()
+		local cfg = require("plugins." .. file).setup()
 		cfg.requires = requires
 		local success, _ = pcall(use, cfg)
 		if not success then
@@ -56,7 +69,7 @@ local function plugins(use)
 
 	setup("edit.vim-autopairs") -- Completar (), [], {}
 	setup("edit.stay-in-place") -- mantém a posição do mouse ao indentar
-	setup("edit.comment") -- "gcc" to comment visual regions/lines
+	setup("edit.comment")    -- "gcc" to comment visual regions/lines
 	setup("edit.comment-box") -- comment box
 	setup("edit.prettier")
 	setup("edit.nvim-ufo", { -- folding
@@ -64,27 +77,30 @@ local function plugins(use)
 	})
 	setup("edit.template-string") -- muda pra template-string automaticamente
 
-	use("tpope/vim-surround") -- (cs"'
-	use("tpope/vim-repeat")  -- deixa o vim-surrond usar o '.'
-	-- -- use("mg979/vim-visual-multi")
-	use("wellle/targets.vim") -- adiciona novos textobjects
+	use("tpope/vim-surround")    -- cs"'
+	use("tpope/vim-repeat")      -- deixa o vim-surrond usar o '.'
+	-- -- -- use("mg979/vim-visual-multi")
+	use("wellle/targets.vim")    -- adiciona novos textobjects
 	use("AndrewRadev/undoquit.vim") -- restaurar tabs fechadas
+	use("inkarkat/vim-ReplaceWithRegister") -- ["x]gr{motion}
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                           LSP                            │
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("lsp.mason", {
-		"neovim/nvim-lspconfig", -- LSP
-		"jay-babu/mason-null-ls.nvim", -- deixa mais fácil usar mason + null-ls
-		"williamboman/mason-lspconfig.nvim", -- configs pro mason funfar
-		"jose-elias-alvarez/nvim-lsp-ts-utils",
+		"neovim/nvim-lspconfig",          -- LSP
+		"williamboman/mason-lspconfig.nvim", -- integrar mason com lspconfig
+		"jay-babu/mason-null-ls.nvim",    -- deixa mais fácil usar mason + null-ls
+		"jose-elias-alvarez/nvim-lsp-ts-utils", -- utils pra typescript
 	})
-	setup("lsp.null-ls") -- Diagnostics/Formating/Code Actions
-	setup("lsp.lspsaga") -- LSP UIs
-	setup("lsp.illuminate") -- higlight a palavra em cima do cursor
-	setup("lsp.lsp-colors") -- agrupa os erros do LSP por cor
-	setup("lsp.hlargs")  -- highlight argumentos
+
+	setup("lsp.lsp_signature") -- mostra a function signature enquanto digita
+	setup("lsp.null-ls")     -- Diagnostics/Formating/Code Actions
+	setup("lsp.lspsaga")     -- LSP UIs
+	setup("lsp.illuminate")  -- higlight a palavra em cima do cursor
+	setup("lsp.lsp-colors")  -- agrupa os erros do LSP por cor
+	setup("lsp.hlargs")      -- highlight argumentos
 
 	use("b0o/schemastore.nvim") -- schemas para json
 	use("folke/neodev.nvim") -- docs for nvim Lua API
@@ -101,10 +117,10 @@ local function plugins(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("cmp", {
-		"hrsh7th/cmp-buffer", -- nvim-cmp source for buffer words
+		"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in LSP
 		"hrsh7th/cmp-path", -- nvim-cmp source for filesystem paths.
 		"hrsh7th/cmp-cmdline", -- nvim-cmp source for vim's cmdline.
-		"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in LSP
+		"hrsh7th/cmp-buffer", -- nvim-cmp source for buffer words
 		"hrsh7th/cmp-nvim-lua", -- nvim-cmp source for Neovim Lua API.
 		"davidsierradz/cmp-conventionalcommits",
 		"David-Kunz/cmp-npm", -- autocomplete npm packages and its versions
@@ -112,7 +128,7 @@ local function plugins(use)
 		"onsails/lspkind.nvim", -- Auto completions gui tipo do vscode
 		"zbirenbaum/copilot.lua", -- Copilot
 		"zbirenbaum/copilot-cmp",
-		{ "tzachar/cmp-tabnine", run = "./install.sh" },
+		-- { "tzachar/cmp-tabnine", run = "./install.sh" },
 	})
 
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -123,9 +139,10 @@ local function plugins(use)
 		"nvim-treesitter/nvim-treesitter-refactor", -- Refactorings via treesitter
 		"nvim-treesitter/nvim-treesitter-textobjects", -- Additional text objects via treesitter
 		"RRethy/nvim-treesitter-textsubjects",
-		"p00f/nvim-ts-rainbow",          -- rainbow parentheses
-		"windwp/nvim-ts-autotag",        -- tag completion
-		"JoosepAlviste/nvim-ts-context-commentstring", -- conserta comments para jsx
+		"p00f/nvim-ts-rainbow",                  -- rainbow parentheses
+		"windwp/nvim-ts-autotag",                -- tag completion
+		"JoosepAlviste/nvim-ts-context-commentstring", -- conserta comments para jsx,
+		"RRethy/nvim-treesitter-endwise",        -- Coloca o end no final de func e if
 	})
 
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -133,59 +150,18 @@ local function plugins(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("language.flutter-tools")
-	use("jose-elias-alvarez/typescript.nvim")
+	use("jose-elias-alvarez/typescript.nvim") -- + funcionalidades pro ts_server (e.g. rename file & update imports)
+
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                           Git                            │
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("git.vim-fugitive") -- base git plugin
-	setup("git.gitsigns") -- gutter signs
+	setup("git.gitsigns")  -- gutter signs
 
-	-- Bootstrap Neovim
-	if is_boostrap then
+	-- |───────────────────────────────────────────────────────────|
+	if is_boostrap then -- Bootstrap Neovim
 		require("packer").sync()
 	end
-end
-
--- packer.nvim configuration
-local conf = {
-	profile = {
-		enable = false,
-		threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
-	},
-	display = {
-		open_fn = function()
-			return require("packer.util").float({ border = "rounded" })
-		end,
-	},
-}
-
--- Check if packer.nvim is installed
--- Run PackerCompile if there are changes in this file
-local function packer_init()
-	local fn = vim.fn
-	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({
-			"git",
-			"clone",
-			"--depth",
-			"1",
-			"https://github.com/wbthomason/packer.nvim",
-			install_path,
-		})
-		is_boostrap = true
-		vim.cmd([[packadd packer.nvim]])
-	end
-end
-
--- Init and start packer
-packer_init()
-local packer = require("packer")
-
--- Performance
-pcall(require, "impatient")
-
-packer.init(conf)
-packer.startup(plugins)
+end)

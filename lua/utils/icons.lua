@@ -169,7 +169,7 @@ M.ui = {
 
 M.diagnostics = {
 	Error = "",
-	Hint = "",
+	Hint =  "",
 	Information = "",
 	Question = "",
 	Warning = "",
@@ -185,7 +185,7 @@ M.lsp = {
 M.git = {
 	Git = "",
 	Add = "",
-	Branch = "",
+	Branch = "", -- "",
 	Diff = "",
 	Ignore = "◌",
 	Mod = "",
@@ -201,7 +201,7 @@ M.git = {
 }
 
 M.lspkind = {
-	Npm = "[NPM]", -- M.ui.Terminal,
+	Npm = "[NPM]",   -- M.ui.Terminal,
 	Copilot = "",
 	TabNine = "", -- '', 	Nvim_lsp = "[LSP]", -- M.ui.Paragraph,
 	Luasnip = "[SNP]", -- M.ui.Snippet,
