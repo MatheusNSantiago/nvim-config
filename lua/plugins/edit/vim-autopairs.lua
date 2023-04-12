@@ -4,11 +4,12 @@ function M.setup()
 	-- make autopairs and completion work together
 	local cmp_status_ok, cmp = pcall(require, "cmp")
 	if cmp_status_ok then
-		cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done({ tex = "" }))
+		cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
 	end
 
 	return {
 		"windwp/nvim-autopairs",
+		"InsertEnter",
 		config = M.config,
 	}
 end
@@ -21,8 +22,8 @@ function M.config()
 			javascript = { "string", "template_string" },
 			java = false,
 		},
+		enable_check_bracket_line = false, -- (  |)) => ( => (  (|))
 		disable_filetype = { "TelescopePrompt", "vim" },
-		fast_wrap = {},
 	})
 end
 
