@@ -4,7 +4,7 @@ local map = require("utils").map
 function M.setup()
 	map("n", "<leader>lg", M.toggle_lazygit)
 	map({ "n", "t" }, "<A-f>", '<Cmd>execute v:count . "ToggleTerm direction=float"<CR>')
-	map({ "n", "t" }, "<A-h>", '<Cmd>execute v:count . "ToggleTerm direction=horizontal"<CR>')
+	map({ "n", "t" }, "<A-i>", '<Cmd>execute v:count . "ToggleTerm direction=horizontal"<CR>')
 
 	vim.api.nvim_create_autocmd({ "TermOpen" }, {
 		pattern = "term://*",
@@ -111,11 +111,12 @@ function M.toggle_lazygit()
 		cmd = "lazygit",
 		dir = "git_dir",
 		close_on_exit = true,
+		hidden = true,
 		direction = "float",
 		float_opts = {
-			width = math.floor(vim.o.columns * 0.65),
-			height = math.floor(vim.o.lines * 0.70),
-			border = "curved", --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
+			width = 10000, -- math.floor(vim.o.columns * 0.65),
+			height = 10000, -- math.floor(vim.o.lines * 0.70),
+			border = "none", --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
 			winblend = 0,
 			highlights = {
 				border = "Normal",
@@ -128,7 +129,7 @@ function M.toggle_lazygit()
 			vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
 		end,
 		-- function to run on closing the terminal
-		on_close = function(term)
+		on_close = function(_)
 			vim.cmd("startinsert!")
 		end,
 	})
