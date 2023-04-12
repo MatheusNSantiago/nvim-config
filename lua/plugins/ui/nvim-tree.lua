@@ -7,10 +7,9 @@ M.setup = function()
 
 	return {
 		"nvim-tree/nvim-tree.lua",
-		config = M.config
+		config = M.config,
 	}
 end
-
 
 M.config = function()
 	local tree = require("nvim-tree")
@@ -140,7 +139,6 @@ M.config = function()
 	vim.g.loaded_netrw = 1
 	vim.g.loaded_netrwPlugin = 1
 
-
 	local icons = require("utils.icons")
 
 	tree.setup({
@@ -161,6 +159,9 @@ M.config = function()
 		open_on_tab = false,
 		-- hijack the cursor in the tree to put it at the start of the filename
 		hijack_cursor = false,
+		ignore_ft_on_setup = {
+			"gitcommit", -- Don't Open nvim-tree When Creating Git Commit Message
+		},
 		-- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
 		update_cwd = true,
 		-- opens in place of the unnamed buffer if it's empty
@@ -310,7 +311,6 @@ M.config = function()
 	})
 end
 
-
 local c = require("utils.colors")
 
 M.highlights = {
@@ -322,6 +322,5 @@ M.highlights = {
 	-- NvimTreeGitDeleted = { fg = colors.red },
 	-- NvimTreeSpecialFile = { fg = colors.yellow, bold = true },
 }
-
 
 return M
