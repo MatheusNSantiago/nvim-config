@@ -9,7 +9,7 @@ function M.setup()
 
 	return {
 		"windwp/nvim-autopairs",
-		"InsertEnter",
+		event = "InsertEnter",
 		config = M.config,
 	}
 end
