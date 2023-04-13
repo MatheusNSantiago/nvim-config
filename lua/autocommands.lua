@@ -3,12 +3,6 @@ local api = vim.api
 -- don't auto comment new line
 api.nvim_create_autocmd("BufEnter", { command = [[set formatoptions-=cro]] })
 
--- troca entre relative e absolute line numbers
-api.nvim_create_autocmd({ "InsertEnter" }, {
-	callback = function()
-		vim.opt.relativenumber = false
-	end,
-})
 api.nvim_create_autocmd({ "InsertLeave" }, {
 	callback = function()
 		vim.opt.relativenumber = true

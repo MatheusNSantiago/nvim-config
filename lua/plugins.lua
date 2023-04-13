@@ -10,10 +10,8 @@ local function ensure_packer()
 end
 local is_boostrap = ensure_packer()
 
-
 pcall(require, "impatient") -- performance
 return require("packer").startup(function(use)
-
 	local function setup(file, requires)
 		local cfg = require("plugins." .. file).setup()
 		cfg.requires = requires
@@ -47,10 +45,12 @@ return require("packer").startup(function(use)
 	setup("ui.noice", { -- messages, cmdline and popupmenu
 		"MunifTanjim/nui.nvim",
 	})
+	setup("ui.nvim-navic")  -- 	breadcrumbs
 	setup("ui.nvim-notify") -- messages, cmdline and popupmenu
 	setup("ui.nvim-colorizer") -- #FFF ficar com o background branco
 
 	use("tpope/vim-sleuth") -- Detect tabstop and shiftwidth automatically
+	use("sitiom/nvim-numbertoggle") -- relative/absolute line numbers
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                       Movimentação                       │
@@ -75,13 +75,13 @@ return require("packer").startup(function(use)
 	setup("edit.nvim-ufo", { -- folding
 		"kevinhwang91/promise-async",
 	})
-	setup("edit.template-string") -- muda pra template-string automaticamente
+	setup("edit.template-string")        -- muda pra template-string automaticamente
 
-	use("tpope/vim-surround")    -- cs"'
-	use("tpope/vim-repeat")      -- deixa o vim-surrond usar o '.'
+	use("tpope/vim-surround")            -- cs"'
+	use("tpope/vim-repeat")              -- deixa o vim-surrond usar o '.'
 	-- -- -- use("mg979/vim-visual-multi")
-	use("wellle/targets.vim")    -- adiciona novos textobjects
-	use("AndrewRadev/undoquit.vim") -- restaurar tabs fechadas
+	use("wellle/targets.vim")            -- adiciona novos textobjects
+	use("AndrewRadev/undoquit.vim")      -- restaurar tabs fechadas
 	use("inkarkat/vim-ReplaceWithRegister") -- ["x]gr{motion}
 
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -151,7 +151,6 @@ return require("packer").startup(function(use)
 
 	setup("language.flutter-tools")
 	use("jose-elias-alvarez/typescript.nvim") -- + funcionalidades pro ts_server (e.g. rename file & update imports)
-
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                           Git                            │
