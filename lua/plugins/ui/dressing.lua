@@ -3,7 +3,6 @@ local M = {}
 function M.setup()
 	return {
 		"stevearc/dressing.nvim",
-		event = "BufReadPre",
 		config = M.config,
 	}
 end
