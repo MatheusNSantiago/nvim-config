@@ -22,4 +22,11 @@ function M.config()
   })
 end
 
+
+M.highlights = {
+  -- hl(0, "IndentBlanklineContextChar", { fg = c.context, bg = "NONE" })
+  -- hl(0, "IndentBlanklineContextStart", { fg = "NONE", bg = "NONE", underline = true })
+  -- hl(0, "IndentBlanklineChar", { fg = c.dark_gray, bg = "NONE" })
+}
+
 return M

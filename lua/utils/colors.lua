@@ -17,4 +17,6 @@ return {
 	red = "#ee5d43",
 	purple = "#c74ded",
 	yellow = "#ffe66d",
+	fg = "#abb2bf",
+	blue = "#519fdf",
 }
