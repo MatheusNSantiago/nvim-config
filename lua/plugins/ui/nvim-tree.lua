@@ -17,77 +17,84 @@ M.config = function()
 	local lib = require("nvim-tree.lib")
 	local api = require("nvim-tree.api")
 
-	local function startup()
-		local api = require("nvim-tree.api")
+	-- Automatically open file upon creation
+	api.events.subscribe(api.events.Event.FileCreated, function(file)
+		vim.cmd("edit " .. file.fname)
+	end)
 
-		local function open_nvim_tree(data)
-			-- buffer is a real file on the disk
-			local is_real_file = (vim.fn.filereadable(data.file) == 1)
+	local function open_nvim_tree(data)
+		local IGNORED_FT = {
+			"gitcommit",
+		}
 
-			-- buffer is a [No Name]
-			local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+		-- buffer is a real file on the disk
+		local is_real_file = (vim.fn.filereadable(data.file) == 1)
 
-			-- buffer is a directory
-			local is_directory = (vim.fn.isdirectory(data.file) == 1)
+		-- buffer is a [No Name]
+		local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
 
-			if not (is_real_file or is_directory) and not no_name then
-				return
-			end
+		-- &ft
+		local filetype = vim.bo[data.buf].ft
 
-			-- open the tree, find the file but don't focus it
-			-- api.tree.toggle({ focus = false, find_file = true })
-			-- require("nvim-tree.api").tree.toggle({ focus = false })
-			vim.cmd("NvimTreeFindFileToggle")
-			vim.cmd("wincmd l")
-			-- vim.cmd("NvimTreeFindFile")
-		end
-		local function tab_win_closed(winnr)
-			local tabnr = vim.api.nvim_win_get_tabpage(winnr)
-			local bufnr = vim.api.nvim_win_get_buf(winnr)
-			local buf_info = vim.fn.getbufinfo(bufnr)[1]
-			local tab_wins = vim.tbl_filter(function(w)
-				return w ~= winnr
-			end, vim.api.nvim_tabpage_list_wins(tabnr))
-			local tab_bufs = vim.tbl_map(vim.api.nvim_win_get_buf, tab_wins)
-			if buf_info.name:match(".*NvimTree_%d*$") then -- close buffer was nvim tree
-				-- Close all nvim tree on :q
-				if not vim.tbl_isempty(tab_bufs) then -- and was not the last window (not closed automatically by code below)
-					api.tree.close()
-				end
-			else                                         -- else closed buffer was normal buffer
-				if #tab_bufs == 1 then                   -- if there is only 1 buffer left in the tab
-					local last_buf_info = vim.fn.getbufinfo(tab_bufs[1])[1]
-					if last_buf_info.name:match(".*NvimTree_%d*$") then -- and that buffer is nvim tree
-						vim.schedule(function()
-							if #vim.api.nvim_list_wins() == 1 then -- if its the last buffer in vim
-								-- vim.cmd "quit" -- then close all of vim
-							else                         -- else there are more tabs open
-								vim.cmd("NvimTreeOpen")
-								vim.api.nvim_win_close(tab_wins[1], true) -- then close only the tab
-							end
-						end)
-					end
-				end
-			end
+		-- only files please
+		if not is_real_file and not no_name then
+			return
 		end
 
-		vim.api.nvim_create_autocmd("WinClosed", {
-			callback = function()
-				local winnr = tonumber(vim.fn.expand("<amatch>"))
-				vim.schedule_wrap(pcall(tab_win_closed, winnr))
-			end,
-			nested = true,
-		})
+		-- skip ignored filetypes
+		if vim.tbl_contains(IGNORED_FT, filetype) then
+			return
+		end
 
-		vim.api.nvim_create_autocmd("VimEnter", { callback = open_nvim_tree })
+		local is_directory = (vim.fn.isdirectory(data.file) == 1)
+		if is_directory then
+			vim.cmd.enew() -- create a new, empty buffer
+			vim.cmd.bw(data.buf) -- wipe the directory buffer
+			vim.cmd.cd(data.file) -- change to the directory
+		end
 
-		-- Automatically open file upon creation
-		api.events.subscribe(api.events.Event.FileCreated, function(file)
-			vim.cmd("edit " .. file.fname)
-		end)
+		api.tree.toggle({ focus = false, find_file = true })
 	end
 
-	startup()
+	vim.api.nvim_create_autocmd("VimEnter", { callback = open_nvim_tree })
+
+	local function tab_win_closed(winnr)
+		local tabnr = vim.api.nvim_win_get_tabpage(winnr)
+		local bufnr = vim.api.nvim_win_get_buf(winnr)
+		local buf_info = vim.fn.getbufinfo(bufnr)[1]
+		local tab_wins = vim.tbl_filter(function(w)
+			return w ~= winnr
+		end, vim.api.nvim_tabpage_list_wins(tabnr))
+		local tab_bufs = vim.tbl_map(vim.api.nvim_win_get_buf, tab_wins)
+		if buf_info.name:match(".*NvimTree_%d*$") then -- close buffer was nvim tree
+			-- Close all nvim tree on :q
+			if not vim.tbl_isempty(tab_bufs) then -- and was not the last window (not closed automatically by code below)
+				api.tree.close()
+			end
+		else                                            -- else closed buffer was normal buffer
+			if #tab_bufs == 1 then                      -- if there is only 1 buffer left in the tab
+				local last_buf_info = vim.fn.getbufinfo(tab_bufs[1])[1]
+				if last_buf_info.name:match(".*NvimTree_%d*$") then -- and that buffer is nvim tree
+					vim.schedule(function()
+						if #vim.api.nvim_list_wins() == 1 then -- if its the last buffer in vim
+							-- vim.cmd "quit" -- then close all of vim
+						else                            -- else there are more tabs open
+							vim.cmd("NvimTreeOpen")
+							vim.api.nvim_win_close(tab_wins[1], true) -- then close only the tab
+						end
+					end)
+				end
+			end
+		end
+	end
+
+	vim.api.nvim_create_autocmd("WinClosed", {
+		callback = function()
+			local winnr = tonumber(vim.fn.expand("<amatch>"))
+			vim.schedule_wrap(pcall(tab_win_closed, winnr))
+		end,
+		nested = true,
+	})
 
 	local swap_then_open_tab = function()
 		local node = lib.get_node_at_cursor()
@@ -135,10 +142,6 @@ M.config = function()
 		vim.cmd.tabprev()
 	end
 
-	-- disable netrw at the very start of your init.lua (strongly advised)
-	vim.g.loaded_netrw = 1
-	vim.g.loaded_netrwPlugin = 1
-
 	local icons = require("utils.icons")
 
 	tree.setup({
@@ -149,23 +152,18 @@ M.config = function()
 				ignore = { "gitcommit" },
 			},
 		},
-		-- disables netrw completely
-		disable_netrw = false,
-		-- hijack netrw window on startup
-		hijack_netrw = true,
-		-- open the tree when running this setup function
-		-- open_on_setup = true,
-		-- opens the tree when changing/opening a new tab if the tree wasn't previously opened
-		open_on_tab = false,
-		-- hijack the cursor in the tree to put it at the start of the filename
-		hijack_cursor = false,
-		-- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
-		update_cwd = true,
-		-- opens in place of the unnamed buffer if it's empty
-		hijack_unnamed_buffer_when_opening = false,
+		disable_netrw = false,               -- disables netrw completely
+		hijack_netrw = true,                 -- hijack netrw window on startup
+		hijack_cursor = false,               -- hijack the cursor in the tree to put it at the start of the filename
+		hijack_unnamed_buffer_when_opening = true, -- opens in place of the unnamed buffer if it's empty
+		open_on_tab = false,                 -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
+		update_cwd = true,                   -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
 		--false by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
-		respect_buf_cwd = true,
+		respect_buf_cwd = false,
 		-- show lsp diagnostics in the signcolumn
+		notify = {
+			threshold = vim.log.levels.INFO,
+		},
 		diagnostics = {
 			enable = false,
 			show_on_dirs = false,
@@ -181,18 +179,9 @@ M.config = function()
 			group_empty = true,
 			highlight_git = true,
 			highlight_opened_files = "none",
-			-- highlight_opened_files = "name",
 			root_folder_modifier = ":~",
-			indent_markers = {
-				enable = false,
-				inline_arrows = true,
-				icons = {
-					corner = "└",
-					edge = "│",
-					item = "│",
-					none = " ",
-				},
-			},
+			indent_markers = { enable = false },
+			root_folder_label = ":~:s?$?/..?",
 			icons = {
 				glyphs = {
 					default = icons.ui.Text,
@@ -221,15 +210,14 @@ M.config = function()
 			},
 		},
 		-- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
-		update_focused_file = {
-			-- enables the feature
+		hijack_directories = {
 			enable = true,
-			-- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
-			-- only relevant when `update_focused_file.enable` is true
-			update_cwd = true,
-			-- list of buffer names / filetypes that will not update the cwd if the file isn't found under the current root directory
-			-- only relevant when `update_focused_file.update_cwd` is true and `update_focused_file.enable` is true
-			ignore_list = {},
+			auto_open = true,
+		},
+		update_focused_file = {
+			enable = true,
+			update_cwd = true, -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
+			ignore_list = { "gitcommit" },
 		},
 		-- configuration options for the system open command (`s` in the tree by default)
 		system_open = {
@@ -252,30 +240,20 @@ M.config = function()
 		},
 		actions = {
 			use_system_clipboard = true,
-			-- change_dir = {
-			-- 	enable = true,
-			-- 	global = false,
-			-- 	restrict_above_cwd = false,
-			-- },
+			change_dir = {
+				enable = true,
+				global = false,
+				restrict_above_cwd = false,
+			},
 			open_file = {
 				quit_on_open = false,
-				-- if true the tree will resize itself after opening a file
-				resize_window = true,
-				window_picker = {
-					enable = true,
-					chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-					exclude = {
-						filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-						buftype = { "nofile", "terminal", "help" },
-					},
-				},
+				resize_window = true, -- if true the tree will resize itself after opening a file
 			},
 		},
 		view = {
 			-- adaptive_size = false, -- Ajusta o seu tamanho automaticamente com base no tamanho do nome dos arquivos do projeto.
 			-- width of the window, can be either a number (columns) or a string in `%`
 			width = 30,
-			hide_root_folder = false,
 			-- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
 			side = "left",
 			mappings = {
@@ -325,7 +303,6 @@ M.config = function()
 end
 
 local c = require("utils.colors")
-
 M.highlights = {
 	-- NvimTreeGitDirty = { fg = "None" },
 	-- NvimTreeGitNew = { fg = "None" },
