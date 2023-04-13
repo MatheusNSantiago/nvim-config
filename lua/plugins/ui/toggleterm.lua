@@ -3,8 +3,8 @@ local map = require("utils").map
 
 function M.setup()
 	map("n", "<leader>lg", M.toggle_lazygit)
-	map({ "n", "t" }, "<A-f>", '<Cmd>execute v:count . "ToggleTerm direction=float"<CR>')
-	map({ "n", "t" }, "<A-i>", '<Cmd>execute v:count . "ToggleTerm direction=horizontal"<CR>')
+	map({ "i", "n", "t" }, "<A-f>", '<Cmd>execute v:count . "ToggleTerm direction=float"<CR>')
+	map({ "i", "n", "t" }, "<A-i>", '<Cmd>execute v:count . "ToggleTerm direction=horizontal"<CR>')
 
 	vim.api.nvim_create_autocmd({ "TermOpen" }, {
 		pattern = "term://*",
