@@ -37,12 +37,11 @@ function M.config()
 			{
 				name = "copilot",
 				priority = 9,
-				trigger_characters = {
-					{ ".", ":", "(", "'", '"', "[", ",", "#", "*", "@", "|", "=", "-", "{", "/", "\\", "+", "?", " " }, -- "\t", "\n",
-				},
+				keyword_length = 0,
+				-- trigger_characters = {
+				-- { ".", ":", "(", "'", '"', "[", ",", "#", "*", "@", "|", "=", "-", "{", "/", "\\", "+", "?", " " }, -- "\t", "\n",
+				-- },
 			},
-			{ name = "npm",     priority = 9 },
-			-- { name = "cmp_tabnine", priority = 9,  max_item_count = 3 },
 			{ name = "luasnip", priority = 7,  max_item_count = 5, keyword_length = 2 },
 			{
 				name = "buffer",
@@ -50,15 +49,20 @@ function M.config()
 				keyword_length = 4,
 				max_item_count = 5,
 			},
-			{ name = "nvim_lua", priority = 5 },
 		}),
+		duplicates = {
+			buffer = 1,
+			path = 1,
+			nvim_lsp = 0,
+			luasnip = 1,
+		},
+		duplicates_default = 0,
 		sorting = {
 			-- priority_weight = 2,
 			comparators = {
 				require("plugins.cmp.utils.comparators").deprioritize_snippet,
 				require("copilot_cmp.comparators").prioritize,
-					require("copilot_cmp.comparators").score,
-				-- require("cmp_tabnine.compare"),
+				require("copilot_cmp.comparators").score,
 				cmp.config.compare.exact,
 				cmp.config.compare.locality,
 				cmp.config.compare.score,
