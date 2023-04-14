@@ -13,7 +13,6 @@ function M.flatten(tbl)
 	return result
 end
 
----@diagnostic disable-next-line: lowercase-global
 function M.map(mode, remap, command, opts)
 	local options = { noremap = true, silent = true }
 
@@ -34,17 +33,8 @@ function M.set_hls(highlights)
 	end
 end
 
-function M.get_buf_option(opt)
-	local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
-	if not status_ok then
-		return nil
-	else
-		return buf_option
-	end
-end
-
 function M.get_repo_name()
-	local full_path =  vim.fn.trim(vim.fn.system("git rev-parse --show-toplevel"))
+	local full_path = vim.fn.trim(vim.fn.system("git rev-parse --show-toplevel"))
 	local repo_name = vim.fn.fnamemodify(full_path, ":t")
 	return repo_name
 end
@@ -65,6 +55,35 @@ end
 
 function M.info(msg, name)
 	vim.notify(msg, vim.log.levels.INFO, { title = name })
+end
+
+function M.isempty(s)
+	return s == nil or s == ""
+end
+
+function M.get_buf_option(opt)
+	local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
+	if not status_ok then
+		return nil
+	else
+		return buf_option
+	end
+end
+
+function M.add_space_ini(tbl)
+	local result = {}
+	for k, v in pairs(tbl) do
+		result[" " .. k] = v
+	end
+	return result
+end
+
+function M.add_space_end(tbl)
+	local result = {}
+	for k, v in pairs(tbl) do
+		result[" " .. k] = v
+	end
+	return result
 end
 
 return M
