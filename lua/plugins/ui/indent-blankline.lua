@@ -3,7 +3,6 @@ local M = {}
 function M.setup()
     return {
         "lukas-reineke/indent-blankline.nvim",
-        event = "BufReadPre",
         config = M.config,
     }
 end
