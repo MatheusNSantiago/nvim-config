@@ -133,8 +133,6 @@ M.config = function()
 		elseif gs == "M " or gs == "A " then
 			vim.cmd("silent !git restore --staged " .. node.absolute_path)
 		end
-
-		lib.refresh_tree()
 	end
 
 	local function open_tab_silent(node)
