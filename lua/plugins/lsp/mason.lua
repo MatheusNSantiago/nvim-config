@@ -13,7 +13,7 @@ function M.config()
 	local lspconfig = require("lspconfig")
 	local neodev = require("neodev")
 	local mason_lspconfig = require("mason-lspconfig")
-	local lsp = require("plugins.lsp")
+	local lsp = require("lsp")
 	local mason_null_ls = require("mason-null-ls")
 
 	mason.setup({
@@ -39,23 +39,33 @@ function M.config()
 		automatic_installation = true,
 	})
 
-	local function install_lsp(server_name)
-		local config = lsp.default_config
+	local function get_configs(server_name)
+		local config = lsp.get_commom_configs()
 
-		local has_custom_config, ls_configs = pcall(require, "plugins.lsp.servers." .. server_name)
+		local has_custom_config, ls_configs = pcall(require, "lsp.servers." .. server_name)
 		if has_custom_config then
 			config = vim.tbl_extend("force", config, ls_configs) -- adicioar configurações personalizadas
 		end
-
-		lspconfig[server_name].setup(config)
+		return config
 	end
 
 	mason_lspconfig.setup_handlers({
-		install_lsp, -- Default handler
+		function(server_name)
+			local config = get_configs(server_name)
+			lspconfig[server_name].setup(config)
+		end,
 		-- Custom handlers
 		["lua_ls"] = function()
 			neodev.setup() -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-			install_lsp("lua_ls")
+			local config = get_configs("lua_ls")
+			lspconfig["lua_ls"].setup(config)
+		end,
+		["tsserver"] = function()
+			require("typescript").setup({
+				disable_commands = false,
+				debug = false,
+				server = get_configs("tsserver"),
+			})
 		end,
 	})
 end
