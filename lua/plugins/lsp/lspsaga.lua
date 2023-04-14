@@ -24,8 +24,6 @@ function M.setup()
 	map({ "n", "v" }, "<leader>ca", ":Lspsaga code_action<CR>") -- Code action
 	map("n", "gl", ":Lspsaga show_line_diagnostics<CR>") -- Show line diagnostics
 
-	map("n", "<leader>o", "<cmd>Lspsaga outline<CR>") -- Toggle outline
-
 	return {
 		"glepnir/lspsaga.nvim",
 		config = M.config,
