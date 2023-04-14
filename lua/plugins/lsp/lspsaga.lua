@@ -52,7 +52,7 @@ function M.config()
 			kind = {},
 		},
 		symbol_in_winbar = {
-			enable = true,
+			enable = false,
 			separator = " ",
 			ignore_patterns = {},
 			hide_keyword = true,
