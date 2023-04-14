@@ -40,43 +40,41 @@ function M.config()
 			lualine_c = { { "%=" }, { "filename" } },
 		},
 		extensions = {
-			-- {
-			-- 	filetypes = { "toggleterm" },
-			-- 	sections = {},
-			-- 	winbar = {
-			-- 		lualine_a = {
-			-- 			{ "filename" },
-			-- 			{
-			-- 				function()
-			-- 					-- return "%{&ft == 'toggleterm' ? 'Terminal '.b:toggle_number.'' : ''}"
-			-- 					return "        asdasd                                              "
-			-- 				end,
-			-- 				color = { bg = "Red", fg = c.gray, gui = "underline" },
-			-- 			},
-			-- 		},
-			-- 		lualine_b = {
-			-- 			{ "filename" },
-			-- 			{
-			-- 				function()
-			-- 					-- return "%{&ft == 'toggleterm' ? 'Terminal '.b:toggle_number.'' : ''}"
-			-- 					return "        asdasd                                              "
-			-- 				end,
-			-- 				color = { bg = "Red", fg = c.gray, gui = "underline" },
-			-- 			},
-			-- 		},
-			-- 	},
-			-- 	-- inactive_winbar = {
-			-- 	-- 	lualine_a = {
-			-- 	-- 		{
-			-- 	-- 			function()
-			-- 	-- 				-- return "%{&ft == 'toggleterm' ? 'Terminal '.b:toggle_number.'' : ''}"
-			-- 	-- 				return " "
-			-- 	-- 			end,
-			-- 	-- 			-- color = { bg = c.outerbg, fg = c.gray, gui = "bold" },
-			-- 	-- 		},
-			-- 	-- 	},
-			-- 	-- },
-			-- },
+			{
+				filetypes = { "toggleterm" },
+				sections = {},
+				winbar = {
+					lualine_a = {
+						{ "filename" },
+						{
+							function()
+								return "        asdasd                                              "
+							end,
+							color = { bg = c.outerbg, fg = c.gray, gui = "underline" },
+						},
+					},
+					lualine_b = {
+						{ "filename" },
+						{
+							function()
+								return "        asdasd                                              "
+							end,
+							color = { bg = c.outerbg, fg = c.gray, gui = "underline" },
+						},
+					},
+				},
+				-- inactive_winbar = {
+				-- 	lualine_a = {
+				-- 		{
+				-- 			function()
+				-- 				-- return "%{&ft == 'toggleterm' ? 'Terminal '.b:toggle_number.'' : ''}"
+				-- 				return " "
+				-- 			end,
+				-- 			-- color = { bg = c.outerbg, fg = c.gray, gui = "bold" },
+				-- 		},
+				-- 	},
+				-- },
+			},
 			"quickfix",
 			{
 				filetypes = { "NvimTree" },

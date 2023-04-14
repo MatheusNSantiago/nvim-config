@@ -1,7 +1,5 @@
-local M = {}
 local icons = require("utils.icons")
 local c = vim.tbl_extend("force", require("utils.colors"), {
-	outerbg = "#16161D",
 	normal = "#7e9cd8",
 	insert = "#98bb6c",
 	visual = "#ffa066",
