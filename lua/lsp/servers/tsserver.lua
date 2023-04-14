@@ -104,7 +104,7 @@ local handlers = {
   ["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics,
     {
-      virtual_text = false,
+      virtual_text = true,
       -- update_in_insert = true,
     }
   ),
@@ -118,34 +118,9 @@ local handlers = {
   end,
 }
 
-local settings = {
-  typescript = {
-    inlayHints = {
-      includeInlayParameterNameHints = "all",
-      includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-      includeInlayFunctionParameterTypeHints = true,
-      includeInlayVariableTypeHints = false,
-      includeInlayPropertyDeclarationTypeHints = true,
-      includeInlayFunctionLikeReturnTypeHints = false,
-      includeInlayEnumMemberValueHints = true,
-    },
-  },
-  javascript = {
-    inlayHints = {
-      includeInlayParameterNameHints = "all",
-      includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-      includeInlayFunctionParameterTypeHints = true,
-      includeInlayVariableTypeHints = false,
-      includeInlayPropertyDeclarationTypeHints = true,
-      includeInlayFunctionLikeReturnTypeHints = false,
-      includeInlayEnumMemberValueHints = true,
-    },
-  },
-}
 
 M.capabilities = capabilities
 M.on_attach = on_attach
 M.handlers = handlers
-M.settings = settings
 
 return M

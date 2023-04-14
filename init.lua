@@ -1,5 +1,5 @@
 require("options")
 require("autocommands")
+require("lsp").setup()
 require("plugins")
-require("plugins.lsp")
 require("keymappings")
