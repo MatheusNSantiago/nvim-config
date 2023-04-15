@@ -55,11 +55,11 @@ function M.config()
 			lspconfig[server_name].setup(config)
 		end,
 		-- Custom handlers
-		["lua_ls"] = function()
-			neodev.setup() -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-			local config = get_configs("lua_ls")
-			lspconfig["lua_ls"].setup(config)
-		end,
+		-- ["lua_ls"] = function()
+		-- 	neodev.setup() -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+		-- 	local config = get_configs("lua_ls")
+		-- 	lspconfig["lua_ls"].setup(config)
+		-- end,
 		["tsserver"] = function()
 			require("typescript").setup({
 				disable_commands = false,
