@@ -39,15 +39,14 @@ end
 
 function M.common_on_attach(client, bufnr)
 	local caps = client.server_capabilities
-	local utils = require("plugins.lsp.utils")
+	local utils = require("lsp.utils")
 
 	-- Enable completion triggered by <C-X><C-O>
-	-- See `:help omnifunc` and `:help ins-completion` for more information.
 	if caps.completionProvider then
 		vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 	end
+
 	-- Use LSP as the handler for formatexpr.
-	-- See `:help formatexpr` for more information.
 	if caps.documentFormattingProvider then
 		vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
 	end
@@ -64,7 +63,13 @@ function M.common_on_attach(client, bufnr)
 		vim.lsp.codelens.refresh()
 	end
 
+	-- setup navic (breadcrumbs) e outros simbolos
 	utils.setup_document_symbols(client, bufnr)
+
+	local navbuddy_ok, navbuddy = pcall(require, "nvim-navbuddy")
+	if navbuddy_ok then
+		navbuddy.attach(client, bufnr)
+	end
 end
 
 function M.get_commom_configs()
@@ -93,7 +98,6 @@ function M.setup()
 	end
 
 	require("lsp.handlers").setup() -- Setup LSP handlers
-
 end
 
 return M

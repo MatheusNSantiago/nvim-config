@@ -52,16 +52,17 @@ return require("packer").startup(function(use)
 	use("tpope/vim-sleuth") -- Detect tabstop and shiftwidth automatically
 	use("sitiom/nvim-numbertoggle") -- relative/absolute line numbers
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                       Movimentação                       │
-	--  ╰──────────────────────────────────────────────────────────╯
+--  ╭──────────────────────────────────────────────────────────╮
+--  │                        Navigation                        │
+--  ╰──────────────────────────────────────────────────────────╯
 
-	setup("moviment.telescope", {
+	setup("navigation.telescope", {
 		{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 	})
-	setup("moviment.hop") -- tipo o easymotion
-	setup("moviment.tabout") -- tabout
-	setup("moviment.marks") -- marks
+	setup("navigation.hop") -- tipo o easymotion
+	setup("navigation.tabout") -- tabout
+	setup("navigation.marks") -- marks
+	setup("navigation.nvim-navbuddy") -- outline
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
