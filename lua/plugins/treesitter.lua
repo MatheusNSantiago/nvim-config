@@ -15,6 +15,7 @@ function M.config()
 		ensure_installed = {
 			"javascript",
 			"typescript",
+			"prisma",
 			"ruby",
 			"tsx",
 			"python",
