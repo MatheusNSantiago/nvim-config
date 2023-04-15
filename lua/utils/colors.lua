@@ -19,4 +19,5 @@ return {
 	yellow = "#ffe66d",
 	fg = "#abb2bf",
 	blue = "#519fdf",
+	outerbg = "#16161D",
 }

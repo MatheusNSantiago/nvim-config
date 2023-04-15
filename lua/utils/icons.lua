@@ -250,7 +250,6 @@ M.git = {
 }
 
 M.lspkind = {
-	Npm = "[NPM]",   -- M.ui.Terminal,
 	Copilot = "",
 	TabNine = "", -- '', 	Nvim_lsp = "[LSP]", -- M.ui.Paragraph,
 	Luasnip = "[SNP]", -- M.ui.Snippet,

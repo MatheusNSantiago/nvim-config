@@ -27,7 +27,7 @@ function M.config()
 		mapping = require("plugins.cmp.mappings"),
 		completion = { completeopt = "menu,menuone,noinsert" },
 		sources = cmp.config.sources({
-			{ name = "path",    priority = 20, max_item_count = 4 },
+			{ name = "path", priority = 20, max_item_count = 4 },
 			{
 				name = "nvim_lsp",
 				priority = 10,
@@ -42,7 +42,7 @@ function M.config()
 				-- { ".", ":", "(", "'", '"', "[", ",", "#", "*", "@", "|", "=", "-", "{", "/", "\\", "+", "?", " " }, -- "\t", "\n",
 				-- },
 			},
-			{ name = "luasnip", priority = 7,  max_item_count = 5, keyword_length = 2 },
+			{ name = "luasnip", priority = 7, max_item_count = 5, keyword_length = 2 },
 			{
 				name = "buffer",
 				priority = 7,
@@ -97,19 +97,18 @@ function M.config()
 		},
 		confirm_opts = {
 			behavior = types.ConfirmBehavior.Replace,
-			-- select = true,
 			select = false,
 		},
 		window = {
 			completion = cmp.config.window.bordered({
-				-- winhighlight = "Normal:CmpNormal,NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-				winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+				winhighlight = "Normal:TelescopeNormal,FloatBorder:TelescopeBorder",
 				border = "rounded",
 				col_offset = -3,
-				side_padding = 0,
+				side_padding = 1,
 			}),
 			documentation = cmp.config.window.bordered({
-				winhighlight = "Normal:CmpDocNormal,NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+				winhighlight = "Normal:TelescopeNormal,FloatBorder:TelescopeBorder",
+
 			}),
 		},
 		experimental = { ghost_text = true },
@@ -130,18 +129,13 @@ end
 
 local c = require("utils.colors")
 M.highlights = {
-	-- PmenuSel = { fg = "NONE", bg = "#282C34" },
-	-- Pmenu = { fg = "#C5CDD9", bg = "#22252A" },
 	CmpItemAbbrDeprecated = { fg = "#7E8294", bg = "NONE", strikethrough = true },
 	CmpItemAbbrMatch = { fg = c.secondary, bg = "NONE", bold = true },
 	CmpItemAbbrMatchFuzzy = { fg = c.secondary, bg = "NONE", bold = true },
 	CmpItemMenu = { fg = "#C792EA", bg = "NONE", italic = true },
 	CmpItemKindColor = { fg = "#D8EEEB", bg = "None" },
 	CmpItemKindTypeParameter = { fg = "#D8EEEB", bg = "None" },
-	-- CmpItemKindColor = { fg = "#D8EEEB", bg = "#58B5A8" },
-	-- CmpItemKindTypeParameter = { fg = "#D8EEEB", bg = "#58B5A8" },
 	CmpItemAbbr = { fg = "White", bg = "NONE" },
-	-- cmp item kinds
 	CmpItemKindText = { fg = "LightGrey" },
 	CmpItemKindFunction = { fg = "#C586C0" },
 	CmpItemKindClass = { fg = "Orange" },

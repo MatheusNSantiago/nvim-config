@@ -32,13 +32,9 @@ opt.number = true
 opt.relativenumber = true
 opt.scrolloff = 6
 
-
 -- Highlights
 opt.cursorline = true
 opt.termguicolors = true
-opt.winblend = 0
-opt.wildoptions = "pum"
-opt.pumblend = 5
 opt.background = "dark"
 
 -- Desabilitar Backups

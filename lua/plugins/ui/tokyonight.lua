@@ -42,8 +42,6 @@ function M.config()
 		--- fucntion will be called with a Highlights and ColorScheme table
 		-- on_highlights = function(highlights, colors) end,
 		on_highlights = function(hl, _)
-			local c = require("utils.colors")
-			hl.NormalFloat = { bg = c.dark_bg }
 		end,
 	})
 	vim.cmd([[colorscheme tokyonight]])

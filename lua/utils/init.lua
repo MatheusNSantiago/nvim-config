@@ -70,20 +70,4 @@ function M.get_buf_option(opt)
 	end
 end
 
-function M.add_space_ini(tbl)
-	local result = {}
-	for k, v in pairs(tbl) do
-		result[" " .. k] = v
-	end
-	return result
-end
-
-function M.add_space_end(tbl)
-	local result = {}
-	for k, v in pairs(tbl) do
-		result[" " .. k] = v
-	end
-	return result
-end
-
 return M
