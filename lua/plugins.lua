@@ -93,7 +93,6 @@ return require("packer").startup(function(use)
 		"neovim/nvim-lspconfig",          -- LSP
 		"williamboman/mason-lspconfig.nvim", -- integrar mason com lspconfig
 		"jay-babu/mason-null-ls.nvim",    -- deixa mais fácil usar mason + null-ls
-		"jose-elias-alvarez/nvim-lsp-ts-utils", -- utils pra typescript
 	})
 
 	setup("lsp.lsp_signature") -- mostra a function signature enquanto digita
@@ -101,7 +100,6 @@ return require("packer").startup(function(use)
 	setup("lsp.lspsaga")     -- LSP UIs
 	setup("lsp.illuminate")  -- higlight a palavra em cima do cursor
 	setup("lsp.lsp-colors")  -- agrupa os erros do LSP por cor
-	setup("lsp.hlargs")      -- highlight argumentos
 
 	use("b0o/schemastore.nvim") -- schemas para json
 	use("folke/neodev.nvim") -- docs for nvim Lua API
@@ -129,7 +127,6 @@ return require("packer").startup(function(use)
 		"onsails/lspkind.nvim", -- Auto completions gui tipo do vscode
 		"zbirenbaum/copilot.lua", -- Copilot
 		"zbirenbaum/copilot-cmp",
-		-- { "tzachar/cmp-tabnine", run = "./install.sh" },
 	})
 
 	--  ╭──────────────────────────────────────────────────────────╮
