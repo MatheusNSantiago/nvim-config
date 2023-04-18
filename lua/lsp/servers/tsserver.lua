@@ -38,42 +38,6 @@ capabilities.textDocument.foldingRange = {
   lineFoldingOnly = true,
 }
 
-local on_attach = function(client, bufnr)
-  local function buf_set_option(...)
-    vim.api.nvim_buf_set_option(bufnr, ...)
-  end
-  buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
-  local ts_utils = require("nvim-lsp-ts-utils")
-
-  -- defaults
-  ts_utils.setup({
-    disable_commands = false,
-    enable_import_on_completion = false,
-    import_all_select_source = false,
-    -- if false will avoid organizing imports
-    always_organize_imports = true,
-    -- filter diagnostics
-    filter_out_diagnostics_by_severity = {},
-    filter_out_diagnostics_by_code = {},
-    -- update imports on file move
-    update_imports_on_move = true,
-    require_confirmation_on_move = false,
-  })
-
-  -- required to fix code action ranges and filter diagnostics
-  ts_utils.setup_client(client)
-
-  -- no default maps, so you may want to define some here
-  -- local opts = { silent = true }
-  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", opts)
-
-
-  -- require("lsp-inlayhints").on_attach(client, bufnr)
-end
-
 local function filter(arr, fn)
   if type(arr) ~= "table" then
     return arr
@@ -120,7 +84,6 @@ local handlers = {
 
 
 M.capabilities = capabilities
-M.on_attach = on_attach
-M.handlers = handlers
+-- M.handlers = handlers
 
 return M

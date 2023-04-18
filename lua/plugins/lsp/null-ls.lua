@@ -14,19 +14,38 @@ function M.config()
   -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
   null_ls.setup({
     sources = {
-      -- Formatting
-      b.formatting.stylua,
-      b.formatting.black,
-      b.formatting.prettierd,
-      b.formatting.fixjson,
+      --  ╭──────────────────────────────────────────────────────────╮
+      --  │                        Formatting                        │
+      --  ╰──────────────────────────────────────────────────────────╯
 
-      -- Diagnostics
-      b.diagnostics.eslint,
+      b.formatting.stylua,   -- lua
+      b.formatting.black,    -- python
+      b.formatting.prettierd, -- js/ts
+      -- b.formatting.rustywind, -- tailwind (reorganiza classes)
+      b.formatting.fixjson,  -- json
+      b.formatting.yamlfmt,  -- yaml
+      b.formatting.dart_format, -- dart
+      b.formatting.fish_indent, -- fish
 
-      -- Completion
+      --  ╭──────────────────────────────────────────────────────────╮
+      --  │                       Diagnostics                        │
+      --  ╰──────────────────────────────────────────────────────────╯
+
+      -- b.diagnostics.eslint_d, -- js/ts
+      -- b.diagnostics.xo,
+      b.diagnostics.fish,  -- fish
+      b.diagnostics.ruff,   -- python
+      b.diagnostics.yamllint, -- yaml
+
+--  ╭──────────────────────────────────────────────────────────╮
+--  │                        Completion                        │
+--  ╰──────────────────────────────────────────────────────────╯
+
       b.completion.luasnip,
 
-      -- Code Actions
+--  ╭──────────────────────────────────────────────────────────╮
+--  │                       Code Actions                       │
+--  ╰──────────────────────────────────────────────────────────╯
       b.code_actions.eslint_d,
       require("typescript.extensions.null-ls.code-actions"),
     },
