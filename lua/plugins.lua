@@ -45,23 +45,23 @@ return require("packer").startup(function(use)
 	setup("ui.noice", { -- messages, cmdline and popupmenu
 		"MunifTanjim/nui.nvim",
 	})
-	setup("ui.nvim-navic")  -- 	breadcrumbs
-	setup("ui.nvim-notify") -- messages, cmdline and popupmenu
-	setup("ui.nvim-colorizer") -- #FFF ficar com o background branco
+	setup("ui.nvim-navic")       -- 	breadcrumbs
+	setup("ui.nvim-notify")      -- messages, cmdline and popupmenu
+	setup("ui.nvim-colorizer")   -- #FFF ficar com o background branco
 
-	use("tpope/vim-sleuth") -- Detect tabstop and shiftwidth automatically
+	use("tpope/vim-sleuth")      -- Detect tabstop and shiftwidth automatically
 	use("sitiom/nvim-numbertoggle") -- relative/absolute line numbers
 
---  ╭──────────────────────────────────────────────────────────╮
---  │                        Navigation                        │
---  ╰──────────────────────────────────────────────────────────╯
+	--  ╭──────────────────────────────────────────────────────────╮
+	--  │                        Navigation                        │
+	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("navigation.telescope", {
 		{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 	})
-	setup("navigation.hop") -- tipo o easymotion
-	setup("navigation.tabout") -- tabout
-	setup("navigation.marks") -- marks
+	setup("navigation.hop")        -- tipo o easymotion
+	setup("navigation.tabout")     -- tabout
+	setup("navigation.marks")      -- marks
 	setup("navigation.nvim-navbuddy") -- outline
 
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -80,7 +80,7 @@ return require("packer").startup(function(use)
 
 	use("tpope/vim-surround")            -- cs"'
 	use("tpope/vim-repeat")              -- deixa o vim-surrond usar o '.'
-	-- -- -- use("mg979/vim-visual-multi")
+	use("mg979/vim-visual-multi")
 	use("wellle/targets.vim")            -- adiciona novos textobjects
 	use("AndrewRadev/undoquit.vim")      -- restaurar tabs fechadas
 	use("inkarkat/vim-ReplaceWithRegister") -- ["x]gr{motion}
@@ -90,9 +90,9 @@ return require("packer").startup(function(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("lsp.mason", {
-		"neovim/nvim-lspconfig",          -- LSP
+		"neovim/nvim-lspconfig",       -- LSP
 		"williamboman/mason-lspconfig.nvim", -- integrar mason com lspconfig
-		"jay-babu/mason-null-ls.nvim",    -- deixa mais fácil usar mason + null-ls
+		"jay-babu/mason-null-ls.nvim", -- deixa mais fácil usar mason + null-ls
 	})
 
 	setup("lsp.lsp_signature") -- mostra a function signature enquanto digita
@@ -116,16 +116,17 @@ return require("packer").startup(function(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("cmp", {
-		"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in LSP
-		"hrsh7th/cmp-path", -- nvim-cmp source for filesystem paths.
-		"hrsh7th/cmp-cmdline", -- nvim-cmp source for vim's cmdline.
-		"hrsh7th/cmp-buffer", -- nvim-cmp source for buffer words
-		"hrsh7th/cmp-nvim-lua", -- nvim-cmp source for Neovim Lua API.
+		"hrsh7th/cmp-nvim-lsp",         -- nvim-cmp source for neovim's built-in LSP
+		"hrsh7th/cmp-path",             -- nvim-cmp source for filesystem paths.
+		"hrsh7th/cmp-cmdline",          -- nvim-cmp source for vim's cmdline.
+		"hrsh7th/cmp-buffer",           -- nvim-cmp source for buffer words
+		"hrsh7th/cmp-nvim-lua",         -- nvim-cmp source for Neovim Lua API.
 		"davidsierradz/cmp-conventionalcommits",
-		"David-Kunz/cmp-npm", -- autocomplete npm packages and its versions
-		"saadparwaiz1/cmp_luasnip",
-		"onsails/lspkind.nvim", -- Auto completions gui tipo do vscode
-		"zbirenbaum/copilot.lua", -- Copilot
+		"David-Kunz/cmp-npm",           -- autocomplete npm packages and its versions
+		"saadparwaiz1/cmp_luasnip",     -- completion engine
+		"lukas-reineke/cmp-under-comparator", -- better sort completion items that start with one or more underlines
+		"onsails/lspkind.nvim",         -- Auto completions gui tipo do vscode
+		"zbirenbaum/copilot.lua",       -- Copilot
 		"zbirenbaum/copilot-cmp",
 	})
 

@@ -27,7 +27,7 @@ function M.config()
 		mapping = require("plugins.cmp.mappings"),
 		completion = { completeopt = "menu,menuone,noinsert" },
 		sources = cmp.config.sources({
-			{ name = "path", priority = 20, max_item_count = 4 },
+			{ name = "path",    priority = 20, max_item_count = 4 },
 			{
 				name = "nvim_lsp",
 				priority = 10,
@@ -38,11 +38,8 @@ function M.config()
 				name = "copilot",
 				priority = 9,
 				keyword_length = 0,
-				-- trigger_characters = {
-				-- { ".", ":", "(", "'", '"', "[", ",", "#", "*", "@", "|", "=", "-", "{", "/", "\\", "+", "?", " " }, -- "\t", "\n",
-				-- },
 			},
-			{ name = "luasnip", priority = 7, max_item_count = 5, keyword_length = 2 },
+			{ name = "luasnip", priority = 7,  max_item_count = 5, keyword_length = 2 },
 			{
 				name = "buffer",
 				priority = 7,
@@ -60,14 +57,14 @@ function M.config()
 		sorting = {
 			-- priority_weight = 2,
 			comparators = {
-				require("plugins.cmp.utils.comparators").deprioritize_snippet,
+				cmp.config.compare.offset,
 				require("copilot_cmp.comparators").prioritize,
 				require("copilot_cmp.comparators").score,
+				require("plugins.cmp.utils.comparators").deprioritize_snippet,
 				cmp.config.compare.exact,
-				cmp.config.compare.locality,
 				cmp.config.compare.score,
-				cmp.config.compare.recently_used,
-				cmp.config.compare.offset,
+				cmp.config.compare.locality,
+				require("cmp-under-comparator").under,
 				cmp.config.compare.kind,
 				cmp.config.compare.sort_text,
 				cmp.config.compare.order,
@@ -108,7 +105,6 @@ function M.config()
 			}),
 			documentation = cmp.config.window.bordered({
 				winhighlight = "Normal:TelescopeNormal,FloatBorder:TelescopeBorder",
-
 			}),
 		},
 		experimental = { ghost_text = true },
@@ -124,6 +120,26 @@ function M.config()
 		sources = cmp.config.sources({
 			{ name = "conventionalcommits" },
 		}, { { name = "buffer" } }),
+	})
+
+	-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+	cmp.setup.cmdline({ "/", "?" }, {
+		mapping = cmp.mapping.preset.cmdline(),
+		sources = {
+			{ name = "buffer" },
+		},
+	})
+
+	-- `:` cmdline setup.
+	cmp.setup.cmdline(":", {
+		mapping = cmp.mapping.preset.cmdline(),
+		confirmation = {
+			default_behavior = types.ConfirmBehavior.Replace,
+			select = true,
+		},
+		sources = cmp.config.sources({
+			{ name = "path" },
+		}, { { name = "cmdline" } }),
 	})
 end
 
