@@ -4,13 +4,6 @@ local hls = {}
 -- https://github.com/numToStr/Sakura.nvim/commit/392a5d5a2e6097b816314b38d727e641a5bde7c9
 -- https://github.com/LunarVim/onedarker.nvim/blob/master/lua/onedarker/theme.lua
 
-
-hls.syntax = {
-	-- Special (tem que usar :Inspect em cima da palavra)
-	["@lsp.mod.annotation"] = { fg = c.purple }, -- @[annotation]
-	["@lsp.type.annotation"] = { fg = c.purple }, -- [@]annotation
-}
-
 hls.language = {
 	yamlPlainScalar = { fg = c.orange },
 	yamlTSField = { fg = c.blue },
