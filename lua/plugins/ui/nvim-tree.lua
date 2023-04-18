@@ -3,7 +3,7 @@ local M = {}
 local map = require("utils").map
 
 M.setup = function()
-	map("n", "<A-e>", ":NvimTreeToggle<CR>", { silent = true })
+	map("n", "<A-e>", ":NvimTreeToggle<CR>")
 
 	return {
 		"nvim-tree/nvim-tree.lua",
@@ -23,9 +23,7 @@ M.config = function()
 	end)
 
 	local function open_nvim_tree(data)
-		local IGNORED_FT = {
-			"gitcommit",
-		}
+		local IGNORED_FT = { "gitcommit" }
 
 		-- buffer is a real file on the disk
 		local is_real_file = (vim.fn.filereadable(data.file) == 1)
@@ -71,14 +69,14 @@ M.config = function()
 			if not vim.tbl_isempty(tab_bufs) then -- and was not the last window (not closed automatically by code below)
 				api.tree.close()
 			end
-		else                                            -- else closed buffer was normal buffer
-			if #tab_bufs == 1 then                      -- if there is only 1 buffer left in the tab
+		else -- else closed buffer was normal buffer
+			if #tab_bufs == 1 then -- if there is only 1 buffer left in the tab
 				local last_buf_info = vim.fn.getbufinfo(tab_bufs[1])[1]
 				if last_buf_info.name:match(".*NvimTree_%d*$") then -- and that buffer is nvim tree
 					vim.schedule(function()
 						if #vim.api.nvim_list_wins() == 1 then -- if its the last buffer in vim
 							-- vim.cmd "quit" -- then close all of vim
-						else                            -- else there are more tabs open
+						else -- else there are more tabs open
 							vim.cmd("NvimTreeOpen")
 							vim.api.nvim_win_close(tab_wins[1], true) -- then close only the tab
 						end
@@ -150,18 +148,16 @@ M.config = function()
 				ignore = { "gitcommit" },
 			},
 		},
-		disable_netrw = false,               -- disables netrw completely
-		hijack_netrw = true,                 -- hijack netrw window on startup
-		hijack_cursor = false,               -- hijack the cursor in the tree to put it at the start of the filename
+		disable_netrw = false, -- disables netrw completely
+		hijack_netrw = true, -- hijack netrw window on startup
+		hijack_cursor = false, -- hijack the cursor in the tree to put it at the start of the filename
 		hijack_unnamed_buffer_when_opening = true, -- opens in place of the unnamed buffer if it's empty
-		open_on_tab = false,                 -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
-		update_cwd = true,                   -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
+		open_on_tab = false, -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
+		update_cwd = true, -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
 		--false by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
 		respect_buf_cwd = false,
 		-- show lsp diagnostics in the signcolumn
-		notify = {
-			threshold = vim.log.levels.INFO,
-		},
+		notify = { threshold = vim.log.levels.INFO },
 		diagnostics = {
 			enable = false,
 			show_on_dirs = false,
@@ -172,6 +168,39 @@ M.config = function()
 				error = icons.diagnostics.Error,
 			},
 		},
+		on_attach = function(bufnr)
+			local function opts(desc)
+				return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+			end
+			vim.keymap.set("n", "o", api.node.open.no_window_picker, opts("Open: No Window Picker"))
+			vim.keymap.set("n", "t", swap_then_open_tab, opts("swap_then_open_tab"))
+			vim.keymap.set("n", "ç", expand, opts("expand"))
+			vim.keymap.set("n", "j", api.node.navigate.parent_close, opts("Close Directory"))
+			vim.keymap.set("n", "J", collapse_all, opts("Collapse"))
+			vim.keymap.set("n", "ga", git_add, opts("git_add"))
+			vim.keymap.set("n", "T", open_tab_silent, opts("open_tab_silent"))
+			vim.keymap.set("n", "<C-v>", api.node.open.vertical, opts("Open: Vertical Split"))
+			vim.keymap.set("n", "<C-x>", api.node.open.horizontal, opts("Open: Horizontal Split"))
+			vim.keymap.set("n", "P", api.node.navigate.parent, opts("Parent Directory"))
+			vim.keymap.set("n", "<Tab>", api.node.open.preview, opts("Open Preview"))
+			vim.keymap.set("n", "L", api.node.navigate.sibling.first, opts("First Sibling"))
+			vim.keymap.set("n", "K", api.node.navigate.sibling.last, opts("Last Sibling"))
+			vim.keymap.set("n", "H", api.tree.toggle_hidden_filter, opts("Toggle Dotfiles"))
+			vim.keymap.set("n", "R", api.tree.reload, opts("Refresh"))
+			vim.keymap.set("n", "a", api.fs.create, opts("Create"))
+			vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
+			vim.keymap.set("n", "r", api.fs.rename, opts("Rename"))
+			vim.keymap.set("n", "x", api.fs.cut, opts("Cut"))
+			vim.keymap.set("n", "c", api.fs.copy.node, opts("Copy"))
+			vim.keymap.set("n", "p", api.fs.paste, opts("Paste"))
+			vim.keymap.set("n", "y", api.fs.copy.filename, opts("Copy Name"))
+			vim.keymap.set("n", "Y", api.fs.copy.relative_path, opts("Copy Relative Path"))
+			vim.keymap.set("n", "gy", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
+			vim.keymap.set("n", "[c", api.node.navigate.git.prev, opts("Prev Git"))
+			vim.keymap.set("n", "]c", api.node.navigate.git.next, opts("Next Git"))
+			vim.keymap.set("n", "q", api.tree.close, opts("Close"))
+			vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
+		end,
 		renderer = {
 			add_trailing = false,
 			group_empty = true,
@@ -231,11 +260,7 @@ M.config = function()
 			custom = { "node_modules", "\\.cache" },
 			exclude = {},
 		},
-		git = {
-			enable = true,
-			ignore = true,
-			timeout = 500,
-		},
+		git = { enable = true, ignore = true, timeout = 500 },
 		actions = {
 			use_system_clipboard = true,
 			change_dir = {
@@ -254,42 +279,6 @@ M.config = function()
 			width = 30,
 			-- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
 			side = "left",
-			mappings = {
-				-- custom only false will merge the list with the default mappings
-				-- if true, it will only use your list to set the mappings
-				custom_only = true,
-				-- list of mappings to set on the tree manually
-				list = {
-					{ key = "o",     action = "edit_no_picker" },
-					{ key = "t",     action = "swap_then_open_tab", action_cb = swap_then_open_tab },
-					{ key = "ç",    action = "expand",             action_cb = expand },
-					{ key = "j",     action = "close_node" },
-					{ key = "J",     action = "collapse_all",       action_cb = collapse_all },
-					{ key = "ga",    action = "git_add",            action_cb = git_add },
-					{ key = "T",     action = "open_tab_silent",    action_cb = open_tab_silent },
-					{ key = "<C-v>", action = "vsplit" },
-					{ key = "<C-x>", action = "split" },
-					{ key = "P",     action = "parent_node" },
-					{ key = "<Tab>", action = "preview" },
-					{ key = "L",     action = "first_sibling" },
-					{ key = "K",     action = "last_sibling" },
-					{ key = "H",     action = "toggle_dotfiles" },
-					{ key = "R",     action = "refresh" },
-					{ key = "a",     action = "create" },
-					{ key = "d",     action = "remove" },
-					{ key = "r",     action = "rename" },
-					{ key = "x",     action = "cut" },
-					{ key = "c",     action = "copy" },
-					{ key = "p",     action = "paste" },
-					{ key = "y",     action = "copy_name" },
-					{ key = "Y",     action = "copy_path" },
-					{ key = "gy",    action = "copy_absolute_path" },
-					{ key = "[c",    action = "prev_git_item" },
-					{ key = "]c",    action = "next_git_item" },
-					{ key = "q",     action = "close" },
-					{ key = "?",     action = "toggle_help" },
-				},
-			},
 			number = false,
 			relativenumber = false,
 		},
