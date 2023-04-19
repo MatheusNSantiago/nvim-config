@@ -52,17 +52,7 @@ function M.config()
 		indent = { enable = true, disable = {} },
 		rainbow = {
 			enable = true,
-			extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table
-			-- colors = { "#cc241d", "#a89984", "#b16286", "#d79921", "#689d6a", "#d65d0e", "#458588" },
-			colors = {
-				"#4688f0",
-				"#98c379",
-				"#e06c75",
-				"#e5c07b",
-				"#aa94ff",
-				"#56b6c2",
-				"#c678dd",
-			},
+			extended_mode = false, -- Also highlight non-bracket delimiters like html tags, boolean or table
 		},
 		context_commentstring = { enable = true, enable_autocmd = false },
 		textobjects = {
@@ -105,5 +95,11 @@ function M.config()
 		endwise = { enable = true }, -- Automatically add end to blocks
 	})
 end
+
+M.highlights = {
+	rainbowcol1  = {fg="Yellow"},
+	rainbowcol2  = {fg="#4688f0"},
+	rainbowcol4  = {fg="#98c379"},
+}
 
 return M

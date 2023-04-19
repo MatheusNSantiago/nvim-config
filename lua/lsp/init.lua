@@ -4,11 +4,6 @@ M.servers = {
 	"bashls",
 	"cssls",
 	"yamlls",
-	"eslint",
-	-- "dartls",
-	"eslint",
-	-- "marksman", -- markdown
-	-- "prismals",
 	"dockerls",
 	"lua_ls",
 	"pyright",
