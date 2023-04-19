@@ -16,7 +16,6 @@ function M.config()
 	require("luasnip/loaders/from_vscode").lazy_load() -- load snippets from vscode
 
 	require("plugins.cmp.copilot").setup()
-	require("plugins.cmp.cmdline").setup()
 
 	cmp.setup({
 		snippet = {
