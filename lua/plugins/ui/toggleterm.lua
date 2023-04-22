@@ -3,9 +3,10 @@ local map = require("utils").map
 
 function M.setup()
 	map("n", "<leader>lg", M.toggle_lazygit)
-	map({ "i", "n", "t" }, "<A-f>", '<Cmd>execute v:count . "ToggleTerm direction=float"<CR>')
-	map({ "i", "n", "t" }, "<A-i>", '<Cmd>execute v:count . "ToggleTerm direction=horizontal"<CR>')
+	map({ "i", "n", "t" }, "<A-f>", '<CMD>execute v:count . "ToggleTerm direction=float"<CR>')
+	map({ "i", "n", "t" }, "<A-i>", "<CMD>execute v:count . 'ToggleTerm direction=horizontal'<CR>")
 
+	-- Seta os keymaps que só funcionam no terminal
 	vim.api.nvim_create_autocmd({ "TermOpen" }, {
 		pattern = "term://*",
 		callback = function()
@@ -19,12 +20,13 @@ function M.setup()
 		end,
 	})
 
+	-- Faz com que sempre esteje no insert mode
 	vim.api.nvim_create_autocmd({ "BufEnter" }, {
 		pattern = "*toggleterm#*", -- if you only want these mappings for toggle term use term://*toggleterm#* instead
 		callback = function()
 			vim.defer_fn(function()
 				vim.cmd("startinsert")
-			end, 100)
+			end, 10)
 		end,
 	})
 
@@ -56,20 +58,21 @@ function M.config()
 		persist_size = false,
 		on_open = function(t)
 			if t.direction == "horizontal" then
-				local is_installed, tree_view = pcall(require, "nvim-tree.view")
+				local nvim_tree_ok, api = pcall(require, "nvim-tree.api")
+				local tree = api.tree
 
-				if is_installed then
-					-- check if NvimTree is open
-					if tree_view.is_visible() then
-						vim.cmd("stopinsert")
-						vim.cmd("NvimTreeClose")
-						vim.cmd("NvimTreeOpen")
-						vim.cmd("wincmd l") -- Vai para a direita
-						vim.cmd("wincmd j") -- Vai para baixo
+				if nvim_tree_ok then
+					if tree.is_visible() then
+						tree.close()
+						tree.toggle({ focus = false })
 					end
 				end
 			end
-		end,                -- function to run when the terminal opens
+		end, -- function to run when the terminal opens
+		on_close = function(t)
+			-- local lualine_ok, lualine = pcall(require, "lualine")
+			-- lualine.hide({ unhide = true })
+		end,                -- function to run when the terminal closes
 		direction = "horizontal", --'horizontal', -- 'vertical' | 'horizontal' | 'window' | 'float',
 		close_on_exit = true, -- close the terminal window when the process exits
 		shell = vim.o.shell, -- change the default shell
