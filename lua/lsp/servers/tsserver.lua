@@ -67,10 +67,7 @@ local handlers = {
   ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
   ["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics,
-    {
-      virtual_text = true,
-      -- update_in_insert = true,
-    }
+    { virtual_text = true }
   ),
   ["textDocument/definition"] = function(err, result, method, ...)
     if vim.tbl_islist(result) and #result > 1 then
@@ -82,8 +79,24 @@ local handlers = {
   end,
 }
 
+local on_attach = function(client, bufnr)
+  local utils = require("lsp.utils")
+
+  -- setup navic (breadcrumbs) e outros simbolos
+  utils.setup_document_symbols(client, bufnr)
+
+  -- Setup nav buddy
+  local navbuddy_ok, navbuddy = pcall(require, "nvim-navbuddy")
+
+  if navbuddy_ok then
+    navbuddy.attach(client, bufnr)
+  end
+
+  utils.map("n", "gd", ":TypescriptGoToSourceDefinition<CR>")
+end
 
 M.capabilities = capabilities
--- M.handlers = handlers
+M.on_attach = on_attach
+M.handlers = handlers
 
 return M
