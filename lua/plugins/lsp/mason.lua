@@ -29,6 +29,7 @@ function M.config()
 
 	mason_null_ls.setup({
 		ensure_installed = {
+			"ruff",
 			-- Opt to list sources here, when available in mason.
 		},
 		automatic_setup = true, -- Recommended, but optional
@@ -68,6 +69,8 @@ function M.config()
 			})
 		end,
 	})
+
+	require("lspconfig.ui.windows").default_options.border = "single"
 end
 
 return M
