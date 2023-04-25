@@ -26,10 +26,10 @@ function M.config()
 			min_width = { 20, 0.2 },
 			buf_options = {},
 			win_options = {
-				winblend = 10, -- Window transparency (0-100)
+				winblend = 0, -- Window transparency (0-100)
 				wrap = false, -- Disable line wrapping
 				-- winhighlight = "Normal:Normal,NormalNC:Normal",
-				winhighlight = "Normal:DressingInputNormalFloat,NormalFloat:DressingInputNormalFloat,FloatBorder:DressingInputFloatBorder",
+				winhighlight = "Normal:TelescopeNormal,FloatBorder:TelescopeBorder",
 			},
 			-- Set to `false` to disable
 			mappings = {
@@ -82,16 +82,12 @@ function M.config()
 				position = "50%",
 				size = nil,
 				relative = "editor",
-				border = {
-					style = "rounded",
-				},
+				border = { style = "rounded" },
 				buf_options = {
 					swapfile = false,
 					filetype = "DressingSelect",
 				},
-				win_options = {
-					winblend = 10,
-				},
+				win_options = { winblend = 10 },
 				max_width = 80,
 				max_height = 40,
 				min_width = 40,
