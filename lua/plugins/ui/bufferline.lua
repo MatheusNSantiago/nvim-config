@@ -29,13 +29,13 @@ function M.config()
 			left_trunc_marker = "",
 			right_trunc_marker = "",
 			--- name_formatter can be used to change the buffer's label in the bufferline.
-			name_formatter = function(buf) -- buf contains:
-				-- name                | str        | the basename of the active file
-				-- path                | str        | the full path of the active file
-				-- bufnr (buffer only) | int        | the number of the active buffer
-				-- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
-				-- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
-			end,
+			-- name_formatter = function(buf) -- buf contains:
+			-- 	-- name                | str        | the basename of the active file
+			-- 	-- path                | str        | the full path of the active file
+			-- 	-- bufnr (buffer only) | int        | the number of the active buffer
+			-- 	-- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
+			-- 	-- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
+			-- end,
 			max_name_length = 18,
 			max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
 			truncate_names = false, -- whether or not tab names should be truncated
@@ -52,13 +52,19 @@ function M.config()
 					filetype = "NvimTree",
 					text = "File Explorer", -- "File Explorer" | function ,
 					text_align = "center", -- "left" | "center" | "right"
-					separator = false,
+					separator = true,
+				},
+				{
+					filetype = "flutterToolsOutline",
+					text = "Flutter Outline",
+					text_align = "center",
+					separator = true,
 				},
 			},
 			color_icons = true, -- whether or not to add the filetype icon highlights (true | false)
 			show_buffer_icons = true, -- true | false, -- disable filetype icons for buffers
 			show_buffer_close_icons = false, -- Mostrar Botão de fechar (true | false)
-			show_buffer_default_icon = true, -- true | false -- whether or not an unrecognised filetype should show a default icon
+			-- show_buffer_default_icon = true, -- true | false -- whether or not an unrecognised filetype should show a default icon
 			show_close_icon = false, --  true | false
 			show_tab_indicators = false, -- true | false
 			show_duplicate_prefix = false, -- true | false -- whether to show duplicate buffer prefix
@@ -69,7 +75,7 @@ function M.config()
 			separator_style = { "|", "|" }, -- "slant" | "slope" | "thick" | "thin" | { "any", "any" },
 			enforce_regular_tabs = false, -- false | true,
 			always_show_bufferline = true, -- true | false,
-			hover = { enabled = false, delay = 200, reveal = { "close" } },
+			hover = { enabled = true, delay = 200, reveal = { "close" } },
 			sort_by = "tabs", -- 'insert_after_current' |'insert_at_end' | 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)
 		},
 		highlights = {
