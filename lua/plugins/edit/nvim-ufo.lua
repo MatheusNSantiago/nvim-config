@@ -3,8 +3,8 @@ local map = require("utils").map
 
 function M.setup()
 	-- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
-	map("n", "zR", "lua require('ufo').openAllFolds")
-	map("n", "zM", "lua require('ufo').closeAllFolds")
+	map("n", "zR", "lua require('ufo').openAllFolds", { desc = "Open all folds" })
+	map("n", "zM", "lua require('ufo').closeAllFolds", { desc = "Close all folds" })
 
 	return {
 		"kevinhwang91/nvim-ufo",
