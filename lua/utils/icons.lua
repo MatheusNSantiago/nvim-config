@@ -233,13 +233,13 @@ M.lsp = {
 
 M.git = {
 	Git = "",
-	Add = "",
+	Add = '', -- '',
 	Branch = "", -- "",
 	Diff = "",
 	Ignore = "◌",
 	Mod = "",
 	Octoface = "",
-	Remove = "",
+	Remove = '', -- '',
 	Rename = "➜",
 	Repo = "",
 	Staged = "✓", -- "S",
