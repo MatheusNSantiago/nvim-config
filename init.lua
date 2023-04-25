@@ -1,4 +1,5 @@
 require("options")
+require("utils")
 require("autocommands")
 require("lsp").setup()
 require("plugins")
