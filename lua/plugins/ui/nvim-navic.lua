@@ -99,9 +99,6 @@ M.get_filename = function()
 		--   file_icon = icons.ui.DebugConsole
 		-- end
 
-		local navic_text = vim.api.nvim_get_hl_by_name("Normal", true)
-		vim.api.nvim_set_hl(0, "Winbar", { fg = navic_text.foreground })
-
 		return " " .. "%#" .. hl_group .. "#" .. file_icon .. "%*" .. " " .. "%#Winbar#" .. filename .. "%*"
 	end
 end
@@ -168,23 +165,9 @@ M.get_winbar = function()
 
 	local value = M.get_filename()
 
-	local gps_added = false
 	if not f.isempty(value) then
 		local gps_value = get_gps()
 		value = value .. " " .. gps_value
-		if not f.isempty(gps_value) then
-			gps_added = true
-		end
-	end
-
-	if not f.isempty(value) and f.get_buf_option("mod") then
-		-- TODO: replace with circle
-		local mod = "%#LspCodeLens#" .. icons.ui.Circle .. "%*"
-		if gps_added then
-			value = value .. " " .. mod
-		else
-			value = value .. mod
-		end
 	end
 
 	local num_tabs = #vim.api.nvim_list_tabpages()
