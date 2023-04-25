@@ -22,7 +22,7 @@ function M.setup()
 	map("n", "gd", ":Lspsaga goto_definition<CR>")
 	map("n", "gD", ":tab split | Lspsaga goto_definition<CR>") -- Abre a definição em um novo buffer
 	map({ "n", "v" }, "<leader>ca", ":Lspsaga code_action<CR>") -- Code action
-	map("n", "gl", ":Lspsaga show_line_diagnostics<CR>") -- Show line diagnostics
+	map("n", "gl", ":Lspsaga show_line_diagnostics<CR>")     -- Show line diagnostics
 
 	return {
 		"glepnir/lspsaga.nvim",
@@ -36,6 +36,11 @@ end
 
 function M.config()
 	require("lspsaga").setup({
+		scroll_preview = {
+			scroll_down = "<C-d>",
+			scroll_up = "<C-u>",
+		},
+		request_timeout = 2000,
 		ui = {
 			title = true,
 			-- Border type can be single, double, rounded, solid, shadow.
