@@ -1,11 +1,14 @@
 local M = {}
 
 function M.setup()
-
 	local is_installed, notify = pcall(require, "notify")
 	if is_installed then
+		utils.map("n", "<leader>nd", function()
+			notify.dismiss({ silent = true, pending = true })
+		end, { desc = "Dismiss notification" })
+
 		vim.cmd([[command! Notify lua require("telescope").extensions.notify.notify() ]])
-		-- vim.notify = notify
+		vim.notify = notify
 	end
 
 	return {
