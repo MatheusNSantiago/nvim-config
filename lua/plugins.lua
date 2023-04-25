@@ -50,7 +50,7 @@ return require("packer").startup(function(use)
 	setup("ui.nvim-colorizer")   -- #FFF ficar com o background branco
 
 	use("tpope/vim-sleuth")      -- Detect tabstop and shiftwidth automatically
-	use("sitiom/nvim-numbertoggle") -- relative/absolute line numbers
+	use("sitiom/nvim-numbertoggle") -- automatic relative/absolute line numbers
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                        Navigation                        │
@@ -80,7 +80,7 @@ return require("packer").startup(function(use)
 	})
 	setup("edit.template-string") -- muda pra template-string automaticamente
 	setup("edit.vim-visual-multi") -- multicursor
-	setup("edit.dial")             -- increment/decrement on steroids
+	setup("edit.dial")           -- increment/decrement on steroids
 
 	use("tpope/vim-surround")    -- cs"'
 	use("tpope/vim-repeat")      -- deixa o vim-surrond usar o '.'
@@ -110,7 +110,7 @@ return require("packer").startup(function(use)
 	--  │                         Snippets                         │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	use("L3MON4D3/LuaSnip")
+	use({ "L3MON4D3/LuaSnip", run = "make install_jsregexp" })
 	use("rafamadriz/friendly-snippets")
 
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -118,17 +118,17 @@ return require("packer").startup(function(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("cmp", {
-		"hrsh7th/cmp-nvim-lsp",         -- nvim-cmp source for neovim's built-in LSP
-		"hrsh7th/cmp-path",             -- nvim-cmp source for filesystem paths.
-		"hrsh7th/cmp-cmdline",          -- nvim-cmp source for vim's cmdline.
-		"hrsh7th/cmp-buffer",           -- nvim-cmp source for buffer words
-		"hrsh7th/cmp-nvim-lua",         -- nvim-cmp source for Neovim Lua API.
-		"davidsierradz/cmp-conventionalcommits",
-		"David-Kunz/cmp-npm",           -- autocomplete npm packages and its versions
-		"saadparwaiz1/cmp_luasnip",     -- completion engine
+		"hrsh7th/cmp-nvim-lsp",            -- nvim-cmp source for neovim's built-in LSP
+		"hrsh7th/cmp-path",                -- nvim-cmp source for filesystem paths.
+		"hrsh7th/cmp-cmdline",             -- nvim-cmp source for vim's cmdline.
+		"hrsh7th/cmp-buffer",              -- nvim-cmp source for buffer words
+		"hrsh7th/cmp-nvim-lua",            -- nvim-cmp source for Neovim Lua API.
+		"davidsierradz/cmp-conventionalcommits", -- autocomplete conventional commits
+		-- "David-Kunz/cmp-npm",           -- autocomplete npm packages and its versions
+		"saadparwaiz1/cmp_luasnip",        -- completion engine
 		"lukas-reineke/cmp-under-comparator", -- better sort completion items that start with one or more underlines
-		"onsails/lspkind.nvim",         -- Auto completions gui tipo do vscode
-		"zbirenbaum/copilot.lua",       -- Copilot
+		"onsails/lspkind.nvim",            -- Auto completions gui tipo do vscode
+		"zbirenbaum/copilot.lua",          -- Copilot
 		"zbirenbaum/copilot-cmp",
 	})
 
@@ -147,10 +147,13 @@ return require("packer").startup(function(use)
 	})
 
 	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                        Languages                         │
+	--  │                    Language Specific                     │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	setup("language.flutter-tools")
+	setup("language.flutter-tools", {
+		"Nash0x7E2/awesome-flutter-snippets", -- snippets
+	})
+
 	use("jose-elias-alvarez/typescript.nvim") -- + funcionalidades pro ts_server (e.g. rename file & update imports)
 
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -159,6 +162,12 @@ return require("packer").startup(function(use)
 
 	setup("git.vim-fugitive") -- base git plugin
 	setup("git.gitsigns")  -- gutter signs
+
+	--  ╭──────────────────────────────────────────────────────────╮
+	--  │                          Outros                          │
+	--  ╰──────────────────────────────────────────────────────────╯
+
+	setup("others.chatGPT")
 
 	-- |───────────────────────────────────────────────────────────|
 	if is_boostrap then -- Bootstrap Neovim
