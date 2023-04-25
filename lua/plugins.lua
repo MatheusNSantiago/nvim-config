@@ -58,11 +58,13 @@ return require("packer").startup(function(use)
 
 	setup("navigation.telescope", {
 		{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+		"nvim-telescope/telescope-media-files.nvim",
 	})
 	setup("navigation.hop")        -- tipo o easymotion
 	setup("navigation.tabout")     -- tabout
 	setup("navigation.marks")      -- marks
 	setup("navigation.nvim-navbuddy") -- outline
+	use("andymass/vim-tradewinds") -- move janelas mais facilmente
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
@@ -76,14 +78,14 @@ return require("packer").startup(function(use)
 	setup("edit.nvim-ufo", { -- folding
 		"kevinhwang91/promise-async",
 	})
-	setup("edit.template-string")        -- muda pra template-string automaticamente
+	setup("edit.template-string") -- muda pra template-string automaticamente
+	setup("edit.vim-visual-multi") -- multicursor
+	setup("edit.dial")             -- increment/decrement on steroids
 
-	use("tpope/vim-surround")            -- cs"'
-	use("tpope/vim-repeat")              -- deixa o vim-surrond usar o '.'
-	use("mg979/vim-visual-multi")
-	use("wellle/targets.vim")            -- adiciona novos textobjects
-	use("AndrewRadev/undoquit.vim")      -- restaurar tabs fechadas
-	use("inkarkat/vim-ReplaceWithRegister") -- ["x]gr{motion}
+	use("tpope/vim-surround")    -- cs"'
+	use("tpope/vim-repeat")      -- deixa o vim-surrond usar o '.'
+	use("wellle/targets.vim")    -- adiciona novos textobjects
+	use("AndrewRadev/undoquit.vim") -- restaurar tabs fechadas
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                           LSP                            │
