@@ -70,4 +70,24 @@ function M.get_buf_option(opt)
 	end
 end
 
+--- Convert a list or map of items into a value by iterating all it's fields and transforming
+--- them with a callback
+---@generic T, S
+---@param callback fun(acc: S, item: T, key: string | number): S
+---@param list T[]
+---@param accum S?
+---@return S
+function M.fold(callback, list, accum)
+	accum = accum or {}
+	for k, v in pairs(list) do
+		accum = callback(accum, v, k)
+		assert(accum ~= nil, "The accumulator must be returned on each iteration")
+	end
+	return accum
+end
+
+
+_G.utils = M
+_G.utils.api = require("utils.api-wrappers")
+
 return M
