@@ -2,8 +2,8 @@ local M = {}
 local map = require("utils").map
 
 function M.setup()
-
 	map("n", "<leader>sf", ":Telescope find_files<CR>", { desc = "[S]earch [F]iles" })
+	map("n", "<leader>smf", ":Telescope media_files<CR>", { desc = "[S]earch [M]edia [F]iles" })
 	map("n", "<leader>sg", ":Telescope live_grep<CR>", { desc = "[S]earch by [G]rep" })
 	map("n", "<leader>s/", ":Telescope current_buffer_fuzzy_find<CR>", { desc = "Search in file" })
 	map("n", "<leader>sk", ":Telescope keymaps<CR>", { desc = "[S]earch [K]eymaps" })
@@ -118,6 +118,7 @@ function M.config()
 	})
 
 	telescope.load_extension("fzf")
+	telescope.load_extension("media_files")
 end
 
 return M
