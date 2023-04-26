@@ -28,19 +28,31 @@ function M.config()
             },
         },
         widget_guides = { enabled = true },
-        -- dev_log = { enabled = false, open_cmd = "tabedit" },
+        dev_log = { enabled = true, open_cmd = "tabedit" },
         lsp = {
             -- color = {
             -- 	enabled = true,
             -- 	background = true,
             -- 	virtual_text = false,
             -- },
-            -- settings = {
-            -- 	showTodos = true,
-            -- 	renameFilesWithClasses = "prompt",
-            -- },
-            -- on_attach = require("plugins.lsp").on_attach,
-            -- capabilities = require("plugins.lsp").capabilities,
+            settings = {
+                showTodos = true,
+                renameFilesWithClasses = "prompt",
+            },
+            on_attach = function(client, bufnr)
+                require("lsp").common_on_attach(client, bufnr)
+
+                utils.map("n", "<leader>r", ":FlutterReload<CR>", { desc = "Flutter: reload" })
+                utils.map("n", "<leader><leader>r", ":FlutterRestart<CR>", { desc = "Flutter: restart" })
+                utils.map("n", "<leader><leader>o", ":Flutter<CR>", { desc = "Flutter: open pallete" })
+                utils.map(
+                    "n",
+                    "<leader>br",
+                    ":TermExec cmd='flutter pub run build_runner watch'<CR>",
+                    { desc = "flutter: run code generation" }
+                )
+            end,
+            capabilities = require("lsp").common_capabilities(),
         },
     })
 end
