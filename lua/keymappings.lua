@@ -60,12 +60,12 @@ keymap('c', '<C-l>', '<Left>')
 keymap({ 'n', 'v' }, '<leader>q', ':q<CR>') -- [Q]uit
 keymap({ 'n', 'v' }, '<leader>w', ':wa<CR>') -- [W]rite
 
--- Mover a linha verticalmente
-keymap('n', '<M-k>', ':m +1<CR>==')
-keymap('n', '<M-l>', ':m -2<CR>==')
-
-keymap('v', '<M-l>', ":m '<-2<CR>gv=gv")
-keymap('v', '<M-k>', ":m '>+1<CR>gv=gv")
+-- -- Mover a linha verticalmente
+-- keymap('n', '<M-k>', ':m +1<CR>==')
+-- keymap('n', '<M-l>', ':m -2<CR>==')
+--
+-- keymap('v', '<M-l>', ":m '<-2<CR>gv=gv")
+-- keymap('v', '<M-k>', ":m '>+1<CR>gv=gv")
 
 -- Copiar a linha horizontalmente
 keymap({ 'n', 'i', 'v' }, '<S-M-l>', ':t-1<CR>')
