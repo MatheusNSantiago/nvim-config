@@ -87,6 +87,7 @@ return require('packer').startup(function(use)
 	setup('edit.neogen') -- documentation generation
 	setup('edit.undotree') -- undo tree
 	setup('edit.ssr') -- search and replace
+	setup('edit.vim-textobj-comment') -- comment text objects
 
 	use('tpope/vim-surround') -- cs"'
 	use('tpope/vim-repeat') -- deixa o vim-surrond usar o '.'
