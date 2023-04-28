@@ -62,6 +62,7 @@ return require('packer').startup(function(use)
 		'nvim-telescope/telescope-live-grep-args.nvim',         -- grep com args w
 	})
 	setup('navigation.hop')                                     -- tipo o easymotion
+	setup('navigation.nvim-treehopper')                         -- Syntax trees + hop
 	setup('navigation.tabout')                                  -- tabout
 	setup('navigation.marks')                                   -- marks
 	setup('navigation.nvim-navbuddy')                           -- outline
@@ -175,7 +176,7 @@ return require('packer').startup(function(use)
 	--  │                          Outros                          │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	setup('others.chatGPT')
+	-- setup('others.chatGPT')
 
 	-- |───────────────────────────────────────────────────────────|
 	if is_boostrap then -- Bootstrap Neovim
