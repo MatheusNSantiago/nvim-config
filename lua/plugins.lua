@@ -81,6 +81,7 @@ return require('packer').startup(function(use)
 	})
 	setup('edit.template-string') -- muda pra template-string automaticamente
 	setup('edit.vim-visual-multi') -- multicursor
+	setup('edit.neogen')         -- documentation generation
 
 	use('tpope/vim-surround')    -- cs"'
 	use('tpope/vim-repeat')      -- deixa o vim-surrond usar o '.'
