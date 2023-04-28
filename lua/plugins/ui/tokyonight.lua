@@ -25,13 +25,7 @@ function M.config()
 			sidebars = "transparent", -- style for sidebars, see below
 			floats = "transparent", -- style for floating windows
 		},
-		-- on_highlights = function(highlights, colors) end,
 		on_highlights = function(hl, _)
-			local highlights = require("colorscheme").get_all_highlights()
-
-			for group, highlight in pairs(highlights) do
-				hl[group] = highlight
-			end
 		end,
 	})
 	vim.cmd([[colorscheme tokyonight]])
