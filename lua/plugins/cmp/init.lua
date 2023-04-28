@@ -1,5 +1,4 @@
 local M = {}
-
 function M.setup()
 	return {
 		"hrsh7th/nvim-cmp",
@@ -13,7 +12,6 @@ function M.config()
 
 	local lspkind = require("lspkind")
 	local luasnip = require("luasnip")
-	require("luasnip/loaders/from_vscode").lazy_load() -- load snippets from vscode
 
 	require("plugins.cmp.copilot").setup()
 
@@ -26,45 +24,58 @@ function M.config()
 		mapping = require("plugins.cmp.mappings"),
 		completion = { completeopt = "menu,menuone,noinsert" },
 		sources = cmp.config.sources({
-			{ name = "path",    priority = 20, max_item_count = 4 },
+			{
+				name = "luasnip",
+				priority = 7,
+				max_item_count = 5,
+				keyword_length = 2,
+				group_index = 1,
+			},
 			{
 				name = "nvim_lsp",
-				priority = 10,
+				-- priority = 10,
 				-- max_item_count = 10,
-				entry_filter = require("plugins.cmp.utils.limit_completions"),
+				-- entry_filter = require("plugins.cmp.utils.limit_completions"),
+				group_index = 1,
+			},
+			{
+				name = "path",
+				-- priority = 20,
+				max_item_count = 4,
+				group_index = 1,
 			},
 			{
 				name = "copilot",
-				priority = 9,
+				-- priority = 9,
 				keyword_length = 0,
+				group_index = 1,
 			},
-			{ name = "luasnip", priority = 7,  max_item_count = 5, keyword_length = 2 },
 			{
 				name = "buffer",
-				priority = 7,
+				-- priority = 7,
 				keyword_length = 4,
 				max_item_count = 5,
+				group_index = 2,
 			},
 		}),
 		duplicates = {
 			buffer = 1,
 			path = 1,
 			nvim_lsp = 0,
-			luasnip = 1,
+			luasnip = 0,
 		},
-		duplicates_default = 0,
 		sorting = {
 			-- priority_weight = 2,
 			comparators = {
-				cmp.config.compare.offset,
+				cmp.config.compare.kind,
+				cmp.config.compare.exact,
+				require("plugins.cmp.utils.comparators").deprioritize_snippet,
 				require("copilot_cmp.comparators").prioritize,
 				require("copilot_cmp.comparators").score,
-				require("plugins.cmp.utils.comparators").deprioritize_snippet,
-				cmp.config.compare.exact,
+				cmp.config.compare.offset,
 				cmp.config.compare.score,
 				cmp.config.compare.locality,
 				require("cmp-under-comparator").under,
-				cmp.config.compare.kind,
 				cmp.config.compare.sort_text,
 				cmp.config.compare.order,
 			},
@@ -75,25 +86,28 @@ function M.config()
 				mode = "symbol",
 				max_width = 50,
 				symbol_map = require("utils.icons").lspkind,
-				format = {
-					menu = function(entry, vim_item)
-						if vim.tbl_contains({ "path" }, entry.source.name) then
-							local icon, hl_group =
-								require("nvim-web-devicons").get_icon(entry:get_completion_item().label)
-							if icon then
-								vim_item.kind = icon
-								vim_item.kind_hl_group = hl_group
-								return vim_item
-							end
+				menu = function(entry, vim_item)
+					if vim.tbl_contains({ "path" }, entry.source.name) then
+						local icon, hl_group = require("nvim-web-devicons").get_icon(entry:get_completion_item().label)
+						if icon then
+							vim_item.kind = icon
+							vim_item.kind_hl_group = hl_group
+							return vim_item
 						end
-						return vim_item
-					end,
-				},
+					end
+					return vim_item
+				end,
+				before = function(entry, vim_item)
+					vim_item.menu = "(" .. vim_item.kind .. ")"
+					vim_item.dup = ({ nvim_lsp = 0, path = 0 })[entry.source.name] or 0
+					vim_item = require("plugins.cmp.utils.custom_formats").format_tailwind(entry, vim_item) -- for tailwind css autocomplete
+					return vim_item
+				end,
 			}),
 		},
 		confirm_opts = {
 			behavior = types.ConfirmBehavior.Replace,
-			select = false,
+			select = false, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 		},
 		window = {
 			completion = cmp.config.window.bordered({
@@ -109,8 +123,7 @@ function M.config()
 		experimental = { ghost_text = true },
 		preselect = cmp.PreselectMode.Item,
 		view = {
-			-- entries = "custom" -- can be "custom", "wildmenu" or "native"
-			entries = "custom",
+			entries = "custom", -- can be "custom", "wildmenu" or "native"
 		},
 	})
 
@@ -121,25 +134,7 @@ function M.config()
 		}, { { name = "buffer" } }),
 	})
 
-	-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-	cmp.setup.cmdline({ "/", "?" }, {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = {
-			{ name = "buffer" },
-		},
-	})
 
-	-- `:` cmdline setup.
-	cmp.setup.cmdline(":", {
-		mapping = cmp.mapping.preset.cmdline(),
-		confirmation = {
-			default_behavior = types.ConfirmBehavior.Replace,
-			select = true,
-		},
-		sources = cmp.config.sources({
-			{ name = "path" },
-		}, { { name = "cmdline" } }),
-	})
 end
 
 local c = require("utils.colors")
