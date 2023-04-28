@@ -14,7 +14,7 @@ pcall(require, 'impatient') -- performance
 return require('packer').startup(function(use)
 	local function setup(file, requires)
 		local cfg = require('plugins.' .. file).setup()
-		cfg.requires = requires
+		if requires ~= nil then cfg.requires = requires end
 		local success, _ = pcall(use, cfg)
 		if not success then vim.notify('Error loading plugin: ' .. file, vim.log.levels.WARN) end
 	end
@@ -67,6 +67,7 @@ return require('packer').startup(function(use)
 	setup('navigation.marks') -- marks
 	setup('navigation.nvim-navbuddy') -- outline
 	setup('navigation.readline') -- Readline motions and deletions (igual do terminal)
+	setup('navigation.mini-move') -- Move lines and selections
 
 	use('itchyny/vim-highlighturl') -- highlight URLs
 
