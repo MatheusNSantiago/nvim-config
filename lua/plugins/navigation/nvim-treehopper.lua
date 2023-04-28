@@ -4,8 +4,8 @@ local keymap = utils.api.keymap
 function M.setup()
 	local is_installed, tsht = pcall(require, 'tsht')
 	if is_installed then
-		keymap('o', 'u', tsht.nodes, { desc = 'treehopper: toggle' })
-		keymap('x', 'u', ":lua require('tsht').nodes()<CR>", { desc = 'treehopper: toggle' })
+		keymap('o', 'm', tsht.nodes, { desc = 'treehopper: toggle' })
+		keymap('x', 'm', ":lua require('tsht').nodes()<CR>", { desc = 'treehopper: toggle' })
 	end
 
 	return {
