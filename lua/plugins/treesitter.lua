@@ -13,6 +13,12 @@ function M.config()
 
 	ts.setup({
 		ensure_installed = {
+			"vim",
+			"vimdoc",
+			"markdown",
+			"markdown_inline",
+			"bash",
+			"regex",
 			"javascript",
 			"typescript",
 			"prisma",
@@ -25,15 +31,12 @@ function M.config()
 			"lua",
 			"css",
 			"scss",
-			"markdown",
-			"markdown_inline",
 			"toml",
 			"fish",
 			"jsdoc",
-			"regex",
 			"yaml",
-			"bash",
 		},
+		auto_install = true,
 		autotag = { enable = true },
 		refactor = {
 			highlight_definitions = { enable = true },
@@ -96,10 +99,10 @@ function M.config()
 	})
 end
 
-M.highlights = {
-	rainbowcol1  = {fg="Yellow"},
-	rainbowcol2  = {fg="#4688f0"},
-	rainbowcol4  = {fg="#98c379"},
-}
+-- M.highlights = {
+-- 	rainbowcol1 = { fg = "Yellow" },
+-- 	rainbowcol2 = { fg = "#4688f0" },
+-- 	rainbowcol4 = { fg = "#98c379" },
+-- }
 
 return M
