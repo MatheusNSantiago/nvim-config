@@ -14,6 +14,7 @@ function M.config()
 	local luasnip = require("luasnip")
 
 	require("plugins.cmp.copilot").setup()
+	require("plugins.cmp.cmdline").setup()
 
 	cmp.setup({
 		snippet = {
