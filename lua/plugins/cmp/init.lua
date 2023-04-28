@@ -13,9 +13,6 @@ function M.config()
 	local lspkind = require("lspkind")
 	local luasnip = require("luasnip")
 
-	require("plugins.cmp.copilot").setup()
-	require("plugins.cmp.cmdline").setup()
-
 	cmp.setup({
 		snippet = {
 			expand = function(args)
@@ -23,7 +20,7 @@ function M.config()
 			end,
 		},
 		mapping = require("plugins.cmp.mappings"),
-		completion = { completeopt = "menu,menuone,noinsert" },
+		-- completion = { completeopt = "menu,menuone,noinsert" },
 		sources = cmp.config.sources({
 			{
 				name = "luasnip",
@@ -87,7 +84,13 @@ function M.config()
 				mode = "symbol",
 				max_width = 50,
 				symbol_map = require("utils.icons").lspkind,
-				menu = function(entry, vim_item)
+				before = function(entry, vim_item)
+					vim_item.dup = ({ nvim_lsp = 0, path = 0 })[entry.source.name] or 0
+
+					if vim_item.kind == "Color" and entry.completion_item.documentation then
+						vim_item = require("plugins.cmp.utils.custom_formats").format_tailwind(entry, vim_item) -- for tailwind css autocomplete
+					end
+
 					if vim.tbl_contains({ "path" }, entry.source.name) then
 						local icon, hl_group = require("nvim-web-devicons").get_icon(entry:get_completion_item().label)
 						if icon then
@@ -96,12 +99,6 @@ function M.config()
 							return vim_item
 						end
 					end
-					return vim_item
-				end,
-				before = function(entry, vim_item)
-					vim_item.menu = "(" .. vim_item.kind .. ")"
-					vim_item.dup = ({ nvim_lsp = 0, path = 0 })[entry.source.name] or 0
-					vim_item = require("plugins.cmp.utils.custom_formats").format_tailwind(entry, vim_item) -- for tailwind css autocomplete
 					return vim_item
 				end,
 			}),
@@ -135,7 +132,8 @@ function M.config()
 		}, { { name = "buffer" } }),
 	})
 
-
+	require("plugins.cmp.copilot").setup()
+	require("plugins.cmp.cmdline").setup()
 end
 
 local c = require("utils.colors")

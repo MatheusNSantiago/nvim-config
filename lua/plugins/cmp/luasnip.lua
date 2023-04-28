@@ -4,6 +4,7 @@ function M.setup()
     return {
         "L3MON4D3/LuaSnip",
         config = M.config,
+        run = "make install_jsregexp",
         requires = {
             "rafamadriz/friendly-snippets", -- Set of preconfigured snippets for different languages.
         },
