@@ -60,14 +60,14 @@ return require("packer").startup(function(use)
 
 	setup("navigation.telescope", {
 		{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }, -- melhora a performance
-		"nvim-telescope/telescope-media-files.nvim", -- mostra arquivos de mídia
-		"nvim-telescope/telescope-live-grep-args.nvim", -- grep com args w
+		"nvim-telescope/telescope-media-files.nvim",            -- mostra arquivos de mídia
+		"nvim-telescope/telescope-live-grep-args.nvim",         -- grep com args w
 	})
-	setup("navigation.hop")        -- tipo o easymotion
-	setup("navigation.tabout")     -- tabout
-	setup("navigation.marks")      -- marks
-	setup("navigation.nvim-navbuddy") -- outline
-	use("andymass/vim-tradewinds") -- move janelas mais facilmente
+	setup("navigation.hop")                                     -- tipo o easymotion
+	setup("navigation.tabout")                                  -- tabout
+	setup("navigation.marks")                                   -- marks
+	setup("navigation.nvim-navbuddy")                           -- outline
+	use("andymass/vim-tradewinds")                              -- move janelas mais facilmente
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
@@ -105,6 +105,7 @@ return require("packer").startup(function(use)
 	setup("lsp.lspsaga")     -- LSP UIs
 	setup("lsp.illuminate")  -- higlight a palavra em cima do cursor
 	setup("lsp.lsp-colors")  -- agrupa os erros do LSP por cor
+	setup("lsp.fidget")      -- Standalone UI for nvim-lsp progress
 
 	use("b0o/schemastore.nvim") -- schemas para json
 	use("folke/neodev.nvim") -- docs for nvim Lua API
