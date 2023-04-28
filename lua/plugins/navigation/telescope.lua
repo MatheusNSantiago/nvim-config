@@ -2,19 +2,27 @@ local M = {}
 local map = require("utils").map
 
 function M.setup()
-	map("n", "<leader>sf", ":Telescope find_files<CR>", { desc = "[S]earch [F]iles" })
-	map("n", "<leader>smf", ":Telescope media_files<CR>", { desc = "[S]earch [M]edia [F]iles" })
-	map("n", "<leader>sg", ":Telescope live_grep<CR>", { desc = "[S]earch by [G]rep" })
-	map("n", "<leader>s/", ":Telescope current_buffer_fuzzy_find<CR>", { desc = "Search in file" })
-	map("n", "<leader>sk", ":Telescope keymaps<CR>", { desc = "[S]earch [K]eymaps" })
-	map("n", "<leader>sof", ":Telescope oldfiles<CR>", { desc = "[S]earch [O]ld [F]iles" })
-	map("n", "<leader>sh", ":Telescope help_tags<CR>", { desc = "[S]earch [H]elp" })
-	map("n", "<leader>sw", ":Telescope grep_string<CR>", { desc = "[S]earch [W]ord" })
-	map("n", "<leader>sd", ":Telescope diagnostics<CR>", { desc = "[S]earch [D]iagnostics" })
+	local is_installed, telescope = pcall(require, "telescope")
+
+	if is_installed then
+		local b = telescope.builtin
+		local e = telescope.extensions
+		map("n", "<leader>sf", b.find_files, { desc = "[S]earch [F]iles" })
+		map("n", "<leader>smf", e.media_files.media_files, { desc = "[S]earch [M]edia [F]iles" })
+		map("n", "<leader>sg", e.live_grep_args.live_grep_args, { desc = "[S]earch by [G]rep" })
+		map("n", "<leader>s/", b.current_buffer_fuzzy_find, { desc = "Search in file" })
+		map("n", "<leader>sk", b.keymaps, { desc = "[S]earch [K]eymaps" })
+		map("n", "<leader>sof", b.oldfiles, { desc = "[S]earch [O]ld [F]iles" })
+		map("n", "<leader>sh", b.help_tags, { desc = "[S]earch [H]elp" })
+		map("n", "<leader>sw", ":Telescope grep_string<CR>", { desc = "[S]earch [W]ord" })
+		-- LSP
+		map("n", "<leader>sd", b.diagnostics, { desc = "[S]earch [D]iagnostics" })
+		map("n", "<leader>sr", b.lsp_references, { desc = "[S]earch [R]eferences" })
+		map("n", "<leader>si", b.lsp_implementations, { desc = "[S]earch [I]mplementations" })
+	end
 
 	return {
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.1",
 		event = { "VimEnter" },
 		config = M.config,
 	}
@@ -71,40 +79,16 @@ function M.config()
 				},
 			},
 		},
-		pickers = {
-			-- Default configuration for builtin pickers goes here:
-			-- picker_name = {
-			--   picker_config_key = value,
-			--   ...
-			-- }
-			-- Now the picker_config_key will be applied every time you call this
-			-- builtin picker
-		},
 		extensions = {
-			-- Your extension configuration goes here:
-			-- extension_name = {
-			--   extension_config_key = value,
-			-- }
-			-- please take a look at the readme of the extension you want to configure
 			fzf = {
-				override_generic_sorter = false,
-				override_file_sorter = true,
-				case_mode = "smart_case",
+				fuzzy = true,       -- false will only do exact matching
+				override_generic_sorter = true, -- override the generic sorter
+				override_file_sorter = true, -- override the file sorter
+				case_mode = "smart_case", -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
 			},
 		},
-		-- vimgrep_arguments = {
-		-- 	"rg",
-		-- 	"--color=never",
-		-- 	"--no-heading",
-		-- 	"--with-filename",
-		-- 	"--line-number",
-		-- 	"--column",
-		-- 	"--smart-case",
-		-- },
 		layout_config = {
-			horizontal = {
-				preview_cutoff = 120,
-			},
+			horizontal = { preview_cutoff = 120 },
 			prompt_position = "top",
 		},
 		file_sorter = require("telescope.sorters").get_fzy_sorter,

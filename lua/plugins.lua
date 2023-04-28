@@ -21,6 +21,8 @@ return require("packer").startup(function(use)
 		end
 	end
 
+	use({ "rebelot/kanagawa.nvim" })
+
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Base                            │
 	--  ╰──────────────────────────────────────────────────────────╯
@@ -57,8 +59,9 @@ return require("packer").startup(function(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup("navigation.telescope", {
-		{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-		"nvim-telescope/telescope-media-files.nvim",
+		{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }, -- melhora a performance
+		"nvim-telescope/telescope-media-files.nvim", -- mostra arquivos de mídia
+		"nvim-telescope/telescope-live-grep-args.nvim", -- grep com args w
 	})
 	setup("navigation.hop")        -- tipo o easymotion
 	setup("navigation.tabout")     -- tabout
