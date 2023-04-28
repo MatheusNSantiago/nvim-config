@@ -9,7 +9,7 @@ function M.setup()
 			desc = 'debugprint: cursor',
 			expr = true,
 		})
-		keymap('n', '<leader>dp', function() debugprint.debugprint({ variable = true }) end, {
+		keymap('n', '<leader>do', function() debugprint.debugprint({ variable = true }) end, {
 			desc = 'debugprint: operator',
 			expr = true,
 		})
@@ -28,7 +28,6 @@ end
 function M.config()
 	require('debugprint').setup({
 		create_keymaps = false,
-		create_commands = false,
 	})
 end
 
