@@ -65,7 +65,7 @@ return require('packer').startup(function(use)
 	setup('navigation.tabout')                                  -- tabout
 	setup('navigation.marks')                                   -- marks
 	setup('navigation.nvim-navbuddy')                           -- outline
-	use('andymass/vim-tradewinds')                              -- move janelas mais facilmente
+	setup('navigation.readline')                                -- Readline motions and deletions (igual do terminal)
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
