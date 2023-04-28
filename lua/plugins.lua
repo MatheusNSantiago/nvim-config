@@ -67,7 +67,6 @@ return require('packer').startup(function(use)
 	setup('navigation.marks') -- marks
 	setup('navigation.nvim-navbuddy') -- outline
 	setup('navigation.readline') -- Readline motions and deletions (igual do terminal)
-	setup('navigation.mini-move') -- Move lines and selections
 	setup('navigation.mini-jump') -- Repeat jump by pressing f, F, t, T again
 
 	use('itchyny/vim-highlighturl') -- highlight URLs
@@ -90,6 +89,7 @@ return require('packer').startup(function(use)
 	setup('edit.undotree') -- undo tree
 	setup('edit.ssr') -- search and replace
 	setup('edit.vim-textobj-comment') -- comment text objects
+	setup('edit.mini-move') -- Move lines and selections
 
 	use('tpope/vim-surround') -- cs"'
 	use('tpope/vim-repeat') -- deixa o vim-surrond usar o '.'
