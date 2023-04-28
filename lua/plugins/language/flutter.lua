@@ -2,8 +2,6 @@ local M = {}
 local keymap = utils.api.keymap
 
 function M.setup()
-	vim.cmd([[command! Flutter lua require("telescope").extensions.flutter.commands() ]])
-
 	return {
 		'akinsho/flutter-tools.nvim',
 		config = M.config,
@@ -11,6 +9,11 @@ function M.setup()
 end
 
 function M.config()
+	require('pubspec-assist').setup()
+	M.setup_flutter_tools()
+end
+
+function M.setup_flutter_tools()
 	local flutter_tools = require('flutter-tools')
 	flutter_tools.setup({
 		ui = {
@@ -42,6 +45,7 @@ function M.config()
 			},
 			on_attach = function(client, bufnr)
 				require('lsp').common_on_attach(client, bufnr)
+				utils.api.command('Flutter', require('telescope').extensions.flutter.commands)
 
 				keymap('n', '<leader>r', ':FlutterReload<CR>', { desc = 'Flutter: reload' })
 				keymap('n', '<leader><leader>r', ':FlutterRestart<CR>', { desc = 'Flutter: restart' })

@@ -151,8 +151,9 @@ return require('packer').startup(function(use)
 	--  │                    Language Specific                     │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	setup('language.flutter-tools', {
+	setup('language.flutter', {
 		'Nash0x7E2/awesome-flutter-snippets', -- snippets
+		"akinsho/pubspec-assist.nvim", -- add/update dart dependencies
 	})
 
 	use('jose-elias-alvarez/typescript.nvim') -- + funcionalidades pro ts_server (e.g. rename file & update imports)
@@ -169,6 +170,7 @@ return require('packer').startup(function(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('others.chatGPT')
+
 
 	-- |───────────────────────────────────────────────────────────|
 	if is_boostrap then -- Bootstrap Neovim
