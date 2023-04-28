@@ -82,7 +82,7 @@ local handlers = {
 local on_attach = function(client, bufnr)
 	require("lsp").common_on_attach(client, bufnr)
 
-	utils.map("n", "gd", ":TypescriptGoToSourceDefinition<CR>")
+	utils.api.keymap("n", "gd", ":TypescriptGoToSourceDefinition<CR>")
 end
 
 M.capabilities = capabilities

@@ -105,7 +105,7 @@ function M.config()
 		},
 		confirm_opts = {
 			behavior = types.ConfirmBehavior.Replace,
-			select = false, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+			select = true, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 		},
 		window = {
 			completion = cmp.config.window.bordered({

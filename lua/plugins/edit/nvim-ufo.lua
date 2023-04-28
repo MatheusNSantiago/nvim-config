@@ -1,19 +1,19 @@
 local M = {}
-local map = require("utils").map
+local keymap = utils.api.keymap
 
 function M.setup()
 	-- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
-	map("n", "zR", "lua require('ufo').openAllFolds", { desc = "Open all folds" })
-	map("n", "zM", "lua require('ufo').closeAllFolds", { desc = "Close all folds" })
+	keymap('n', 'zR', "lua require('ufo').openAllFolds", { desc = 'Open all folds' })
+	keymap('n', 'zM', "lua require('ufo').closeAllFolds", { desc = 'Close all folds' })
 
 	return {
-		"kevinhwang91/nvim-ufo",
+		'kevinhwang91/nvim-ufo',
 		config = M.config,
 	}
 end
 
 function M.config()
-	local ufo = require("ufo")
+	local ufo = require('ufo')
 
 	-- ╭──────────────────────────────────────────────────────────╮
 	-- │ Custom handler function                                  │
@@ -21,7 +21,7 @@ function M.config()
 
 	local handler = function(virtText, lnum, endLnum, width, truncate)
 		local newVirtText = {}
-		local suffix = ("  %d "):format(endLnum - lnum)
+		local suffix = ('  %d '):format(endLnum - lnum)
 		local sufWidth = vim.fn.strdisplaywidth(suffix)
 		local targetWidth = width - sufWidth
 		local curWidth = 0
@@ -38,14 +38,14 @@ function M.config()
 				chunkWidth = vim.fn.strdisplaywidth(chunkText)
 				-- str width returned from truncate() may less than 2nd argument, need padding
 				if curWidth + chunkWidth < targetWidth then
-					suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+					suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
 				end
 				break
 			end
 			curWidth = curWidth + chunkWidth
 		end
 
-		table.insert(newVirtText, { suffix, "MoreMsg" })
+		table.insert(newVirtText, { suffix, 'MoreMsg' })
 
 		return newVirtText
 	end
@@ -59,23 +59,19 @@ function M.config()
 		fold_virt_text_handler = handler,
 		provider_selector = function(_, filetype, buftype)
 			local function handleFallbackException(bufnr, err, providerName)
-				if type(err) == "string" and err:match("UfoFallbackException") then
-					return require("ufo").getFolds(bufnr, providerName)
+				if type(err) == 'string' and err:match('UfoFallbackException') then
+					return require('ufo').getFolds(bufnr, providerName)
 				else
-					return require("promise").reject(err)
+					return require('promise').reject(err)
 				end
 			end
 
-			return (filetype == "" or buftype == "nofile") and "indent" -- only use indent until a file is opened
+			return (filetype == '' or buftype == 'nofile') and 'indent' -- only use indent until a file is opened
 				or function(bufnr)
-					return require("ufo")
-						.getFolds(bufnr, "lsp")
-						:catch(function(err)
-							return handleFallbackException(bufnr, err, "treesitter")
-						end)
-						:catch(function(err)
-							return handleFallbackException(bufnr, err, "indent")
-						end)
+					return require('ufo')
+						.getFolds(bufnr, 'lsp')
+						:catch(function(err) return handleFallbackException(bufnr, err, 'treesitter') end)
+						:catch(function(err) return handleFallbackException(bufnr, err, 'indent') end)
 				end
 		end,
 	})

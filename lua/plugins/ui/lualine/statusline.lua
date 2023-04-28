@@ -51,7 +51,9 @@ local function right_separator()
 	return ""
 end
 
-return  {
+local flutter = vim.g.flutter_tools_decorations or {}
+
+return {
 	lualine_a = {
 		{ "mode", color = { fg = c.dark_bg, gui = "bold" } },
 	},
@@ -130,10 +132,11 @@ return  {
 				vim.cmd([[LspInfo]])
 			end,
 		},
-		{ "searchcount", maxcount = 999, timeout = 500 },
+		{ "searchcount",   maxcount = 999,         timeout = 500 },
 		{ right_separator, color = get_mode_color, padding = { right = 0, left = 0 } },
 	},
 	lualine_z = {
+		-- { { flutter.device or "" } },
 		{
 			"%p%%/%L",
 			cond = conditions.buffer_not_empty,

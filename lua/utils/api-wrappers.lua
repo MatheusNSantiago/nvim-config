@@ -5,22 +5,38 @@
 
 local M = {}
 
-local autocmd_keys = { "event", "buffer", "pattern", "desc", "command", "group", "once", "nested" }
+--- Gera um keymapping
+---@param mode string|table Uma string representando o modo para o qual o mapeamento deve ser criado (por exemplo, "n", "i", "v", "x", etc.). Alternativamente, pode ser passado uma tabela contendo várias strings de modo para criar o mapeamento para vários modos.
+---@param remap string A sequência de teclas a ser mapeada.
+---@param command string | fun() A sequência de comandos ou a função que será executada quando o mapeamento for acionado
+---@param opts table? Uma tabela de opções adicionais a serem passadas para a função `vim.keymap.set`. defaults `{ noremap = true, silent = true }`
+function M.keymap(mode, remap, command, opts)
+	local options = { noremap = true, silent = true }
+
+	if opts then options = vim.tbl_extend('force', options, opts) end
+
+	if type(mode) == 'table' and vim.tbl_contains(mode, 'i') then
+		vim.keymap.set(mode, remap, '<ESC>' .. tostring(command), options)
+	else
+		vim.keymap.set(mode, remap, command, options)
+	end
+end
+
+local autocmd_keys = { 'event', 'buffer', 'pattern', 'desc', 'command', 'group', 'once', 'nested' }
+
 --- Validate the keys passed to as.augroup are valid
 ---@param name string
 ---@param command Autocommand
 local function validate_autocmd(name, command)
 	local incorrect = utils.fold(function(accum, _, key)
-		if not vim.tbl_contains(autocmd_keys, key) then
-			table.insert(accum, key)
-		end
+		if not vim.tbl_contains(autocmd_keys, key) then table.insert(accum, key) end
 		return accum
 	end, command, {})
 
 	if #incorrect > 0 then
 		vim.schedule(function()
-			local msg = "Incorrect keys: " .. table.concat(incorrect, ", ")
-			vim.notify(msg, "error", { title = string.format("Autocmd: %s", name) })
+			local msg = 'Incorrect keys: ' .. table.concat(incorrect, ', ')
+			vim.notify(msg, 'error', { title = string.format('Autocmd: %s', name) })
 		end)
 	end
 end
@@ -50,12 +66,12 @@ end
 ---@return number
 function M.augroup(name, ...)
 	local commands = { ... }
-	assert(name ~= "User", "The name of an augroup CANNOT be User")
-	assert(#commands > 0, string.format("You must specify at least one autocommand for %s", name))
+	assert(name ~= 'User', 'The name of an augroup CANNOT be User')
+	assert(#commands > 0, string.format('You must specify at least one autocommand for %s', name))
 	local id = vim.api.nvim_create_augroup(name, { clear = true })
 	for _, autocmd in ipairs(commands) do
 		validate_autocmd(name, autocmd)
-		local is_callback = type(autocmd.command) == "function"
+		local is_callback = type(autocmd.command) == 'function'
 		vim.api.nvim_create_autocmd(autocmd.event, {
 			group = name,
 			pattern = autocmd.pattern,
@@ -87,8 +103,6 @@ end
 ---A terser proxy for `nvim_replace_termcodes`
 ---@param str string
 ---@return string
-function M.replace_termcodes(str)
-	return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
+function M.replace_termcodes(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
 
 return M

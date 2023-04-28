@@ -18,7 +18,9 @@ function M.config()
 			--  │                        Formatting                        │
 			--  ╰──────────────────────────────────────────────────────────╯
 
-			b.formatting.stylua, -- lua
+			b.formatting.stylua.with({
+				extra_args = { "--config-path", vim.fn.expand("~/.config/nvim/lua/lsp/linter-config/stylua.toml") },
+			}),
 			b.formatting.black, -- python
 			b.formatting.prettierd, -- js/ts
 			-- b.formatting.rustywind, -- tailwind (reorganiza classes)
@@ -50,12 +52,11 @@ function M.config()
 			require("typescript.extensions.null-ls.code-actions"),
 		},
 		on_attach = function(client, bufnr)
-			vim.keymap.set("n", "<Leader>ff", function()
-				vim.lsp.buf.format({
-					bufnr = bufnr,
-					timeout_ms = 3000,
-				})
-			end, { buffer = bufnr })
+			if client.supports_method("textDocument/formatting") then
+				vim.keymap.set("n", "<Leader>ff", function()
+					vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf(), timeout_ms = 3000 })
+				end, { buffer = bufnr, desc = "[lsp] format" })
+			end
 		end,
 	})
 end

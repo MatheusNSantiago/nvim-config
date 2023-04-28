@@ -1,20 +1,21 @@
 local M = {}
+local keymap = utils.api.keymap
 
 function M.setup()
 	vim.cmd([[command! Flutter lua require("telescope").extensions.flutter.commands() ]])
 
 	return {
-		"akinsho/flutter-tools.nvim",
+		'akinsho/flutter-tools.nvim',
 		config = M.config,
 	}
 end
 
 function M.config()
-	local flutter_tools = require("flutter-tools")
+	local flutter_tools = require('flutter-tools')
 	flutter_tools.setup({
 		ui = {
-			border = "rounded", -- e.g. "single" | "shadow" | {<table-of-eight-chars>}
-			notification_style = "plugin",
+			border = 'rounded', -- e.g. "single" | "shadow" | {<table-of-eight-chars>}
+			notification_style = 'plugin',
 		},
 		debugger = {
 			-- enabled = true,
@@ -28,7 +29,7 @@ function M.config()
 			},
 		},
 		widget_guides = { enabled = true },
-		dev_log = { enabled = true, open_cmd = "tabedit" },
+		dev_log = { enabled = true, open_cmd = 'tabedit' },
 		lsp = {
 			-- color = {
 			-- 	enabled = true,
@@ -37,25 +38,25 @@ function M.config()
 			-- },
 			settings = {
 				showTodos = true,
-				renameFilesWithClasses = "prompt",
+				renameFilesWithClasses = 'prompt',
 			},
 			on_attach = function(client, bufnr)
-				require("lsp").common_on_attach(client, bufnr)
+				require('lsp').common_on_attach(client, bufnr)
 
-				utils.map("n", "<leader>r", ":FlutterReload<CR>", { desc = "Flutter: reload" })
-				utils.map("n", "<leader><leader>r", ":FlutterRestart<CR>", { desc = "Flutter: restart" })
-				utils.map("n", "<leader><leader>o", ":Flutter<CR>", { desc = "Flutter: open pallete" })
-				utils.map(
-					"n",
-					"<leader>br",
+				keymap('n', '<leader>r', ':FlutterReload<CR>', { desc = 'Flutter: reload' })
+				keymap('n', '<leader><leader>r', ':FlutterRestart<CR>', { desc = 'Flutter: restart' })
+				keymap('n', '<leader><leader>o', ':Flutter<CR>', { desc = 'Flutter: open pallete' })
+				keymap(
+					'n',
+					'<leader>br',
 					":TermExec cmd='flutter pub run build_runner watch'<CR>",
-					{ desc = "flutter: run code generation" }
+					{ desc = 'flutter: run code generation' }
 				)
 
 				-- force a refresh of the highlights
-				utils.set_hls(require("colorscheme").get_base_highlights())
+				utils.set_hls(require('colorscheme').get_base_highlights())
 			end,
-			capabilities = require("lsp").common_capabilities(),
+			capabilities = require('lsp').common_capabilities(),
 		},
 	})
 end

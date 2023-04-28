@@ -5,7 +5,9 @@ opt.shell = "fish"
 opt.hidden = true
 opt.encoding = "utf-8"
 opt.showmatch = true -- show matching brackets.
-vim.o.completeopt = "menu,menuone,noselect"
+opt.completeopt = "menu,menuone,noselect"
+opt.pumheight = 10 -- Maximum number of items to show in the popup menu
+
 -- opt.mouse = ""      -- disabilita o mouse
 
 opt.undofile = true -- Save undo history
@@ -34,6 +36,7 @@ opt.scrolloff = 6
 
 -- Highlights
 opt.cursorline = true
+-- opt.cursorcolumn = true
 opt.termguicolors = true
 opt.background = "dark"
 

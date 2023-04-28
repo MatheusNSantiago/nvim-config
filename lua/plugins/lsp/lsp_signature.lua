@@ -2,18 +2,18 @@ local M = {}
 
 function M.setup()
 	-- Caso eu vá usar essas keymaps no futuro
-	-- local map = require("utils").map
-	-- map("n", "<C-k>", require("lsp_signature").toggle_float_win, { desc = "toggle signature" })
-	-- map({ "n", "i" }, "<A-q>", vim.lsp.buf.signature_help, { desc = "toggle signature" })
+	-- local keymap = utils.api.keymap
+	-- keymap("n", "<C-k>", require("lsp_signature").toggle_float_win, { desc = "toggle signature" })
+	-- keymap({ "n", "i" }, "<A-q>", vim.lsp.buf.signature_help, { desc = "toggle signature" })
 
 	return {
-		"ray-x/lsp_signature.nvim",
+		'ray-x/lsp_signature.nvim',
 		config = M.config,
 	}
 end
 
 function M.config()
-	require("lsp_signature").setup({
+	require('lsp_signature').setup({
 		bind = false,                    -- This is mandatory, otherwise border config won't get registered. If you want to hook lspsaga or other signature handler, pls set to false
 		doc_lines = 10,                  -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
 		max_height = 12,                 -- max height of signature floating_window
@@ -31,19 +31,19 @@ function M.config()
 		close_timeout = 4000,                   -- close floating window after ms when laster parameter is entered
 		fix_pos = false,                        -- set to true, the floating window will not auto-close until finish all parameters
 		hint_enable = false,                    -- virtual hint enable
-		hint_prefix = "🐼 ",                  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
-		hint_scheme = "String",
-		hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
-		handler_opts = { border = "rounded" },  -- double, rounded, single, shadow, none, or a table of borders ,
+		hint_prefix = '🐼 ',                  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
+		hint_scheme = 'String',
+		hi_parameter = 'LspSignatureActiveParameter', -- how your parameter will be highlight
+		handler_opts = { border = 'rounded' },  -- double, rounded, single, shadow, none, or a table of borders ,
 		always_trigger = false,                 -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
 		auto_close_after = nil,                 -- autoclose signature float win after x sec, disabled if nil.
 		extra_trigger_chars = {},               -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
-		padding = "",                           -- character to pad on left and right of signature can be ' ', or '|'  etc
+		padding = '',                           -- character to pad on left and right of signature can be ' ', or '|'  etc
 		transparency = 100,                     -- disabled by default, allow floating win transparent value 1~100
 		shadow_blend = 36,                      -- if you using shadow as border use this set the opacity
-		shadow_guibg = "Black",                 -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
+		shadow_guibg = 'Black',                 -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
 		timer_interval = 200,                   -- default timer check interval set to lower value if you want to reduce latency
-		toggle_key = "<A-q>",                       -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
+		toggle_key = '<A-q>',                   -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
 		select_signature_key = nil,             -- cycle to next signature, e.g. '<M-n>' function overloading
 		move_cursor_key = nil,                  -- imap, use nvim_set_current_win to move cursor between current win and floating
 	})

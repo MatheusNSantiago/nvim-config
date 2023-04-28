@@ -50,7 +50,7 @@ api.nvim_create_autocmd({ 'BufLeave' }, {
 --  ╭──────────────────────────────────────────────────────────╮
 --  │     Desligar o highlight da pesquisa automaticamente     │
 --  ╰──────────────────────────────────────────────────────────╯
-utils.map({ 'n', 'v', 'o', 'i', 'c' }, '<Plug>(StopHL)', ':execute("nohlsearch")<CR>')
+utils.api.keymap({ 'n', 'v', 'o', 'i', 'c' }, '<Plug>(StopHL)', ':execute("nohlsearch")<CR>')
 
 local function stop_hl()
 	if vim.v.hlsearch == 0 or api.nvim_get_mode().mode ~= 'n' then return end

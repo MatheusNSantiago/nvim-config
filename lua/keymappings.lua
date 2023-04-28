@@ -1,26 +1,12 @@
-local map = require("utils").map
-
-local silent = { silent = true }
-
---  ╭──────────────────────────────────────────────────────────╮
---  │                          Debug                           │
---  ╰──────────────────────────────────────────────────────────╯
-
-map({ "n" }, "<leader>c", ":PackerCompile<CR>")
-map({ "n" }, "<leader>s", ":PackerSync<CR>")
-map({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>", silent) -- [W]rite
--- map({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>:PackerCompile<CR>", silent) -- [W]rite
+local keymap = utils.api.keymap
 
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Geral                           │
 --  ╰──────────────────────────────────────────────────────────╯
-map({ "n", "v" }, "<Space>", "<Nul>", silent)                                            -- Tira a movimentação no space
-map({ "n", "v" }, "<C-n>", ":nohl<CR>", silent)                                          -- Remove Highlights
+-- map({ "n", "v" }, "<Space>", "<Nul>", silent)                                            -- Tira a movimentação no space
 
-map({ "n", "x" }, "gx", ":silent execute '!open ' . shellescape('<cWORD>')<CR>", silent) -- Abrir links com o cursor
-
-
-map({ "n" }, "<leader><leader>q", ":quitall!<CR>")
+keymap({ 'n', 'x' }, 'gx', ":silent execute '!open ' . shellescape('<cWORD>')<CR>", { desc = 'Abrir no Browser' })
+keymap({ 'n' }, '<leader><leader>q', ':quitall!<CR>', { desc = 'Forçar a sair do Neovim' })
 
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                       Movimentação                       │
@@ -28,79 +14,77 @@ map({ "n" }, "<leader><leader>q", ":quitall!<CR>")
 
 ------- Mover no texto
 
-map({ "n", "v" }, "ç", "l", silent)
-map({ "n", "v" }, "l", "k", silent)
-map({ "n", "v" }, "k", "j", silent)
-map({ "n", "v" }, "j", "h", silent)
+keymap({ 'n', 'v' }, 'ç', 'l')
+keymap({ 'n', 'v' }, 'l', 'k')
+keymap({ 'n', 'v' }, 'k', 'j')
+keymap({ 'n', 'v' }, 'j', 'h')
 
 --  Mover de linha a linha
 
 ------- Mover entre Tabs
 
-map({ "n", "v", "i" }, "<A-j>", ":tabprevious<CR>", silent)
-map({ "n", "v", "i" }, "<A-ç>", ":tabnext<CR>", silent)
-map({ "n", "v", "i" }, "<A-1>", "1gt")
-map({ "n", "v", "i" }, "<A-2>", "2gt")
-map({ "n", "v", "i" }, "<A-3>", "3gt")
-map({ "n", "v", "i" }, "<A-4>", "4gt")
-map({ "n", "v", "i" }, "<A-5>", "5gt")
-map({ "n", "v", "i" }, "<A-6>", "6gt")
-map({ "n", "v", "i" }, "<A-7>", "7gt")
-map({ "n", "v", "i" }, "<A-8>", "8gt")
-map({ "n", "v", "i" }, "<A-9>", "9gt")
+keymap({ 'n', 'v', 'i' }, '<A-j>', ':tabprevious<CR>')
+keymap({ 'n', 'v', 'i' }, '<A-ç>', ':tabnext<CR>')
+keymap({ 'n', 'v', 'i' }, '<A-1>', '1gt')
+keymap({ 'n', 'v', 'i' }, '<A-2>', '2gt')
+keymap({ 'n', 'v', 'i' }, '<A-3>', '3gt')
+keymap({ 'n', 'v', 'i' }, '<A-4>', '4gt')
+keymap({ 'n', 'v', 'i' }, '<A-5>', '5gt')
+keymap({ 'n', 'v', 'i' }, '<A-6>', '6gt')
+keymap({ 'n', 'v', 'i' }, '<A-7>', '7gt')
+keymap({ 'n', 'v', 'i' }, '<A-8>', '8gt')
+keymap({ 'n', 'v', 'i' }, '<A-9>', '9gt')
 --
 -- Mover a tab
-map("n", "<A-->", ":tabm -1<CR>", silent)
-map("n", "<A-=>", ":tabm +1<CR>", silent)
+keymap('n', '<A-->', ':tabm -1<CR>')
+keymap('n', '<A-=>', ':tabm +1<CR>')
 
 -- restaurar tab fechada recentemente
-map("n", "<leader>ut", "<Cmd>Undoquit<CR>") -- [U]ndo [T]ab
+keymap('n', '<leader>ut', '<Cmd>Undoquit<CR>') -- [U]ndo [T]ab
 
 --------- Mover entre janelas
 
-map("n", "<C-j>", "<C-w>h") -- Left
+keymap('n', '<C-j>', '<C-w>h') -- Left
 -- map('n', '<C-ç>', '<C-w>l') -- Right (AutoKey)
-map("n", "<C-l>", "<C-w>k") -- Top
-map("n", "<C-k>", "<C-w>j") --  Bottom
+keymap('n', '<C-l>', '<C-w>k') -- Top
+keymap('n', '<C-k>', '<C-w>j') --  Bottom
 
 -- Mover no command mode
-map("c", "<C-k>", "<Right>")
-map("c", "<C-l>", "<Left>")
-
+keymap('c', '<C-k>', '<Right>')
+keymap('c', '<C-l>', '<Left>')
 
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Edição                          │
 --  ╰──────────────────────────────────────────────────────────╯
 
-map({ "n", "v" }, "<leader>q", ":q<CR>", silent)          -- [Q]uit
--- map({ "n", "v" }, "<leader>w", ":wa<CR>", silent) -- [W]rite
+keymap({ 'n', 'v' }, '<leader>q', ':q<CR>') -- [Q]uit
+keymap({ 'n', 'v' }, '<leader>w', ':wa<CR>') -- [W]rite
 
 -- Mover a linha verticalmente
-map("n", "<M-k>", ":m +1<CR>==", silent)
-map("n", "<M-l>", ":m -2<CR>==", silent)
+keymap('n', '<M-k>', ':m +1<CR>==')
+keymap('n', '<M-l>', ':m -2<CR>==')
 
-map("v", "<M-l>", ":m '<-2<CR>gv=gv", silent)
-map("v", "<M-k>", ":m '>+1<CR>gv=gv", silent)
+keymap('v', '<M-l>', ":m '<-2<CR>gv=gv")
+keymap('v', '<M-k>', ":m '>+1<CR>gv=gv")
 
 -- Copiar a linha horizontalmente
+keymap({ 'n', 'i', 'v' }, '<S-M-l>', ':t-1<CR>')
+keymap({ 'n', 'i', 'v' }, '<S-M-k>', ':t.<CR>')
 
-map({ "n", "i", "v"}, "<S-M-l>", ':t-1<CR>')
-map({ "n", "i", "v" }, "<S-M-k>", ':t.<CR>')
+keymap('v', '<S-M-l>', "yPgv:'<,'>m '.-1<CR>gv")
+keymap('v', '<S-M-k>', 'yPgv')
 
--- map({ "n", "i" }, "<S-M-l>", 'mz"yyy"ypg`z')
--- map({ "n", "i" }, "<S-M-k>", 'mz"yyy"yPg`zkj')
-
-map("v", "<S-M-l>", "yPgv:'<,'>m '.-1<CR>gv")
-map("v", "<S-M-k>", "yPgv")
+-- Delete a word using Ctrl+Backspace
+keymap({ 'i', 'c' }, '<C-BS>', '<C-w>')
 
 -- preservar buffer
-map("x", "<leader>p", '"_dp')
+keymap('x', '<leader>p', '"_dp')
 
 -- copiar para o system clipboard
-map({ "n", "v" }, "<leader>y", '"+y')
+keymap({ 'n', 'v' }, '<leader>y', '"+y')
 
 -- deletar pro void
-map({ "n", "v" }, "<leader>d", '"_d')
+keymap({ 'n', 'v' }, '<leader>d', '"_d')
 
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Resize                          │
@@ -108,7 +92,16 @@ map({ "n", "v" }, "<leader>d", '"_d')
 
 -- Resize Panes
 
-map("n", "<C-Up>", ":resize -2<CR>", silent)
-map("n", "<C-Down>", ":resize +2<CR>", silent)
-map("n", "<C-Left>", ":vertical resize -2<CR>", silent)
-map("n", "<C-Right>", ":vertical resize +2<CR>", silent)
+keymap('n', '<C-Up>', ':resize -2<CR>')
+keymap('n', '<C-Down>', ':resize +2<CR>')
+keymap('n', '<c-left>', ':vertical resize -2<CR>')
+keymap('n', '<C-Right>', ':vertical resize +2<CR>')
+
+--  ╭──────────────────────────────────────────────────────────╮
+--  │                          Debug                           │
+--  ╰──────────────────────────────────────────────────────────╯
+
+keymap({ 'n' }, '<leader>c', ':PackerCompile<CR>')
+keymap({ 'n' }, '<leader>s', ':PackerSync<CR>')
+keymap({ 'n', 'v' }, '<leader>w', ':w<CR>:so %<CR>') -- [W]rite
+-- keymap({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>:PackerCompile<CR>", silent) -- [W]rite
