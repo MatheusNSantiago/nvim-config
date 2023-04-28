@@ -68,6 +68,7 @@ return require('packer').startup(function(use)
 	setup('navigation.nvim-navbuddy') -- outline
 	setup('navigation.readline') -- Readline motions and deletions (igual do terminal)
 	setup('navigation.mini-move') -- Move lines and selections
+	setup('navigation.mini-jump') -- Repeat jump by pressing f, F, t, T again
 
 	use('itchyny/vim-highlighturl') -- highlight URLs
 
