@@ -3,8 +3,8 @@ local keymap = utils.api.keymap
 
 function M.setup()
 	keymap('n', '<leader>lg', M.toggle_lazygit)
-	keymap({ 'i', 'n' }, '<A-f>', '<CMD>execute v:count . "ToggleTerm direction=float"<CR>')
-	keymap({ 'i', 'n' }, '<A-i>', "<CMD>execute v:count . 'ToggleTerm direction=horizontal'<CR>")
+	keymap({ 'i', 'n', 't' }, '<A-f>', '<CMD>execute v:count . "ToggleTerm direction=float"<CR>')
+	keymap({ 'i', 'n', 't' }, '<A-i>', "<CMD>execute v:count . 'ToggleTerm direction=horizontal'<CR>")
 
 	-- Seta os keymaps que só funcionam no terminal
 	vim.api.nvim_create_autocmd({ 'TermOpen' }, {
