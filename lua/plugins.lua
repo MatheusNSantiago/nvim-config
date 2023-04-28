@@ -67,6 +67,7 @@ return require('packer').startup(function(use)
 	setup('navigation.marks')                                   -- marks
 	setup('navigation.nvim-navbuddy')                           -- outline
 	setup('navigation.readline')                                -- Readline motions and deletions (igual do terminal)
+	use('itchyny/vim-highlighturl')                             -- highlight URLs
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
