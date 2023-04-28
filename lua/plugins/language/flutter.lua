@@ -9,12 +9,18 @@ function M.setup()
 end
 
 function M.config()
-	require('pubspec-assist').setup()
-	M.setup_flutter_tools()
-end
+	--  ╭──────────────────────────────────────────────────────────╮
+	--  │                      Pubspec Assist                      │
+	--  ╰──────────────────────────────────────────────────────────╯
 
-function M.setup_flutter_tools()
+	require('pubspec-assist').setup({})
+
+	--  ╭──────────────────────────────────────────────────────────╮
+	--  │                      Flutter Tools                       │
+	--  ╰──────────────────────────────────────────────────────────╯
+
 	local flutter_tools = require('flutter-tools')
+
 	flutter_tools.setup({
 		ui = {
 			border = 'rounded', -- e.g. "single" | "shadow" | {<table-of-eight-chars>}
