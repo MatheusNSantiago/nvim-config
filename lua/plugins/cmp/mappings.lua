@@ -65,7 +65,7 @@ return cmp.mapping.preset.insert({
 	}),
 	["<CR>"] = cmp.mapping.confirm({
 		behavior = cmp.ConfirmBehavior.Replace,
-		select = false,
+		select = true,
 	}),
 	-- ["<CR>"] = cmp.mapping(function(fallback)
 	-- 	if cmp.visible() then
