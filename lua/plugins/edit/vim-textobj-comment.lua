@@ -7,6 +7,10 @@ function M.setup()
 
 	return {
 		'glts/vim-textobj-comment',
+		requires = {
+			'kana/vim-textobj-user',
+			'kana/vim-operator-user',
+		},
 		config = M.config,
 	}
 end
