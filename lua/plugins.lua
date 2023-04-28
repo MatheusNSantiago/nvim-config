@@ -105,7 +105,6 @@ return require("packer").startup(function(use)
 	setup("lsp.lspsaga")     -- LSP UIs
 	setup("lsp.illuminate")  -- higlight a palavra em cima do cursor
 	setup("lsp.lsp-colors")  -- agrupa os erros do LSP por cor
-	setup("lsp.fidget")      -- Standalone UI for nvim-lsp progress
 
 	use("b0o/schemastore.nvim") -- schemas para json
 	use("folke/neodev.nvim") -- docs for nvim Lua API
@@ -114,7 +113,7 @@ return require("packer").startup(function(use)
 	--  │                         Snippets                         │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	use({ "L3MON4D3/LuaSnip", run = "make install_jsregexp" })
+	setup("cmp.luasnip")
 	use("rafamadriz/friendly-snippets")
 
 	--  ╭──────────────────────────────────────────────────────────╮
