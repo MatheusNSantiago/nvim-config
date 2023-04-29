@@ -53,10 +53,11 @@ api.nvim_create_autocmd({ 'BufLeave' }, {
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                       Salvar Folds                       │
 --  ╰──────────────────────────────────────────────────────────╯
+---@see https://stackoverflow.com/a/68156828
 utils.api.augroup(
 	'RememberFolds',
-	{ event = 'BufWinLeave', command = 'mkview' },
-	{ event = 'BufWinEnter', command = 'silent! loadview' }
+	{ event = 'BufWinLeave', pattern = '*.*', command = 'mkview' },
+	{ event = 'BufWinEnter', pattern = '*.*', command = 'silent! loadview' }
 )
 
 --  ╭──────────────────────────────────────────────────────────╮
