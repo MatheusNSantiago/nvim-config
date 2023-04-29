@@ -1,32 +1,64 @@
 local M = {}
+local keymap = utils.api.keymap
+local severity = vim.diagnostic.severity
 
 M.servers = {
-	"bashls",
-	"cssls",
-	"yamlls",
-	"dockerls",
-	"lua_ls",
-	"pyright",
-	"tsserver",
-	"html",
-	"tailwindcss",
-	"jsonls",
+	'bashls',
+	'cssls',
+	'yamlls',
+	'dockerls',
+	'lua_ls',
+	'pyright',
+	'tsserver',
+	'html',
+	'tailwindcss',
+	'jsonls',
 }
 
+function M.commom_keymaps()
+	local telescope_ok, _ = pcall(require, 'telescope')
+	local lspsaga_ok, _ = pcall(require, 'lspsaga')
+
+	if not (telescope_ok and lspsaga_ok) then return end
+
+	local b = require('telescope.builtin')
+	local saga_diagnostic = require('lspsaga.diagnostic')
+
+	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
+
+	-- Diagnostic jump
+	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
+	keymap('n', ']e', ':Lspsaga diagnostic_jump_next<CR>')
+
+	-- Diagnostic jump with filters such as only jumping to an error
+	keymap('n', '[E', function() saga_diagnostic.goto_prev({ severity = severity.ERROR }) end)
+	keymap('n', ']E', function() saga_diagnostic.goto_next({ severity = severity.ERROR }) end)
+
+	keymap('n', '<leader>sd', b.diagnostics, { desc = '[S]earch [D]iagnostics' })
+	keymap('n', '<leader>sR', b.lsp_references, { desc = '[S]earch [R]eferences' })
+	keymap('n', '<leader>si', b.lsp_implementations, { desc = '[S]earch [I]mplementations' })
+
+	keymap('n', 'gr', ':Lspsaga rename<CR>')
+	keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
+	keymap('n', 'gf', ':Lspsaga lsp_finder<CR>')
+	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
+	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer
+	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')      -- Code action
+	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')    -- Show line diagnostics
+end
+
 function M.common_capabilities()
-	local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-	if status_ok then
-		return cmp_nvim_lsp.default_capabilities()
-	end
+	local status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+	if status_ok then return cmp_nvim_lsp.default_capabilities() end
 
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 	capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true } -- folding
 	capabilities.textDocument.completion.completionItem.resolveSupport = {
 		properties = {
-			"documentation",
-			"detail",
-			"additionalTextEdits",
+			'documentation',
+			'detail',
+			'additionalTextEdits',
 		},
 	}
 	return capabilities
@@ -34,70 +66,38 @@ end
 
 function M.common_on_attach(client, bufnr)
 	local caps = client.server_capabilities
-	local utils = require("lsp.utils")
 
 	-- Enable completion triggered by <C-X><C-O>
-	if caps.completionProvider then
-		vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-	end
+	if caps.completionProvider then vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc' end
 
 	-- Use LSP as the handler for formatexpr.
-	if caps.documentFormattingProvider then
-		vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
-	end
+	if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
 
 	-- sqls
-	if client.name == "sqls" then
-		require("sqls").on_attach(client, bufnr)
-	end
+	if client.name == 'sqls' then require('sqls').on_attach(client, bufnr) end
 
 	-- Configure for jdtls
-	if client.name == "jdt.ls" then
-		require("jdtls").setup_dap({ hotcodereplace = "auto" })
-		require("jdtls.dap").setup_dap_main_class_configs()
+	if client.name == 'jdt.ls' then
+		require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+		require('jdtls.dap').setup_dap_main_class_configs()
 		vim.lsp.codelens.refresh()
 	end
 
 	-- setup navic (breadcrumbs) e outros simbolos
-	utils.setup_document_symbols(client, bufnr)
+	require('lsp.utils').setup_document_symbols(client, bufnr)
 
 	-- Setup nav buddy
-	local navbuddy_ok, navbuddy = pcall(require, "nvim-navbuddy")
-	if navbuddy_ok then
-		navbuddy.attach(client, bufnr)
-	end
+	local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
+	if navbuddy_ok then navbuddy.attach(client, bufnr) end
 
-	-- auto show diagnostic when cursor hold
-	utils.api.command("CursorHold", {
-		buffer = bufnr,
-		callback = function()
-			local float_opts = {
-				focusable = false,
-				close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-			}
-
-			if not vim.b.diagnostics_pos then
-				vim.b.diagnostics_pos = { nil, nil }
-			end
-
-			local cursor_pos = vim.api.nvim_win_get_cursor(0)
-			if
-				(cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
-				and #vim.diagnostic.get() > 0
-			then
-				vim.diagnostic.open_float(nil, float_opts)
-			end
-
-			vim.b.diagnostics_pos = cursor_pos
-		end,
-	})
+	M.commom_keymaps()
 end
 
 function M.get_commom_configs()
 	return {
 		handlers = {
-			["textDocument/hover"] = require("lsp.functions").custom_hover_handler,
-			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+			['textDocument/hover'] = require('lsp.functions').custom_hover_handler,
+			['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
 			-- ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 			-- 	severity_sort = true,
 			-- 	underline = true,
@@ -113,12 +113,10 @@ function M.get_commom_configs()
 end
 
 function M.setup()
-	local lsp_status_ok, _ = pcall(require, "lspconfig")
-	if not lsp_status_ok then
-		return
-	end
+	local lsp_status_ok, _ = pcall(require, 'lspconfig')
+	if not lsp_status_ok then return end
 
-	require("lsp.handlers").setup() -- Setup LSP handlers
+	require('lsp.handlers').setup() -- Setup LSP handlers
 end
 
 return M

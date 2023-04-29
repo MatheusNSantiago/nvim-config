@@ -2,32 +2,6 @@ local M = {}
 local keymap = utils.api.keymap
 
 function M.setup()
-	keymap('n', 'K', ':Lspsaga hover_doc<CR>') -- Hover Doc
-	keymap('n', '<F2>', ':Lspsaga rename<CR>') -- Rename F2
-
-	-- Diagnostic jump
-	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
-	keymap('n', ']e', ':Lspsaga diagnostic_jump_next<CR>')
-
-	-- Diagnostic jump with filters such as only jumping to an error
-	keymap(
-		'n',
-		'[E',
-		function() require('lspsaga.diagnostic').goto_prev({ severity = vim.diagnostic.severity.ERROR }) end
-	)
-	keymap(
-		'n',
-		']E',
-		function() require('lspsaga.diagnostic').goto_next({ severity = vim.diagnostic.severity.ERROR }) end
-	)
-
-	keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
-	keymap('n', 'gf', ':Lspsaga lsp_finder<CR>')
-	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
-	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer
-	keymap({ 'n', 'v' }, '<leader>ca', ':Lspsaga code_action<CR>') -- Code action
-	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')     -- Show line diagnostics
-
 	return {
 		'glepnir/lspsaga.nvim',
 		config = M.config,

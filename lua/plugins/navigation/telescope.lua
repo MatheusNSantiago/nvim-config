@@ -15,10 +15,6 @@ function M.setup()
 		keymap('n', '<leader>sof', b.oldfiles, { desc = '[S]earch [O]ld [F]iles' })
 		keymap('n', '<leader>sh', b.help_tags, { desc = '[S]earch [H]elp' })
 		keymap('n', '<leader>sw', ':Telescope grep_string<CR>', { desc = '[S]earch [W]ord' })
-		-- LSP
-		keymap('n', '<leader>sd', b.diagnostics, { desc = '[S]earch [D]iagnostics' })
-		keymap('n', '<leader>sr', b.lsp_references, { desc = '[S]earch [R]eferences' })
-		keymap('n', '<leader>si', b.lsp_implementations, { desc = '[S]earch [I]mplementations' })
 	end
 
 	return {
