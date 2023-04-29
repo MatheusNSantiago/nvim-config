@@ -31,6 +31,7 @@ function M.config()
 		ensure_installed = {
 			"ruff",
 			"yamllint",
+			"prettierd",
 			-- Opt to list sources here, when available in mason.
 		},
 		automatic_setup = true, -- Recommended, but optional
