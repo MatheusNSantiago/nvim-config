@@ -60,13 +60,6 @@ keymap('c', '<C-l>', '<Left>')
 keymap({ 'n', 'v' }, '<leader>q', ':q<CR>') -- [Q]uit
 keymap({ 'n', 'v' }, '<leader>w', ':wa<CR>') -- [W]rite
 
--- -- Mover a linha verticalmente
--- keymap('n', '<M-k>', ':m +1<CR>==')
--- keymap('n', '<M-l>', ':m -2<CR>==')
---
--- keymap('v', '<M-l>', ":m '<-2<CR>gv=gv")
--- keymap('v', '<M-k>', ":m '>+1<CR>gv=gv")
-
 -- Copiar a linha horizontalmente
 keymap({ 'n', 'i', 'v' }, '<S-M-l>', ':t-1<CR>')
 keymap({ 'n', 'i', 'v' }, '<S-M-k>', ':t.<CR>')
@@ -101,7 +94,7 @@ keymap('n', '<C-Right>', ':vertical resize +2<CR>')
 --  │                          Debug                           │
 --  ╰──────────────────────────────────────────────────────────╯
 
-keymap({ 'n' }, '<leader>c', ':PackerCompile<CR>')
-keymap({ 'n' }, '<leader>s', ':PackerSync<CR>')
-keymap({ 'n', 'v' }, '<leader>w', ':w<CR>:so %<CR>') -- [W]rite
+-- keymap({ 'n' }, '<leader>c', ':PackerCompile<CR>')
+-- keymap({ 'n' }, '<leader>s', ':PackerSync<CR>')
+-- keymap({ 'n', 'v' }, '<leader>w', ':w<CR>:so %<CR>') -- [W]rite
 -- keymap({ "n", "v" }, "<leader>w", ":w<CR>:so %<CR>:PackerCompile<CR>", silent) -- [W]rite
