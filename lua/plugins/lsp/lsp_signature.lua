@@ -31,7 +31,7 @@ function M.config()
 		close_timeout = 4000,                   -- close floating window after ms when laster parameter is entered
 		fix_pos = false,                        -- set to true, the floating window will not auto-close until finish all parameters
 		hint_enable = false,                    -- virtual hint enable
-		hint_prefix = '🐼 ',                  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
+		hint_prefix = '🐼 ',                  -- Panda for parameter, NOTE => for the terminal not support emoji, might crash
 		hint_scheme = 'String',
 		hi_parameter = 'LspSignatureActiveParameter', -- how your parameter will be highlight
 		handler_opts = { border = 'rounded' },  -- double, rounded, single, shadow, none, or a table of borders ,

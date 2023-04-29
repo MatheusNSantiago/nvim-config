@@ -22,7 +22,6 @@ function M.config()
 				{ event = 'msg_show', find = '%d+ change' },
 				{ event = 'msg_show', find = '%d+ line' },
 				{ event = 'msg_show', find = '%d+ more line' },
-				-- TODO: investigate the source of this LSP message and disable it happens in typescript files
 				{ event = 'notify', find = 'No information available' },
 			},
 		},
@@ -75,7 +74,6 @@ function M.config()
 			},
 		},
 		messages = {
-			-- NOTE: If you enable messages, then the cmdline is enabled automatically.
 			enabled = true, -- enables the Noice messages UI
 			view = 'notify', -- default view for messages
 			view_error = 'notify', -- view for errors
