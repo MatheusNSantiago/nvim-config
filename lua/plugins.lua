@@ -48,6 +48,7 @@ return require('packer').startup(function(use)
 	setup('ui.nvim-navic') -- 	breadcrumbs
 	setup('ui.nvim-notify') -- messages, cmdline and popupmenu
 	setup('ui.nvim-colorizer') -- #FFF ficar com o background branco
+	setup('ui.trouble') -- mostra os diagnostics
 
 	use('tpope/vim-sleuth') -- Detect tabstop and shiftwidth automatically
 	use('sitiom/nvim-numbertoggle') -- automatic relative/absolute line numbers
