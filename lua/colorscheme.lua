@@ -1,7 +1,7 @@
 local M = {}
 -- https://github.com/numToStr/Sakura.nvim/commit/392a5d5a2e6097b816314b38d727e641a5bde7c9
 -- https://github.com/LunarVim/onedarker.nvim/blob/master/lua/onedarker/theme.lua
-local c = require("utils.colors")
+local c = require('utils.colors')
 
 local hls = {}
 
@@ -10,7 +10,7 @@ hls.syntax = {
 	Boolean = { fg = c.red },
 	Conditional = { fg = c.purple },
 	Todo = { fg = c.comments },
-	Constant = { fg = c.yellow },
+	Constant = { fg = c.cyan, bold = true },
 	String = { fg = c.green },
 	Identifier = { fg = c.yellow },
 	Type = { fg = c.purple },
@@ -26,7 +26,7 @@ hls.syntax = {
 	Include = { fg = c.purple },
 	Macro = { fg = c.purple },
 	Structure = { fg = c.red },
-	Underlined = { fg = "None" },
+	Underlined = { fg = 'None' },
 	Error = { fg = c.red, underline = true },
 }
 
@@ -36,40 +36,42 @@ hls.lsp = {
 	-- ["@lsp.type.enum"] = { link = "Structure" },
 	-- ["@lsp.type.enumMember"] = { link = "Constant" },
 	-- ["@lsp.type.function"] = { link = "Function" },
-	["@lsp.type.interface"] = { fg = c.yellow },    -- interfaces
+	['@lsp.type.interface'] = { fg = c.yellow },    -- interfaces
 	-- ["@lsp.type.macro"] = { link = "Macro" },
-	["@lsp.type.method"] = { link = "@method" },    -- Function
-	["@lsp.type.namespace"] = { link = "@namespace" }, -- Structure
-	["@lsp.type.parameter"] = { link = "@parameter" }, -- Identifier
+	['@lsp.type.method'] = { link = '@method' },    -- Function
+	['@lsp.type.namespace'] = { link = '@namespace' }, -- Structure
+	['@lsp.type.parameter'] = { link = '@parameter' }, -- Identifier
 	-- ["@lsp.type.property"] = { link = "Identifier" },
 	-- ["@lsp.type.struct"] = { link = "Structure" },
 	-- ["@lsp.type.type"] = { link = "Type" },
 	-- ["@lsp.type.typeParameter"] = { link = "TypeDef" },
-	["@lsp.type.variable"] = { fg = "none" }, -- Identifier
-	["@lsp.type.comment"] = { fg = "none" }, -- Comment
-	["@lsp.type.selfParameter"] = { link = "@variable.builtin" },
+	['@lsp.type.variable'] = { fg = 'none' }, -- Identifier
+	['@lsp.type.comment'] = { fg = 'none' }, -- Comment
+	['@lsp.type.selfParameter'] = { link = '@variable.builtin' },
 	-- ["@lsp.type.builtinConstant"] = { link = "@constant.builtin" },
-	["@lsp.type.builtinConstant"] = { link = "@constant.builtin" },
-	["@lsp.type.magicFunction"] = { link = "@function.builtin" },
-	["@lsp.mod.readonly"] = { link = "Constant" },
-	["@lsp.mod.typeHint"] = { link = "Type" },
+	['@lsp.type.builtinConstant'] = { link = '@constant.builtin' },
+	['@lsp.type.magicFunction'] = { link = '@function.builtin' },
+
+	['@lsp.mod.readonly'] = { link = 'Constant' },
+	['@lsp.mod.typeHint'] = { link = 'Type' },
 	-- ["@lsp.mod.defaultLibrary"] = { link = "Special" },
 	-- ["@lsp.mod.builtin"] = { link = "Special" },
 
-	["@lsp.typemod.operator.controlFlow"] = { link = "@exception" },
-	["@lsp.typemod.keyword.documentation"] = { link = "Special" },
-	["@lsp.typemod.variable.global"] = { link = "Constant" },
-	["@lsp.typemod.variable.static"] = { link = "Constant" },
-	["@lsp.typemod.variable.defaultLibrary"] = { link = "Special" },
-	["@lsp.typemod.function.builtin"] = { link = "@function.builtin" },
-	["@lsp.typemod.function.defaultLibrary"] = { link = "@function.builtin" },
-	["@lsp.typemod.method.defaultLibrary"] = { link = "@function.builtin" },
-	["@lsp.typemod.operator.injected"] = { link = "Operator" },
-	["@lsp.typemod.string.injected"] = { link = "String" },
-	["@lsp.typemod.variable.injected"] = { link = "@variable" },
+	['@lsp.typemod.class.declaration'] = { link = 'Structure' },
+	['@lsp.typemod.operator.controlFlow'] = { link = '@exception' },
+	['@lsp.typemod.keyword.documentation'] = { link = 'Special' },
+	['@lsp.typemod.variable.global'] = { link = 'Constant' },
+	['@lsp.typemod.variable.static'] = { link = 'Constant' },
+	['@lsp.typemod.variable.defaultLibrary'] = { link = 'Special' },
+	['@lsp.typemod.function.builtin'] = { link = '@function.builtin' },
+	['@lsp.typemod.function.defaultLibrary'] = { link = '@function.builtin' },
+	['@lsp.typemod.method.defaultLibrary'] = { link = '@function.builtin' },
+	['@lsp.typemod.operator.injected'] = { link = 'Operator' },
+	['@lsp.typemod.string.injected'] = { link = 'String' },
+	['@lsp.typemod.variable.injected'] = { link = '@variable' },
 	-- ["@lsp.typemod.function.readonly"] = { fg = theme.syn.fun, bold = true },
-	["@lsp.mod.annotation"] = { fg = c.purple }, -- @[annotation]
-	["@lsp.type.annotation"] = { fg = c.purple }, -- [@]annotation
+	['@lsp.mod.annotation'] = { fg = c.purple }, -- @[annotation]
+	['@lsp.type.annotation'] = { fg = c.purple }, -- [@]annotation
 }
 
 hls.treesitter = {
@@ -82,7 +84,7 @@ hls.treesitter = {
 	-- @preproc (PreProc)                          ; various preprocessor directives & shebangs
 	-- @define (Define)                            ; preprocessor definition directives
 	-- @operator (Operator)                        ; symbolic operators (e.g. `+` / `*`)
-	["@operator"] = { link = "Operator" },
+	['@operator'] = { link = 'Operator' },
 	-- Punctuation (Delimiter)
 	-- @punctuation.delimiter                      ; delimiters (e.g. ` ; ` / `.` / `,`)
 	-- ["@punctuation.delimiter"] = { fg = theme.syn.punct },
@@ -119,9 +121,9 @@ hls.treesitter = {
 
 	-- @constructor (Special)                      ; constructor calls and definitions
 	-- ["@constructor.lua"] = { fg = theme.syn.keyword },
-	["@constructor"] = { fg = c.red }, -- interfaces
+	['@constructor'] = { fg = c.purple }, -- interfaces
 	-- @parameter (Identifier)                     ; parameters of a function
-	["@parameter"] = { fg = c.cyan }, -- interfaces
+	['@parameter'] = { fg = c.cyan },  -- interfaces
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                    Keywords (Keyword)                    │
 	--  ╰──────────────────────────────────────────────────────────╯
@@ -156,12 +158,12 @@ hls.treesitter = {
 	-- ["@attribute"] = { link = "Constant" },
 	-- @field (Identifier)                         ; object and struct fields
 	-- @property (Identifier)                      ; similar to `@field`
-	["@property"] = { fg = c.cyan },
+	['@property'] = { fg = c.cyan },
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                       Identifiers                        │
 	--  ╰──────────────────────────────────────────────────────────╯
 	-- @variable (Identifier)                      ; various variable names
-	-- ["@variable"] = { fg = theme.ui.fg },
+	['@variable'] = { fg = c.cyan },
 	-- @variable.builtin                           ; built-in variable names (e.g. `this`)
 	-- ["@variable.builtin"] = { fg = theme.syn.special2, italic = true },
 	-- @constant (Constant)                        ; constant identifiers
@@ -169,6 +171,8 @@ hls.treesitter = {
 	-- @constant.macro (Define -> PreProc)         ; constants defined by the preprocessor
 
 	-- @namespace (Identifier)                     ; modules or namespaces
+	['@namespace'] = { link = 'Identifier' },
+
 	-- @symbol                                     ; symbols or atoms
 	-- ["@symbol"] = { fg = theme.syn.identifier },
 	--  ╭──────────────────────────────────────────────────────────╮
@@ -207,11 +211,11 @@ hls.treesitter = {
 	--  │                        Tags (Tag)                        │
 	--  ╰──────────────────────────────────────────────────────────╯
 	-- @tag                                        ; XML tag names
-	["@tag"] = { fg = c.pink }, -- interfaces
+	['@tag'] = { fg = c.pink }, -- interfaces
 	-- @tag.attribute                              ; XML tag attributes
 	-- ["@tag.attribute"] = { fg = theme.syn.identifier },
 	-- @tag.delimiter                              ; XML tag delimiter
-	["@tag.delimiter"] = { fg = c.white }, -- interfaces
+	['@tag.delimiter'] = { fg = c.white }, -- interfaces
 }
 
 hls.language_specific = {
@@ -262,21 +266,20 @@ hls.language_specific = {
 hls.editor = {
 	CursorLineNR = { fg = c.secondary },
 	BufferOffset = { fg = c.secondary },
-	FloatBorder = { bg = "None" },
+	FloatBorder = { bg = 'None' },
 	CursorLine = { bg = c.bg_highlight },
 	ErrorMsg = { fg = c.red, bg = c.bg, underline = true },
-	Float = { fg = c.red },
 	Folded = { bg = c.invisible },
 	Keyword = { fg = c.purple },
 	Label = { fg = c.green },
 	LineNr = { fg = c.comments },
 	MatchParen = { fg = c.white, bg = c.comments },
-	ModeMsg = { fg = "None", bg = "None" },
-	NonText = { fg = c.invisibles, bg = c.bg },
+	ModeMsg = { fg = 'None', bg = 'None' },
+	NonText = { fg = c.invisible, bg = c.bg },
 	Number = { fg = c.orange },
 	Search = { fg = c.bg, bg = c.secondary },
 	SpecialComment = { fg = c.comments },
-	SpecialKey = { fg = c.invisibles, bg = c.bg },
+	SpecialKey = { fg = c.invisible, bg = c.bg },
 	StorageClass = { fg = c.purple },
 	Tag = { fg = c.purple },
 	Title = { fg = c.red },
@@ -455,20 +458,17 @@ hls.editor = {
 	-- diffIndexLine = { link = 'Identifier' },
 }
 
-
-function M.get_base_highlights()
-	return utils.flatten(hls)
-end
+function M.get_base_highlights() return utils.flatten(hls) end
 
 function M.get_plugin_highlights()
 	local all_hls = {}
-	local plugin_files = vim.fn.glob(vim.fn.stdpath("config") .. "/lua/plugins" .. "/**/*.lua", true, true)
+	local plugin_files = vim.fn.glob(vim.fn.stdpath('config') .. '/lua/plugins' .. '/**/*.lua', true, true)
 
 	for _, file in ipairs(plugin_files) do
-		local is_installed, plugin = pcall(require, file:match("/(plugins/.*).lua"):gsub("/", "."))
+		local is_installed, plugin = pcall(require, file:match('/(plugins/.*).lua'):gsub('/', '.'))
 
 		if is_installed then
-			if type(plugin) == "table" then
+			if type(plugin) == 'table' then
 				if plugin.highlights then -- plugin has highlights
 					for group, highlight in pairs(plugin.highlights) do
 						all_hls[group] = highlight
@@ -481,8 +481,6 @@ function M.get_plugin_highlights()
 	return all_hls
 end
 
-function M.get_all_highlights()
-	return vim.tbl_extend("force", M.get_base_highlights(), M.get_plugin_highlights())
-end
+function M.get_all_highlights() return vim.tbl_extend('force', M.get_base_highlights(), M.get_plugin_highlights()) end
 
 return M
