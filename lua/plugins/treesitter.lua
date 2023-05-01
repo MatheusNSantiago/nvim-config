@@ -69,6 +69,8 @@ function M.config()
 					['if'] = '@function.inner',
 					['ac'] = '@class.outer',
 					['ic'] = '@class.inner',
+					['ib'] = '@block.inner',
+					['ab'] = '@block.outer',
 				},
 				include_surrounding_whitespace = false,
 			},
