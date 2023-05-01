@@ -109,10 +109,11 @@ function M.pcall(msg, func, ...)
 	local args = { ... }
 	if type(msg) == 'function' then
 		local arg = func --[[@as any]]
+		---@diagnostic disable-next-line: cast-local-type
 		args, func, msg = { arg, unpack(args) }, msg, nil
 	end
 	return xpcall(func, function(err)
-		msg = debug.traceback(msg and string.format('%s:\n%s', msg, err) or err)
+		msg = debug.traceback(msg and string.format('%s\n\n%s', msg, err) or err)
 		vim.schedule(function() vim.notify(msg, vim.log.levels.ERROR, { title = 'ERROR' }) end)
 	end, unpack(args))
 end

@@ -13,10 +13,12 @@ local is_boostrap = ensure_packer()
 pcall(require, 'impatient') -- performance
 return require('packer').startup(function(use)
 	local function setup(file, requires)
-		local cfg = require('plugins.' .. file).setup()
-		if requires ~= nil then cfg.requires = requires end
-		local success, _ = pcall(use, cfg)
-		if not success then vim.notify('Error loading plugin: ' .. file, vim.log.levels.WARN) end
+		local plugin = file:match('([^.]*)$')
+		local setup_ok, _setup = utils.pcall('Erro no setup do plugin: ' .. plugin, require('plugins.' .. file).setup)
+		if setup_ok then
+			if requires ~= nil then _setup.requires = requires end -- adiciona dependências
+			utils.pcall('Erro na config do plugin: ' .. plugin, use, _setup)
+		end
 	end
 
 	--  ╭──────────────────────────────────────────────────────────╮
