@@ -42,13 +42,6 @@ keymap('n', '<A-=>', ':tabm +1<CR>')
 -- restaurar tab fechada recentemente
 keymap('n', '<leader>ut', '<Cmd>Undoquit<CR>') -- [U]ndo [T]ab
 
---------- Mover entre janelas
-
-keymap('n', '<C-j>', '<C-w>h') -- Left
--- map('n', '<C-ç>', '<C-w>l') -- Right (AutoKey)
-keymap('n', '<C-l>', '<C-w>k') -- Top
-keymap('n', '<C-k>', '<C-w>j') --  Bottom
-
 -- Mover no command mode
 keymap('c', '<C-k>', '<Right>')
 keymap('c', '<C-l>', '<Left>')
@@ -78,17 +71,6 @@ keymap({ 'n', 'v' }, '<leader>y', '"+y')
 
 -- deletar pro void
 keymap({ 'n', 'v' }, '<leader>d', '"_d')
-
---  ╭──────────────────────────────────────────────────────────╮
---  │                          Resize                          │
---  ╰──────────────────────────────────────────────────────────╯
-
--- Resize Panes
-
-keymap('n', '<C-Up>', ':resize -2<CR>')
-keymap('n', '<C-Down>', ':resize +2<CR>')
-keymap('n', '<c-left>', ':vertical resize -2<CR>')
-keymap('n', '<C-Right>', ':vertical resize +2<CR>')
 
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Debug                           │
