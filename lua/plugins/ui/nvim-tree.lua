@@ -140,7 +140,7 @@ M.config = function()
 		--false by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
 		respect_buf_cwd = false,
 		-- show lsp diagnostics in the signcolumn
-		notify = { threshold = vim.log.levels.INFO },
+		notify = { threshold = vim.log.levels.WARN },
 		diagnostics = {
 			enable = false,
 			show_on_dirs = false,
@@ -238,7 +238,7 @@ M.config = function()
 		},
 		filters = {
 			dotfiles = false,
-			git_clean = false,
+			-- git_clean = false,
 			no_buffer = false,
 			custom = { 'node_modules', '\\.cache' },
 			exclude = {},
