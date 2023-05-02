@@ -238,12 +238,12 @@ M.config = function()
 		},
 		filters = {
 			dotfiles = false,
-			-- git_clean = false,
+			git_clean = false,
 			no_buffer = false,
 			custom = { 'node_modules', '\\.cache' },
 			exclude = {},
 		},
-		git = { enable = true, ignore = true, timeout = 500 },
+		git = { enable = true, ignore = false, timeout = 500 },
 		actions = {
 			use_system_clipboard = true,
 			change_dir = {
