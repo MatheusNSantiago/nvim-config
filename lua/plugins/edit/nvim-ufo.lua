@@ -3,8 +3,8 @@ local keymap = utils.api.keymap
 
 function M.setup()
 	-- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
-	keymap('n', 'zR', ":lua require('ufo').openAllFolds<CR>", { desc = 'Open all folds' })
-	keymap('n', 'zM', ":lua require('ufo').closeAllFolds<CR>", { desc = 'Close all folds' })
+	keymap('n', 'zR', ":lua require('ufo').openAllFolds()<CR>", { desc = 'Open all folds' })
+	keymap('n', 'zM', ":lua require('ufo').closeAllFolds()<CR>", { desc = 'Close all folds' })
 
 	return {
 		'kevinhwang91/nvim-ufo',
