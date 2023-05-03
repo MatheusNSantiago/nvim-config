@@ -9,20 +9,22 @@ function M.setup()
 		custom_picker.create_picker('FOO BAR', '<S-p>', 'filetype', {
 			{
 				name = 'Hello World',
-				handler = "echo 'teste'"
+				handler = "echo 'teste'",
 			},
 		})
+		local b, e = require('telescope.builtin'), telescope.extensions
 
-		local b = require('telescope.builtin')
-		local e = telescope.extensions
+		-- Builtin
 		keymap('n', '<leader>sf', b.find_files, { desc = '[S]earch [F]iles' })
-		keymap('n', '<leader>smf', e.media_files.media_files, { desc = '[S]earch [M]edia [F]iles' })
-		keymap('n', '<leader>sg', e.live_grep_args.live_grep_args, { desc = '[S]earch by [G]rep' })
 		keymap('n', '<leader>s/', b.current_buffer_fuzzy_find, { desc = 'Search in file' })
 		keymap('n', '<leader>sk', b.keymaps, { desc = '[S]earch [K]eymaps' })
 		keymap('n', '<leader>sof', b.oldfiles, { desc = '[S]earch [O]ld [F]iles' })
 		keymap('n', '<leader>sh', b.help_tags, { desc = '[S]earch [H]elp' })
 		keymap('n', '<leader>sw', ':Telescope grep_string<CR>', { desc = '[S]earch [W]ord' })
+		-- Extension
+		keymap('n', '<leader>smf', e.media_files.media_files, { desc = '[S]earch [M]edia [F]iles' })
+		keymap('n', '<leader>sg', e.live_grep_args.live_grep_args, { desc = '[S]earch by [G]rep' })
+		keymap('n', '<leader>sy', ':Telescope neoclip<CR>', { desc = '[S]earch [Y]anks' })
 	end
 
 	return {
@@ -31,16 +33,6 @@ function M.setup()
 		config = M.config,
 	}
 end
-
-local c = require('utils.colors')
-M.highlights = {
-	TelescopeTitle = { fg = c.secondary, bold = true },
-	TelescopeNormal = { bg = 'None', ctermbg = 'White' }, -- ctermbg white faz ficar transparente
-	TelescopeBorder = { fg = '#488dff' },
-	TelescopeMatching = { fg = c.secondary },
-	TelescopePromptPrefix = { bg = 'None', ctermbg = 'White' },
-	TelescopePromptCounter = { bg = 'None', ctermbg = 'White' },
-}
 
 function M.config()
 	local telescope = require('telescope')
@@ -76,7 +68,6 @@ function M.config()
 
 	telescope.setup({
 		defaults = {
-			file_ignore_patterns = { '.venv', 'node_modules', '%.jpg', '%.jpeg', '%.png', '.git' },
 			mappings = {
 				i = {
 					['<C-k>'] = 'move_selection_next',
@@ -98,12 +89,23 @@ function M.config()
 		},
 		selection_caret = ' ',
 		buffer_previewer_maker = preview_maker,
+		pickers = {
+			find_files = {
+				file_ignore_patterns = { '.venv', 'node_modules', '%.jpg', '%.jpeg', '%.png', '.git' },
+				hidden = true,
+				find_command = { 'rg', '--files', '--hidden', '-g', '!.git' },
+			},
+		},
 		extensions = {
 			fzf = {
 				fuzzy = true, -- false will only do exact matching
 				override_generic_sorter = true, -- override the generic sorter
 				override_file_sorter = true, -- override the file sorter
 				case_mode = 'smart_case', -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
+			},
+			media_files = {
+				filetypes = { 'png', 'webp', 'jpg', 'jpeg', 'pdf', 'mp4', 'webm' },
+				find_cmd = 'fd',
 			},
 		},
 		layout_config = {
@@ -130,6 +132,17 @@ function M.config()
 
 	telescope.load_extension('fzf')
 	telescope.load_extension('media_files')
+	telescope.load_extension('neoclip')
 end
+
+local c = require('utils.colors')
+M.highlights = {
+	TelescopeTitle = { fg = c.secondary, bold = true },
+	TelescopeNormal = { bg = 'None', ctermbg = 'White' }, -- ctermbg white faz ficar transparente
+	TelescopeBorder = { fg = '#488dff' },
+	TelescopeMatching = { fg = c.secondary },
+	TelescopePromptPrefix = { bg = 'None', ctermbg = 'White' },
+	TelescopePromptCounter = { bg = 'None', ctermbg = 'White' },
+}
 
 return M
