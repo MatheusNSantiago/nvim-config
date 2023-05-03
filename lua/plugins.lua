@@ -8,7 +8,7 @@ local function ensure_packer()
 	end
 	return false
 end
-local is_boostrap = ensure_packer()
+local is_bootstrap = ensure_packer()
 
 pcall(require, 'impatient') -- performance
 return require('packer').startup(function(use)
@@ -175,20 +175,8 @@ return require('packer').startup(function(use)
 	setup('git.vim-fugitive') -- base git plugin
 	setup('git.gitsigns') -- gutter signs
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                          Debug                           │
-	--  ╰──────────────────────────────────────────────────────────╯
-
-	setup('debug.debugprint') -- quick print for debug
-
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                          Outros                          │
-	--  ╰──────────────────────────────────────────────────────────╯
-
-	-- setup('others.chatGPT')
-
 	-- |───────────────────────────────────────────────────────────|
-	if is_boostrap then -- Bootstrap Neovim
+	if is_bootstrap then -- Bootstrap Neovim
 		require('packer').sync()
 	end
 end)
