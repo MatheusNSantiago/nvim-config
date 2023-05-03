@@ -15,7 +15,7 @@ function M.config()
 		languages = {
 			lua = {
 				template = {
-					annotation_convention = 'ldoc',
+					annotation_convention = 'emmylua',
 				},
 			},
 			python = {
