@@ -3,6 +3,9 @@ local M = {}
 function M.setup()
 	return {
 		'ggandor/flit.nvim',
+		requires = {
+			'ggandor/leap.nvim',
+		},
 		config = M.config,
 	}
 end
