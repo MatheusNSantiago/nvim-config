@@ -71,6 +71,7 @@ return require('packer').startup(function(use)
 	setup('navigation.readline')                                -- Readline motions and deletions (igual do terminal)
 	setup('navigation.leap')                                    -- sneap + easymotion
 	setup('navigation.flit')                                    -- Repeat jump by pressing f, F, t, T again
+	setup('navigation.leap-spooky')                             -- operar em text objects a distância
 
 	use('itchyny/vim-highlighturl')                             -- highlight URLs
 
