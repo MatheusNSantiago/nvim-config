@@ -7,12 +7,13 @@ M.servers = {
 	'cssls',
 	'yamlls',
 	'dockerls',
+	'html',
+	'jsonls',
 	'lua_ls',
 	'pyright',
 	'tsserver',
-	'html',
 	'tailwindcss',
-	'jsonls',
+	'clangd',
 }
 
 function M.commom_keymaps()
@@ -98,12 +99,6 @@ function M.get_commom_configs()
 		handlers = {
 			['textDocument/hover'] = require('lsp.functions').custom_hover_handler,
 			['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
-			-- ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-			-- 	severity_sort = true,
-			-- 	underline = true,
-			-- 	update_in_insert = false,
-			-- 	virtual_text = { spacing = 4, prefix = "●" },
-			-- }),
 		},
 		on_attach = M.common_on_attach,
 		-- on_init = M.common_on_init,
