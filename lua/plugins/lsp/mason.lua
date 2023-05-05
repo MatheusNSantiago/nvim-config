@@ -30,7 +30,7 @@ function M.config()
 	mason_null_ls.setup({
 		ensure_installed = {
 			"ruff",
-			"yamllint",
+			"yamlfmt",
 			"prettierd",
 			-- Opt to list sources here, when available in mason.
 		},
