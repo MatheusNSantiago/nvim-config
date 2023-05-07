@@ -91,7 +91,6 @@ return require('packer').startup(function(use)
 	setup('edit.vim-visual-multi') -- multicursor
 	setup('edit.neogen')           -- documentation generation
 	setup('edit.undotree')         -- undo tree
-	setup('edit.ssr')              -- search and replace
 	setup('edit.vim-textobj-comment') -- comment text objects
 	setup('edit.mini-move')        -- Move lines and selections
 	setup('edit.nvim-neoclip')     -- clipboard manager
