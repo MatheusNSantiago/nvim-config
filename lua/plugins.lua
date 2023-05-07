@@ -15,7 +15,7 @@ return require('packer').startup(function(use)
 	local function setup(file, requires)
 		local plugin = file:match('([^.]*)$')
 		local setup_ok, _setup = utils.pcall('Erro no setup do plugin: ' .. plugin, require('plugins.' .. file).setup)
-		if setup_ok then
+		if setup_ok and type(_setup) == 'table' then
 			if requires ~= nil then _setup.requires = requires end -- adiciona dependências
 			utils.pcall('Erro na config do plugin: ' .. plugin, use, _setup)
 		end
