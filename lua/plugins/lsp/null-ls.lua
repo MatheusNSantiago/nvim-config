@@ -2,13 +2,13 @@ local M = {}
 
 function M.setup()
 	return {
-		"jose-elias-alvarez/null-ls.nvim",
+		'jose-elias-alvarez/null-ls.nvim',
 		config = M.config,
 	}
 end
 
 function M.config()
-	local null_ls = require("null-ls")
+	local null_ls = require('null-ls')
 	local b = null_ls.builtins
 
 	-- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
@@ -19,7 +19,7 @@ function M.config()
 			--  ╰──────────────────────────────────────────────────────────╯
 
 			b.formatting.stylua.with({
-				extra_args = { "--config-path", vim.fn.expand("~/.config/nvim/lua/lsp/linter-config/stylua.toml") },
+				extra_args = { '--config-path', vim.fn.expand('~/.config/nvim/lua/lsp/linter-config/stylua.toml') },
 			}),
 			b.formatting.black, -- python
 			b.formatting.prettierd, -- js/ts
@@ -28,6 +28,7 @@ function M.config()
 			b.formatting.yamlfmt, -- yaml
 			b.formatting.dart_format, -- dart
 			b.formatting.fish_indent, -- fish
+			b.formatting.clang_format, -- C
 
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                         Linter                           │
@@ -38,6 +39,7 @@ function M.config()
 			b.diagnostics.fish, -- fish
 			b.diagnostics.ruff, -- python
 			b.diagnostics.yamllint, -- yaml
+			b.diagnostics.commitlint, -- git commit
 
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                        Completion                        │
@@ -49,13 +51,16 @@ function M.config()
 			--  │                       Code Actions                       │
 			--  ╰──────────────────────────────────────────────────────────╯
 			b.code_actions.eslint_d,
-			require("typescript.extensions.null-ls.code-actions"),
+			require('typescript.extensions.null-ls.code-actions'),
 		},
 		on_attach = function(client, bufnr)
-			if client.supports_method("textDocument/formatting") then
-				vim.keymap.set("n", "<Leader>ff", function()
-					vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf(), timeout_ms = 3000 })
-				end, { buffer = bufnr, desc = "[lsp] format" })
+			if client.supports_method('textDocument/formatting') then
+				vim.keymap.set(
+					'n',
+					'<Leader>ff',
+					function() vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf(), timeout_ms = 3000 }) end,
+					{ buffer = bufnr, desc = '[lsp] format' }
+				)
 			end
 		end,
 	})
