@@ -169,6 +169,7 @@ return require('packer').startup(function(use)
 	})
 
 	use('jose-elias-alvarez/typescript.nvim') -- + funcionalidades pro ts_server (e.g. rename file & update imports)
+	use('fs111/pydoc.vim')                 -- python documentation
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                           Git                            │
