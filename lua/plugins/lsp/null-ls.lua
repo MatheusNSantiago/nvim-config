@@ -39,7 +39,6 @@ function M.config()
 			b.diagnostics.fish, -- fish
 			b.diagnostics.ruff, -- python
 			b.diagnostics.yamllint, -- yaml
-			b.diagnostics.commitlint, -- git commit
 
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                        Completion                        │

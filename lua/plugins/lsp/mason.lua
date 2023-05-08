@@ -34,7 +34,6 @@ function M.config()
 			'prettierd',
 			'cpplint',
 			'clang-format',
-			'commitlint',
 		},
 		automatic_setup = true, -- Recommended, but optional
 	})
