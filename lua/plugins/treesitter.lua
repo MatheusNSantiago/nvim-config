@@ -52,7 +52,12 @@ function M.config()
 			},
 		},
 		highlight = { enable = true, use_languagetree = true, additional_vim_regex_highlighting = false },
-		indent = { enable = true, disable = {} },
+		indent = {
+			enable = true,
+			disable = {
+				'python',
+			}
+		},
 		rainbow = {
 			enable = true,
 			extended_mode = false, -- Also highlight non-bracket delimiters like html tags, boolean or table
