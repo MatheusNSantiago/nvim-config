@@ -46,10 +46,12 @@ return cmp.mapping.preset.insert({
 	['<Tab>'] = cmp.mapping(tab, { 'i', 's' }),
 	['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 's' }),
 	['<CR>'] = cmp.mapping(function(fallback)
-		if luasnip.expandable() then
-			luasnip.expand()
-		elseif cmp.visible() then
-			cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+		if cmp.visible() then
+			if luasnip.expandable() then
+				luasnip.expand()
+			else
+				cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+			end
 		else
 			fallback()
 		end
