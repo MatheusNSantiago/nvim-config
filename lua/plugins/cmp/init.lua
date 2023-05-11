@@ -31,7 +31,7 @@ function M.config()
 			},
 			{
 				name = 'copilot',
-				priority = 900,
+				priority = 1000,
 				keyword_length = 0,
 				group_index = 1,
 			},
@@ -71,7 +71,6 @@ function M.config()
 				-- cmp.config.compare.kind,
 				cmp.config.compare.exact,
 				cmp.config.compare.score,
-				cmp.config.compare.locality,
 				cmp.config.compare.offset,
 				cmp.config.compare.sort_text,
 				cmp.config.compare.order,
@@ -117,7 +116,6 @@ function M.config()
 				winhighlight = 'Normal:TelescopeNormal,FloatBorder:TelescopeBorder',
 			}),
 		},
-		experimental = { ghost_text = true },
 		preselect = cmp.PreselectMode.Item,
 		view = { entries = 'custom' }, -- can be "custom", "wildmenu" or "native"
 	})
