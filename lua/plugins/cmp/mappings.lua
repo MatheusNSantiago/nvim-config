@@ -14,13 +14,10 @@ local function shift_tab(fallback)
 end
 
 local function tab(fallback)
-	local copilot_ok, suggestion = pcall(require, 'copilot.suggestion')
 	if luasnip.jumpable() then
 		luasnip.jump(1)
 	elseif neogen.jumpable() then
 		neogen.jump_next()
-	elseif copilot_ok and suggestion.is_visible() then
-		suggestion.accept()
 	else
 		fallback()
 	end
@@ -46,7 +43,10 @@ return cmp.mapping.preset.insert({
 	['<Tab>'] = cmp.mapping(tab, { 'i', 's' }),
 	['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 's' }),
 	['<CR>'] = cmp.mapping(function(fallback)
-		if cmp.visible() then
+		local copilot_ok, suggestion = pcall(require, 'copilot.suggestion')
+		if copilot_ok and suggestion.is_visible() then
+			suggestion.accept()
+		elseif cmp.visible() then
 			if luasnip.expandable() then
 				luasnip.expand()
 			else
