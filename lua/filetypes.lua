@@ -14,6 +14,13 @@ settings({
 			spelllang = 'en_gb',
 		},
 	},
+	c = {
+		bo = {
+			tabstop = 2, -- number of columns occupied by a tab character
+			shiftwidth = 2, -- width for autoindents
+			softtabstop = 2, -- see multiple spaces as tabstops
+		},
+	},
 	NeogitCommitMessage = {
 		opt = {
 			spell = true,
@@ -24,11 +31,11 @@ settings({
 			cmp = function(cmp)
 				cmp.setup.filetype('NeogitCommitMessage', {
 					sources = {
-						{ name = 'git', group_index = 1 },
-						{ name = 'luasnip', group_index = 1 },
+						{ name = 'git',        group_index = 1 },
+						{ name = 'luasnip',    group_index = 1 },
 						{ name = 'dictionary', group_index = 1 },
-						{ name = 'spell', group_index = 1 },
-						{ name = 'buffer', group_index = 2 },
+						{ name = 'spell',      group_index = 1 },
+						{ name = 'buffer',     group_index = 2 },
 					},
 				})
 			end,
@@ -52,10 +59,10 @@ settings({
 		},
 		bo = { bufhidden = 'wipe' },
 		mappings = {
-			{ 'n', 'q', '<Cmd>q<CR>' },
+			{ 'n', 'q',  '<Cmd>q<CR>' },
 			{ 'n', 'ç', '<CR>' },
-			{ 'n', 'j', '<CR>' },
-			{ 'n', 'o', '<CR>' },
+			{ 'n', 'j',  '<CR>' },
+			{ 'n', 'o',  '<CR>' },
 		},
 	},
 })
