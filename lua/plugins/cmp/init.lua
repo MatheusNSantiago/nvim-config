@@ -116,6 +116,7 @@ function M.config()
 				winhighlight = 'Normal:TelescopeNormal,FloatBorder:TelescopeBorder',
 			}),
 		},
+		experimental = { ghost_text = {} },
 		preselect = cmp.PreselectMode.Item,
 		view = { entries = 'custom' }, -- can be "custom", "wildmenu" or "native"
 	})

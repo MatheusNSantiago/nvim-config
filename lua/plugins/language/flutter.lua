@@ -32,7 +32,11 @@ function M.config()
 			},
 		},
 		widget_guides = { enabled = true },
-		dev_log = { enabled = true, open_cmd = 'tabedit' },
+		dev_log = {
+			enabled = true,
+			open_cmd = 'tabedit', -- command to use to open the log buffer
+			notify_errors = true,-- if there is an error whilst running then notify the user
+		},
 		lsp = {
 			settings = {
 				showTodos = true,
