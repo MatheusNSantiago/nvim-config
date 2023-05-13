@@ -48,6 +48,7 @@ function M.config()
 
 				require('telescope').load_extension('flutter')
 
+				keymap('n', '<leader>dl', ':tabedit __FLUTTER_DEV_LOG__<CR>', { desc = 'Flutter: Open [D]ev [L]og' })
 				keymap('n', '<leader>r', ':FlutterReload<CR>', { desc = 'Flutter: reload' })
 				keymap('n', '<leader><leader>r', ':FlutterRestart<CR>', { desc = 'Flutter: restart' })
 				keymap(
