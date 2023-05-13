@@ -19,9 +19,9 @@ return function(entry, ctx)
 
 		if char == '.' then return (kind ~= 'Snippet') end
 
-
 		if
-			char_before == '\t' and (prev_line_last_char == '(' or prev_line_last_char == ',' or prev_line_last_char == '{')
+			(char_before == '\t' or char_before == ' ')
+			and (prev_line_last_char == '(' or prev_line_last_char == ',' or prev_line_last_char == '{')
 		then
 			return (kind ~= 'Snippet')
 		end
