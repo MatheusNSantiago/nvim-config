@@ -458,6 +458,10 @@ hls.editor = {
 	-- diffIndexLine = { link = 'Identifier' },
 }
 
+hls.ext_marks = {
+	DiagnosticUnnecessary = { link = "Comment" },
+}
+
 function M.get_base_highlights() return utils.flatten(hls) end
 
 function M.get_plugin_highlights()
