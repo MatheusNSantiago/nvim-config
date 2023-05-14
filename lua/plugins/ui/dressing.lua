@@ -2,22 +2,22 @@ local M = {}
 
 function M.setup()
 	return {
-		"stevearc/dressing.nvim",
+		'stevearc/dressing.nvim',
 		config = M.config,
 	}
 end
 
 function M.config()
-	require("dressing").setup({
+	require('dressing').setup({
 		input = {
 			enabled = true, -- Set to false to disable the vim.ui.input implementation
-			default_prompt = "Input:", -- Default prompt string
-			prompt_align = "left", -- Can be 'left', 'right', or 'center'
+			default_prompt = 'Input:', -- Default prompt string
+			prompt_align = 'left', -- Can be 'left', 'right', or 'center'
 			insert_only = true, -- When true, <Esc> will close the modal
 			start_in_insert = true, -- When true, input will start in insert mode.
-			anchor = "SW", -- These are passed to nvim_open_win
-			border = "rounded",
-			relative = "cursor",
+			anchor = 'SW', -- These are passed to nvim_open_win
+			border = 'rounded',
+			relative = 'cursor',
 			prefer_width = 40, -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
 			width = nil,
 			-- min_width and max_width can be a list of mixed types.
@@ -29,19 +29,19 @@ function M.config()
 				winblend = 0, -- Window transparency (0-100)
 				wrap = false, -- Disable line wrapping
 				-- winhighlight = "Normal:Normal,NormalNC:Normal",
-				winhighlight = "Normal:TelescopeNormal,FloatBorder:TelescopeBorder",
+				winhighlight = 'Normal:TelescopeNormal,FloatBorder:TelescopeBorder',
 			},
 			-- Set to `false` to disable
 			mappings = {
 				n = {
-					["<Esc>"] = "Close",
-					["<CR>"] = "Confirm",
+					['<Esc>'] = 'Close',
+					['<CR>'] = 'Confirm',
 				},
 				i = {
-					["<C-c>"] = "Close",
-					["<CR>"] = "Confirm",
-					["<Up>"] = "HistoryPrev",
-					["<Down>"] = "HistoryNext",
+					['<C-c>'] = 'Close',
+					['<CR>'] = 'Confirm',
+					['<Up>'] = 'HistoryPrev',
+					['<Down>'] = 'HistoryNext',
 				},
 			},
 			override = function(conf)
@@ -56,7 +56,7 @@ function M.config()
 			-- Set to false to disable the vim.ui.select implementation
 			enabled = true,
 			-- Priority list of preferred vim.select implementations
-			backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
+			backend = { 'telescope', 'fzf_lua', 'fzf', 'builtin', 'nui' },
 			-- Trim trailing `:` from prompt
 			trim_prompt = true,
 			-- Options for telescope selector
@@ -79,13 +79,13 @@ function M.config()
 			},
 			-- Options for nui Menu
 			nui = {
-				position = "50%",
+				position = '50%',
 				size = nil,
-				relative = "editor",
-				border = { style = "rounded" },
+				relative = 'editor',
+				border = { style = 'rounded' },
 				buf_options = {
 					swapfile = false,
-					filetype = "DressingSelect",
+					filetype = 'DressingSelect',
 				},
 				win_options = { winblend = 10 },
 				max_width = 80,
@@ -96,14 +96,14 @@ function M.config()
 			-- Options for built-in selector
 			builtin = {
 				-- These are passed to nvim_open_win
-				anchor = "NW",
-				border = "rounded",
+				anchor = 'NW',
+				border = 'rounded',
 				-- 'editor' and 'win' will default to being centered
-				relative = "editor",
+				relative = 'editor',
 				buf_options = {},
 				win_options = {
 					winblend = 10, -- Window transparency (0-100)
-					winhighlight = "Normal:Normal,NormalNC:Normal",
+					winhighlight = 'Normal:Normal,NormalNC:Normal',
 				},
 				-- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
 				-- the min_ and max_ options can be a list of mixed types.
@@ -116,9 +116,10 @@ function M.config()
 				min_height = { 10, 0.2 },
 				-- Set to `false` to disable
 				mappings = {
-					["<Esc>"] = "Close",
-					["<C-c>"] = "Close",
-					["<CR>"] = "Confirm",
+					n = { ['q'] = 'Close' },
+					['<Esc>'] = 'Close',
+					['<C-c>'] = 'Close',
+					['<CR>'] = 'Confirm',
 				},
 				override = function(conf)
 					-- This is the config that will be passed to nvim_open_win.
