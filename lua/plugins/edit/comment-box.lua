@@ -29,7 +29,7 @@ function M.config()
 			bottom_left = '╰',
 			bottom_right = '╯',
 		},
-		line_width = 100, -- width of the lines
+		line_width = 85, -- width of the lines
 		line = {
 			-- symbols used to draw a line
 			line = '─',
