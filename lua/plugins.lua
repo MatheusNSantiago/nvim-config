@@ -71,6 +71,7 @@ return require('packer').startup(function(use)
 	setup('navigation.readline')                                -- Readline motions and deletions (igual do terminal)
 	setup('navigation.leap')                                    -- sneap + easymotion
 	setup('navigation.flit')                                    -- Repeat jump by pressing f, F, t, T again
+	setup('navigation.vim-matchup')                             -- highlight, navigate, and operate on %
 
 	use('itchyny/vim-highlighturl')                             -- highlight URLs
 
@@ -93,7 +94,7 @@ return require('packer').startup(function(use)
 	setup('edit.vim-textobj-comment') -- comment text objects
 	setup('edit.mini-move')        -- Move lines and selections
 	setup('edit.nvim-neoclip')     -- clipboard manager
-	setup('edit.leap-spooky')                             -- operar em text objects a distância
+	setup('edit.leap-spooky')      -- operar em text objects a distância
 
 	use('tpope/vim-surround')      -- cs"'
 	use('tpope/vim-repeat')        -- deixa o vim-surrond usar o '.'

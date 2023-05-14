@@ -101,7 +101,7 @@ function M.config()
 			},
 			swap = { enable = false, swap_next = {} },
 		},
-		matchup = { enable = false },
+		matchup = { enable = true, disable_virtual_text = true },
 		endwise = { enable = true }, -- Automatically add end to blocks
 	})
 end
