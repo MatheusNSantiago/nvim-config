@@ -50,6 +50,7 @@ return require('packer').startup(function(use)
 	setup('ui.nvim-colorizer')   -- #FFF ficar com o background branco
 	setup('ui.todo-comments')    -- highlight TODO, FIXME, etc...
 	setup('ui.smart-splits')     -- split pane management
+	setup('ui.vim-scrollbar')    -- scrollbar
 
 	use('tpope/vim-sleuth')      -- Detect tabstop and shiftwidth automatically
 	use('sitiom/nvim-numbertoggle') -- automatic relative/absolute line numbers
