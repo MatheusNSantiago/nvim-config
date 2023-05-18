@@ -21,7 +21,8 @@ function M.config()
 			b.formatting.stylua.with({
 				extra_args = { '--config-path', vim.fn.expand('~/.config/nvim/lua/lsp/linter-config/stylua.toml') },
 			}),
-			b.formatting.black, -- python
+			-- b.formatting.black, -- python
+			b.formatting.ruff, -- python
 			b.formatting.prettierd, -- js/ts
 			-- b.formatting.rustywind, -- tailwind (reorganiza classes)
 			b.formatting.fixjson, -- json
@@ -37,7 +38,9 @@ function M.config()
 			-- b.diagnostics.eslint_d, -- js/ts
 			-- b.diagnostics.xo,
 			b.diagnostics.fish, -- fish
-			b.diagnostics.ruff, -- python
+			b.diagnostics.ruff.with({
+				extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') }
+			}),
 			b.diagnostics.yamllint, -- yaml
 
 			--  ╭──────────────────────────────────────────────────────────╮
