@@ -27,7 +27,8 @@ return function(entry, ctx)
 		limitSnippetsIfLineMatches([[['"]%w*█]]) -- 'foo█' ou "foo█"
 		limitSnippetsIfLineMatches('%(%w*█%w*%)') -- (foo█)
 		limitSnippetsIfLineMatches('{%s*█') -- {█'
-		limitSnippetsIfLineMatches('{.+,%s*█.*}') -- {foo: bar, █ } | {foo: bar, █, baz: qux}
+		limitSnippetsIfLineMatches('{.+,%s*█.*}?') -- {foo: bar, █ } | {foo: bar, █, baz: qux}
+		limitSnippetsIfLineMatches('(.+,%s*█.*)?') -- (foo: bar, █ ) | (foo: bar, █, baz: qux)
 
 		-- [(,{]\n█)
 		local prev_line_last_char = prev_line:sub(-1, -1)
