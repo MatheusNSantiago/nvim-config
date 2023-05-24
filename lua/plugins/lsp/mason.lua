@@ -30,6 +30,7 @@ function M.config()
 	mason_null_ls.setup({
 		ensure_installed = {
 			'ruff',
+			'black',
 			'yamlfmt',
 			'prettierd',
 			'cpplint',
