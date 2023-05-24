@@ -1,8 +1,10 @@
 # Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
 select = ["E", "F"]
 
-# Never enforce `E501` (line length violations).
-ignore = [ "E501" ]
+# Never enforce:
+# `E501` (line length violations).
+# `E741` (Do not use variables named 'I', 'O', or 'l').
+ignore = [ "E501", "E741" ]
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
