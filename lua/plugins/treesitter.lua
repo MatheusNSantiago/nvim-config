@@ -106,10 +106,10 @@ function M.config()
 	})
 end
 
--- M.highlights = {
--- 	rainbowcol1 = { fg = "Yellow" },
--- 	rainbowcol2 = { fg = "#4688f0" },
--- 	rainbowcol4 = { fg = "#98c379" },
--- }
+M.highlights = {
+	rainbowcol1 = { fg = "Yellow" },
+	-- rainbowcol2 = { fg = "#4688f0" },
+	-- rainbowcol4 = { fg = "#98c379" },
+}
 
 return M
