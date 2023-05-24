@@ -66,12 +66,12 @@ function M.config()
 			priority_weight = 2,
 			comparators = {
 				require('copilot_cmp.comparators').prioritize,
-				-- require('plugins.cmp.utils.comparators').deprioritize_snippet,
+				-- require('plugins.cmp.utils.comparators').custom_sort,
 				require('cmp-under-comparator').under,
-				-- cmp.config.compare.kind,
-				cmp.config.compare.exact,
 				cmp.config.compare.score,
+				cmp.config.compare.exact,
 				cmp.config.compare.offset,
+				cmp.config.compare.kind,
 				cmp.config.compare.sort_text,
 				cmp.config.compare.order,
 			},
@@ -79,15 +79,12 @@ function M.config()
 		formatting = {
 			fields = { 'kind', 'abbr', 'menu' },
 			format = lspkind.cmp_format({
-				mode = 'symbol',
+				mode = 'symbol_text',
 				max_width = 50,
 				symbol_map = require('utils.icons').lspkind,
 				before = function(entry, vim_item)
 					vim_item.dup = ({ nvim_lsp = 0, path = 0 })[entry.source.name] or 0
-
-					if vim_item.kind == 'Color' and entry.completion_item.documentation then
-						vim_item = require('plugins.cmp.utils.custom_formats').format_tailwind(entry, vim_item) -- for tailwind css autocomplete
-					end
+					vim_item.kind = require('utils.icons').lspkind[vim_item.kind]
 
 					if vim.tbl_contains({ 'path' }, entry.source.name) then
 						local icon, hl_group = require('nvim-web-devicons').get_icon(entry:get_completion_item().label)
@@ -97,6 +94,9 @@ function M.config()
 							return vim_item
 						end
 					end
+
+					vim_item = require('plugins.cmp.utils.custom_formats').format_tailwind(entry, vim_item) -- for tailwind css autocomplete
+
 					return vim_item
 				end,
 			}),
@@ -110,7 +110,7 @@ function M.config()
 				winhighlight = 'Normal:TelescopeNormal,FloatBorder:TelescopeBorder',
 				border = 'rounded',
 				col_offset = -3,
-				side_padding = 1,
+				side_padding = 0,
 			}),
 			documentation = cmp.config.window.bordered({
 				winhighlight = 'Normal:TelescopeNormal,FloatBorder:TelescopeBorder',
