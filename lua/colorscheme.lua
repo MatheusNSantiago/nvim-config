@@ -14,9 +14,11 @@ hls.syntax = {
 	String = { fg = c.green },
 	Identifier = { fg = c.yellow },
 	Type = { fg = c.purple },
+	TypeDef = { fg = c.yellow },
 	Function = { fg = c.yellow },
 	Statement = { fg = c.purple },
-	Operator = { fg = c.purple },
+	-- Operator = { fg = c.purple },
+	Operator = { fg = c.red },
 	WarningMsg = { fg = c.orange },
 	PreProc = { fg = c.purple },
 	Define = { fg = c.purple },
@@ -26,6 +28,7 @@ hls.syntax = {
 	Include = { fg = c.purple },
 	Macro = { fg = c.purple },
 	Structure = { fg = c.red },
+	-- Structure = { fg = c.yellow },
 	Underlined = { fg = 'None' },
 	Error = { fg = c.red, underline = true },
 }
@@ -44,7 +47,8 @@ hls.lsp = {
 	-- ["@lsp.type.property"] = { link = "Identifier" },
 	-- ["@lsp.type.struct"] = { link = "Structure" },
 	-- ["@lsp.type.type"] = { link = "Type" },
-	-- ["@lsp.type.typeParameter"] = { link = "TypeDef" },
+	["@lsp.type.type"] = { link = "TypeDef" },
+	['@lsp.type.typeParameter'] = { link = 'TypeDef' },
 	['@lsp.type.variable'] = { fg = 'none' }, -- Identifier
 	['@lsp.type.comment'] = { fg = 'none' }, -- Comment
 	['@lsp.type.selfParameter'] = { link = '@variable.builtin' },
@@ -70,6 +74,7 @@ hls.lsp = {
 	['@lsp.typemod.string.injected'] = { link = 'String' },
 	['@lsp.typemod.variable.injected'] = { link = '@variable' },
 	-- ["@lsp.typemod.function.readonly"] = { fg = theme.syn.fun, bold = true },
+	['@lsp.typemod.function.readonly'] = { link = 'Function', bold = true },
 	['@lsp.mod.annotation'] = { fg = c.purple }, -- @[annotation]
 	['@lsp.type.annotation'] = { fg = c.purple }, -- [@]annotation
 }
@@ -127,6 +132,7 @@ hls.treesitter = {
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                    Keywords (Keyword)                    │
 	--  ╰──────────────────────────────────────────────────────────╯
+	['@keyword'] = { link = "Keyword" },  -- interfaces
 	-- @keyword                                    ; various keywords
 	-- @keyword.function                           ; keywords that define a function (e.g. `func` in Go, `def` in Python)
 	-- @keyword.operator                           ; operators that are English words (e.g. `and` / `or`)
@@ -218,8 +224,18 @@ hls.treesitter = {
 	['@tag.delimiter'] = { fg = c.white }, -- interfaces
 }
 
-hls.language_specific = {
-	--  CSS
+hls.ts = {
+	["@type.typescript"] = {link = "@variable"},
+	["@type.tsx"] = {link = "@variable"},
+}
+
+hls.dart = {
+	["@lsp.type.source.dart"] = {link = "Structure"},
+	-- ["@lsp.type.class.dart"] = {link = "Type"},
+
+}
+
+hls.css = {
 	cssBraces = { fg = c.fg },
 	cssInclude = { fg = c.purple },
 	cssTagName = { fg = c.yellow },
@@ -242,7 +258,9 @@ hls.language_specific = {
 	cssStyle = { fg = c.fg },
 	cssImportant = { fg = c.blue },
 	cssPropriety = { fg = c.purple },
-	--  HTML
+}
+
+hls.html = {
 	htmlH1 = { fg = c.fg },
 	htmlH2 = { fg = c.fg },
 	htmlH3 = { fg = c.fg },
@@ -257,10 +275,6 @@ hls.language_specific = {
 	htmlTagName = { fg = c.blue },
 	htmlComment = { fg = c.green },
 	htmlLink = { fg = c.orange, underline = true },
-	--  XML
-	xmlTag = { fg = c.cyan },
-	xmlTagName = { fg = c.cyan },
-	xmlEndTag = { fg = c.cyan },
 }
 
 hls.editor = {
@@ -459,7 +473,7 @@ hls.editor = {
 }
 
 hls.ext_marks = {
-	DiagnosticUnnecessary = { link = "Comment" },
+	DiagnosticUnnecessary = { link = 'Comment' },
 }
 
 function M.get_base_highlights() return utils.flatten(hls) end
