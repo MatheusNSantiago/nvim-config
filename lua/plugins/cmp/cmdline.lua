@@ -1,29 +1,25 @@
 local M = {}
 
 function M.setup()
-    local cmp = require("cmp")
-    local lspkind = require("lspkind")
+    local cmp = require('cmp')
+    local lspkind = require('lspkind')
 
     -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline({ "/", "?" }, {
+    cmp.setup.cmdline({ '/', '?' }, {
         mapping = cmp.mapping.preset.cmdline({
-            ["<C-l>"] = cmp.mapping({
+            ['<C-l>'] = cmp.mapping({
                 c = function(fallback)
-                    if cmp.visible() then
-                        return cmp.select_prev_item()
-                    end
+                    if cmp.visible() then return cmp.select_prev_item() end
                     fallback()
                 end,
             }),
-            ["<C-k>"] = cmp.mapping({
+            ['<C-k>'] = cmp.mapping({
                 c = function(fallback)
-                    if cmp.visible() then
-                        return cmp.select_next_item()
-                    end
+                    if cmp.visible() then return cmp.select_next_item() end
                     fallback()
                 end,
             }),
-            ["<Tab>"] = cmp.mapping({
+            ['<Tab>'] = cmp.mapping({
                 c = function(fallback)
                     if cmp.visible() then
                         return cmp.confirm({
@@ -36,15 +32,15 @@ function M.setup()
                 end,
             }),
         }),
-        sources = { { name = "buffer" } },
+        sources = { { name = 'buffer' } },
         formatting = {
-            fields = { "abbr", "kind" },
+            fields = { 'abbr', 'kind' },
             format = lspkind.cmp_format({
-                mode = "symbol_text", -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+                mode = 'symbol_text', -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
                 maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
                 before = function(_, vim_item)
-                    if vim_item.kind == "Text" then
-                        vim_item.kind = ""
+                    if vim_item.kind == 'Text' then
+                        vim_item.kind = ''
                         return vim_item
                     end
                     -- just show the icon
@@ -56,25 +52,21 @@ function M.setup()
     })
 
     -- `:` cmdline setup.
-    cmp.setup.cmdline(":", {
+    cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline({
-            ["<C-l>"] = cmp.mapping({
+            ['<C-l>'] = cmp.mapping({
                 c = function(fallback)
-                    if cmp.visible() then
-                        return cmp.select_prev_item()
-                    end
+                    if cmp.visible() then return cmp.select_prev_item() end
                     fallback()
                 end,
             }),
-            ["<C-k>"] = cmp.mapping({
+            ['<C-k>'] = cmp.mapping({
                 c = function(fallback)
-                    if cmp.visible() then
-                        return cmp.select_next_item()
-                    end
+                    if cmp.visible() then return cmp.select_next_item() end
                     fallback()
                 end,
             }),
-            ["<Tab>"] = cmp.mapping({
+            ['<Tab>'] = cmp.mapping({
                 c = function()
                     if cmp.visible() then
                         return cmp.select_next_item()
@@ -85,7 +77,7 @@ function M.setup()
                     end
                 end,
             }),
-            ["<S-Tab>"] = cmp.mapping({
+            ['<S-Tab>'] = cmp.mapping({
                 c = function()
                     if cmp.visible() then
                         return cmp.select_prev_item()
@@ -102,20 +94,20 @@ function M.setup()
             select = true,
         },
         sources = {
-            { name = "path" },
+            { name = 'path' },
             {
-                name = "cmdline",
-                option = { ignore_cmds = { "Man", "!" } },
+                name = 'cmdline',
+                option = { ignore_cmds = { 'Man', '!' } },
             },
         },
         formatting = {
-            fields = { "abbr", "kind" },
+            fields = { 'abbr', 'kind' },
             format = lspkind.cmp_format({
-                mode = "symbol_text", -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+                mode = 'symbol_text', -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
                 maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
                 before = function(_, vim_item)
-                    if vim_item.kind == "Variable" then
-                        vim_item.kind = ""
+                    if vim_item.kind == 'Variable' then
+                        vim_item.kind = ''
                         return vim_item
                     end
                     -- just show the icon

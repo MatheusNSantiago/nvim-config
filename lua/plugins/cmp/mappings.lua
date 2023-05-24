@@ -46,14 +46,16 @@ return cmp.mapping.preset.insert({
 		local copilot_ok, suggestion = pcall(require, 'copilot.suggestion')
 		if copilot_ok and suggestion.is_visible() then
 			suggestion.accept()
-		elseif luasnip.expandable() then
-			luasnip.expand()
 		elseif cmp.visible() then
+			if luasnip.expandable() then
+				luasnip.expand()
+			else
 				cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+			end
 		else
 			fallback()
 		end
-	end),
+	end, {'i', 's'}),
 	['<ESC>'] = cmp.mapping({
 		i = function(_)
 			cmp.abort()
