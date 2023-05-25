@@ -10,47 +10,6 @@ function M.setup()
 end
 
 function M.config()
-	local hide_commom_messages = {
-		opts = { skip = true },
-		filter = {
-			any = {
-				{ event = 'msg_show', find = 'written' },
-				{ event = 'msg_show', find = '%d+ lines, %d+ bytes' },
-				{ event = 'msg_show', kind = 'search_count' },
-				{ event = 'msg_show', find = '%d+L, %d+B' },
-				{ event = 'msg_show', find = '^Hunk %d+ of %d' },
-				{ event = 'msg_show', find = '%d+ change' },
-				{ event = 'msg_show', find = '%d+ line' },
-				{ event = 'msg_show', find = '%d+ more line' },
-				{ event = 'notify', find = 'No information available' },
-			},
-		},
-	}
-	local notify_warning = {
-		view = 'notify',
-		filter = {
-			any = {
-				{ warning = true },
-				{ event = 'msg_show', find = '^Warn' },
-				{ event = 'msg_show', find = '^W%d+:' },
-				{ event = 'msg_show', find = '^No hunks$' },
-			},
-		},
-		opts = { title = 'Warning', level = vim.log.levels.WARN, merge = false, replace = false },
-	}
-
-	local notify_error = {
-		view = 'notify',
-		opts = { title = 'Error', level = vim.log.levels.ERROR, merge = true, replace = false },
-		filter = {
-			any = {
-				{ error = true },
-				{ event = 'msg_show', find = '^Error' },
-				{ event = 'msg_show', find = '^E%d+:' },
-			},
-		},
-	}
-
 	require('noice').setup({
 		cmdline = {
 			enabled = true, -- enables the Noice cmdline UI
@@ -74,8 +33,8 @@ function M.config()
 			},
 		},
 		messages = {
-			enabled = true, -- enables the Noice messages UI
-			view = 'notify', -- default view for messages
+			enabled = true,     -- enables the Noice messages UI
+			view = 'notify',    -- default view for messages
 			view_error = 'notify', -- view for errors
 			view_warn = 'notify', -- view for warnings
 			view_history = 'messages', -- view for :messages
@@ -90,9 +49,58 @@ function M.config()
 			kind_icons = {}, -- set to `false` to disable icons
 		},
 		routes = {
-			hide_commom_messages,
-			notify_warning,
-			notify_error,
+			-- Skip Messages
+			{
+				opts = { skip = true },
+				filter = {
+					any = {
+						{ event = 'msg_show', find = 'written' },
+						{ event = 'msg_show', find = '%d+ lines, %d+ bytes' },
+						{ event = 'msg_show', kind = 'search_count' },
+						{ event = 'msg_show', find = '%d+L, %d+B' },
+						{ event = 'msg_show', find = '^Hunk %d+ of %d' },
+						{ event = 'msg_show', find = '%d+ change' },
+						{ event = 'msg_show', find = '%d+ line' },
+						{ event = 'msg_show', find = '%d+ more line' },
+						{ event = 'notify',   find = 'No information available' },
+					},
+				},
+			},
+			-- Warnings
+			{
+				view = 'notify',
+				filter = {
+					any = {
+						{ warning = true },
+						{ event = 'msg_show', find = '^Warn' },
+						{ event = 'msg_show', find = '^W%d+:' },
+						{ event = 'msg_show', find = '^No hunks$' },
+					},
+				},
+				opts = { title = 'Warning', level = vim.log.levels.WARN, merge = false, replace = false },
+			},
+			-- Erros
+			{
+				view = 'notify',
+				opts = { title = 'Error', level = vim.log.levels.ERROR, merge = true, replace = false },
+				filter = {
+					any = {
+						{ error = true },
+						{ event = 'msg_show', find = '^Error' },
+						{ event = 'msg_show', find = '^E%d+:' },
+					},
+				},
+			},
+			-- minimise pattern not found messages
+			{
+				view = 'mini',
+				filter = {
+					any = {
+						{ event = 'msg_show', find = '^E486:' },
+						{ event = 'notify',   max_height = 1 },
+					},
+				},
+			},
 		},
 		lsp = {
 			progress = { enabled = false },
@@ -145,7 +153,7 @@ function M.config()
 			bottom_search = true, -- use a classic bottom cmdline for search
 			command_palette = false, -- position the cmdline and popupmenu together
 			long_message_to_split = true, -- long messages will be sent to a split
-			inc_rename = false, -- enables an input dialog for inc-rename.nvim
+			inc_rename = false,  -- enables an input dialog for inc-rename.nvim
 			lsp_doc_border = true, -- add a border to hover docs and signature help
 		},
 	})
