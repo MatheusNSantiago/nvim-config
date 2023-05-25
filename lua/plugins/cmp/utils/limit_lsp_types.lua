@@ -13,28 +13,36 @@ return function(entry, ctx)
 		cur_line = cur_line:sub(1, col) .. '█' .. cur_line:sub(col + 1)
 
 		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
-		local function limitSnippetsIfLineMatches(pattern)
-			if cur_line:match(pattern) then return (kind ~= 'Snippet') end
-		end
-		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 
 		-- def function():█
 		if (filetype == 'python') and cur_line:match(':█') then return false end
 
-		limitSnippetsIfLineMatches(':%s*█') -- { foo: █ }
-
-		limitSnippetsIfLineMatches('%.%w*█') -- <object>.█ <- metodos/atributos
-		limitSnippetsIfLineMatches([[['"]%w*█]]) -- 'foo█' ou "foo█"
-		limitSnippetsIfLineMatches('%(%w*█%w*%)') -- (foo█)
-		limitSnippetsIfLineMatches('{%s*█') -- {█'
-		limitSnippetsIfLineMatches('{.+,%s*█.*}?') -- {foo: bar, █ } | {foo: bar, █, baz: qux}
-		limitSnippetsIfLineMatches('(.+,%s*█.*)?') -- (foo: bar, █ ) | (foo: bar, █, baz: qux)
-
 		-- [(,{]\n█)
 		local prev_line_last_char = prev_line:sub(-1, -1)
 		if
-			(cur_line:match('^%s*█'))
-			and (prev_line_last_char == '(' or prev_line_last_char == ',' or prev_line_last_char == '{')
+			prev_line_last_char:match('[({,]') -- { ou ( ou ,
+			and (cur_line:match('^%s*%w*█'))
+		then
+			return (kind ~= 'Snippet')
+		end
+		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
+		-- iterate each pattern and return false if cur_line matches
+		local function lineMatchesPatterns(patterns)
+			for _, pattern in ipairs(patterns) do
+				if cur_line:match(pattern) then return true end
+			end
+		end
+
+		if
+			lineMatchesPatterns({
+				':%s*█', -- { foo: █ }
+				'.*%.%w*█', -- <object>.█ <- metodos/atributos
+				[[['"]%w*█]], -- 'foo█' ou "foo█"
+				'%(%w*█%w*%)', -- (foo█)
+				'{%s*█', -- {█'
+				'{.+,%s*█.*}?', -- {foo: bar, █ } | {foo: bar, █, baz: qux}
+				'(.+,%s*█.*)?', -- (foo: bar, █ ) | (foo: bar, █, baz: qux)
+			})
 		then
 			return (kind ~= 'Snippet')
 		end
