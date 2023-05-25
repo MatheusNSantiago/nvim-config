@@ -49,20 +49,14 @@ function M.commom_keymaps()
 end
 
 function M.common_capabilities()
-	local status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-	if status_ok then return cmp_nvim_lsp.default_capabilities() end
-
+	local cmp_lsp = require('cmp_nvim_lsp')
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
+
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
-	capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true } -- folding
 	capabilities.textDocument.completion.completionItem.resolveSupport = {
-		properties = {
-			'documentation',
-			'detail',
-			'additionalTextEdits',
-		},
+		properties = { 'documentation', 'detail', 'additionalTextEdits' },
 	}
-	return capabilities
+	return vim.tbl_deep_extend('force', capabilities, cmp_lsp.default_capabilities())
 end
 
 function M.common_on_attach(client, bufnr)
@@ -104,8 +98,13 @@ function M.get_commom_configs()
 		-- on_init = M.common_on_init,
 		-- on_exit = M.common_on_exit,
 		capabilities = M.common_capabilities(),
+		flags = {
+			debounce_text_changes = 150,
+		},
 	}
 end
+
+function M.extend_commom_configs(config) return vim.tbl_deep_extend('force', config, M.get_commom_configs()) end
 
 function M.setup()
 	local lsp_status_ok, _ = pcall(require, 'lspconfig')
