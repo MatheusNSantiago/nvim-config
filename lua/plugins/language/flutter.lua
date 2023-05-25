@@ -10,12 +10,6 @@ end
 
 function M.config()
 	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                      Pubspec Assist                      │
-	--  ╰──────────────────────────────────────────────────────────╯
-
-	require('pubspec-assist').setup({})
-
-	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                      Flutter Tools                       │
 	--  ╰──────────────────────────────────────────────────────────╯
 
@@ -35,7 +29,7 @@ function M.config()
 		dev_log = {
 			enabled = true,
 			open_cmd = 'tabedit', -- command to use to open the log buffer
-			notify_errors = true,-- if there is an error whilst running then notify the user
+			notify_errors = true, -- if there is an error whilst running then notify the user
 		},
 		lsp = {
 			settings = {
@@ -66,13 +60,20 @@ function M.config()
 
 				-- hack pra forçar o refresh do highlight
 				vim.defer_fn(function()
+					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', true)
 					vim.api.nvim_feedkeys('>>', 'n', true)
 					vim.api.nvim_feedkeys('<<', 'n', true)
-				end, 3000)
+				end, 2000)
 			end,
 			capabilities = require('lsp').common_capabilities(),
 		},
 	})
+
+	--  ╭──────────────────────────────────────────────────────────╮
+	--  │                      Pubspec Assist                      │
+	--  ╰──────────────────────────────────────────────────────────╯
+
+	require('pubspec-assist').setup({})
 end
 
 return M
