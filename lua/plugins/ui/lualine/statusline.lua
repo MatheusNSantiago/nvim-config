@@ -112,8 +112,8 @@ return {
 				for _, client in ipairs(clients) do
 					local filetypes = client.config.filetypes
 					if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-						local servers = require('lsp').servers
-						if vim.tbl_contains(servers, client.name) then return client.name  end
+						local servers = vim.tbl_extend('force', require('lsp').servers, { 'dartls' })
+						if vim.tbl_contains(servers, client.name) then return client.name end
 					end
 				end
 
