@@ -133,17 +133,16 @@ return require('packer').startup(function(use)
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('cmp', {
-		'hrsh7th/cmp-nvim-lsp',            -- nvim-cmp source for neovim's built-in LSP
-		'hrsh7th/cmp-path',                -- nvim-cmp source for filesystem paths.
-		'hrsh7th/cmp-cmdline',             -- nvim-cmp source for vim's cmdline.
-		'hrsh7th/cmp-buffer',              -- nvim-cmp source for buffer words
-		'hrsh7th/cmp-nvim-lua',            -- nvim-cmp source for Neovim Lua API.
+		'hrsh7th/cmp-nvim-lsp',             -- nvim-cmp source for neovim's built-in LSP
+		'hrsh7th/cmp-path',                 -- nvim-cmp source for filesystem paths.
+		'hrsh7th/cmp-cmdline',              -- nvim-cmp source for vim's cmdline.
+		'hrsh7th/cmp-buffer',               -- nvim-cmp source for buffer words
+		'hrsh7th/cmp-nvim-lua',             -- nvim-cmp source for Neovim Lua API.
 		'davidsierradz/cmp-conventionalcommits', -- autocomplete conventional commits
-		-- "David-Kunz/cmp-npm",           -- autocomplete npm packages and its versions
-		'saadparwaiz1/cmp_luasnip',        -- completion engine
+		'saadparwaiz1/cmp_luasnip',         -- completion engine
 		'lukas-reineke/cmp-under-comparator', -- better sort completion items that start with one or more underlines
-		'onsails/lspkind.nvim',            -- Auto completions gui tipo do vscode
-		'zbirenbaum/copilot.lua',          -- Copilot
+		'onsails/lspkind.nvim',             -- Auto completions gui tipo do vscode
+		'zbirenbaum/copilot.lua',           -- Copilot
 		'zbirenbaum/copilot-cmp',
 	})
 
