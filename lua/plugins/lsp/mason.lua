@@ -49,8 +49,9 @@ function M.config()
 
 		local has_custom_config, ls_configs = pcall(require, 'lsp.servers.' .. server_name)
 		if has_custom_config then
-			config = vim.tbl_extend('force', config, ls_configs) -- adicioar configurações personalizadas
+			config = vim.tbl_deep_extend('force', config, ls_configs) -- adicioar configurações personalizadas
 		end
+
 		return config
 	end
 
