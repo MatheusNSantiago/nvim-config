@@ -18,7 +18,7 @@ function M.config()
 			scroll_down = '<C-d>',
 			scroll_up = '<C-u>',
 		},
-		request_timeout = 2000,
+		request_timeout = 3000,
 		ui = {
 			title = true,
 			-- Border type can be single, double, rounded, solid, shadow.
@@ -59,7 +59,7 @@ function M.config()
 		code_action = {
 			num_shortcut = true,
 			show_server_name = false,
-			extend_gitsigns = true,
+			extend_gitsigns = false,
 			keys = {
 				-- string | table type
 				quit = 'q',

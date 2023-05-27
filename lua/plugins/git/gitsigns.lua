@@ -1,6 +1,4 @@
 local M = {}
-local keymap = utils.api.keymap
-
 function M.setup()
 	return {
 		'lewis6991/gitsigns.nvim',
