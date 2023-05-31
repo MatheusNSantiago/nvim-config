@@ -66,7 +66,7 @@ function M.config()
 			priority_weight = 2,
 			comparators = {
 				require('copilot_cmp.comparators').prioritize,
-				-- require('plugins.cmp.utils.comparators').custom_sort,
+				require('plugins.cmp.utils.comparators').prioritizeVariables,
 				require('cmp-under-comparator').under,
 				cmp.config.compare.score,
 				cmp.config.compare.exact,
