@@ -6,24 +6,26 @@ function M.setup()
 	local is_installed, telescope = pcall(require, 'telescope')
 
 	if is_installed then
-		custom_picker.create_picker('FOO BAR', '<S-p>', 'filetype', {
-			{
-				name = 'Hello World',
-				handler = "echo 'teste'",
-			},
-		})
+		-- custom_picker.create_picker('FOO BAR', '<S-p>', 'filetype', {
+		-- 	{
+		-- 		name = 'Hello World',
+		-- 		handler = "echo 'teste'",
+		-- 	},
+		-- })
 		local b, e = require('telescope.builtin'), telescope.extensions
 
 		-- Builtin
 		keymap('n', '<leader>sf', b.find_files, { desc = '[S]earch [F]iles' })
+		keymap('n', '<leader>sg', b.live_grep, { desc = '[S]earch by [G]rep' })
 		keymap('n', '<leader>s/', b.current_buffer_fuzzy_find, { desc = 'Search in file' })
 		keymap('n', '<leader>sk', b.keymaps, { desc = '[S]earch [K]eymaps' })
 		keymap('n', '<leader>sof', b.oldfiles, { desc = '[S]earch [O]ld [F]iles' })
 		keymap('n', '<leader>sh', b.help_tags, { desc = '[S]earch [H]elp' })
-		keymap('n', '<leader>sw', ':Telescope grep_string<CR>', { desc = '[S]earch [W]ord' })
+		keymap('n', '<leader>sw', b.grep_string, { desc = '[S]earch [W]ord' })
+		keymap('n', '<leader>ss', b.treesitter, { desc = '[S]earch [S]ymbols' })
+
 		-- Extension
 		keymap('n', '<leader>smf', e.media_files.media_files, { desc = '[S]earch [M]edia [F]iles' })
-		keymap('n', '<leader>sg', e.live_grep_args.live_grep_args, { desc = '[S]earch by [G]rep' })
 		keymap('n', '<leader>sy', ':Telescope neoclip<CR>', { desc = '[S]earch [Y]anks' })
 	end
 
@@ -66,6 +68,28 @@ function M.config()
 		}):sync()
 	end
 
+	local ignore_patterns = {
+		'.git',
+		'.venv',
+		'node_modules',
+		'*.jpg',
+		'*.jpeg',
+		'*.png',
+		'*.lock',
+		-- Flutter/Dart/Pub related
+		'.dart_tool/',
+		'.idea',
+		'android',
+		'build/',
+		'ios',
+		'linux',
+		'macos',
+		'web',
+		'windows',
+		'.metadata',
+		'%.iml',
+	}
+
 	telescope.setup({
 		defaults = {
 			mappings = {
@@ -91,14 +115,16 @@ function M.config()
 		buffer_previewer_maker = preview_maker,
 		pickers = {
 			find_files = {
-				file_ignore_patterns = { '.venv', 'node_modules', '%.jpg', '%.jpeg', '%.png', '.git' },
+				file_ignore_patterns = ignore_patterns,
 				hidden = true,
-				find_command = { 'rg', '--files', '--hidden', '-g', '!.git' },
+			},
+			live_grep = {
+				glob_pattern = vim.tbl_map(function(pattern) return '!' .. pattern end, ignore_patterns),
 			},
 		},
 		extensions = {
 			fzf = {
-				fuzzy = true, -- false will only do exact matching
+				fuzzy = true,       -- false will only do exact matching
 				override_generic_sorter = true, -- override the generic sorter
 				override_file_sorter = true, -- override the file sorter
 				case_mode = 'smart_case', -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
