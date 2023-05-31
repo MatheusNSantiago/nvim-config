@@ -36,10 +36,10 @@ hls.syntax = {
 hls.lsp = {
 	-- ["@lsp.type.class"] = { link = "Structure" },
 	-- ["@lsp.type.decorator"] = { link = "Function" },
-	-- ["@lsp.type.enum"] = { link = "Structure" },
+	["@lsp.type.enum"] = { link = "Structure" },
 	-- ["@lsp.type.enumMember"] = { link = "Constant" },
 	-- ["@lsp.type.function"] = { link = "Function" },
-	['@lsp.type.interface'] = { fg = c.yellow },    -- interfaces
+	['@lsp.type.interface'] = { link = "Structure" },    -- interfaces
 	-- ["@lsp.type.macro"] = { link = "Macro" },
 	['@lsp.type.method'] = { link = '@method' },    -- Function
 	['@lsp.type.namespace'] = { link = '@namespace' }, -- Structure
@@ -96,7 +96,7 @@ hls.treesitter = {
 	-- @punctuation.bracket                        ; brackets (e.g. `()` / `{}` / `[]`)
 	-- ["@punctuation.bracket"] = { fg = theme.syn.punct },
 	-- @punctuation.special                        ; special symbols (e.g. `{}` in string interpolation)
-	-- ["@punctuation.special"] = { fg = theme.syn.special1 },
+	["@punctuation.special"] = { link = "Operator" },
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                         Literals                         │
 	--  ╰──────────────────────────────────────────────────────────╯
@@ -231,7 +231,7 @@ hls.ts = {
 
 hls.dart = {
 	["@lsp.type.source.dart"] = {link = "Structure"},
-	-- ["@lsp.type.class.dart"] = {link = "Type"},
+	["@lsp.type.type.dart"] = {link = "Type"},
 
 }
 
@@ -275,6 +275,10 @@ hls.html = {
 	htmlTagName = { fg = c.blue },
 	htmlComment = { fg = c.green },
 	htmlLink = { fg = c.orange, underline = true },
+}
+
+hls.python = {
+	["@punctuation.special.python"] = { link = "Operator" },
 }
 
 hls.editor = {
