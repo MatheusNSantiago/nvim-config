@@ -23,6 +23,50 @@ local function tab(fallback)
 	end
 end
 
+
+--- Hack que deixa expandir o snippet em seleções incompletas sem perder acesso os jumps
+local function expand()
+	local expand_params
+	local snip
+	local next_expand = luasnip.next_expand
+	local next_expand_params = luasnip.next_expand_params
+	local util = require('luasnip.util.util')
+	local snippet_collection = require('luasnip.session.snippet_collection')
+
+	-- find snip via next_expand (set from previous expandable()) or manual matching.
+	if next_expand ~= nil then
+		snip = next_expand
+		expand_params = next_expand_params
+
+		next_expand = nil
+		next_expand_params = nil
+	else
+		snip, expand_params =
+			snippet_collection.match_snippet(util.get_current_line_to_cursor(), util.get_snippet_filetypes(), 'snippets')
+	end
+	if snip then
+		local cursor = util.get_cursor_0ind()
+		-- override snip with expanded copy.
+		snip = luasnip.snip_expand(snip, {
+			expand_params = expand_params,
+			-- clear trigger-text.
+			clear_region = {
+				from = {
+					cursor[1],
+					cursor[2] - #expand_params.trigger,
+				},
+				to = cursor,
+			},
+			jump_into_func = function(snippet)
+				luasnip.session.jump_active = true
+				return snippet.jump_into(snippet, 1)
+			end,
+		})
+		return true
+	end
+	return false
+end
+
 return cmp.mapping.preset.insert({
 	['<C-l>'] = cmp.mapping.select_prev_item({ behavior = types.SelectBehavior.Select }),
 	['<C-p>'] = cmp.mapping.select_prev_item({ behavior = types.SelectBehavior.Select }),
@@ -47,15 +91,14 @@ return cmp.mapping.preset.insert({
 		if copilot_ok and suggestion.is_visible() then
 			suggestion.accept()
 		elseif cmp.visible() then
-			if luasnip.expandable() then
-				luasnip.expand()
-			else
-				cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
-			end
+			cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }, function()
+				if luasnip.expandable() then expand() end
+			end)
 		else
 			fallback()
 		end
-	end, {'i', 's'}),
+	end, { 'i', 's' }),
+
 	['<ESC>'] = cmp.mapping({
 		i = function(_)
 			cmp.abort()
