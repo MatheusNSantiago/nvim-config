@@ -15,6 +15,19 @@ local conditions = {
 		local gitdir = vim.fn.finddir('.git', filepath .. ';')
 		return gitdir and #gitdir > 0 and #gitdir < #filepath
 	end,
+	fileformat_is_not_unix = function()
+		local ff = vim.bo.fileformat
+		return ff ~= 'unix'
+	end,
+	encoding_is_not_utf8 = function()
+		local enc = vim.bo.fenc
+		return enc ~= 'utf-8'
+	end,
+	has_git = function()
+		local filepath = vim.fn.expand('%:p:h')
+		local gitdir = vim.fn.finddir('.git', filepath .. ';')
+		return gitdir and #gitdir > 0 and #gitdir < #filepath
+	end,
 }
 
 local function show_macro_recording()
@@ -26,7 +39,20 @@ local function show_macro_recording()
 	end
 end
 
-local function get_mode_color()
+local function mode_color_with_transparent_background()
+	local mode = vim.fn.mode()
+
+	if mode == 'n' then
+		return { fg = c['normal'], bg = c.transparent }
+	elseif mode == 'i' then
+		return { fg = c['insert'], c.transparent }
+	elseif mode == 'v' or mode == 'V' then
+		return { fg = c['visual'], c.transparent }
+	elseif mode == 'c' then
+		return { fg = c['command'], c.transparent }
+	end
+end
+local function mode_color_without_transparent_background()
 	local mode = vim.fn.mode()
 
 	if mode == 'n' then
@@ -43,14 +69,23 @@ end
 local function left_separator() return '' end
 local function right_separator() return '' end
 
-local flutter = vim.g.flutter_tools_decorations or {}
-
 return {
 	lualine_a = {
 		{ 'mode', color = { fg = c.dark_bg, gui = 'bold' } },
+		{
+			left_separator,
+			color = mode_color_with_transparent_background,
+			padding = { right = 0, left = 0 },
+			cond = function() return not conditions.has_git() end,
+		},
 	},
 	lualine_b = {
-		{ left_separator, color = get_mode_color, padding = { right = 0, left = 0 } },
+		{
+			left_separator,
+			color = mode_color_without_transparent_background,
+			padding = { right = 0, left = 0 },
+			cond = conditions.has_git,
+		},
 		{ 'FugitiveHead', icon = '' },
 		{
 			'diff',
@@ -72,7 +107,7 @@ return {
 		},
 	},
 	lualine_c = {
-		{ left_separator, color = { fg = c.outerbg }, padding = { right = 0, left = 0 } },
+		{ left_separator, color = { fg = c.outerbg }, padding = { right = 0, left = 0 }, cond = conditions.has_git },
 		{ '%=' },
 		{
 			'filename',
@@ -88,7 +123,8 @@ return {
 	lualine_y = {
 		{
 			'diagnostics',
-			sources = { 'nvim_lsp', 'nvim_diagnostic', 'nvim_workspace_diagnostic' },
+			-- sources = { 'nvim_lsp', 'nvim_diagnostic', 'nvim_workspace_diagnostic' },
+			sources = { 'nvim_workspace_diagnostic' },
 			symbols = {
 				error = icons.diagnostics.Error .. ' ',
 				warn = icons.diagnostics.Warning .. ' ',
@@ -123,11 +159,12 @@ return {
 			color = { fg = '#ffffff', gui = 'bold' },
 			on_click = function() vim.cmd([[LspInfo]]) end,
 		},
-		{ 'searchcount',   maxcount = 999,         timeout = 500 },
-		{ right_separator, color = get_mode_color, padding = { right = 0, left = 0 } },
+		{ 'searchcount', maxcount = 999, timeout = 500 },
+		{ 'encoding', cond = conditions.encoding_is_not_utf8 },
+		{ 'fileformat', cond = conditions.fileformat_is_not_unix },
+		{ right_separator, color = mode_color_without_transparent_background, padding = { right = 0, left = 0 } },
 	},
 	lualine_z = {
-		-- { { flutter.device or "" } },
 		{
 			'%p%%/%L',
 			cond = conditions.buffer_not_empty,

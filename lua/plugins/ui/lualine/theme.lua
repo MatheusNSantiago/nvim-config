@@ -24,7 +24,7 @@ return {
 		c = { fg = c.gray, bg = c.transparent },
 	},
 	normal = {
-		a = { bg = c.normal, fg = c.darkgray, gui = "bold" },
+		a = { fg = c.darkgray, bg = c.normal, gui = "bold" },
 		b = { fg = c.gray, bg = c.outerbg },
 		c = { fg = c.gray, bg = c.transparent },
 	},
@@ -38,8 +38,8 @@ return {
 		b = { fg = c.gray, bg = c.outerbg },
 		c = { fg = c.gray, bg = c.transparent },
 	},
-	-- terminal = {
-	-- 	a = { bg = c.transparent, fg = c.gray, gui = "bold" },
-	-- 	b = { bg = c.transparent, fg = c.gray, gui = "bold" },
-	-- },
+	terminal = {
+		a = { bg = c.transparent, fg = c.gray, gui = "bold" },
+		b = { bg = c.transparent, fg = c.gray, gui = "bold" },
+	},
 }
