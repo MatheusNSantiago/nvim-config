@@ -15,43 +15,40 @@ function M.config()
 	null_ls.setup({
 		sources = {
 			--  ╭──────────────────────────────────────────────────────────╮
-			--  │                        Formatting                        │
+			--  │                           Lua                            │
 			--  ╰──────────────────────────────────────────────────────────╯
-
 			b.formatting.stylua.with({
 				extra_args = { '--config-path', vim.fn.expand('~/.config/nvim/lua/lsp/linter-config/stylua.toml') },
 			}),
-			b.formatting.black, -- python
-			b.formatting.prettierd, -- js/ts
-			-- b.formatting.rustywind, -- tailwind (reorganiza classes)
-			b.formatting.fixjson, -- json
-			b.formatting.yamlfmt, -- yaml
-			b.formatting.dart_format, -- dart
-			b.formatting.fish_indent, -- fish
-			b.formatting.clang_format, -- C
-
-			--  ╭──────────────────────────────────────────────────────────╮
-			--  │                         Linter                           │
-			--  ╰──────────────────────────────────────────────────────────╯
-
-			-- b.diagnostics.eslint_d, -- js/ts
-			-- b.diagnostics.xo,
-			b.diagnostics.fish, -- fish
-			b.diagnostics.ruff.with({
-				extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') }
-			}),
-
-			--  ╭──────────────────────────────────────────────────────────╮
-			--  │                        Completion                        │
-			--  ╰──────────────────────────────────────────────────────────╯
-
 			b.completion.luasnip,
-
 			--  ╭──────────────────────────────────────────────────────────╮
-			--  │                       Code Actions                       │
+			--  │                          Python                          │
 			--  ╰──────────────────────────────────────────────────────────╯
+			b.formatting.black,
+			b.diagnostics.ruff.with({
+				extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') },
+			}), -- Fast Linter
+			b.diagnostics.mypy, -- static type checker
+			--  ╭──────────────────────────────────────────────────────────╮
+			--  │                          JS/TS                           │
+			--  ╰──────────────────────────────────────────────────────────╯
+			b.formatting.prettierd,
 			b.code_actions.eslint_d,
 			require('typescript.extensions.null-ls.code-actions'),
+			-- b.formatting.rustywind, -- tailwind (reorganiza classes)
+			-- b.diagnostics.eslint_d, -- js/ts
+			-- b.diagnostics.xo,
+			--  ╭──────────────────────────────────────────────────────────╮
+			--  │                            C                             │
+			--  ╰──────────────────────────────────────────────────────────╯
+			b.formatting.clang_format,
+			--  ╭──────────────────────────────────────────────────────────╮
+			--  │                          Outros                          │
+			--  ╰──────────────────────────────────────────────────────────╯
+			b.formatting.fixjson, -- json
+			b.formatting.yamlfmt, -- yaml
+			b.formatting.fish_indent, -- fish
+			b.diagnostics.fish, -- fish
 		},
 		on_attach = function(client, bufnr)
 			if client.supports_method('textDocument/formatting') then
