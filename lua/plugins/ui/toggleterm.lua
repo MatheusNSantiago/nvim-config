@@ -2,7 +2,7 @@ local M = {}
 local keymap = utils.api.keymap
 
 function M.setup()
-	keymap('n', '<leader><leader>g', M.toggle_lazygit)
+	keymap('n', '<leader>lg', M.toggle_lazygit)
 	keymap({ 'i', 'n', 't' }, '<A-f>', '<CMD>execute v:count . "ToggleTerm direction=float"<CR>')
 	keymap({ 'i', 'n', 't' }, '<A-i>', "<CMD>execute v:count . 'ToggleTerm direction=horizontal'<CR>")
 
