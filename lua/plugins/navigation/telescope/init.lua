@@ -1,17 +1,10 @@
 local M = {}
 local keymap = utils.api.keymap
-local custom_picker = require('plugins.navigation.telescope.picker')
 
 function M.setup()
 	local is_installed, telescope = pcall(require, 'telescope')
 
 	if is_installed then
-		-- custom_picker.create_picker('FOO BAR', '<S-p>', 'filetype', {
-		-- 	{
-		-- 		name = 'Hello World',
-		-- 		handler = "echo 'teste'",
-		-- 	},
-		-- })
 		local b, e = require('telescope.builtin'), telescope.extensions
 
 		-- Builtin

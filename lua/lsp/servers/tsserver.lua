@@ -80,8 +80,15 @@ local handlers = {
 }
 
 local on_attach = function(client, bufnr)
+	local custom_picker = require('plugins.navigation.telescope.picker')
 	require("lsp").common_on_attach(client, bufnr)
 
+	custom_picker.create_picker('JS/TS', '<leader><leader>o', {
+		{
+			name = 'start vite dev server',
+			handler = "npm run dev",
+		},
+	})
 	utils.api.keymap("n", "gd", ":TypescriptGoToSourceDefinition<CR>")
 end
 

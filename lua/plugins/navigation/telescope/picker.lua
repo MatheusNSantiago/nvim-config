@@ -3,13 +3,14 @@ local M = {}
 --- Cria um picker pro telescope que funciona para um determinado filetype
 ---@param title string
 ---@param keymap string
----@param filetype string
 ---@param actions_tbl {name: string, handler: function | string}
-function M.create_picker(title, keymap, filetype, actions_tbl)
+function M.create_picker(title, keymap, actions_tbl)
 	-- faz com que strings funcionem com o handler
 	for _, action in ipairs(actions_tbl) do
 		local handler = action.handler
-		if type(handler) == 'string' then action.handler = function() vim.cmd(handler) end end
+		if type(handler) == 'string' then action.handler = function()
+			vim.cmd("TermExec cmd='"..handler.."'")
+		end end
 	end
 
 	local entry_maker = function(menu_item)
