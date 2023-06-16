@@ -27,7 +27,7 @@ function M.config()
 			b.formatting.black,
 			b.diagnostics.ruff.with({
 				extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') },
-			}), -- Fast Linter
+			}),        -- Fast Linter
 			b.diagnostics.mypy, -- static type checker
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          JS/TS                           │
@@ -42,6 +42,10 @@ function M.config()
 			--  │                            C                             │
 			--  ╰──────────────────────────────────────────────────────────╯
 			b.formatting.clang_format,
+			--  ╭──────────────────────────────────────────────────────────╮
+			--  │                           Dart                           │
+			--  ╰──────────────────────────────────────────────────────────╯
+			b.formatting.dart_format,
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          Outros                          │
 			--  ╰──────────────────────────────────────────────────────────╯

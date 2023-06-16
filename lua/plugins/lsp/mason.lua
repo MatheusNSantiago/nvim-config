@@ -29,13 +29,14 @@ function M.config()
 
 	mason_null_ls.setup({
 		ensure_installed = {
-			'ruff',
-			'mypy',
-			'black',
-			'yamlfmt',
-			'prettierd',
-			'cpplint',
-			'clang-format',
+			'ruff',       -- python linter
+			'mypy',       -- python static type checker
+			'debugpy',    -- python debugger
+			'black',      -- python formatter
+			'yamlfmt',    -- yaml formatter
+			'prettierd',  -- javascript formatter
+			'cpplint',    -- c/c++ linter
+			'clang-format', -- c/c++ formatter
 		},
 		automatic_setup = true, -- Recommended, but optional
 	})
@@ -56,6 +57,11 @@ function M.config()
 		return config
 	end
 
+	neodev.setup({
+		-- type checking, documentation and autocompletion for nvim-dap-ui
+		library = { plugins = { 'nvim-dap-ui' }, types = true },
+	}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+
 	mason_lspconfig.setup_handlers({
 		function(server_name)
 			local config = get_configs(server_name)
@@ -63,7 +69,6 @@ function M.config()
 		end,
 		-- Custom handlers
 		['lua_ls'] = function()
-			neodev.setup() -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
 			local config = get_configs('lua_ls')
 			lspconfig['lua_ls'].setup(config)
 		end,

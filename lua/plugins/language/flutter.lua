@@ -9,10 +9,11 @@ function M.setup()
 end
 
 function M.config()
+	local keymap = utils.api.keymap
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                      Flutter Tools                       │
 	--  ╰──────────────────────────────────────────────────────────╯
-
+	-- require('pubspec-assist').setup()
 	require('flutter-tools').setup({
 		ui = {
 			border = 'rounded', -- e.g. "single" | "shadow" | {<table-of-eight-chars>}
@@ -33,14 +34,16 @@ function M.config()
 		},
 		lsp = {
 			settings = {
-				showTodos = true,
+				-- showTodos = true,
 				renameFilesWithClasses = 'prompt',
 			},
 			on_attach = function(client, bufnr)
 				require('lsp').common_on_attach(client, bufnr)
-				local keymap = utils.api.keymap
-
 				require('telescope').load_extension('flutter')
+
+				-- -- O flutter-tools já parada de highlight de indentação
+				-- -- Se deixar esse plugin ativado, vai ficar mó lento
+				vim.cmd("IndentBlanklineDisable");
 
 				keymap('n', '<leader>dl', ':tabedit __FLUTTER_DEV_LOG__<CR>', { desc = 'Flutter: Open [D]ev [L]og' })
 				keymap('n', '<leader>r', ':FlutterReload<CR>', { desc = 'Flutter: reload' })
@@ -68,12 +71,6 @@ function M.config()
 			capabilities = require('lsp').common_capabilities(),
 		},
 	})
-
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                      Pubspec Assist                      │
-	--  ╰──────────────────────────────────────────────────────────╯
-
-	require('pubspec-assist').setup({})
 end
 
 return M
