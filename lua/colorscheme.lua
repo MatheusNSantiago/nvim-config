@@ -477,7 +477,8 @@ hls.editor = {
 }
 
 hls.ext_marks = {
-	DiagnosticUnnecessary = { link = 'Comment' },
+	-- DiagnosticUnnecessary = { link = 'Comment' },
+	DiagnosticUnnecessary = { link = '@variable' },
 }
 
 function M.get_base_highlights() return utils.flatten(hls) end
