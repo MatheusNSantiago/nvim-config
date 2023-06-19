@@ -63,7 +63,7 @@ function M.config()
 						{ event = 'msg_show', find = '%d+ line' },
 						{ event = 'msg_show', find = '%d+ more line' },
 						{ event = 'notify',   find = 'No information available' },
-						{ event = 'msg_show',   find = 'Request textDocument/foldingRange failed' }, -- erro no yaml
+						{ event = 'msg_show',   find = 'textDocument/foldingRange' }, -- erro no yaml
 					},
 				},
 			},
