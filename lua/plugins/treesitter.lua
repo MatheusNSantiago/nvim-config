@@ -51,13 +51,7 @@ function M.config()
 				-- node_decremental = "<bs>",
 			},
 		},
-		highlight = { enable = true, use_languagetree = true, additional_vim_regex_highlighting = false },
-		indent = {
-			enable = true,
-			disable = {
-				'python',
-			}
-		},
+		highlight = { enable = true, additional_vim_regex_highlighting = false },
 		rainbow = {
 			enable = true,
 			extended_mode = false, -- Also highlight non-bracket delimiters like html tags, boolean or table
@@ -107,7 +101,7 @@ function M.config()
 end
 
 M.highlights = {
-	rainbowcol1 = { fg = "Yellow" },
+	rainbowcol1 = { fg = 'Yellow' },
 	-- rainbowcol2 = { fg = "#4688f0" },
 	-- rainbowcol4 = { fg = "#98c379" },
 }

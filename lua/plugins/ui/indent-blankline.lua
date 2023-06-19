@@ -38,7 +38,7 @@ function M.config()
 		show_end_of_line = false,
 		show_first_indent_level = true,
 		space_char_blankline = " ",
-		use_treesitter = true,
+		-- use_treesitter = true,
 	})
 end
 

@@ -11,7 +11,14 @@ settings({
 		opt = {
 			list = false,
 			spell = true,
-			spelllang = 'en_gb',
+			spelllang = 'pt_BR',
+		},
+	},
+	dart = {
+		bo = {
+			tabstop = 2, -- number of columns occupied by a tab character
+			shiftwidth = 2, -- width for autoindents
+			softtabstop = 2, -- see multiple spaces as tabstops
 		},
 	},
 	c = {
