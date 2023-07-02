@@ -95,7 +95,7 @@ function M.config()
 			},
 			swap = { enable = false, swap_next = {} },
 		},
-		matchup = { enable = true, disable_virtual_text = true },
+		matchup = { enable = true, disable_virtual_text = true, disable = {"python"} },
 		endwise = { enable = true }, -- Automatically add end to blocks
 	})
 end
