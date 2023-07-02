@@ -76,19 +76,9 @@ local handlers = {
 }
 
 local on_attach = function(client, bufnr)
-    local custom_picker = require('plugins.navigation.telescope.picker')
-    utils.ft_helpers.filetype_settings({
-        [{ 'tsx', 'jsx', 'ts', 'js' }] = {
-            bo = {
-                tabstop = 2, -- number of columns occupied by a tab character
-                shiftwidth = 2, -- width for autoindents
-                softtabstop = 2, -- see multiple spaces as tabstops
-            },
-        },
-    })
-
     require('lsp').common_on_attach(client, bufnr)
 
+    local custom_picker = require('plugins.navigation.telescope.picker')
     custom_picker.create_picker('JS/TS', '<leader><leader>o', {
         {
             name = 'start vite dev server',
