@@ -50,6 +50,7 @@ return require('packer').startup(function(use)
     setup('ui.smart-splits')     -- split pane management
     setup('ui.vim-scrollbar')    -- scrollbar
     setup('ui.todo-comments')    -- highlight TODO, FIXME, etc...
+    setup('ui.hlsearch')         -- auto remove search highlight and rehighlight
 
     use('sitiom/nvim-numbertoggle') -- automatic relative/absolute line numbers
 
