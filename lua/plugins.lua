@@ -59,8 +59,10 @@ return require('packer').startup(function(use)
     --  ╰──────────────────────────────────────────────────────────╯
 
     setup('navigation.telescope', {
-        { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }, -- melhora a performance
         'nvim-telescope/telescope-media-files.nvim',            -- mostra arquivos de mídia
+        'danielfalk/smart-open.nvim',                           --  melhora o ranking do find files
+        'kkharji/sqlite.lua',                                   -- dependencia do smart-open
+        { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }, -- melhora a performance
     })
     setup('navigation.hop')                                     -- tipo o easymotion
     setup('navigation.nvim-treehopper')                         -- Syntax trees + hop
