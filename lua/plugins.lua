@@ -168,7 +168,6 @@ return require('packer').startup(function(use)
         'Nash0x7E2/awesome-flutter-snippets', -- snippets
         'akinsho/pubspec-assist.nvim',  -- add/update dart dependencies
     })
-    setup('dev.rest') -- http client
 
     use('jose-elias-alvarez/typescript.nvim') -- + funcionalidades pro ts_server (e.g. rename file & update imports)
     use('Vimjas/vim-python-pep8-indent')   -- Conserta o indent do python
