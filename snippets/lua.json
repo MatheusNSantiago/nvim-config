@@ -1,0 +1,21 @@
+{
+    "setup new plugin": {
+        "prefix": "newplugin",
+        "body": [
+            "local M = {}",
+            "",
+            "function M.setup()",
+            "\treturn {",
+            "\t\t\"${1:foo/bar.nvim}\",",
+            "\t\tconfig = M.config,",
+            "\t}",
+            "end",
+            "",
+            "function M.config()",
+            "\t ${2: -- config aqui}",
+            "end",
+            "",
+            "return M"
+        ]
+    }
+}
