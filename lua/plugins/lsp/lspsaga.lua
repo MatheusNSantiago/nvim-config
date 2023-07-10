@@ -1,14 +1,9 @@
 local M = {}
-local keymap = utils.api.keymap
 
 function M.setup()
 	return {
 		'glepnir/lspsaga.nvim',
 		config = M.config,
-		opt = true,
-		branch = 'main',
-		event = 'LspAttach',
-		-- cmd = { "Lspsaga" },
 	}
 end
 
