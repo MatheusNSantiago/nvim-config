@@ -65,7 +65,6 @@ return require('packer').startup(function(use)
         { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }, -- melhora a performance
     })
     setup('navigation.hop')                                     -- tipo o easymotion
-    setup('navigation.nvim-treehopper')                         -- Syntax trees + hop
     setup('navigation.tabout')                                  -- tabout
     setup('navigation.marks')                                   -- marks
     setup('navigation.nvim-navbuddy')                           -- outline
