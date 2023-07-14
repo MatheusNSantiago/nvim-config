@@ -183,6 +183,8 @@ M.config = function()
 			vim.keymap.set('n', ']c', api.node.navigate.git.next, opts('Next Git'))
 			vim.keymap.set('n', 'q', api.tree.close, opts('Close'))
 			vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
+			vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
+			vim.keymap.set('n', 'h', api.node.open.horizontal, opts('Open: Horizontal Split'))
 		end,
 		renderer = {
 			add_trailing = false,
