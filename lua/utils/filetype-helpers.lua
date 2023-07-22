@@ -50,7 +50,7 @@ end
 --- centralized but the curation of these files is automated. Although I'm not sure this actually
 --- has value over autocommands, unless ftplugin files specifically have that value
 ---
----@param map {[string|string[]]: FiletypeSettings | {[integer]: fun(args: AutocmdArgs)}}
+--@param map {[string|string[]]: FiletypeSettings | {[integer]: fun(args: AutocmdArgs)}}
 function M.filetype_settings(map)
 	local commands = utils.map(function(settings, ft)
 		---@diagnostic disable-next-line: param-type-mismatch
