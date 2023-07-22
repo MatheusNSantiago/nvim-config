@@ -13,7 +13,10 @@ function M.setup()
 		keymap('n', '<C-l>', smart_splits.move_cursor_up, { desc = 'smart-splits: move cursor up' })
 		keymap('n', '<C-k>', smart_splits.move_cursor_down, { desc = 'smart-splits: move cursor down' })
 		keymap('n', '<C-j>', smart_splits.move_cursor_left, { desc = 'smart-splits: move cursor left' })
-		keymap('n', '<C-ç>', smart_splits.move_cursor_right, { desc = 'smart-splits: move cursor right' }) -- (essa tá no auto key)
+		keymap('n', '<C-w>l', smart_splits.move_cursor_right, { desc = 'smart-splits: move cursor right' }) -- (auto key = <C-ç>)
+
+		keymap('n', '<C-w>j', smart_splits.swap_buf_left, { desc = 'smart-splits: swap buffer left' })
+		keymap('n', '<C-w>ç', smart_splits.swap_buf_right, { desc = 'smart-splits: swap buffer right' })
 	end
 
 	return {
@@ -70,7 +73,7 @@ function M.config()
 		-- buffers by default; it can also be controlled by passing
 		-- `{ move_cursor = true }` or `{ move_cursor = false }`
 		-- when calling the Lua function.
-		cursor_follows_swapped_bufs = false,
+		cursor_follows_swapped_bufs = true,
 		-- resize mode options
 		resize_mode = {
 			-- key to exit persistent resize mode
