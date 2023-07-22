@@ -51,6 +51,7 @@ return require('packer').startup(function(use)
     setup('ui.vim-scrollbar')    -- scrollbar
     setup('ui.todo-comments')    -- highlight TODO, FIXME, etc...
     setup('ui.hlsearch')         -- auto remove search highlight and rehighlight
+    setup('ui.rainbow-delimiters') -- rainbow parentheses
 
     use('sitiom/nvim-numbertoggle') -- automatic relative/absolute line numbers
 
@@ -154,7 +155,6 @@ return require('packer').startup(function(use)
         'nvim-treesitter/nvim-treesitter-refactor',                      -- Refactorings via treesitter
         { 'nvim-treesitter/nvim-treesitter-textobjects', commit = '8673926' }, -- Additional text objects via treesitter
         'RRethy/nvim-treesitter-textsubjects',
-        'p00f/nvim-ts-rainbow',                                          -- rainbow parentheses
         'windwp/nvim-ts-autotag',                                        -- tag completion
         'JoosepAlviste/nvim-ts-context-commentstring',                   -- conserta comments para jsx,
         'RRethy/nvim-treesitter-endwise',                                -- Coloca o end no final de func e if
@@ -188,6 +188,7 @@ return require('packer').startup(function(use)
         'mfussenegger/nvim-dap-python',
         'theHamsta/nvim-dap-virtual-text',
     })
+
     -- |───────────────────────────────────────────────────────────|
 
     if is_bootstrap then -- Bootstrap Neovim
