@@ -3,7 +3,7 @@ local keymap = utils.api.keymap
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Geral                           │
 --  ╰──────────────────────────────────────────────────────────╯
--- map({ "n", "v" }, "<Space>", "<Nul>", silent)                                            -- Tira a movimentação no space
+keymap({ 'n', 'v' }, '<Space>', '<Nul>') -- Tira a movimentação no space
 
 keymap({ 'n', 'x' }, 'gx', ":silent execute '!open ' . shellescape('<cWORD>')<CR>", { desc = 'Abrir no Browser' })
 keymap({ 'n' }, '<leader><leader>q', ':quitall!<CR>', { desc = 'Forçar a sair do Neovim' })
@@ -42,7 +42,7 @@ keymap('n', '<A-=>', ':tabm +1<CR>')
 -- restaurar tab fechada recentemente
 keymap('n', '<leader>ut', '<Cmd>Undoquit<CR>') -- [U]ndo [T]ab
 
--- Mover no command mode
+-- Movimentação no command mode
 keymap('c', '<C-k>', '<Right>')
 keymap('c', '<C-l>', '<Left>')
 
@@ -50,7 +50,7 @@ keymap('c', '<C-l>', '<Left>')
 --  │                          Edição                          │
 --  ╰──────────────────────────────────────────────────────────╯
 
-keymap({ 'n', 'v' }, '<leader>q', ':q<CR>') -- [Q]uit
+keymap({ 'n', 'v' }, '<leader>q', ':q<CR>')  -- [Q]uit
 keymap({ 'n', 'v' }, '<leader>w', ':wa<CR>') -- [W]rite
 
 -- Copiar a linha horizontalmente
