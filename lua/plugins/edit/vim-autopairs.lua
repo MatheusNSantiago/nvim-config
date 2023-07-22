@@ -21,8 +21,20 @@ function M.config()
 			javascript = { 'string', 'template_string' },
 			java = false,
 		},
-		enable_check_bracket_line = false, -- (  |)) => ( => (  (|))
+		enable_check_bracket_line = true, -- (|)) =digita=> ( =fica=> ((|))
 		disable_filetype = { 'TelescopePrompt', 'vim' },
+		--- @ref https://github.com/AstroNvim/AstroNvim/blob/main/lua/plugins/core.lua
+		fast_wrap = {
+			map = '<M-e>',
+			chars = { '{', '[', '(', '"', "'" },
+			pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], '%s+', ''),
+			offset = 0,
+			end_key = '$',
+			keys = 'qwertyuiopzxcvbnmasdfghjkl',
+			check_comma = true,
+			highlight = 'PmenuSel',
+			highlight_grey = 'LineNr',
+		},
 	})
 end
 
