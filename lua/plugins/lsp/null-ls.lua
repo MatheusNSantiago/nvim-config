@@ -28,7 +28,6 @@ function M.config()
 			b.diagnostics.ruff.with({
 				extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') },
 			}),        -- Fast Linter
-			b.diagnostics.mypy, -- static type checker
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          JS/TS                           │
 			--  ╰──────────────────────────────────────────────────────────╯

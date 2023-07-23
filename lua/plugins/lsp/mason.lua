@@ -30,7 +30,6 @@ function M.config()
 	mason_null_ls.setup({
 		ensure_installed = {
 			'ruff',       -- python linter
-			'mypy',       -- python static type checker
 			'debugpy',    -- python debugger
 			'black',      -- python formatter
 			'yamlfmt',    -- yaml formatter
