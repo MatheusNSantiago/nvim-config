@@ -16,9 +16,9 @@ opt.undofile = true -- Save undo history
 opt.autoindent = true -- indent a new line the same as the current line
 opt.smartindent = true
 opt.cindent = true
-opt.tabstop = 4 -- number of columns occupied by a tab character
-opt.shiftwidth = 4 -- width for autoindents
-opt.softtabstop = 4 -- see multiple spaces as tabstops
+opt.tabstop = 2 -- number of columns occupied by a tab character
+opt.shiftwidth = 2 -- width for autoindents
+opt.softtabstop = 2 -- see multiple spaces as tabstops
 opt.smarttab = true
 opt.expandtab = true -- converts tabs to white space
 
