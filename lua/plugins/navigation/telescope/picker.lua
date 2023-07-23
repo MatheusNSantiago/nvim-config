@@ -1,10 +1,8 @@
-local M = {}
-
 --- Cria um picker pro telescope que funciona para um determinado filetype
 ---@param title string
 ---@param keymap string
 ---@param actions_tbl {name: string, handler: function | string}
-function M.create_picker(title, keymap, actions_tbl)
+local function create_picker(title, keymap, actions_tbl)
 	-- faz com que strings funcionem com o handler
 	for _, action in ipairs(actions_tbl) do
 		local handler = action.handler
@@ -52,4 +50,4 @@ function M.create_picker(title, keymap, actions_tbl)
 	end)
 end
 
-return M
+return create_picker
