@@ -19,16 +19,31 @@ function M.set_hls(highlights)
     end
 end
 
-
 function M.log(msg, hl, name)
     name = name or 'Neovim'
     hl = hl or 'Todo'
     vim.api.nvim_echo({ { name .. ': ', hl }, { msg } }, true, {})
 end
-
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
 function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name }) end
 function M.info(msg, name) vim.notify(msg, vim.log.levels.INFO, { title = name }) end
+
+function M.logTable(table)
+    local function dump(o)
+        if type(o) == 'table' then
+            local s = '{\n'
+            for k, v in pairs(o) do
+                if type(k) ~= 'number' then k = '"' .. k .. '"' end
+                s = s .. '[' .. k .. '] = ' .. dump(v) .. ',\n'
+            end
+            return s .. '}'
+        else
+            return tostring(o)
+        end
+    end
+
+    return M.log(dump(table))
+end
 
 function M.isempty(s) return s == nil or s == '' end
 
@@ -110,7 +125,6 @@ function M.pcall(msg, func, ...)
         vim.schedule(function() vim.notify(msg, vim.log.levels.ERROR, { title = 'ERROR' }) end)
     end, unpack(args))
 end
-
 
 _G.utils = M
 _G.utils.api = require('utils.api-wrappers')
