@@ -19,7 +19,9 @@ keymap({ 'n', 'v' }, 'l', 'k')
 keymap({ 'n', 'v' }, 'k', 'j')
 keymap({ 'n', 'v' }, 'j', 'h')
 
---  Mover de linha a linha
+-- Mover direito mesmo quando a linha da wrap
+keymap('n', 'l', "v:count == 0 ? 'gk' : 'k'", { expr = true })
+keymap('n', 'k', "v:count == 0 ? 'gj' : 'j'", { expr = true })
 
 ------- Mover entre Tabs
 
@@ -34,7 +36,7 @@ keymap({ 'n', 'v', 'i' }, '<A-6>', '6gt')
 keymap({ 'n', 'v', 'i' }, '<A-7>', '7gt')
 keymap({ 'n', 'v', 'i' }, '<A-8>', '8gt')
 keymap({ 'n', 'v', 'i' }, '<A-9>', '9gt')
---
+
 -- Mover a tab
 keymap('n', '<A-->', ':tabm -1<CR>')
 keymap('n', '<A-=>', ':tabm +1<CR>')
@@ -71,6 +73,24 @@ keymap({ 'n', 'v' }, '<leader>y', '"+y')
 
 -- deletar pro void
 keymap({ 'n', 'v' }, '<leader>d', '"_d')
+
+--  ╭──────────────────────────────────────────────────────────╮
+--  │                          Macros                          │
+--  ╰──────────────────────────────────────────────────────────╯
+
+-- Enter key should repeat the last macro recorded or just act as enter
+keymap('n', '<leader><CR>', [[empty(&buftype) ? '@@' : '<CR>']], { expr = true })
+
+-- REF: stoeffel/.dotfiles
+-- Deixa repetir o macro em uma visual range
+vim.cmd([[
+  function! ExecuteMacroOverVisualRange()
+    echo "@".getcmdline()
+    execute ":'<,'>normal @".nr2char(getchar())
+  endfunction
+]])
+
+keymap('x', '@', ':<C-u>call ExecuteMacroOverVisualRange()<CR>')
 
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Debug                           │
