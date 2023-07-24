@@ -86,7 +86,7 @@ return {
 			padding = { right = 0, left = 0 },
 			cond = conditions.has_git,
 		},
-		{ 'FugitiveHead', icon = '' },
+		{ 'FugitiveHead', icon = icons.git.Branch },
 		{
 			'diff',
 			symbols = {
