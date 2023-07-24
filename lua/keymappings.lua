@@ -52,7 +52,7 @@ keymap('c', '<C-l>', '<Left>')
 --  │                          Edição                          │
 --  ╰──────────────────────────────────────────────────────────╯
 
-keymap({ 'n', 'v' }, '<leader>q', ':q<CR>')  -- [Q]uit
+keymap({ 'n', 'v' }, '<leader>q', ':q<CR>') -- [Q]uit
 keymap({ 'n', 'v' }, '<leader>w', ':wa<CR>') -- [W]rite
 
 -- Copiar a linha horizontalmente
@@ -62,17 +62,9 @@ keymap({ 'n', 'i', 'v' }, '<S-M-k>', ':t.<CR>')
 keymap('v', '<S-M-l>', "yPgv:'<,'>m '.-1<CR>gv")
 keymap('v', '<S-M-k>', 'yPgv')
 
--- Delete a word using Ctrl+Backspace
-keymap({ 'i', 'c' }, '<C-BS>', '<C-w>')
-
--- preservar buffer
-keymap('x', '<leader>p', '"_dp')
-
--- copiar para o system clipboard
-keymap({ 'n', 'v' }, '<leader>y', '"+y')
-
--- deletar pro void
-keymap({ 'n', 'v' }, '<leader>d', '"_d')
+keymap('x', '<leader>p', '"_dp') -- preservar buffer
+keymap({ 'n', 'v' }, '<leader>y', '"+y') -- copiar para o system clipboard
+keymap({ 'n', 'v' }, '<leader>d', '"_d') -- deletar pro void
 
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Macros                          │

@@ -73,6 +73,7 @@ return require('packer').startup(function(use)
     setup('navigation.leap')                                    -- sneap + easymotion
     setup('navigation.flit')                                    -- Repeat jump by pressing f, F, t, T again
     setup('navigation.vim-matchup')                             -- highlight, navigate, and operate on %
+    -- setup('navigation.whatthejump')  -- Mostra a
 
     use('itchyny/vim-highlighturl')                             -- highlight URLs
 
