@@ -75,7 +75,6 @@ return require('packer').startup(function(use)
 	setup('navigation.vim-matchup')                               -- highlight, navigate, and operate on %
 
 	use('itchyny/vim-highlighturl')                               -- highlight URLs
-	use('knubie/vim-kitty-navigator')                             -- navegação entre vim e kitty splits
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
