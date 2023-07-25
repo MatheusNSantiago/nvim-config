@@ -45,17 +45,6 @@ function M.config()
 		automatic_installation = true,
 	})
 
-	local function get_configs(server_name)
-		local config = lsp.get_commom_configs()
-
-		local has_custom_config, ls_configs = pcall(require, 'lsp.servers.' .. server_name)
-		if has_custom_config then
-			config = vim.tbl_deep_extend('force', config, ls_configs) -- adicioar configurações personalizadas
-		end
-
-		return config
-	end
-
 	neodev.setup({
 		-- type checking, documentation and autocompletion for nvim-dap-ui
 		library = { plugins = { 'nvim-dap-ui' }, types = true },
@@ -63,20 +52,17 @@ function M.config()
 
 	mason_lspconfig.setup_handlers({
 		function(server_name)
-			local config = get_configs(server_name)
+			local config = lsp.get_configs_for(server_name)
 			lspconfig[server_name].setup(config)
 		end,
 		-- Custom handlers
 		['lua_ls'] = function()
-			local config = get_configs('lua_ls')
+			local config = lsp.get_configs_for('lua_ls')
 			lspconfig['lua_ls'].setup(config)
 		end,
 		['tsserver'] = function()
-			require('typescript').setup({
-				disable_commands = false,
-				debug = false,
-				server = get_configs('tsserver'),
-			})
+			-- Está sendo feito pelo typescript-tools
+			-- ver plugins/dev/typescript.lua
 		end,
 	})
 

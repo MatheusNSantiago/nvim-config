@@ -74,7 +74,7 @@ return require('packer').startup(function(use)
 	setup('navigation.flit')                                      -- Repeat jump by pressing f, F, t, T again
 	setup('navigation.vim-matchup')                               -- highlight, navigate, and operate on %
 
-	use('itchyny/vim-highlighturl')                               -- highlight URLs
+	use('itchyny/vim-highlighturl') -- highlight URLs
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
@@ -169,9 +169,9 @@ return require('packer').startup(function(use)
 		'Nash0x7E2/awesome-flutter-snippets', -- snippets
 		'akinsho/pubspec-assist.nvim',      -- add/update dart dependencies
 	})
+	setup('dev.typescript')
 
-	use('jose-elias-alvarez/typescript.nvim') -- + funcionalidades pro ts_server (e.g. rename file & update imports)
-	use('Vimjas/vim-python-pep8-indent')     -- Conserta o indent do python
+	use('Vimjas/vim-python-pep8-indent') -- Conserta o indent do python
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                           Git                            │
