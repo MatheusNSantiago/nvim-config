@@ -44,10 +44,10 @@ function M.commom_keymaps()
 	keymap('n', 'gf', ':Lspsaga lsp_finder<CR>')
 
 	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
-	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer
+	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')     -- Abre a definição em um novo buffer
 	keymap('n', 'gv', ':vsplit<CR><C-w>w:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
-	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')      -- Code action
-	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')    -- Show line diagnostics
+	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')             -- Code action
+	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')           -- Show line diagnostics
 end
 
 function M.common_capabilities()
@@ -84,8 +84,8 @@ function M.common_on_attach(client, bufnr)
 	require('lsp.utils').setup_document_symbols(client, bufnr)
 
 	-- Setup nav buddy
-	local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
-	if navbuddy_ok then navbuddy.attach(client, bufnr) end
+	-- local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
+	-- if navbuddy_ok then navbuddy.attach(client, bufnr) end
 
 	M.commom_keymaps()
 end
@@ -107,6 +107,17 @@ function M.get_commom_configs()
 end
 
 function M.extend_commom_configs(config) return vim.tbl_deep_extend('force', config, M.get_commom_configs()) end
+
+function M.get_configs_for(server_name)
+	local config = M.get_commom_configs()
+
+	local has_custom_config, ls_configs = pcall(require, 'lsp.servers.' .. server_name)
+	if has_custom_config then
+		config = vim.tbl_deep_extend('force', config, ls_configs) -- adicioar configurações personalizadas
+	end
+
+	return config
+end
 
 function M.setup()
 	local lsp_status_ok, _ = pcall(require, 'lspconfig')
