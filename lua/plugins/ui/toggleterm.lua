@@ -12,11 +12,13 @@ function M.setup()
 		callback = function()
 			keymap('t', '<ESC>', [[<C-\><C-n>]], { buffer = 0 })
 
-			-- foco
-			keymap('t', '<C-j>', [[<Cmd>wincmd h<CR>]], { buffer = 0 })
-			keymap('t', '<C-k>', [[<Cmd>wincmd j<CR>]], { buffer = 0 })
-			keymap('t', '<C-l>', [[<C-\><C-n>:wincmd k<CR>]], { buffer = 0 })
-			keymap('t', '<C-ç>', [[<ESC><Cmd>wincmd l<CR>]], { buffer = 0 })
+			-- Nover o cursor entre janelas
+			-- Eu comentei isso porque o plugin smart-splits já faz isso
+			-- keymap('t', '<C-j>', [[<Cmd>wincmd h<CR>]], { buffer = 0 })
+			-- keymap('t', '<C-k>', [[<Cmd>wincmd j<CR>]], { buffer = 0 })
+			-- keymap('t', '<C-l>', [[<C-\><C-n>:wincmd k<CR>]], { buffer = 0 })
+			-- keymap('t', '<C-ç>', [[<ESC><Cmd>wincmd l<CR>]], { buffer = 0 })
+			keymap('t', '<A-e>', [[<ESC><Cmd>NvimTreeToggle<CR>]], { buffer = 0 })
 		end,
 	})
 
