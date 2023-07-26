@@ -58,7 +58,7 @@ function M.config()
             in_select = true,
         },
         lightbulb = {
-            enable = true,
+            enable = false,
             sign = true,
             debounce = 10,
             sign_priority = 40,
