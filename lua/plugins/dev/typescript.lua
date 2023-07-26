@@ -20,12 +20,12 @@ function M.config()
     -- },
     settings = {
       -- spawn additional tsserver instance to calculate diagnostics on it
-      separate_diagnostic_server = true,
+      separate_diagnostic_server = false,
       -- "change"|"insert_leave" determine when the client asks the server about diagnostic
       publish_diagnostic_on = 'insert_leave',
       -- array of strings("fix_all"|"add_missing_imports"|"remove_unused")
       -- specify commands exposed as code_actions
-      expose_as_code_action = {},
+      expose_as_code_action = { 'fix_all', 'add_missing_imports', 'remove_unused' },
       -- string|nil - specify a custom path to `tsserver.js` file, if this is nil or file under path
       -- not exists then standard path resolution strategy is applied
       tsserver_path = nil,
@@ -92,7 +92,7 @@ function M.config()
   }
   local combined_configs = vim.tbl_deep_extend('force', tsserver_configs, typescript_tools_configs)
 
-  require('typescript-tools').setup(combined_configs)
+  return combined_configs
 end
 
 return M

@@ -1,4 +1,5 @@
 local M = {}
+-- REF (lsp-config): https://github.com/neovim/nvim-lspconfig/wiki
 
 function M.setup()
 	return {
@@ -29,13 +30,13 @@ function M.config()
 
 	mason_null_ls.setup({
 		ensure_installed = {
-			'ruff',       -- python linter
-			'debugpy',    -- python debugger
-			'black',      -- python formatter
-			'yamlfmt',    -- yaml formatter
-			'prettierd',  -- javascript formatter
-			'cpplint',    -- c/c++ linter
-			'clang-format', -- c/c++ formatter
+			'ruff',             -- python linter
+			'debugpy',          -- python debugger
+			'black',            -- python formatter
+			'yamlfmt',          -- yaml formatter
+			'prettierd',        -- javascript formatter
+			'cpplint',          -- c/c++ linter
+			'clang-format',     -- c/c++ formatter
 		},
 		automatic_setup = true, -- Recommended, but optional
 	})
@@ -61,8 +62,9 @@ function M.config()
 			lspconfig['lua_ls'].setup(config)
 		end,
 		['tsserver'] = function()
-			-- Está sendo feito pelo typescript-tools
-			-- ver plugins/dev/typescript.lua
+			local config = require('plugins.dev.typescript').config()
+
+			require('typescript-tools').setup(config)
 		end,
 	})
 
