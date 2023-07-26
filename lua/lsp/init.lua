@@ -84,8 +84,8 @@ function M.common_on_attach(client, bufnr)
 	require('lsp.utils').setup_document_symbols(client, bufnr)
 
 	-- Setup nav buddy
-	-- local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
-	-- if navbuddy_ok then navbuddy.attach(client, bufnr) end
+	local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
+	if navbuddy_ok then navbuddy.attach(client, bufnr) end
 
 	M.commom_keymaps()
 end
