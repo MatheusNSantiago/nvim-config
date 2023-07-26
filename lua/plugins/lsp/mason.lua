@@ -37,6 +37,7 @@ function M.config()
 			'prettierd',        -- javascript formatter
 			'cpplint',          -- c/c++ linter
 			'clang-format',     -- c/c++ formatter
+			'fixjson',          -- json
 		},
 		automatic_setup = true, -- Recommended, but optional
 	})
