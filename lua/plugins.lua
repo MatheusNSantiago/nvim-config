@@ -98,6 +98,7 @@ return require('packer').startup(function(use)
 	setup('edit.nvim-neoclip') -- clipboard manager
 	setup('edit.leap-spooky') -- operar em text objects a distância
 	setup('edit.guess-indent') -- automatically detect the indentation settings
+	setup('edit.refactoring')
 
 	use('tpope/vim-surround') -- cs"'
 	use('tpope/vim-repeat') -- deixa o vim-surrond usar o '.'
