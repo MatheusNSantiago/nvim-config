@@ -45,7 +45,7 @@ function M.commom_keymaps()
 
 	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
 	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')     -- Abre a definição em um novo buffer
-	keymap('n', 'gv', ':vsplit<CR><C-w>w:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
+	keymap('n', 'gV', ':vsplit<CR><C-w>w:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
 	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')             -- Code action
 	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')           -- Show line diagnostics
 end
