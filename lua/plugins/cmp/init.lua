@@ -16,7 +16,20 @@ function M.config()
 	cmp.setup({
 		snippet = {
 			expand = function(args)
-				local body = args.body:gsub('%b()', '(${1})') -- remove tudo entre os parenteses
+				local body
+
+				local isAlreadyInstanced = utils.currentLineMatches('█%s*%(')
+				-- Imagem que a função é: func(arg1, arg2, arg3)
+				if not isAlreadyInstanced then
+					-- Default: func( █, , )
+					-- Meu: func(█)
+					body = args.body:gsub('%b', '(${1})')
+				else
+					-- - Default: `func█(a1, a2, a3)` =Complete=> `doSomething( , , )(a1, a2, a3)`
+					-- - Meu: `dosomethi█(a1, a2, a3)` =Complete=> `dosomething(a1, a2, a3)`
+					body = args.body:gsub('%b()', '') -- remove tudo entre os parenteses
+				end
+
 				luasnip.lsp_expand(body)
 			end,
 		},

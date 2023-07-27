@@ -24,8 +24,11 @@ function M.log(msg, hl, name)
     hl = hl or 'Todo'
     vim.api.nvim_echo({ { name .. ': ', hl }, { msg } }, true, {})
 end
+
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
+
 function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name }) end
+
 function M.info(msg, name) vim.notify(msg, vim.log.levels.INFO, { title = name }) end
 
 function M.logTable(table)
@@ -124,6 +127,23 @@ function M.pcall(msg, func, ...)
         msg = debug.traceback(msg and string.format('%s\n\n%s', msg, err) or err)
         vim.schedule(function() vim.notify(msg, vim.log.levels.ERROR, { title = 'ERROR' }) end)
     end, unpack(args))
+end
+
+---Checks if the current line matches a given pattern.
+---
+---This function takes a pattern as input and checks if the current line, with a marker indicating the current cursor position, matches the pattern. The marker is represented by the Unicode character '█'.
+---
+---@param pattern (string) The pattern to match against the current line.
+---@return (boolean) Returns true if the current line matches the pattern, false otherwise.
+function M.currentLineMatches(pattern)
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local cur_line = vim.api.nvim_get_current_line()
+
+    -- The cursor is one position ahead of the actual position
+    -- To get the character at the actual cursor position, we need to subtract 1
+    cur_line = cur_line:sub(1, col) .. '█' .. cur_line:sub(col + 1)
+    local foo = cur_line:match(pattern)
+    return foo
 end
 
 _G.utils = M
