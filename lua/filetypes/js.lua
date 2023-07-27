@@ -3,7 +3,7 @@ return {
   commands = function()
     create_picker('JS/TS', '<leader><leader>o', {
       {
-        name = 'start vite dev server',
+        name = 'npm run dev',
         handler = 'npm run dev',
       },
     })
