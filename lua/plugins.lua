@@ -44,7 +44,7 @@ return require('packer').startup(function(use)
 	setup('ui.noice', {   -- messages, cmdline and popupmenu
 		'MunifTanjim/nui.nvim',
 	})
-	setup('ui.nvim-navic')         -- 	breadcrumbs
+	setup('ui.barbecue')           -- 	breadcrumbs
 	setup('ui.nvim-notify')        -- messages, cmdline and popupmenu
 	setup('ui.nvim-colorizer')     -- #FFF ficar com o background branco
 	setup('ui.smart-splits')       -- split pane management
@@ -74,7 +74,7 @@ return require('packer').startup(function(use)
 	setup('navigation.flit')                                      -- Repeat jump by pressing f, F, t, T again
 	setup('navigation.vim-matchup')                               -- highlight, navigate, and operate on %
 
-	use('itchyny/vim-highlighturl') -- highlight URLs
+	use('itchyny/vim-highlighturl')                               -- highlight URLs
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Edição                          │
