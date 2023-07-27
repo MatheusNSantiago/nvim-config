@@ -63,6 +63,7 @@ return require('packer').startup(function(use)
 	setup('navigation.telescope', {
 		'nvim-telescope/telescope-media-files.nvim', -- mostra arquivos de mídia
 		'danielfalk/smart-open.nvim', --  melhora o ranking do find files
+		'debugloop/telescope-undo.nvim', -- undo true
 		'kkharji/sqlite.lua', -- dependencia do smart-open
 		{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }, -- melhora a performance
 	})
@@ -92,7 +93,6 @@ return require('packer').startup(function(use)
 	setup('edit.template-string') -- muda pra template-string automaticamente
 	setup('edit.vim-visual-multi') -- multicursor
 	setup('edit.neogen') -- documentation generation
-	setup('edit.undotree') -- undo tree
 	setup('edit.vim-textobj-comment') -- comment text objects
 	setup('edit.mini-move') -- Move lines and selections
 	setup('edit.nvim-neoclip') -- clipboard manager
