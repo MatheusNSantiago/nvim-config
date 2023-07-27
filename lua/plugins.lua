@@ -171,6 +171,7 @@ return require('packer').startup(function(use)
 		'akinsho/pubspec-assist.nvim', -- add/update dart dependencies
 	})
 	setup('dev.typescript')
+	setup('dev.chatGPT')
 
 	use('Vimjas/vim-python-pep8-indent') -- Conserta o indent do python
 
