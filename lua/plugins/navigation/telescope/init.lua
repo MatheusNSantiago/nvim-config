@@ -18,7 +18,12 @@ function M.setup()
         keymap('n', '<leader>ss', b.treesitter, { desc = '[S]earch [S]ymbols' })
 
         -- Extension
-        keymap('n', '<leader>sf', function() e.smart_open.smart_open({ cwd_only = true }) end, {desc = '[S]earch [F]iles' })
+        keymap(
+            'n',
+            '<leader>sf',
+            function() e.smart_open.smart_open({ cwd_only = true }) end,
+            { desc = '[S]earch [F]iles' }
+        )
         keymap('n', '<leader>smf', e.media_files.media_files, { desc = '[S]earch [M]edia [F]iles' })
         keymap('n', '<leader>sy', ':Telescope neoclip<CR>', { desc = '[S]earch [Y]anks' })
     end
@@ -85,26 +90,7 @@ function M.config()
     }
 
     telescope.setup({
-        defaults = {
-            mappings = {
-                i = {
-                    ['<C-k>'] = 'move_selection_next',
-                    ['<C-l>'] = 'move_selection_previous',
-                    ['<CR>'] = 'select_default',
-                    ['<C-h>'] = 'which_key',
-                    ['<C-c>'] = 'close',
-                },
-                n = {
-                    ['t'] = 'select_tab',
-                    ['<C-k>'] = 'move_selection_next',
-                    ['k'] = 'move_selection_next',
-                    ['<C-l>'] = 'move_selection_previous',
-                    ['l'] = 'move_selection_previous',
-                    ['v'] = 'select_vertical',
-                    ['<C-c>'] = 'close',
-                },
-            },
-        },
+        defaults = { mappings = require('plugins.navigation.telescope.mappings') },
         selection_caret = ' ',
         buffer_previewer_maker = preview_maker,
         pickers = {
