@@ -55,6 +55,7 @@ return {
 
     ['<C-c>'] = actions.close,
 
+    ['<C-CR>'] = actions.select_default,
     ['<CR>'] = actions.select_default,
     ['<C-h>'] = actions.select_horizontal,
     ['<C-v>'] = actions.select_vertical,
