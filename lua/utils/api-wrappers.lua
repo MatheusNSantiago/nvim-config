@@ -36,7 +36,7 @@ local function validate_autocmd(name, command)
 	if #incorrect > 0 then
 		vim.schedule(function()
 			local msg = 'Incorrect keys: ' .. table.concat(incorrect, ', ')
-			vim.notify(msg, 'error', { title = string.format('Autocmd: %s', name) })
+			vim.notify(msg, vim.log.levels.ERROR, { title = string.format('Autocmd: %s', name) })
 		end)
 	end
 end
@@ -51,13 +51,13 @@ end
 ---@field data any
 
 ---@class Autocommand
----@field desc string
----@field event  string | string[] list of autocommand events
+---@field desc string?
+---@field event  string | string[] | nil list of autocommand events
 ---@field pattern string | string[] list of autocommand patterns
 ---@field command string | fun(args: AutocmdArgs): boolean?
----@field nested  boolean
----@field once    boolean
----@field buffer  number
+---@field nested  boolean?
+---@field once    boolean?
+---@field buffer  number?
 
 ---Create an autocommand
 ---returns the group ID so that it can be cleared or manipulated.
