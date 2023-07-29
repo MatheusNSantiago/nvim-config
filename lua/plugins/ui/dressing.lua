@@ -15,7 +15,7 @@ function M.config()
 			prompt_align = 'left', -- Can be 'left', 'right', or 'center'
 			insert_only = true, -- When true, <Esc> will close the modal
 			start_in_insert = true, -- When true, input will start in insert mode.
-			anchor = 'SW', -- These are passed to nvim_open_win
+			-- anchor = 'SW', -- These are passed to nvim_open_win
 			border = 'rounded',
 			relative = 'cursor',
 			prefer_width = 40, -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
@@ -96,7 +96,7 @@ function M.config()
 			-- Options for built-in selector
 			builtin = {
 				-- These are passed to nvim_open_win
-				anchor = 'NW',
+				-- anchor = 'NW',
 				border = 'rounded',
 				-- 'editor' and 'win' will default to being centered
 				relative = 'editor',
