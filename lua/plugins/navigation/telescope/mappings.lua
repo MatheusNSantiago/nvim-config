@@ -55,11 +55,11 @@ return {
 
     ['<C-c>'] = actions.close,
 
-    ['<C-CR>'] = actions.select_default,
+    ['<C-t>'] = actions.select_tab,
+    ['<C-CR>'] = actions.select_tab,
     ['<CR>'] = actions.select_default,
     ['<C-h>'] = actions.select_horizontal,
     ['<C-v>'] = actions.select_vertical,
-    ['<C-t>'] = actions.select_tab,
 
     ['<C-u>'] = actions.preview_scrolling_up,
     ['<C-d>'] = actions.preview_scrolling_down,
