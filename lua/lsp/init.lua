@@ -93,7 +93,7 @@ end
 function M.get_commom_configs()
 	return {
 		handlers = {
-			['textDocument/hover'] = require('lsp.functions').custom_hover_handler,
+			-- ['textDocument/hover'] = require('lsp.functions').custom_hover_handler,
 			['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
 		},
 		on_attach = M.common_on_attach,
