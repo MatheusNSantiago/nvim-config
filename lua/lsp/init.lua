@@ -84,7 +84,7 @@ function M.common_on_attach(client, bufnr)
 	require('lsp.utils').setup_document_symbols(client, bufnr)
 
 	-- Setup nav buddy
-	local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
+	local navbuddy_ok, navbuddy = utils.pcall(require, 'nvim-navbuddy')
 	if navbuddy_ok then navbuddy.attach(client, bufnr) end
 
 	M.commom_keymaps()
@@ -92,10 +92,6 @@ end
 
 function M.get_commom_configs()
 	return {
-		handlers = {
-			-- ['textDocument/hover'] = require('lsp.functions').custom_hover_handler,
-			['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
-		},
 		on_attach = M.common_on_attach,
 		-- on_init = M.common_on_init,
 		-- on_exit = M.common_on_exit,
