@@ -31,10 +31,10 @@ function M.config()
 		end, { expr = true })
 
 		-- Actions
-		map({ 'n', 'v' }, '<leader>ha', ':Gitsigns stage_hunk<CR>', { desc = '[H]unk [A]dd' })
-		map({ 'n', 'v' }, '<leader>hr', ':Gitsigns reset_hunk<CR>', { desc = '[H]unk [R]eset' })
-		map('n', '<leader>hp', gs.preview_hunk, { desc = '[H]unk [P]review' })
-		map('n', '<leader>hb', function() gs.blame_line({ full = true }) end, { desc = '[H]unk [B]lame' })
+		map({ 'n', 'v' }, 'ha', gs.stage_hunk, { desc = 'gitsigns: [H]unk [A]dd' })
+		map({ 'n', 'v' }, 'hr', gs.reset_hunk, { desc = 'gitsigns: [H]unk [R]eset' })
+		map('n', 'hp', gs.preview_hunk, { desc = 'gitsigns: [H]unk [P]review' })
+		map('n', 'hb', gs.blame_line, { desc = 'gitsigns: [H]unk [B]lame' })
 	end
 
 	require('gitsigns').setup({
