@@ -5,18 +5,19 @@ function M.setup()
 	local is_installed, smart_splits = pcall(require, 'smart-splits')
 	if is_installed then
 		-- resizing splits
-		keymap('n', '<C-Up>', smart_splits.resize_up, { desc = 'smart-splits: resize up' })
-		keymap('n', '<C-Down>', smart_splits.resize_down, { desc = 'smart-splits: resize down' })
-		keymap('n', '<C-left>', smart_splits.resize_left, { desc = 'smart-splits: resize left' })
-		keymap('n', '<C-Right>', smart_splits.resize_right, { desc = 'smart-splits: resize right' })
+		keymap('n', '<C-S-A-i>', smart_splits.resize_up, { desc = 'smart-splits: resize up' }) -- (autokey = <C-S-A-l>)
+		keymap('n', '<C-S-A-k>', smart_splits.resize_down, { desc = 'smart-splits: resize down' })
+		keymap('n', '<C-S-A-j>', smart_splits.resize_left, { desc = 'smart-splits: resize left' })
+		keymap('n', '<C-S-A-ç>', smart_splits.resize_right, { desc = 'smart-splits: resize right' })
+
 		-- moving between splits
 		keymap('n', '<C-l>', smart_splits.move_cursor_up, { desc = 'smart-splits: move cursor up' })
 		keymap('n', '<C-k>', smart_splits.move_cursor_down, { desc = 'smart-splits: move cursor down' })
 		keymap('n', '<C-j>', smart_splits.move_cursor_left, { desc = 'smart-splits: move cursor left' })
 		keymap('n', '<C-w>l', smart_splits.move_cursor_right, { desc = 'smart-splits: move cursor right' }) -- (auto key = <C-ç>)
 
-		keymap('n', '<C-w>j', smart_splits.swap_buf_left, { desc = 'smart-splits: swap buffer left' })
-		keymap('n', '<C-w>ç', smart_splits.swap_buf_right, { desc = 'smart-splits: swap buffer right' })
+		keymap('n', '<C-A-j>', smart_splits.swap_buf_left, { desc = 'smart-splits: swap buffer left' })
+		keymap('n', '<C-A-ç>', smart_splits.swap_buf_right, { desc = 'smart-splits: swap buffer right' })
 	end
 
 	return {
@@ -63,7 +64,7 @@ function M.config()
 		-- }
 		-- NOTE: `at_edge = 'wrap'` is not supported on Kitty terminal
 		-- multiplexer, as there is no way to determine layout via the CLI
-		at_edge = 'wrap',
+		at_edge = 'stop',
 		-- when moving cursor between splits left or right,
 		-- place the cursor on the same row of the *screen*
 		-- regardless of line numbers. False by default.
