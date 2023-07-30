@@ -28,6 +28,12 @@ function M.config()
             hover = ' ',
             kind = {},
         },
+        hover = {
+            max_width = 0.9,
+            max_height = 0.8,
+            open_link = 'gx',
+            open_cmd = '!chrome',
+        },
         definition = {
             width = 0.6,
             height = 0.5,
