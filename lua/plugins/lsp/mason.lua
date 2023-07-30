@@ -63,9 +63,16 @@ function M.config()
 			lspconfig['lua_ls'].setup(config)
 		end,
 		['tsserver'] = function()
-			local config = require('plugins.dev.typescript').config()
+			local config = require('lsp').get_configs_for('tsserver')
 
-			require('typescript-tools').setup(config)
+			require('typescript').setup({
+				disable_commands = false, -- prevent the plugin from creating Vim commands
+				debug = false,        -- enable debug logging for commands
+				go_to_source_definition = {
+					fallback = true,    -- fall back to standard LSP definition on failure
+				},
+				server = config,
+			})
 		end,
 	})
 

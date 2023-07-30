@@ -27,7 +27,7 @@ function M.config()
 			b.formatting.black,
 			b.diagnostics.ruff.with({
 				extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') },
-			}),        -- Fast Linter
+			}), -- Fast Linter
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          JS/TS                           │
 			--  ╰──────────────────────────────────────────────────────────╯
@@ -36,6 +36,8 @@ function M.config()
 			-- b.formatting.rustywind, -- tailwind (reorganiza classes)
 			-- b.diagnostics.eslint_d, -- js/ts
 			-- b.diagnostics.xo,
+			require('typescript.extensions.null-ls.code-actions'),
+
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                            C                             │
 			--  ╰──────────────────────────────────────────────────────────╯
@@ -47,10 +49,10 @@ function M.config()
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          Outros                          │
 			--  ╰──────────────────────────────────────────────────────────╯
-			b.formatting.fixjson, -- json
-			b.formatting.yamlfmt, -- yaml
+			b.formatting.fixjson,  -- json
+			b.formatting.yamlfmt,  -- yaml
 			b.formatting.fish_indent, -- fish
-			b.diagnostics.fish, -- fish
+			b.diagnostics.fish,    -- fish
 		},
 		on_attach = function(client, bufnr)
 			if client.supports_method('textDocument/formatting') then

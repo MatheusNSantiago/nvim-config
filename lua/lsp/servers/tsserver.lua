@@ -77,7 +77,9 @@ local handlers = {
 
 local on_attach = function(client, bufnr)
     require('lsp').common_on_attach(client, bufnr)
-    -- utils.api.keymap('n', 'gd', ':TypescriptGoToSourceDefinition<CR>')
+
+    utils.api.keymap('n', 'gd', ':TypescriptGoToSourceDefinition<CR>')
+    -- keymap('n', 'K', ':Lspsaga hover_doc<CR>')
 end
 
 return {
