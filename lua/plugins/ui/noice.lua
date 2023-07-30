@@ -4,7 +4,7 @@ function M.setup()
 	return {
 		'folke/noice.nvim', -- messages, cmdline and popupmenu
 		event = { 'VimEnter' },
-		requires = { "MunifTanjim/nui.nvim'" },
+		requires = { "MunifTanjim/nui.nvim" },
 		config = M.config,
 	}
 end
