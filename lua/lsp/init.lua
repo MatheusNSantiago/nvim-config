@@ -17,15 +17,15 @@ M.servers = {
 }
 
 function M.commom_keymaps()
-	local telescope_ok, _ = pcall(require, 'telescope')
-	local lspsaga_ok, _ = pcall(require, 'lspsaga')
+	local telescope_ok, _ = utils.pcall(require, 'telescope')
+	local lspsaga_ok, _ = utils.pcall(require, 'lspsaga')
 
 	if not (telescope_ok and lspsaga_ok) then return end
 
 	local b = require('telescope.builtin')
 	local saga_diagnostic = require('lspsaga.diagnostic')
-
-	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
+	-- keymap('n', 'K', ':Lspsaga hover_doc<CR>')
+	keymap('n', 'K', require("plugins.ui.pretty-hover.init").hover)
 
 	-- Diagnostic jump
 	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
