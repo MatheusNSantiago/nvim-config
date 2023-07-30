@@ -51,6 +51,7 @@ return require('packer').startup(function(use)
 	setup('ui.hlsearch')           -- auto remove search highlight and rehighlight
 	setup('ui.rainbow-delimiters') -- rainbow parentheses
 	setup('ui.trouble')            -- pretty diagnostics, refs, quickfix
+	setup('ui.pretty-hover')
 
 	use('sitiom/nvim-numbertoggle') -- automatic relative/absolute line numbers
 
