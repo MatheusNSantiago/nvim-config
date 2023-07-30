@@ -14,10 +14,10 @@ end
 
 function M.config()
 	create_picker('Ações', '<leader><leader>ai', {
-		{
-			name = 'Documentar',
-			handler = ':ChatGPTRun docstring<CR>',
-		},
+		{ name = 'Chat',       handler = ':ChatGPT<CR>' },
+		{ name = 'Documentar', handler = ':ChatGPTRun documentar<CR>' },
+		{ name = 'Completar',  handler = ':ChatGPTRun complete_code<CR>' },
+		{ name = 'Explicar',   handler = ':ChatGPTRun explicar_codigo<CR>' },
 	})
 
 	require('chatgpt').setup({
@@ -59,7 +59,7 @@ function M.config()
 				draft_message = '<C-d>',
 				toggle_settings = '<C-o>',
 				toggle_message_role = '<C-r>',
-				toggle_system_role_open = '<C-s>',
+				togge_system_role_open = '<C-s>',
 			},
 		},
 		popup_layout = {
@@ -99,16 +99,11 @@ function M.config()
 			border = {
 				highlight = 'FloatBorder',
 				style = 'rounded',
-				text = {
-					top_align = 'center',
-					top = ' Prompt ',
-				},
+				text = { top_align = 'center', top = ' Prompt ' },
 			},
-			win_options = {
-				winhighlight = 'Normal:Normal,FloatBorder:FloatBorder',
-			},
-			submit = '<C-Enter>',
-			submit_n = '<Enter>',
+			win_options = { winhighlight = 'Normal:Normal,FloatBorder:FloatBorder' },
+			submit = '<Enter>',
+			submit_n = '<C-Enter>',
 		},
 		settings_window = {
 			border = { style = 'rounded', text = { top = ' Settings ' } },

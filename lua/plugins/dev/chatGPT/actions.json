@@ -1,9 +1,36 @@
 {
+  "documentar": {
+    "type": "chat",
+    "opts": {
+      "template": "# An elaborate, high quality docstring for the above function:\n# Writing a good docstring\n\nThis is an example of writing a really good docstring that follows a best practice for the given language. Attention is paid to detailing things like\n* parameter and return types (if applicable)\n* any errors that might be raised or returned, depending on the language\n\nI received the following code:\n\n```{{filetype}}\n{{input}}\n```\n\nThe code with a really good docstring added is below:\n\n```{{filetype}}",
+      "strategy": "edit",
+      "params": {
+        "model": "gpt-3.5-turbo",
+        "stop": [
+          "```"
+        ]
+      }
+    }
+  },
   "complete_code": {
     "type": "chat",
     "opts": {
       "template": "Complete the following code written in {{lang}} by pasting the existing code and continuing it.\n\nExisting code:\n```{{filetype}}\n{{input}}\n```\n\n```{{filetype}}\n",
       "strategy": "replace",
+      "params": {
+        "model": "gpt-3.5-turbo",
+        "stop": [
+          "```"
+        ]
+      }
+    }
+  },
+  "explicar_codigo": {
+    "type": "chat",
+    "opts": {
+      "title": " Explain Code",
+      "template": "Explain the following code:\n\nCode:\n```{{filetype}}\n{{input}}\n```\n\nUse markdown format and try to use bullet points, dont forget a nice big heading in the start.\nHere's what the above code is doing:\n```",
+      "strategy": "display",
       "params": {
         "model": "gpt-3.5-turbo",
         "stop": [
@@ -26,19 +53,6 @@
         "type": "string",
         "optional": "true",
         "default": "english"
-      }
-    }
-  },
-  "docstring": {
-    "type": "chat",
-    "opts": {
-      "template": "# An elaborate, high quality docstring for the above function:\n# Writing a good docstring\n\nThis is an example of writing a really good docstring that follows a best practice for the given language. Attention is paid to detailing things like\n* parameter and return types (if applicable)\n* any errors that might be raised or returned, depending on the language\n\nI received the following code:\n\n```{{filetype}}\n{{input}}\n```\n\nThe code with a really good docstring added is below:\n\n```{{filetype}}",
-      "strategy": "edit",
-      "params": {
-        "model": "gpt-3.5-turbo",
-        "stop": [
-          "```"
-        ]
       }
     }
   },
@@ -83,20 +97,6 @@
     "opts": {
       "template": "Fix bugs in the below code\n\nCode:\n```{{filetype}}\n{{input}}\n```\n\nFixed code:\n```{{filetype}}",
       "strategy": "edit",
-      "params": {
-        "model": "gpt-3.5-turbo",
-        "stop": [
-          "```"
-        ]
-      }
-    }
-  },
-  "explain_code": {
-    "type": "chat",
-    "opts": {
-      "title": " Explain Code",
-      "template": "Explain the following code:\n\nCode:\n```{{filetype}}\n{{input}}\n```\n\nUse markdown format.\nHere's what the above code is doing:\n```",
-      "strategy": "display",
       "params": {
         "model": "gpt-3.5-turbo",
         "stop": [
