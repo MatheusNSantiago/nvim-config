@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-doc-name
 local M = {}
 
 function M.setup()

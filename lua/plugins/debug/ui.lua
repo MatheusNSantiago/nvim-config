@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local M = {}
 
 function M.setup()
