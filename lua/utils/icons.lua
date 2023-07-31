@@ -194,7 +194,7 @@ M.ui = {
 	Files = '',
 	FindFile = '',
 	FindText = '',
-	Folder = '',
+	Folder = '',
 	FolderOpen = '',
 	FolderSymlink = '',
 	Forward = '',
@@ -223,6 +223,11 @@ M.diagnostics = {
 	Information = '󰋽 ', -- 
 	Question = ' ', -- 
 	Warning = ' ', -- 
+
+	ErrorFilled = ' ',
+	HintFilled = ' ',
+	InformationFilled = ' ',
+	WarningFilled = ' ',
 }
 
 M.lsp = {
