@@ -19,12 +19,18 @@ function M.setup()
 			keymap('t', '<C-l>', [[<C-\><C-n>:wincmd k<CR>]], { buffer = 0 })
 			keymap('t', '<C-ç>', [[<ESC><Cmd>wincmd l<CR>]], { buffer = 0 })
 			keymap('t', '<A-e>', [[<ESC><Cmd>NvimTreeToggle<CR>]], { buffer = 0 })
+
+			-- Problema: o breadcrumbs (barbecue) aparecia quando eu abria o terminal pela primeira vez
+			-- Observação: Quando eu mudava pro normal mode, o barbecue sumia
+			-- Solução: Começar no normal mode (start_in_insert = false), esperar o breadcumbs processar (100 milisegundos) e voltar pro insert mode
+			vim.defer_fn(function() vim.cmd('startinsert') end, 100)
 		end,
 	})
 
 	-- Faz com que sempre esteje no insert mode
 	vim.api.nvim_create_autocmd({ 'BufEnter' }, {
-		pattern = '*toggleterm#*', -- if you only want these mappings for toggle term use term://*toggleterm#* instead
+		-- pattern = '*toggleterm#*', -- if you only want these mappings for toggle term use term://*toggleterm#* instead
+		pattern = 'term://*toggleterm#*', -- if you only want these mappings for toggle term use term://*toggleterm#* instead
 		callback = function()
 			vim.defer_fn(function() vim.cmd('startinsert') end, 10)
 		end,
@@ -53,7 +59,7 @@ function M.config()
 		shade_filetypes = {},
 		shade_terminals = false,
 		shading_factor = '0', -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
-		start_in_insert = true,
+		start_in_insert = false,
 		insert_mappings = false, -- whether or not the open mapping applies in insert mode
 		persist_size = false,
 		on_open = function(t)
@@ -72,7 +78,7 @@ function M.config()
 		on_close = function(t)
 			-- local lualine_ok, lualine = pcall(require, "lualine")
 			-- lualine.hide({ unhide = true })
-		end,                -- function to run when the terminal closes
+		end, -- function to run when the terminal closes
 		direction = 'horizontal', --'horizontal', -- 'vertical' | 'horizontal' | 'window' | 'float',
 		close_on_exit = true, -- close the terminal window when the process exits
 		shell = vim.o.shell, -- change the default shell
