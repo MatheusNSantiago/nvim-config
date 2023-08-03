@@ -38,22 +38,23 @@ return require('packer').startup(function(use)
 	setup('ui.lualine')   -- Status Line
 	setup('ui.indent-blankline')
 	setup('ui.web-devicons')
-	setup('ui.toggleterm')        -- Terminal
-	setup('ui.bufferline')        -- Tabs/buffers
-	setup('ui.dressing')          -- selection e input
-	setup('ui.noice')             -- messages, cmdline and popupmenu
-	setup('ui.barbecue')          -- 	breadcrumbs
-	setup('ui.nvim-notify')       -- messages, cmdline and popupmenu
-	setup('ui.ccc')               -- Color picker and highlighter #FFF
-	setup('ui.smart-splits')      -- split pane management
-	setup('ui.vim-scrollbar')     -- scrollbar
-	setup('ui.todo-comments')     -- highlight TODO, FIXME, etc...
-	setup('ui.hlsearch')          -- auto remove search highlight and rehighlight
-	setup('ui.rainbow-delimiters') -- rainbow parentheses
-	setup('ui.trouble')           -- pretty diagnostics, refs, quickfix
+	setup('ui.toggleterm')             -- Terminal
+	setup('ui.bufferline')             -- Tabs/buffers
+	setup('ui.dressing')               -- selection e input
+	setup('ui.noice')                  -- messages, cmdline and popupmenu
+	setup('ui.barbecue')               -- 	breadcrumbs
+	setup('ui.nvim-notify')            -- messages, cmdline and popupmenu
+	setup('ui.ccc')                    -- Color picker and highlighter #FFF
+	setup('ui.smart-splits')           -- split pane management
+	setup('ui.vim-scrollbar')          -- scrollbar
+	setup('ui.todo-comments')          -- highlight TODO, FIXME, etc...
+	setup('ui.hlsearch')               -- auto remove search highlight and rehighlight
+	setup('ui.rainbow-delimiters')     -- rainbow parentheses
+	setup('ui.trouble')                -- pretty diagnostics, refs, quickfix
 	setup('ui.pretty-hover')
+	setup('ui.nvim-treesitter-context') -- mostra qual a função/classe tu tá
 
-	use('sitiom/nvim-numbertoggle') -- automatic relative/absolute line numbers
+	use('sitiom/nvim-numbertoggle')    -- automatic relative/absolute line numbers
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                        Navigation                        │
