@@ -33,10 +33,10 @@ return require('packer').startup(function(use)
 	--  │                        Interface                         │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	setup('ui.tokyonight') -- Tema
-	setup('ui.nvim-tree') -- File Explorer
-	setup('ui.lualine')   -- Status Line
-	setup('ui.indent-blankline')
+	setup('ui.tokyonight')             -- Tema
+	setup('ui.nvim-tree')              -- File Explorer
+	setup('ui.lualine')                -- Status Line
+	setup('ui.hlchunk')                -- indentação/context
 	setup('ui.web-devicons')
 	setup('ui.toggleterm')             -- Terminal
 	setup('ui.bufferline')             -- Tabs/buffers

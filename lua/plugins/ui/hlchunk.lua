@@ -2,6 +2,67 @@ local M = {}
 
 function M.setup()
 	return {
+		'shellRaining/hlchunk.nvim',
+		config = M.config,
+	}
+end
+
+function M.config()
+	require('hlchunk').setup({
+		chunk = {
+			enable = true,
+			use_treesitter = true,
+			notify = true, -- notify if some situation(like disable chunk mod double time)
+			exclude_filetypes = {
+				aerial = true,
+				dashboard = true,
+			},
+			support_filetypes = {
+				'*.py',
+				'*.lua',
+				'*.jsx?',
+				'*.tsx?',
+				'*.dart',
+				'*.yaml',
+				'*.json',
+				'*.c',
+			},
+			chars = {
+				horizontal_line = '─',
+				vertical_line = '│',
+				left_top = '╭',
+				left_bottom = '╰',
+				right_arrow = '─', -- '>',
+			},
+			style = { { fg = '#806d9c' } },
+		},
+		indent = {
+			enable = true,
+			use_treesitter = false,
+			chars = { '│', '¦', '┆', '┊' },
+			style = {
+				'#3b4261',
+			},
+		},
+		line_num = {
+			enable = false,
+			use_treesitter = false,
+			style = '#806d9c',
+		},
+		blank = {
+			enable = false,
+			chars = { '․' },
+			style = { vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Whitespace')), 'fg', 'gui') },
+		},
+	})
+end
+
+return M
+
+--[[ local M = {}
+
+function M.setup()
+	return {
 		"lukas-reineke/indent-blankline.nvim",
 		config = M.config,
 	}
@@ -50,4 +111,4 @@ M.highlights = {
 	IndentBlanklineContextStart = { sp = "#938AA9", underline = true },
 }
 
-return M
+return M ]]
