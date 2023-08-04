@@ -21,7 +21,7 @@ function M.config()
 		debugger = {},
 		decorations = {
 			statusline = {
-				device = false, -- {flutter_tools_decorations.app_version} lualine
+				device = false,  -- {flutter_tools_decorations.app_version} lualine
 				app_version = false, -- {flutter_tools_decorations.device} lualine
 			},
 		},
@@ -55,6 +55,11 @@ function M.config()
 					":TermExec cmd='flutter pub run build_runner watch'<CR>",
 					{ desc = 'flutter: run code generation' }
 				)
+
+				-- Desativar aquela parada de mostrar contexto do hl_chunk
+				-- (problema com o widget highlighting do flutter-tools)
+				local hl_chunk_ok, _ = pcall(require, 'hlchunk')
+				if hl_chunk_ok then vim.cmd('DisableHLChunk') end
 
 				-- hack pra forçar o refresh do highlight
 				vim.defer_fn(function()
