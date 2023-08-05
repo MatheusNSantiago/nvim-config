@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
   return {
     'ziontee113/icon-picker.nvim',
+    cmd ="IconPickerNormal",
     config = M.config,
   }
 end

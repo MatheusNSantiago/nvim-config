@@ -149,7 +149,7 @@ end
 _G.utils = M
 _G.utils.api = require('utils.api-wrappers')
 _G.utils.icons = require('utils.icons')
-_G.utils.c = require('utils.colors')
+_G.c = require('utils.colors')
 _G.utils.ft_helpers = require('utils.filetype-helpers')
 _G.create_picker = require('plugins.navigation.telescope.picker')
 

@@ -20,8 +20,8 @@ keymap({ 'n', 'v' }, 'k', 'j')
 keymap({ 'n', 'v' }, 'j', 'h')
 
 -- Mover direito mesmo quando a linha da wrap
-keymap('n', 'l', "v:count == 0 ? 'gk' : 'k'", { expr = true })
-keymap('n', 'k', "v:count == 0 ? 'gj' : 'j'", { expr = true })
+keymap('n', 'l', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+keymap('n', 'k', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 ------- Mover entre Tabs
 

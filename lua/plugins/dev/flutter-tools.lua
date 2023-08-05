@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
 	return {
 		'akinsho/flutter-tools.nvim',
+		ft = "dart",
 		config = M.config,
 	}
 end
@@ -12,7 +13,6 @@ function M.config()
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                      Flutter Tools                       │
 	--  ╰──────────────────────────────────────────────────────────╯
-	require('pubspec-assist').setup({})
 	require('flutter-tools').setup({
 		ui = {
 			border = 'rounded', -- e.g. "single" | "shadow" | {<table-of-eight-chars>}
@@ -59,7 +59,7 @@ function M.config()
 				-- Desativar aquela parada de mostrar contexto do hl_chunk
 				-- (problema com o widget highlighting do flutter-tools)
 				local hl_chunk_ok, _ = pcall(require, 'hlchunk')
-				if hl_chunk_ok then vim.cmd('DisableHLChunk') end
+				if hl_chunk_ok then vim.cmd('DisableHLChunk!') end
 
 				-- hack pra forçar o refresh do highlight
 				vim.defer_fn(function()

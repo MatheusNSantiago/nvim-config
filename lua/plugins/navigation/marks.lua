@@ -24,7 +24,6 @@ function M.config()
 	})
 end
 
-local c = require("utils.colors")
 M.highlights = {
 	MarkSignHL = { fg = c.purple, bold = true }, -- The highlight group for displayed mark signs.
 	MarkSignNumHL = {}, --The highlight group for the number line in a signcolumn.

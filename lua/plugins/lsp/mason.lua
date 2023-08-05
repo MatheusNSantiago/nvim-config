@@ -4,7 +4,9 @@ local M = {}
 function M.setup()
 	return {
 		'williamboman/mason.nvim',
-		run = ':MasonUpdate', -- updates registry contents
+		build = ':MasonUpdate', -- updates registry contents
+		-- cmd = { 'Mason', 'MasonInstall', 'MasonUninstall', 'MasonUninstallAll', 'MasonLog' },
+		-- event = { 'BufRead', 'BufWinEnter', 'BufNewFile' },
 		config = M.config,
 	}
 end
@@ -12,7 +14,6 @@ end
 function M.config()
 	local mason = require('mason')
 	local lspconfig = require('lspconfig')
-	local neodev = require('neodev')
 	local mason_lspconfig = require('mason-lspconfig')
 	local lsp = require('lsp')
 	local mason_null_ls = require('mason-null-ls')
@@ -30,14 +31,14 @@ function M.config()
 
 	mason_null_ls.setup({
 		ensure_installed = {
-			'ruff',             -- python linter
-			'debugpy',          -- python debugger
-			'black',            -- python formatter
-			'yamlfmt',          -- yaml formatter
-			'prettierd',        -- javascript formatter
-			'cpplint',          -- c/c++ linter
-			'clang-format',     -- c/c++ formatter
-			'fixjson',          -- json
+			'ruff', -- python linter
+			'debugpy', -- python debugger
+			'black', -- python formatter
+			'yamlfmt', -- yaml formatter
+			'prettierd', -- javascript formatter
+			'cpplint', -- c/c++ linter
+			'clang-format', -- c/c++ formatter
+			'fixjson', -- json
 		},
 		automatic_setup = true, -- Recommended, but optional
 	})
@@ -47,10 +48,13 @@ function M.config()
 		automatic_installation = true,
 	})
 
-	neodev.setup({
-		-- type checking, documentation and autocompletion for nvim-dap-ui
-		library = { plugins = { 'nvim-dap-ui' }, types = true },
-	}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+	local neodev_ok, neodev = pcall(require, 'neodev')
+	if neodev_ok then
+		neodev.setup({
+			-- type checking, documentation and autocompletion for nvim-dap-ui
+			library = { plugins = { 'nvim-dap-ui' }, types = true },
+		}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+	end
 
 	mason_lspconfig.setup_handlers({
 		function(server_name)
@@ -67,9 +71,9 @@ function M.config()
 
 			require('typescript').setup({
 				disable_commands = false, -- prevent the plugin from creating Vim commands
-				debug = false,        -- enable debug logging for commands
+				debug = false, -- enable debug logging for commands
 				go_to_source_definition = {
-					fallback = true,    -- fall back to standard LSP definition on failure
+					fallback = true, -- fall back to standard LSP definition on failure
 				},
 				server = config,
 			})

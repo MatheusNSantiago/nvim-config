@@ -4,10 +4,13 @@ function M.setup()
 	return {
 		'AckslD/nvim-neoclip.lua',
 		config = M.config,
+    lazy = true,
 	}
 end
 
 function M.config()
+  require("telescope").load_extension('neoclip')
+
 	require('neoclip').setup({
 		history = 50,
 		filter = nil,

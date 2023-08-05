@@ -4,6 +4,7 @@ function M.setup()
 
   return {
     "folke/lsp-colors.nvim",
+    event = "VeryLazy",
     config = M.config,
   }
 end

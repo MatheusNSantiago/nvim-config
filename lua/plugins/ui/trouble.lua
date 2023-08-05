@@ -5,12 +5,20 @@ function M.setup()
     'folke/trouble.nvim',
     config = M.config,
     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    cmd = 'Trouble',
+    keys = M.keys,
   }
+end
+
+function M.keys()
+  local is_installed, trouble = pcall(require, 'trouble')
+  if not is_installed then return {} end
+
+  return { { '<leader><leader>d', trouble.open, desc = 'trouble: open [D]iagnostics' } }
 end
 
 function M.config()
   local trouble = require('trouble')
-  utils.api.keymap('n', '<leader><leader>d', trouble.open, { desc = 'trouble: open [D]iagnostics' })
 
   local diagnostic_icons = require('utils.icons').diagnostics
   trouble.setup({

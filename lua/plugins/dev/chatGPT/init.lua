@@ -3,7 +3,8 @@ local M = {}
 function M.setup()
 	return {
 		'jackMort/ChatGPT.nvim',
-		requires = {
+		cmd = { 'ChatGPT', 'ChatGPTRun' },
+		dependencies = {
 			'MunifTanjim/nui.nvim',
 			'nvim-lua/plenary.nvim',
 			'nvim-telescope/telescope.nvim',

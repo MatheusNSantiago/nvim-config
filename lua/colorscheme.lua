@@ -1,8 +1,6 @@
 local M = {}
 -- https://github.com/numToStr/Sakura.nvim/commit/392a5d5a2e6097b816314b38d727e641a5bde7c9
 -- https://github.com/LunarVim/onedarker.nvim/blob/master/lua/onedarker/theme.lua
-local c = require('utils.colors')
-
 local hls = {}
 
 hls.syntax = {

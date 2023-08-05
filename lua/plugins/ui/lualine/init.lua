@@ -3,7 +3,7 @@ local M = {}
 function M.setup()
   return {
     'nvim-lualine/lualine.nvim',
-    event = 'BufReadPre',
+    event = 'VimEnter',
     config = M.config,
   }
 end

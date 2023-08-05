@@ -2,7 +2,7 @@ local M = {}
 function M.setup()
 	return {
 		'lewis6991/gitsigns.nvim',
-		event = 'BufReadPre',
+		event =  {"BufReadPre", "BufNewFile" },
 		config = M.config,
 	}
 end

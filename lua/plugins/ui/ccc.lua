@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
 	return {
 		'uga-rosa/ccc.nvim',
+    event = "BufReadPost",
 		config = M.config,
 	}
 end

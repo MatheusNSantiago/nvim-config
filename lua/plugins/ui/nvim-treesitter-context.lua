@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
   return {
     'nvim-treesitter/nvim-treesitter-context',
+    event = "VeryLazy",
     config = M.config,
   }
 end

@@ -1,202 +1,196 @@
-local function ensure_packer()
-	local fn = vim.fn
-	local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-		vim.cmd([[packadd packer.nvim]])
-		return true
-	end
-	return false
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  })
 end
-local is_bootstrap = ensure_packer()
+vim.opt.rtp:prepend(lazypath)
 
-pcall(require, 'impatient') -- performance
-return require('packer').startup(function(use)
-	local function setup(file, requires)
-		local plugin = file:match('([^.]*)$')
-		local setup_ok, _setup = utils.pcall('Erro no setup do plugin: ' .. plugin, require('plugins.' .. file).setup)
-		if setup_ok and type(_setup) == 'table' then
-			if requires ~= nil then _setup.requires = requires end -- adiciona dependências
-			utils.pcall('Erro na config do plugin: ' .. plugin, use, _setup)
-		end
-	end
+local function setup(file, dependencies)
+  local plugin = file:match('([^.]*)$')
+  local setup_ok, _setup = utils.pcall('Erro no setup do plugin: ' .. plugin, require('plugins.' .. file).setup)
+  if setup_ok and type(_setup) == 'table' then
+    if dependencies ~= nil then _setup.dependencies = dependencies end -- adiciona dependências
+    return _setup
+  end
+end
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                          Base                            │
-	--  ╰──────────────────────────────────────────────────────────╯
+require('lazy').setup({
+  {
+    'dstein64/vim-startuptime',
+    -- lazy-load on a command
+    cmd = 'StartupTime',
+    -- init is called during startup. Configuration for vim plugins typically should be set in an init function
+    init = function() vim.g.startuptime_tries = 40 end,
+    keys = { { '<leader><leader>s', ':StartupTime<CR>' } },
+  },
 
-	use('wbthomason/packer.nvim')  -- Package Manager
-	use('lewis6991/impatient.nvim') -- performance
-	use('nvim-lua/plenary.nvim')   -- Common utilities
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                          Base                            │
+  --  ╰──────────────────────────────────────────────────────────╯
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                        Interface                         │
-	--  ╰──────────────────────────────────────────────────────────╯
+  'nvim-lua/plenary.nvim', -- Common utilities
 
-	setup('ui.tokyonight')             -- Tema
-	setup('ui.nvim-tree')              -- File Explorer
-	setup('ui.lualine')                -- Status Line
-	setup('ui.hlchunk')                -- indentação/context
-	setup('ui.web-devicons')
-	setup('ui.toggleterm')             -- Terminal
-	setup('ui.bufferline')             -- Tabs/buffers
-	setup('ui.dressing')               -- selection e input
-	setup('ui.noice')                  -- messages, cmdline and popupmenu
-	setup('ui.barbecue')               -- 	breadcrumbs
-	setup('ui.nvim-notify')            -- messages, cmdline and popupmenu
-	setup('ui.ccc')                    -- Color picker and highlighter #FFF
-	setup('ui.smart-splits')           -- split pane management
-	setup('ui.vim-scrollbar')          -- scrollbar
-	setup('ui.todo-comments')          -- highlight TODO, FIXME, etc...
-	setup('ui.hlsearch')               -- auto remove search highlight and rehighlight
-	setup('ui.rainbow-delimiters')     -- rainbow parentheses
-	setup('ui.trouble')                -- pretty diagnostics, refs, quickfix
-	setup('ui.pretty-hover')
-	setup('ui.nvim-treesitter-context') -- mostra qual a função/classe tu tá
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                        Interface                         │
+  --  ╰──────────────────────────────────────────────────────────╯
 
-	use('sitiom/nvim-numbertoggle')    -- automatic relative/absolute line numbers
+  setup('ui.tokyonight'),             -- Tema
+  setup('ui.web-devicons'),           -- icones
+  setup('ui.nvim-tree'),              -- File Explorer
+  setup('ui.lualine'),                -- Status Line
+  setup('ui.hlchunk'),                -- indentação/context
+  setup('ui.toggleterm'),             -- Terminal
+  setup('ui.bufferline'),             -- Tabs/buffers
+  setup('ui.dressing'),               -- selection e input
+  setup('ui.noice'),                  -- messages, cmdline and popupmenu
+  setup('ui.barbecue'),               -- 	breadcrumbs
+  setup('ui.nvim-notify'),            -- messages, cmdline and popupmenu
+  setup('ui.ccc'),                    -- Color picker and highlighter #FFF
+  setup('ui.smart-splits'),           -- split pane management
+  setup('ui.vim-scrollbar'),          -- scrollbar
+  setup('ui.todo-comments'),          -- highlight TODO, FIXME, etc...
+  setup('ui.hlsearch'),               -- auto remove search highlight and rehighlight
+  setup('ui.rainbow-delimiters'),     -- rainbow parentheses
+  setup('ui.trouble'),                -- pretty diagnostics, refs, quickfix
+  -- setup('ui.pretty-hover'),
+  setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                        Navigation                        │
-	--  ╰──────────────────────────────────────────────────────────╯
+  'sitiom/nvim-numbertoggle',         -- automatic relative/absolute line numbers
 
-	setup('navigation.telescope', {
-		'nvim-telescope/telescope-media-files.nvim',                -- mostra arquivos de mídia
-		'danielfalk/smart-open.nvim',                               --  melhora o ranking do find files
-		'debugloop/telescope-undo.nvim',                            -- undo true
-		'kkharji/sqlite.lua',                                       -- dependencia do smart-open
-		{ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }, -- melhora a performance
-	})
-	setup('navigation.hop')                                       -- tipo o easymotion
-	setup('navigation.tabout')                                    -- tabout
-	setup('navigation.marks')                                     -- marks
-	setup('navigation.nvim-navbuddy')                             -- outline
-	setup('navigation.readline')                                  -- Readline motions and deletions (igual do terminal)
-	setup('navigation.leap')                                      -- sneap + easymotion
-	setup('navigation.flit')                                      -- Repeat jump by pressing f, F, t, T again
-	setup('navigation.vim-matchup')                               -- highlight, navigate, and operate on %
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                        Navigation                        │
+  --  ╰──────────────────────────────────────────────────────────╯
 
-	use('itchyny/vim-highlighturl')                               -- highlight URLs
+  setup('navigation.telescope'),
+  { 'nvim-telescope/telescope-fzf-native.nvim',  build = 'make',                          lazy = true }, -- melhora a performance
+  { 'nvim-telescope/telescope-media-files.nvim', lazy = true },                          -- mostra arquivos de mídia
+  { 'danielfalk/smart-open.nvim',                dependencies = { 'kkharji/sqlite.lua' }, lazy = true }, --  melhora o ranking do find files
+  { 'debugloop/telescope-undo.nvim',             lazy = true },                          -- undo true
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                          Edição                          │
-	--  ╰──────────────────────────────────────────────────────────╯
+  setup('navigation.hop'),                                                               -- tipo o easymotion
+  setup('navigation.tabout'),                                                            -- tabout
+  setup('navigation.marks'),                                                             -- marks
+  setup('navigation.nvim-navbuddy'),                                                     -- outline
+  setup('navigation.readline'),                                                          -- Readline motions and deletions (igual do terminal)
+  setup('navigation.leap'),                                                              -- sneap + easymotion
+  setup('navigation.flit'),                                                              -- Repeat jump by pressing f, F, t, T again
+  setup('navigation.vim-matchup'),                                                       -- highlight, navigate, and operate on %
 
-	setup('edit.vim-autopairs') -- Completar (), [], {}
-	setup('edit.stay-in-place') -- mantém a posição do mouse ao indentar
-	setup('edit.comment')      -- "gcc" to comment visual regions/lines
-	setup('edit.comment-box')  -- comment box
-	setup('edit.prettier')
-	setup('edit.nvim-ufo', {   -- folding
-		'kevinhwang91/promise-async',
-	})
-	setup('edit.template-string')    -- muda pra template-string automaticamente
-	setup('edit.vim-visual-multi')   -- multicursor
-	setup('edit.neogen')             -- documentation generation
-	setup('edit.vim-textobj-comment') -- comment text objects
-	setup('edit.mini-move')          -- Move lines and selections
-	setup('edit.nvim-neoclip')       -- clipboard manager
-	setup('edit.leap-spooky')        -- operar em text objects a distância
-	setup('edit.guess-indent')       -- automatically detect the indentation settings
-	setup('edit.refactoring')
-	setup('edit.icon-picker')
+  'itchyny/vim-highlighturl',                                                            -- highlight URLs
 
-	use('tpope/vim-surround')      -- cs"'
-	use('tpope/vim-repeat')        -- deixa o vim-surrond usar o '.'
-	use('wellle/targets.vim')      -- adiciona novos textobjects
-	use('AndrewRadev/undoquit.vim') -- restaurar tabs fechadas
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                          Edição                          │
+  --  ╰──────────────────────────────────────────────────────────╯
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                           LSP                            │
-	--  ╰──────────────────────────────────────────────────────────╯
+  setup('edit.vim-autopairs'), -- Completar (), [], {}
+  setup('edit.stay-in-place'), -- mantém a posição do mouse ao indentar
+  setup('edit.comment'),      -- "gcc" to comment visual regions/lines
+  setup('edit.comment-box'),  -- comment box
+  setup('edit.prettier'),
+  setup('edit.nvim-ufo'),     -- folding
+  -- setup('edit.template-string')    -- muda pra template-string automaticamente
 
-	setup('lsp.mason', {
-		'neovim/nvim-lspconfig',           -- LSP
-		'williamboman/mason-lspconfig.nvim', -- integrar mason com lspconfig
-		'jay-babu/mason-null-ls.nvim',     -- deixa mais fácil usar mason + null-ls
-	})
+  setup('edit.vim-visual-multi'),   -- multicursor
+  setup('edit.neogen'),             -- documentation generation
+  setup('edit.vim-textobj-comment'), -- comment text objects
+  setup('edit.mini-move'),          -- Move lines and selections
+  setup('edit.nvim-neoclip'),       -- clipboard manager
+  setup('edit.leap-spooky'),        -- operar em text objects a distância
+  setup('edit.guess-indent'),       -- automatically detect the indentation settings
+  setup('edit.refactoring'),
+  setup('edit.icon-picker'),
 
-	setup('lsp.lsp_signature') -- mostra a function signature enquanto digita
-	setup('lsp.null-ls')       -- Diagnostics/Formating/Code Actions
-	setup('lsp.lspsaga')       -- LSP UIs
-	setup('lsp.illuminate')    -- higlight a palavra em cima do cursor
-	setup('lsp.lsp-colors')    -- agrupa os erros do LSP por cor
+  setup('edit.nvim-surround'),                       -- cs"'
+  { 'tpope/vim-repeat',         event = 'VeryLazy' }, -- deixa o vim-surrond usar o '.'
+  { 'wellle/targets.vim',       event = 'BufReadPost' }, -- adiciona novos textobjects
+  { 'AndrewRadev/undoquit.vim', event = 'BufLeave' }, -- restaurar tabs fechadas
 
-	use('b0o/schemastore.nvim') -- schemas para json
-	use('folke/neodev.nvim')   -- docs for nvim Lua API
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                           LSP                            │
+  --  ╰──────────────────────────────────────────────────────────╯
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                         Snippets                         │
-	--  ╰──────────────────────────────────────────────────────────╯
+  setup('lsp.null-ls'), -- Diagnostics/Formating/Code Actions
 
-	setup('cmp.luasnip')
-	use('rafamadriz/friendly-snippets')
+  setup('lsp.mason'),
+  { 'neovim/nvim-lspconfig',             lazy = true }, -- LSP
+  { 'williamboman/mason-lspconfig.nvim', lazy = true }, -- integrar mason com lspconfig
+  { 'jay-babu/mason-null-ls.nvim',       lazy = true }, -- deixa mais fácil usar mason + null-ls
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                       Completions                        │
-	--  ╰──────────────────────────────────────────────────────────╯
+  setup('lsp.lsp_signature'),                          -- mostra a function signature enquanto digita
+  setup('lsp.lspsaga'),                                -- LSP UIs
+  setup('lsp.illuminate'),                             -- higlight a palavra em cima do cursor
+  setup('lsp.lsp-colors'),                             -- agrupa os erros do LSP por cor
 
-	setup('cmp', {
-		'hrsh7th/cmp-nvim-lsp',                -- nvim-cmp source for neovim's built-in LSP
-		'hrsh7th/cmp-path',                    -- nvim-cmp source for filesystem paths.
-		'hrsh7th/cmp-cmdline',                 -- nvim-cmp source for vim's cmdline.
-		'hrsh7th/cmp-buffer',                  -- nvim-cmp source for buffer words
-		'hrsh7th/cmp-nvim-lua',                -- nvim-cmp source for Neovim Lua API.
-		'davidsierradz/cmp-conventionalcommits', -- autocomplete conventional commits
-		'saadparwaiz1/cmp_luasnip',            -- completion engine
-		'lukas-reineke/cmp-under-comparator',  -- better sort completion items that start with one or more underlines
-		'onsails/lspkind.nvim',                -- Auto completions gui tipo do vscode
-		'zbirenbaum/copilot.lua',              -- Copilot
-		'zbirenbaum/copilot-cmp',
-	})
+  { 'b0o/schemastore.nvim', lazy = true },             -- schemas para json
+  { 'folke/neodev.nvim',    lazy = true },             -- docs for nvim Lua API
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                        Treesitter                        │
-	--  ╰──────────────────────────────────────────────────────────╯
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                         Snippets                         │
+  --  ╰──────────────────────────────────────────────────────────╯
 
-	setup('treesitter', {
-		'nvim-treesitter/nvim-treesitter-refactor',                          -- Refactorings via treesitter
-		{ 'nvim-treesitter/nvim-treesitter-textobjects', commit = '8673926' }, -- Additional text objects via treesitter
-		'RRethy/nvim-treesitter-textsubjects',
-		'windwp/nvim-ts-autotag',                                            -- tag completion
-		'JoosepAlviste/nvim-ts-context-commentstring',                       -- conserta comments para jsx,
-		'RRethy/nvim-treesitter-endwise',                                    -- Coloca o end no final de func e if
-		'fladson/vim-kitty',                                                 -- syntax highlighting for kitty
-	})
+  setup('cmp.luasnip'),
+  { 'rafamadriz/friendly-snippets',          lazy = true },
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                       Development                        │
-	--  ╰──────────────────────────────────────────────────────────╯
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                       Completions                        │
+  --  ╰──────────────────────────────────────────────────────────╯
 
-	setup('dev.flutter', {
-		'Nash0x7E2/awesome-flutter-snippets', -- snippets
-		'akinsho/pubspec-assist.nvim',      -- add/update dart dependencies
-	})
+  setup('cmp'),
+  { 'hrsh7th/cmp-nvim-lsp',                  lazy = true }, -- nvim-cmp source for neovim's built-in LSP
+  { 'hrsh7th/cmp-path',                      lazy = true }, -- nvim-cmp source for filesystem paths.
+  { 'hrsh7th/cmp-cmdline',                   lazy = true }, -- nvim-cmp source for vim's cmdline.
+  { 'hrsh7th/cmp-buffer',                    lazy = true }, -- nvim-cmp source for buffer words
+  { 'hrsh7th/cmp-nvim-lua',                  lazy = true }, -- nvim-cmp source for Neovim Lua API.
+  { 'davidsierradz/cmp-conventionalcommits', lazy = true }, -- autocomplete conventional commits
+  { 'saadparwaiz1/cmp_luasnip',              lazy = true }, -- completion engine
+  { 'lukas-reineke/cmp-under-comparator',    lazy = true }, -- better sort completion items that start with one or more underlines
+  { 'onsails/lspkind.nvim',                  lazy = true }, -- Auto completions gui tipo do vscode
+  { 'zbirenbaum/copilot.lua',                lazy = true }, -- Copilot
+  { 'zbirenbaum/copilot-cmp',                lazy = true }, -- completion do copilot
 
-	setup('dev.chatGPT')
-	use('jose-elias-alvarez/typescript.nvim') -- typescript lsp
-	use('Vimjas/vim-python-pep8-indent')     -- Conserta o indent do python
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                        Treesitter                        │
+  --  ╰──────────────────────────────────────────────────────────╯
+  setup('treesitter'),
+  { 'nvim-treesitter/nvim-treesitter-textobjects', commit = '8673926' }, -- Additional text objects via treesitter
+  { 'RRethy/nvim-treesitter-textsubjects',         lazy = true },
+  { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true },       -- conserta comments para jsx,
+  { 'fladson/vim-kitty',                           ft = { 'kitty', 'conf' } }, -- syntax highlighting for kitty
+  'windwp/nvim-ts-autotag',                                             -- tag completion
+  'RRethy/nvim-treesitter-endwise',                                     -- Coloca o end no final de func e if
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                           Git                            │
-	--  ╰──────────────────────────────────────────────────────────╯
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                       Development                        │
+  --  ╰──────────────────────────────────────────────────────────╯
 
-	setup('git.vim-fugitive') -- base git plugin
-	setup('git.gitsigns')    -- gutter signs
+  setup('dev.flutter-tools'),
+  { 'akinsho/pubspec-assist.nvim',        opts = {},      ft = { 'yaml', 'dart' } }, -- add/update dart dependencies
 
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                          Debug                           │
-	--  ╰──────────────────────────────────────────────────────────╯
+  { 'Nash0x7E2/awesome-flutter-snippets', ft = { 'dart' } },            -- snippets
 
-	setup('debug', {
-		'rcarriga/nvim-dap-ui',
-		'mfussenegger/nvim-dap-python',
-		'theHamsta/nvim-dap-virtual-text',
-	})
+  setup('dev.chatGPT'),
+  { 'jose-elias-alvarez/typescript.nvim', lazy = true }, -- typescript lsp
+  { 'Vimjas/vim-python-pep8-indent',      ft = 'python' }, -- Conserta o indent do python
 
-	-- |───────────────────────────────────────────────────────────|
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                           Git                            │
+  --  ╰──────────────────────────────────────────────────────────╯
 
-	if is_bootstrap then -- Bootstrap Neovim
-		require('packer').sync()
-	end
-end)
+  setup('git.vim-fugitive'), -- base git plugin
+  setup('git.gitsigns'),    -- gutter signs
+
+  --  ╭──────────────────────────────────────────────────────────╮
+  --  │                          Debug                           │
+  --  ╰──────────────────────────────────────────────────────────╯
+
+  setup('debug'),
+  { 'rcarriga/nvim-dap-ui',            lazy = true },
+  { 'mfussenegger/nvim-dap-python',    lazy = true },
+  { 'theHamsta/nvim-dap-virtual-text', lazy = true },
+})

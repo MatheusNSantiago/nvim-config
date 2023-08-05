@@ -3,26 +3,27 @@ local M = {}
 function M.setup()
 	return {
 		'linty-org/readline.nvim',
-		config = M.config,
+		keys = M.keys,
 	}
 end
 
-function M.config()
+function M.keys()
 	local readline = require('readline')
-	local keymap = utils.api.keymap
 
-	keymap('!', '<C-f>', '<Right>')
-	keymap('!', '<C-b>', '<Left>')
-	keymap('!', '<M-f>', readline.forward_word)
-	keymap('!', '<M-b>', readline.backward_word)
-	keymap('!', '<C-a>', readline.beginning_of_line)
-	keymap('!', '<C-e>', readline.end_of_line)
-	keymap('!', '<M-d>', readline.kill_word)
-	keymap('!', '<C-BS>', readline.backward_kill_word)
-	keymap('!', '<M-BS>', readline.backward_kill_word)
-	keymap('!', '<C-w>', readline.unix_word_rubout)
-	keymap('!', '<C-k>', readline.kill_line)
-	keymap('!', '<C-u>', readline.backward_kill_line)
+  return {
+	{'<C-f>', '<Right>', mode = '!'},
+	{'<C-b>', '<Left>', mode = '!'},
+	{'<M-f>', readline.forward_word, mode = '!'},
+	{'<M-b>', readline.backward_word, mode = '!'},
+	{'<C-a>', readline.beginning_of_line, mode = '!'},
+	{'<C-e>', readline.end_of_line, mode = '!'},
+	{'<M-d>', readline.kill_word, mode = '!'},
+	{'<C-BS>', readline.backward_kill_word, mode = '!'},
+	{'<M-BS>', readline.backward_kill_word, mode = '!'},
+	{'<C-w>', readline.unix_word_rubout, mode = '!'},
+	{'<C-k>', readline.kill_line, mode = '!'},
+	{'<C-u>', readline.backward_kill_line, mode = '!'},
+}
 end
 
 return M

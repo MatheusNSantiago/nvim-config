@@ -3,7 +3,7 @@ local M = {}
 function M.setup()
 	return {
 		"mg979/vim-visual-multi",
-		config = M.config,
+		init = M.config,
 	}
 end
 

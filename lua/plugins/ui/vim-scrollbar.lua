@@ -3,16 +3,13 @@ local M = {}
 function M.setup()
 	return {
 		'petertriho/nvim-scrollbar',
-		requires = {
-			'kevinhwang91/nvim-hlslens',
-		},
+		event = 'VeryLazy',
+		dependencies = { 'kevinhwang91/nvim-hlslens' },
 		config = M.config,
 	}
 end
 
 function M.config()
-	local c = require('utils.colors')
-	local c_tokyo = require('tokyonight.colors').setup()
 	require('scrollbar.handlers.search').setup({
 		override_lens = function() end,
 	})
@@ -22,9 +19,9 @@ function M.config()
 		set_highlights = true,
 		handle = {
 			text = ' ',
-			blend = 30, -- Integer between 0 and 100. 0 for fully opaque and 100 to full transparent. Defaults to 30.
+			blend = 30,              -- Integer between 0 and 100. 0 for fully opaque and 100 to full transparent. Defaults to 30.
 			color = nil,
-			color_nr = nil, -- cterm
+			color_nr = nil,          -- cterm
 			highlight = 'CursorColumn',
 			hide_if_all_visible = true, -- Hides handle if all lines are visible
 		},
