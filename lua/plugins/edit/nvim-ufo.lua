@@ -14,8 +14,18 @@ function M.keys()
   if not is_installed then return end
 
   return {
-    { 'zR', ufo.openAllFolds,  desc = 'Open all folds' },
-    { 'zM', ufo.closeAllFolds, desc = 'Close all folds' },
+    { 'zR', ufo.openAllFolds,                      desc = 'Open all folds' },
+    { 'zM', ufo.closeAllFolds,                     desc = 'Close all folds' },
+    { 'zc', desc = 'Close fold under cursor' },
+    { 'zC', desc = 'Close all folds under cursor' },
+    { 'zo', desc = 'Open fold under cursor' },
+    { 'zO', desc = 'Open all folds under cursor' },
+    { 'za', desc = 'Toggle fold under cursor' },
+    { 'zA', desc = 'Toggle all folds under cursor' },
+    { 'zr', ufo.openFoldsExceptKinds,              desc = 'Open Folds Except Kinds' },
+    { 'zR', ufo.openAllFolds,                      desc = 'Open All Folds' },
+    { 'zM', ufo.closeAllFolds,                     desc = 'Close All Folds' },
+    { 'zm', ufo.closeFoldsWith,                    desc = 'Close Folds With' },
   }
 end
 
