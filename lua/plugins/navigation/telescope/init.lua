@@ -159,6 +159,7 @@ function M.config()
   telescope.load_extension('undo')
   telescope.load_extension('media_files')
   telescope.load_extension('smart_open')
+  telescope.load_extension('neoclip')
 end
 
 M.highlights = {
