@@ -142,20 +142,14 @@ function M.toggle_lazygit()
       height = 10000, -- math.floor(vim.o.lines * 0.70),
       border = 'none', --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
       winblend = 0,
-      highlights = {
-        border = 'Normal',
-        background = 'Normal',
-      },
+      highlights = { border = 'Normal', background = 'Normal' },
     },
     -- function to run on opening the terminal
-    on_open = function(term)
-      vim.cmd('startinsert!')
-      -- vim.api.nvim_buf_set_keymap(term.bufnr, 'n', '<C-c>', ':close<CR>:edit<CR>', { noremap = true, silent = true })
-    end,
+    on_open = function(term) vim.cmd('startinsert!') end,
     -- function to run on closing the terminal
     on_close = function(_)
-      vim.cmd('edit!')
       vim.cmd('startinsert!')
+      vim.schedule(function() vim.cmd('edit') end)
     end,
   })
 
