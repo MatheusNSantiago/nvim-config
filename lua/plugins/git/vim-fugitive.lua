@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
 	return {
 		'tpope/vim-fugitive',
+		cmd = { 'Git', 'G', 'GBrowse', 'Gdiffsplit', 'Gvdiffsplit' },
 		keys = {
 			{ '<leader>ga', ':Git add %<CR>',        desc = '[g]it [A]dd current file' },
 			{ '<leader>gA', ':Git add .<CR>',        desc = '[G]it add [A]ll files' },
