@@ -174,7 +174,8 @@ require('lazy').setup({
 
   { 'Nash0x7E2/awesome-flutter-snippets', ft = { 'dart' } },            -- snippets
 
-  setup('dev.chatGPT'),
+  -- setup('dev.chatGPT'),
+   {dir='~/Documents/Programming/nvim-plugins/ChatGPT.nvim/', config=true},
   { 'jose-elias-alvarez/typescript.nvim', lazy = true }, -- typescript lsp
   { 'Vimjas/vim-python-pep8-indent',      ft = 'python' }, -- Conserta o indent do python
 
