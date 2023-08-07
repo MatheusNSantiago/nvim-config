@@ -3,13 +3,12 @@ local M = {}
 function M.setup()
 	return {
 		'akinsho/flutter-tools.nvim',
-		ft = "dart",
+		ft = 'dart',
 		config = M.config,
 	}
 end
 
 function M.config()
-	local keymap = utils.api.keymap
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                      Flutter Tools                       │
 	--  ╰──────────────────────────────────────────────────────────╯
@@ -37,18 +36,16 @@ function M.config()
 				renameFilesWithClasses = 'prompt',
 			},
 			on_attach = function(client, bufnr)
+				local keymap = utils.api.keymap
+				local telescope = require('telescope')
+
 				require('lsp').common_on_attach(client, bufnr)
-				require('telescope').load_extension('flutter')
+				telescope.load_extension('flutter')
 
 				keymap('n', '<leader>dl', ':tabedit __FLUTTER_DEV_LOG__<CR>', { desc = 'Flutter: Open [D]ev [L]og' })
 				keymap('n', '<leader>r', ':FlutterReload<CR>', { desc = 'Flutter: reload' })
 				keymap('n', '<leader><leader>r', ':FlutterRestart<CR>', { desc = 'Flutter: restart' })
-				keymap(
-					'n',
-					'<leader><leader>o',
-					require('telescope').extensions.flutter.commands,
-					{ desc = 'Flutter: open pallete' }
-				)
+				keymap('n', '<leader><leader>o', telescope.extensions.flutter.commands, { desc = 'Flutter: open pallete' })
 				keymap(
 					'n',
 					'<leader>br',
@@ -58,15 +55,17 @@ function M.config()
 
 				-- Desativar aquela parada de mostrar contexto do hl_chunk
 				-- (problema com o widget highlighting do flutter-tools)
-				local hl_chunk_ok, _ = pcall(require, 'hlchunk')
-				if hl_chunk_ok then vim.cmd('DisableHLChunk!') end
+				-- local hl_chunk_ok, _ = pcall(require, 'hlchunk')
+				-- if hl_chunk_ok then vim.cmd('silent DisableHLChunk') end
+
 
 				-- hack pra forçar o refresh do highlight
-				vim.defer_fn(function()
-					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', true)
+				vim.schedule(function()
+					vim.api.nvim_feedkeys(utils.api.replace_termcodes("<ESC>"), 'n', true)
 					vim.api.nvim_feedkeys('>>', 'n', true)
 					vim.api.nvim_feedkeys('<<', 'n', true)
-				end, 2750)
+				end)
+
 			end,
 			capabilities = require('lsp').common_capabilities(),
 		},
