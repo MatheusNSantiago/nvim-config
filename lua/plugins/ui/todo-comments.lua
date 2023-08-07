@@ -5,7 +5,7 @@ function M.setup()
     'folke/todo-comments.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' },
     config = M.config,
-    keys = { { '<leader>st', (':TodoTelescope cwd=%s<CR>'):format(vim.g.vim_dir), desc = '[S]earch [T]odos' } },
+    keys = { { '<leader>st', ':TodoTelescope<CR>', desc = '[S]earch [T]odos' } },
   }
 end
 
