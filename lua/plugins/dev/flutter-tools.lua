@@ -33,7 +33,14 @@ function M.config()
 		lsp = {
 			settings = {
 				showTodos = false,
-				renameFilesWithClasses = 'prompt',
+				renameFilesWithClasses = 'prompt', -- "always"
+				completeFunctionCalls = true,
+				analysisExcludedFolders = {
+					vim.fn.expand('~/.pub-cache'),
+					'/opt/flutter/packages',
+				},
+				enableSnippets = true,
+				updateImportsOnRename = true, -- Whether to update imports and other directives when files are renamed. Required for `FlutterRename` command.
 			},
 			on_attach = function(client, bufnr)
 				local keymap = utils.api.keymap
@@ -58,14 +65,12 @@ function M.config()
 				-- local hl_chunk_ok, _ = pcall(require, 'hlchunk')
 				-- if hl_chunk_ok then vim.cmd('silent DisableHLChunk') end
 
-
 				-- hack pra forçar o refresh do highlight
 				vim.schedule(function()
-					vim.api.nvim_feedkeys(utils.api.replace_termcodes("<ESC>"), 'n', true)
+					vim.api.nvim_feedkeys(utils.api.replace_termcodes('<ESC>'), 'n', true)
 					vim.api.nvim_feedkeys('>>', 'n', true)
 					vim.api.nvim_feedkeys('<<', 'n', true)
 				end)
-
 			end,
 			capabilities = require('lsp').common_capabilities(),
 		},
