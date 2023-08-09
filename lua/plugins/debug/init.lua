@@ -12,7 +12,7 @@ function M.setup()
 			{ '<leader>dL',  desc = 'dap: set log breakpoint' },
 			{ '<leader>dC',  desc = 'dap: set condition breakpoint' },
 			{ '<leader>ds',  desc = 'dap: start/continue debug' },
-			{ '<leader>dl',  desc = 'dap: run last' },
+			-- { '<leader>dl',  desc = 'dap: run last' },
 			{ '<leader>dc',  desc = 'dap: run to cursor' },
 			{ '<leader>dh',  desc = 'dap: hover' },
 		},
