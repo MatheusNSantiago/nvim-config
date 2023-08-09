@@ -170,14 +170,14 @@ require('lazy').setup({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('dev.flutter-tools'),
-  { 'akinsho/pubspec-assist.nvim',        opts = {},      ft = { 'yaml', 'dart' } }, -- add/update dart dependencies
+  { 'akinsho/pubspec-assist.nvim',                              config = true, ft = 'yaml' }, -- add/update dart dependencies
 
-  { 'Nash0x7E2/awesome-flutter-snippets', ft = { 'dart' } },            -- snippets
+  { 'Nash0x7E2/awesome-flutter-snippets',                       ft = 'dart' }, -- snippets
 
   -- setup('dev.chatGPT'),
-   {dir='~/Documents/Programming/nvim-plugins/ChatGPT.nvim/', config=true},
-  { 'jose-elias-alvarez/typescript.nvim', lazy = true }, -- typescript lsp
-  { 'Vimjas/vim-python-pep8-indent',      ft = 'python' }, -- Conserta o indent do python
+  { dir = '~/Documents/Programming/nvim-plugins/ChatGPT.nvim/', config = true },
+  { 'jose-elias-alvarez/typescript.nvim',                       lazy = true }, -- typescript lsp
+  { 'Vimjas/vim-python-pep8-indent',                            ft = 'python' }, -- Conserta o indent do python
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
