@@ -1,6 +1,5 @@
 local M = {}
 local keymap = utils.api.keymap
-local severity = vim.diagnostic.severity
 
 M.servers = {
   'bashls',
@@ -17,13 +16,6 @@ M.servers = {
 }
 
 function M.commom_keymaps()
-  local telescope_ok, _ = pcall(require, 'telescope')
-  local lspsaga_ok, _ = pcall(require, 'lspsaga')
-
-  if not (telescope_ok and lspsaga_ok) then return end
-
-  local b = require('telescope.builtin')
-  local saga_diagnostic = require('lspsaga.diagnostic')
   keymap('n', 'K', ':Lspsaga hover_doc<CR>')
   -- keymap('n', 'K', require('plugins.ui.pretty-hover.init').hover)
 
@@ -32,12 +24,12 @@ function M.commom_keymaps()
   keymap('n', ']e', ':Lspsaga diagnostic_jump_next<CR>')
 
   -- Diagnostic jump with filters such as only jumping to an error
-  keymap('n', '[E', function() saga_diagnostic.goto_prev({ severity = severity.ERROR }) end)
-  keymap('n', ']E', function() saga_diagnostic.goto_next({ severity = severity.ERROR }) end)
+  keymap('n', '[E', ":lua require('lspsaga.diagnostic').goto_prev({ severity = 1 })<CR>")
+  keymap('n', ']E', ":lua require('lspsaga.diagnostic').goto_next({ severity = 1 })<CR>")
 
-  keymap('n', '<leader>sd', b.diagnostics, { desc = '[S]earch [D]iagnostics' })
-  keymap('n', '<leader>sR', b.lsp_references, { desc = '[S]earch [R]eferences' })
-  keymap('n', '<leader>si', b.lsp_implementations, { desc = '[S]earch [I]mplementations' })
+  keymap('n', '<leader>sd', ':Telescope diagnostics<CR>', { desc = '[S]earch [D]iagnostics' })
+  keymap('n', '<leader>sR', ':Telescope lsp_references<CR>', { desc = '[S]earch [R]eferences' })
+  keymap('n', '<leader>si', ':Telescope lsp_implementations<CR>', { desc = '[S]earch [I]mplementations' })
 
   keymap('n', 'gr', ':Lspsaga rename<CR>')
   keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
