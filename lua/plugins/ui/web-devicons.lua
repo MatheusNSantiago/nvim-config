@@ -4,6 +4,7 @@ function M.setup()
   return {
     'nvim-tree/nvim-web-devicons',
     config = M.config,
+    lazy = true,
   }
 end
 
