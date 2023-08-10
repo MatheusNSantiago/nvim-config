@@ -1,37 +1,29 @@
 local M = {}
-local keymap = utils.api.keymap
 
 function M.setup()
-  local is_installed, notify = pcall(require, 'notify')
-  if is_installed then
-    vim.cmd([[command! Notify lua require("telescope").extensions.notify.notify() ]])
-
-    keymap(
-      'n',
-      '<leader>nd',
-      function() notify.dismiss({ silent = true, pending = true }) end,
-      { desc = 'Dismiss notification' }
-    )
-    keymap(
-      'n',
-      '<leader><leader>n',
-      function() require('telescope').extensions.notify.notify() end,
-      { desc = 'Show notifications' }
-    )
-
-    vim.notify = notify
-  end
-
   return {
     'rcarriga/nvim-notify',
     event = 'VeryLazy',
     config = M.config,
+    keys = {
+      {
+        '<leader>nd',
+        function() require('notify').dismiss({ silent = true, pending = true }) end,
+        desc = 'nvim-notify: Dismiss all Notifications',
+      },
+      {
+        '<leader><leader>n',
+        function() require('telescope').extensions.notify.notify() end,
+        desc = 'nvim-notify: Show notifications',
+      },
+    },
   }
 end
 
 function M.config()
   local notify = require('notify')
   local icons = require('utils.icons')
+
   notify.setup({
     render = 'default',
     level = 2,
