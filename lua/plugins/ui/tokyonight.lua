@@ -28,11 +28,11 @@ function M.config()
 			sidebars = 'transparent', -- style for sidebars, see below
 			floats = 'transparent', -- style for floating windows
 		},
-		on_highlights = function(hl, _)
-			for group, colors in pairs(require('colorscheme').get_all_highlights()) do
-				hl[group] = colors
-			end
-		end,
+		-- on_highlights = function(hl, _)
+		-- 	for group, colors in pairs(require('colorscheme').get_all_highlights()) do
+		-- 		hl[group] = colors
+		-- 	end
+		-- end,
 	})
 
 	vim.cmd([[colorscheme tokyonight]])

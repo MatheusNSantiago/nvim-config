@@ -41,65 +41,67 @@
 --- </code>
 ---@brief ]]
 
-local actions = require('telescope.actions')
+return function()
+  local actions = require('telescope.actions')
 
-return {
-  i = {
-    ['<C-n>'] = actions.move_selection_next,
-    ['<C-k>'] = actions.move_selection_next,
-    ['<Down>'] = actions.move_selection_next,
+  return {
+    i = {
+      ['<C-n>'] = actions.move_selection_next,
+      ['<C-k>'] = actions.move_selection_next,
+      ['<Down>'] = actions.move_selection_next,
 
-    ['<C-l>'] = actions.move_selection_previous,
-    ['<C-p>'] = actions.move_selection_previous,
-    ['<Up>'] = actions.move_selection_previous,
+      ['<C-l>'] = actions.move_selection_previous,
+      ['<C-p>'] = actions.move_selection_previous,
+      ['<Up>'] = actions.move_selection_previous,
 
-    ['<C-c>'] = actions.close,
+      ['<C-c>'] = actions.close,
 
-    ['<C-t>'] = actions.select_tab,
-    ['<C-CR>'] = actions.select_tab,
-    ['<CR>'] = actions.select_default,
-    ['<C-h>'] = actions.select_horizontal,
-    ['<C-v>'] = actions.select_vertical,
+      ['<C-t>'] = actions.select_tab,
+      ['<C-CR>'] = actions.select_tab,
+      ['<CR>'] = actions.select_default,
+      ['<C-h>'] = actions.select_horizontal,
+      ['<C-v>'] = actions.select_vertical,
 
-    ['<C-u>'] = actions.preview_scrolling_up,
-    ['<C-d>'] = actions.preview_scrolling_down,
+      ['<C-u>'] = actions.preview_scrolling_up,
+      ['<C-d>'] = actions.preview_scrolling_down,
 
-    ['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
-    ['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
+      ['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
+      ['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
 
-    -- disable c-j because we dont want to allow new lines #2123
-    ['<C-j>'] = actions.nop,
-  },
-  n = {
-    ['<C-c>'] = 'close',
+      -- disable c-j because we dont want to allow new lines #2123
+      ['<C-j>'] = actions.nop,
+    },
+    n = {
+      ['<C-c>'] = 'close',
 
-    ['<ESC>'] = actions.close,
-    ['<CR>'] = actions.select_default,
-    ['h'] = actions.select_horizontal,
-    ['v'] = actions.select_vertical,
-    ['t'] = actions.select_tab,
+      ['<ESC>'] = actions.close,
+      ['<CR>'] = actions.select_default,
+      ['h'] = actions.select_horizontal,
+      ['v'] = actions.select_vertical,
+      ['t'] = actions.select_tab,
 
-    ['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
-    ['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
+      ['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
+      ['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
 
-    ['k'] = actions.move_selection_next,
-    ['<C-k>'] = actions.move_selection_next,
-    ['<Down>'] = actions.move_selection_next,
+      ['k'] = actions.move_selection_next,
+      ['<C-k>'] = actions.move_selection_next,
+      ['<Down>'] = actions.move_selection_next,
 
-    ['l'] = actions.move_selection_previous,
-    ['<C-l>'] = actions.move_selection_previous,
-    ['<Up>'] = actions.move_selection_previous,
+      ['l'] = actions.move_selection_previous,
+      ['<C-l>'] = actions.move_selection_previous,
+      ['<Up>'] = actions.move_selection_previous,
 
-    ['H'] = actions.move_to_top,
-    ['M'] = actions.move_to_middle,
-    ['L'] = actions.move_to_bottom,
+      ['H'] = actions.move_to_top,
+      ['M'] = actions.move_to_middle,
+      ['L'] = actions.move_to_bottom,
 
-    ['gg'] = actions.move_to_top,
-    ['G'] = actions.move_to_bottom,
+      ['gg'] = actions.move_to_top,
+      ['G'] = actions.move_to_bottom,
 
-    ['<C-u>'] = actions.preview_scrolling_up,
-    ['<C-d>'] = actions.preview_scrolling_down,
+      ['<C-u>'] = actions.preview_scrolling_up,
+      ['<C-d>'] = actions.preview_scrolling_down,
 
-    ['?'] = actions.which_key,
-  },
-}
+      ['?'] = actions.which_key,
+    },
+  }
+end
