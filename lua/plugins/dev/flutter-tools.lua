@@ -49,7 +49,7 @@ function M.config()
 				require('lsp').common_on_attach(client, bufnr)
 				telescope.load_extension('flutter')
 
-				keymap('n', '<leader>dl', ':tabedit __FLUTTER_DEV_LOG__<CR>', { desc = 'Flutter: Open [D]ev [L]og' })
+				keymap('n', '<leader>dl', ':tabedit __FLUTTER_DEV_LOG__<CR>G', { desc = 'Flutter: Open [D]ev [L]og' })
 				keymap('n', '<leader>r', ':FlutterReload<CR>', { desc = 'Flutter: reload' })
 				keymap('n', '<leader><leader>r', ':FlutterRestart<CR>', { desc = 'Flutter: restart' })
 				keymap('n', '<leader><leader>o', telescope.extensions.flutter.commands, { desc = 'Flutter: open pallete' })
@@ -66,11 +66,11 @@ function M.config()
 				-- if hl_chunk_ok then vim.cmd('silent DisableHLChunk') end
 
 				-- hack pra forçar o refresh do highlight
-				vim.schedule(function()
+				vim.defer_fn(function()
 					vim.api.nvim_feedkeys(utils.api.replace_termcodes('<ESC>'), 'n', true)
 					vim.api.nvim_feedkeys('>>', 'n', true)
 					vim.api.nvim_feedkeys('<<', 'n', true)
-				end)
+				end, 2400)
 			end,
 			capabilities = require('lsp').common_capabilities(),
 		},
