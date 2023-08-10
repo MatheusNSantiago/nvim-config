@@ -168,7 +168,8 @@ function M.config()
       Value = kind.Value,
       Variable = kind.Variable,
     },
-    theme = 'auto',
+		theme = 'tokyonight',
+    -- theme = 'auto',
     -- theme = {
     --   -- this highlight is used to override other highlights
     --   -- you can take advantage of its `bg` and set a background throughout your winbar
