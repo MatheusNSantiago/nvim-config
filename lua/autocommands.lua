@@ -1,30 +1,24 @@
-local api, cmd, fn = vim.api, vim.cmd, vim.fn
+local augroup, cmd, fn = utils.api.augroup, vim.cmd, vim.fn
 
---  ╭──────────────────────────────────────────────────────────╮
---  │               don't auto comment new line                │
---  ╰──────────────────────────────────────────────────────────╯
-api.nvim_create_autocmd('BufEnter', { command = [[set formatoptions-=cro]] })
-
---  ╭──────────────────────────────────────────────────────────╮
---  │           go to last loc when opening a buffer           │
---  ╰──────────────────────────────────────────────────────────╯
-api.nvim_create_autocmd(
-	'BufReadPost',
-	{ command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]] }
-)
-
---  ╭──────────────────────────────────────────────────────────╮
---  │            Strip trailing spaces before write            │
---  ╰──────────────────────────────────────────────────────────╯
-api.nvim_create_autocmd({ 'BufWritePre' }, {
-	pattern = { '*' },
-	callback = function() cmd([[ %s/\s\+$//e ]]) end,
+augroup('Não comenta nova linha automaticamente', {
+	pattern = '*',
+	event = 'BufEnter',
+	command = [[set formatoptions-=cro]],
 })
 
---  ╭──────────────────────────────────────────────────────────╮
---  │    Open images in an image viewer (probably Preview)     │
---  ╰──────────────────────────────────────────────────────────╯
-utils.api.augroup('ExternalCommands', {
+augroup('Mover para a última posição quando abrir um buffer', {
+	pattern = '*',
+	event = 'BufReadPost',
+	command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]],
+})
+
+augroup('Limpar trailing spaces antes de salvar', {
+	event = 'BufWritePre',
+	pattern = '*',
+	command = function() cmd([[ %s/\s\+$//e ]]) end,
+})
+
+augroup('Abrir imagens com o aplicativo padrão', {
 	event = { 'BufEnter' },
 	pattern = { '*.png', '*.jpg', '*.gif' },
 	command = function()
@@ -33,29 +27,24 @@ utils.api.augroup('ExternalCommands', {
 	end,
 })
 
---  ╭──────────────────────────────────────────────────────────╮
---  │                   Salva antes de sair                    │
---  ╰──────────────────────────────────────────────────────────╯
-api.nvim_create_autocmd({ 'BufLeave' }, {
-	pattern = { '*' },
-	callback = function()
+augroup('Salvar antes de sair', {
+	event = 'BufLeave',
+	pattern = '*',
+	command = function()
 		local save_excluded = { 'NvimTree', 'lua.luapad', 'gitcommit', 'NeogitCommitMessage' }
 		local can_save = utils.falsy(fn.win_gettype())
-			and utils.falsy(vim.bo.buftype)
-			and not utils.falsy(vim.bo.filetype)
-			and vim.bo.modifiable
-			and not vim.tbl_contains(save_excluded, vim.bo.filetype)
+				and utils.falsy(vim.bo.buftype)
+				and not utils.falsy(vim.bo.filetype)
+				and vim.bo.modifiable
+				and not vim.tbl_contains(save_excluded, vim.bo.filetype)
 
 		if can_save then cmd('silent! write ++p') end
 	end,
 })
 
---  ╭──────────────────────────────────────────────────────────╮
---  │                       Salvar Folds                       │
---  ╰──────────────────────────────────────────────────────────╯
 ---@see https://stackoverflow.com/a/68156828
-utils.api.augroup(
-	'RememberFolds',
+augroup(
+	'Lembrar dos folds',
 	{ event = 'BufWinLeave', pattern = '*.*', command = 'mkview' },
 	{ event = 'BufWinEnter', pattern = '*.*', command = 'silent! loadview' }
 )
