@@ -11,22 +11,22 @@ function M.setup()
 end
 
 function M.keys()
-  keymap('t', '<A-f>', '<CMD>execute v:count . "ToggleTerm direction=float"<CR>')
-  keymap('t', '<A-i>', "<CMD>execute v:count . 'ToggleTerm direction=horizontal'<CR>")
-
   -- Seta os keymaps que só funcionam no terminal
-  vim.api.nvim_create_autocmd({ 'TermOpen' }, {
+  utils.api.augroup('ToggleTerm', {
+    event = 'TermOpen',
     pattern = 'term://*',
-    callback = function()
-      keymap('t', '<ESC>', [[<C-\><C-n>]], { buffer = 0 })
+    command = function(args)
+      keymap('t', '<ESC>', [[<C-\><C-n>]], { buffer = args.buf })
+      keymap('t', '<A-e>', [[<ESC><Cmd>NvimTreeToggle<CR>]], { buffer = args.buf })
 
       -- Nover o cursor entre janelas
-      -- Eu comentei isso porque o plugin smart-splits já faz isso
-      keymap('t', '<C-j>', [[<Cmd>wincmd h<CR>]], { buffer = 0 })
-      keymap('t', '<C-k>', [[<Cmd>wincmd j<CR>]], { buffer = 0 })
-      keymap('t', '<C-l>', [[<C-\><C-n>:wincmd k<CR>]], { buffer = 0 })
-      keymap('t', '<C-ç>', [[<ESC><Cmd>wincmd l<CR>]], { buffer = 0 })
-      keymap('t', '<A-e>', [[<ESC><Cmd>NvimTreeToggle<CR>]], { buffer = 0 })
+      keymap('t', '<C-j>', [[<Cmd>wincmd h<CR>]], { buffer = args.buf })
+      keymap('t', '<C-k>', [[<Cmd>wincmd j<CR>]], { buffer = args.buf })
+      keymap('t', '<C-l>', [[<C-\><C-n>:wincmd k<CR>]], { buffer = args.buf })
+      keymap('t', '<C-ç>', [[<ESC><Cmd>wincmd l<CR>]], { buffer = args.buf })
+
+      -- Tira aquele highlight que fica na linha inteira quando vc deixa o cursor em cima
+      vim.wo.cursorline = M.should_show_cursorline(args.buf)
 
       -- Problema: o breadcrumbs (barbecue) aparecia quando eu abria o terminal pela primeira vez
       -- Observação: Quando eu mudava pro normal mode, o barbecue sumia
@@ -35,29 +35,14 @@ function M.keys()
     end,
   })
 
-  -- Faz com que sempre esteje no insert mode
-  vim.api.nvim_create_autocmd({ 'BufEnter' }, {
-    -- pattern = '*toggleterm#*', -- if you only want these mappings for toggle term use term://*toggleterm#* instead
-    pattern = 'term://*toggleterm#*', -- if you only want these mappings for toggle term use term://*toggleterm#* instead
-    callback = function()
-      vim.defer_fn(function() vim.cmd('startinsert') end, 10)
-    end,
-  })
-
+  local function open(direction) return "<CMD>execute v:count . 'ToggleTerm direction=" .. direction .. "'<CR>" end
+  -- Por algum motivo, o 't' não funciona se eu colocar no keymapper do lazy, então eu coloquei aqui
+  keymap('t', '<A-f>', open('float'))
+  keymap('t', '<A-i>', open('horizontal'))
   return {
-    { '<leader>lg', M.toggle_lazygit, desc = 'toggleterm: toggle lazygit' },
-    {
-      '<A-f>',
-      ':execute v:count . "ToggleTerm direction=float"<CR>',
-      mode = { 'i', 'n', 'x' },
-      desc = 'toggleterm: toggle floating terminal',
-    },
-    {
-      '<A-i>',
-      ":execute v:count . 'ToggleTerm direction=horizontal'<CR>",
-      mode = { 'i', 'n', 'x' },
-      desc = 'toggleterm: toggle horizontal terminal',
-    },
+    { '<leader>lg', M.toggle_lazygit,   desc = 'toggleterm: toggle lazygit' },
+    { '<A-f>',      open('float'),      mode = { 'i', 'n', 'x' },           desc = 'toggleterm: floating terminal' },
+    { '<A-i>',      open('horizontal'), mode = { 'i', 'n', 'x' },           desc = 'toggleterm: horizontal terminal' },
   }
 end
 
@@ -154,6 +139,18 @@ function M.toggle_lazygit()
   })
 
   return lazygit:toggle()
+end
+
+---@param buf number
+---@return boolean
+function M.should_show_cursorline(buf)
+  local cursorline_exclude = { 'alpha', 'toggleterm' }
+
+  return vim.bo[buf].buftype ~= 'terminal'
+      and not vim.wo.previewwindow
+      and vim.wo.winhighlight == ''
+      and vim.bo[buf].filetype ~= ''
+      and not vim.tbl_contains(cursorline_exclude, vim.bo[buf].filetype)
 end
 
 return M
