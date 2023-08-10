@@ -14,7 +14,7 @@ function M.setup()
 end
 
 function M.config()
-	create_picker('Ações', '<leader><leader>ai', {
+	create_picker('<leader><leader>ai', '*', 'Ações', {
 		{ name = 'Chat',       handler = ':ChatGPT<CR>' },
 		{ name = 'Documentar', handler = ':ChatGPTRun documentar<CR>' },
 		{ name = 'Completar',  handler = ':ChatGPTRun complete_code<CR>' },

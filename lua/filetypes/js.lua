@@ -1,7 +1,12 @@
 return {
   commands = function()
-    create_picker('JS/TS', '<leader><leader>o', {
-      { name = 'npm run dev', handler = 'npm run dev' },
-    })
+    create_picker(
+      '<leader><leader>o',
+      { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
+      'JS/TS',
+      {
+        { name = 'npm run dev', handler = 'npm run dev' },
+      } --
+    )
   end,
 }
