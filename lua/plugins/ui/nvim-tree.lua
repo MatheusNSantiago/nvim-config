@@ -67,7 +67,7 @@ M.config = function()
               -- vim.cmd "quit" -- then close all of vim
             else                                        -- else there are more tabs open
               vim.cmd('NvimTreeOpen')
-              vim.api.nvim_win_close(tab_wins[1], true) -- then close only the tab
+              pcall(vim.api.nvim_win_close, tab_wins[1], true) -- then close only the tab
             end
           end)
         end
