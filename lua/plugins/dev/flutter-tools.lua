@@ -49,7 +49,7 @@ function M.config()
 				require('lsp').common_on_attach(client, bufnr)
 				telescope.load_extension('flutter')
 
-				keymap('n', '<leader>dl', ':tabedit __FLUTTER_DEV_LOG__<CR>G', { desc = 'Flutter: Open [D]ev [L]og' })
+				keymap('n', 'dl', ':tabedit __FLUTTER_DEV_LOG__<CR>Gzt', { desc = 'Flutter: Open [D]ev [L]og' })
 				keymap('n', '<leader>r', ':FlutterReload<CR>', { desc = 'Flutter: reload' })
 				keymap('n', '<leader><leader>r', ':FlutterRestart<CR>', { desc = 'Flutter: restart' })
 				keymap('n', '<leader><leader>o', telescope.extensions.flutter.commands, { desc = 'Flutter: open pallete' })

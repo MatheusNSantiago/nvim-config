@@ -18,7 +18,6 @@ function M.setup()
 	keymap('n', '<leader>dL', set_log_breakpoint, { desc = 'dap: set log breakpoint' })
 	keymap('n', '<leader>dC', set_condition_breakpoint, { desc = 'dap: set condition breakpoint' })
 	keymap('n', '<leader>ds', dap.continue, { desc = 'dap: start/continue debug' })
-	keymap('n', '<leader>dl', dap.run_last, { desc = 'dap: run last' })
 	keymap('n', '<leader>dc', dap.run_to_cursor, { desc = 'dap: run to cursor' })
 	keymap('n', '<leader>dh', widgets.hover, { desc = 'dap: hover' })
 
