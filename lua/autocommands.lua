@@ -42,9 +42,17 @@ augroup('Salvar antes de sair', {
 	end,
 })
 
----@see https://stackoverflow.com/a/68156828
-augroup(
+augroup( ---@see https://stackoverflow.com/a/68156828
 	'Lembrar dos folds',
 	{ event = 'BufWinLeave', pattern = '*.*', command = 'mkview' },
 	{ event = 'BufWinEnter', pattern = '*.*', command = 'silent! loadview' }
 )
+
+augroup('Quit with q given filetype', {
+	event = 'FileType',
+	pattern = { 'log' },
+	command = function(args)
+		-- quit with q
+		utils.api.keymap('n', 'q', ':q<CR>', { buffer = args.buf })
+	end,
+})
