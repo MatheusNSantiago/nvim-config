@@ -2,7 +2,7 @@ local settings = utils.ft_helpers.filetype_settings
 
 settings({
   python = require('filetypes.python'),
-  [{ 'typescript', 'javascript' }] = require('filetypes.js'),
+  [{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = require('filetypes.js'),
 })
 
 create_picker('<leader><leader>u', '*', 'Utilities', {
