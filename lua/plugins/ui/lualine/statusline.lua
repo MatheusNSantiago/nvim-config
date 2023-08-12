@@ -147,7 +147,13 @@ return {
         local clients = vim.lsp.get_active_clients()
         if next(clients) == nil then return msg end
 
+        -- pega todos os lsps servers que eu marquei como ensured_installed e adiciona os que
+        -- são standalone plugins (não estão no mason)
         local servers = vim.tbl_extend('keep', require('lsp').servers, { 'dartls', 'typescript-tools' })
+
+        -- filtra os que eu não quero que apareçam
+        servers = vim.tbl_filter(function(v) return v ~= 'tailwindcss' end, servers)
+
         for _, client in ipairs(clients) do
           local filetypes = client.config.filetypes
           if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
