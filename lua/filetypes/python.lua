@@ -1,6 +1,6 @@
 return {
     commands = function()
-        create_picker('<leader><leader>o', 'python', 'Python Commands', {
+        create_picker('<leader><leader>o', 'Python Commands', {
             { name = 'Criar venv',           handler = 'python -m venv --upgrade-deps .venv' },
             { name = 'install requirements', handler = 'pip install -r requirements.txt' },
         })

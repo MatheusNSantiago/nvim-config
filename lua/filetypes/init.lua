@@ -5,7 +5,7 @@ settings({
   [{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = require('filetypes.js'),
 })
 
-create_picker('<leader><leader>u', '*', 'Utilities', {
+create_picker('<leader><leader>u', 'Utilities', {
   { name = 'Color Picker', handler = ':CccPick<CR>' },
   { name = 'Icon Picker',  handler = ':IconPickerNormal<CR>' },
 })
