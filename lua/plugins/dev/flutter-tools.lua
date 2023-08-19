@@ -1,4 +1,5 @@
 local M = {}
+local keymap = utils.api.keymap
 
 function M.setup()
 	return {
@@ -9,9 +10,26 @@ function M.setup()
 end
 
 function M.config()
-	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                      Flutter Tools                       │
-	--  ╰──────────────────────────────────────────────────────────╯
+	utils.api.augroup('Sair com q em arquivos de log', {
+		event = 'FileType',
+		pattern = { 'log' },
+		command = function(args) utils.api.keymap('n', 'q', ':q<CR>', { buffer = args.buf, desc = 'Quit' }) end,
+	})
+
+	local telescope = require('telescope')
+	telescope.load_extension('flutter')
+
+	keymap('n', 'dl', ':tabedit __FLUTTER_DEV_LOG__<CR>Gzt', { desc = 'Flutter: Open [D]ev [L]og' })
+	keymap('n', '<leader>r', ':FlutterReload<CR>', { desc = 'Flutter: reload' })
+	keymap('n', '<leader><leader>r', ':FlutterRestart<CR>', { desc = 'Flutter: restart' })
+	keymap('n', '<leader><leader>o', telescope.extensions.flutter.commands, { desc = 'Flutter: open pallete' })
+	keymap(
+		'n',
+		'<leader>br',
+		":TermExec cmd='flutter pub run build_runner watch'<CR>",
+		{ desc = 'flutter: run code generation' }
+	)
+
 	require('flutter-tools').setup({
 		ui = {
 			border = 'rounded', -- e.g. "single" | "shadow" | {<table-of-eight-chars>}
@@ -43,23 +61,7 @@ function M.config()
 				updateImportsOnRename = true, -- Whether to update imports and other directives when files are renamed. Required for `FlutterRename` command.
 			},
 			on_attach = function(client, bufnr)
-				local keymap = utils.api.keymap
-				local telescope = require('telescope')
-
 				require('lsp').common_on_attach(client, bufnr)
-				telescope.load_extension('flutter')
-
-				keymap('n', 'dl', ':tabedit __FLUTTER_DEV_LOG__<CR>Gzt', { desc = 'Flutter: Open [D]ev [L]og' })
-				keymap('n', '<leader>r', ':FlutterReload<CR>', { desc = 'Flutter: reload' })
-				keymap('n', '<leader><leader>r', ':FlutterRestart<CR>', { desc = 'Flutter: restart' })
-				keymap('n', '<leader><leader>o', telescope.extensions.flutter.commands, { desc = 'Flutter: open pallete' })
-				keymap(
-					'n',
-					'<leader>br',
-					":TermExec cmd='flutter pub run build_runner watch'<CR>",
-					{ desc = 'flutter: run code generation' }
-				)
-
 				-- Desativar aquela parada de mostrar contexto do hl_chunk
 				-- (problema com o widget highlighting do flutter-tools)
 				-- local hl_chunk_ok, _ = pcall(require, 'hlchunk')
