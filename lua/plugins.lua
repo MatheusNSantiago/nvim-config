@@ -23,10 +23,8 @@ end
 require('lazy').setup({
   {
     'dstein64/vim-startuptime',
-    -- lazy-load on a command
     cmd = 'StartupTime',
-    -- init is called during startup. Configuration for vim plugins typically should be set in an init function
-    init = function() vim.g.startuptime_tries = 40 end,
+    init = function() vim.g.startuptime_tries = 80 end,
     keys = { { '<leader><leader>s', ':StartupTime<CR>' } },
   },
 
@@ -105,10 +103,10 @@ require('lazy').setup({
   setup('edit.guess-indent'),       -- automatically detect the indentation settings
   setup('edit.refactoring'),
   setup('edit.icon-picker'),
+  setup('edit.mini-ai'),
 
   setup('edit.nvim-surround'),                       -- cs"'
   { 'tpope/vim-repeat',         event = 'VeryLazy' }, -- deixa o vim-surrond usar o '.'
-  { 'wellle/targets.vim',       event = 'BufReadPost' }, -- adiciona novos textobjects
   { 'AndrewRadev/undoquit.vim', event = 'BufLeave' }, -- restaurar tabs fechadas
 
   --  ╭──────────────────────────────────────────────────────────╮
@@ -142,17 +140,17 @@ require('lazy').setup({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('cmp'),
-  { 'hrsh7th/cmp-nvim-lsp',                  lazy = true }, -- nvim-cmp source for neovim's built-in LSP
-  { 'hrsh7th/cmp-path',                      lazy = true }, -- nvim-cmp source for filesystem paths.
+  { 'hrsh7th/cmp-nvim-lsp',                  lazy = true },          -- nvim-cmp source for neovim's built-in LSP
+  { 'hrsh7th/cmp-path',                      lazy = true },          -- nvim-cmp source for filesystem paths.
   { 'hrsh7th/cmp-cmdline',                   event = 'CmdlineEnter' }, -- nvim-cmp source for vim's cmdline.
-  { 'hrsh7th/cmp-buffer',                    lazy = true }, -- nvim-cmp source for buffer words
-  { 'hrsh7th/cmp-nvim-lua',                  lazy = true }, -- nvim-cmp source for Neovim Lua API.
-  { 'davidsierradz/cmp-conventionalcommits', lazy = true }, -- autocomplete conventional commits
-  { 'saadparwaiz1/cmp_luasnip',              lazy = true }, -- completion engine
-  { 'lukas-reineke/cmp-under-comparator',    lazy = true }, -- better sort completion items that start with one or more underlines
-  { 'onsails/lspkind.nvim',                  lazy = true }, -- Auto completions gui tipo do vscode
-  { 'zbirenbaum/copilot.lua',                lazy = true }, -- Copilot
-  { 'zbirenbaum/copilot-cmp',                lazy = true }, -- completion do copilot
+  { 'hrsh7th/cmp-buffer',                    lazy = true },          -- nvim-cmp source for buffer words
+  { 'hrsh7th/cmp-nvim-lua',                  lazy = true },          -- nvim-cmp source for Neovim Lua API.
+  { 'davidsierradz/cmp-conventionalcommits', lazy = true },          -- autocomplete conventional commits
+  { 'saadparwaiz1/cmp_luasnip',              lazy = true },          -- completion engine
+  { 'lukas-reineke/cmp-under-comparator',    lazy = true },          -- better sort completion items that start with one or more underlines
+  { 'onsails/lspkind.nvim',                  lazy = true },          -- Auto completions gui tipo do vscode
+  { 'zbirenbaum/copilot.lua',                lazy = true },          -- Copilot
+  { 'zbirenbaum/copilot-cmp',                build = ':Copilot auth', lazy = true }, -- completion do copilot
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                        Treesitter                        │
