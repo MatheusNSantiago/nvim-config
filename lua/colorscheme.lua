@@ -34,18 +34,18 @@ hls.syntax = {
 hls.lsp = {
 	-- ["@lsp.type.class"] = { link = "Structure" },
 	-- ["@lsp.type.decorator"] = { link = "Function" },
-	["@lsp.type.enum"] = { link = "Structure" },
+	['@lsp.type.enum'] = { link = 'Structure' },
 	-- ["@lsp.type.enumMember"] = { link = "Constant" },
 	-- ["@lsp.type.function"] = { link = "Function" },
-	['@lsp.type.interface'] = { link = "Structure" },    -- interfaces
+	['@lsp.type.interface'] = { link = 'Structure' }, -- interfaces
 	-- ["@lsp.type.macro"] = { link = "Macro" },
-	['@lsp.type.method'] = { link = '@method' },    -- Function
+	['@lsp.type.method'] = { link = '@method' },      -- Function
 	['@lsp.type.namespace'] = { link = '@namespace' }, -- Structure
 	['@lsp.type.parameter'] = { link = '@parameter' }, -- Identifier
 	-- ["@lsp.type.property"] = { link = "Identifier" },
 	-- ["@lsp.type.struct"] = { link = "Structure" },
 	-- ["@lsp.type.type"] = { link = "Type" },
-	["@lsp.type.type"] = { link = "TypeDef" },
+	['@lsp.type.type'] = { link = 'TypeDef' },
 	['@lsp.type.typeParameter'] = { link = 'TypeDef' },
 	['@lsp.type.variable'] = { fg = 'none' }, -- Identifier
 	['@lsp.type.comment'] = { fg = 'none' }, -- Comment
@@ -94,7 +94,7 @@ hls.treesitter = {
 	-- @punctuation.bracket                        ; brackets (e.g. `()` / `{}` / `[]`)
 	-- ["@punctuation.bracket"] = { fg = theme.syn.punct },
 	-- @punctuation.special                        ; special symbols (e.g. `{}` in string interpolation)
-	["@punctuation.special"] = { link = "Operator" },
+	['@punctuation.special'] = { link = 'Operator' },
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                         Literals                         │
 	--  ╰──────────────────────────────────────────────────────────╯
@@ -126,11 +126,11 @@ hls.treesitter = {
 	-- ["@constructor.lua"] = { fg = theme.syn.keyword },
 	['@constructor'] = { fg = c.purple }, -- interfaces
 	-- @parameter (Identifier)                     ; parameters of a function
-	['@parameter'] = { fg = c.cyan },  -- interfaces
+	['@parameter'] = { fg = c.cyan },    -- interfaces
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                    Keywords (Keyword)                    │
 	--  ╰──────────────────────────────────────────────────────────╯
-	['@keyword'] = { link = "Keyword" },  -- interfaces
+	['@keyword'] = { link = 'Keyword' }, -- interfaces
 	-- @keyword                                    ; various keywords
 	-- @keyword.function                           ; keywords that define a function (e.g. `func` in Go, `def` in Python)
 	-- @keyword.operator                           ; operators that are English words (e.g. `and` / `or`)
@@ -223,14 +223,13 @@ hls.treesitter = {
 }
 
 hls.ts = {
-	["@type.typescript"] = {link = "@variable"},
-	["@type.tsx"] = {link = "@variable"},
+	['@type.typescript'] = { link = 'TypeDef' },
+	['@type.tsx'] = { link = 'TypeDef' },
 }
 
 hls.dart = {
-	["@lsp.type.source.dart"] = {link = "Structure"},
-	["@lsp.type.type.dart"] = {link = "Type"},
-
+	['@lsp.type.source.dart'] = { link = 'Structure' },
+	['@lsp.type.type.dart'] = { link = 'Type' },
 }
 
 hls.css = {
@@ -276,7 +275,7 @@ hls.html = {
 }
 
 hls.python = {
-	["@punctuation.special.python"] = { link = "Operator" },
+	['@punctuation.special.python'] = { link = 'Operator' },
 }
 
 hls.editor = {
