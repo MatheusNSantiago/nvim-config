@@ -140,11 +140,10 @@ require('lazy').setup({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('cmp'),
-  { 'hrsh7th/cmp-nvim-lsp',                  lazy = true },          -- nvim-cmp source for neovim's built-in LSP
-  { 'hrsh7th/cmp-path',                      lazy = true },          -- nvim-cmp source for filesystem paths.
+  { 'hrsh7th/cmp-nvim-lsp',                  lazy = true }, -- nvim-cmp source for neovim's built-in LSP
+  { 'hrsh7th/cmp-path',                      lazy = true }, -- nvim-cmp source for filesystem paths.
   { 'hrsh7th/cmp-cmdline',                   event = 'CmdlineEnter' }, -- nvim-cmp source for vim's cmdline.
-  { 'hrsh7th/cmp-cmdline',                   event = 'CmdlineEnter' }, -- nvim-cmp source for vim's cmdline.
-  { 'hrsh7th/cmp-buffer',                    lazy = true },          -- nvim-cmp source for buffer words
+  { 'hrsh7th/cmp-buffer',                    lazy = true }, -- nvim-cmp source for buffer words
   { 'hrsh7th/cmp-nvim-lua',                  lazy = true },          -- nvim-cmp source for Neovim Lua API.
   { 'davidsierradz/cmp-conventionalcommits', lazy = true },          -- autocomplete conventional commits
   { 'saadparwaiz1/cmp_luasnip',              lazy = true },          -- completion engine
