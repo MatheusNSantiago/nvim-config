@@ -42,8 +42,8 @@ augroup('Salvar antes de sair', {
 	end,
 })
 
-augroup( ---@see https://stackoverflow.com/a/68156828
-	'Lembrar dos folds',
-	{ event = 'BufWinLeave', pattern = '*.*', command = 'mkview' },
-	{ event = 'BufWinEnter', pattern = '*.*', command = 'silent! loadview' }
-)
+-- augroup( ---@see https://stackoverflow.com/a/68156828
+-- 	'Lembrar dos folds',
+-- 	{ event = 'BufWinLeave', pattern = '*.*', command = 'mkview' },
+-- 	{ event = 'BufWinEnter', pattern = '*.*', command = 'silent! loadview' }
+-- )
