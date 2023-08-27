@@ -149,10 +149,13 @@ return {
 
         -- pega todos os lsps servers que eu marquei como ensured_installed e adiciona os que
         -- são standalone plugins (não estão no mason)
-        local servers = vim.tbl_extend('keep', require('lsp').servers, { 'dartls', 'typescript-tools' })
+        local servers = vim.list_extend(require('lsp').servers, { 'dartls' })
 
         -- filtra os que eu não quero que apareçam
-        servers = vim.tbl_filter(function(v) return v ~= 'tailwindcss' end, servers)
+        servers = vim.tbl_filter(
+          function(server) return not vim.tbl_contains({ 'copilot', 'null-ls', 'tailwindcss' }, server) end,
+          servers
+        )
 
         for _, client in ipairs(clients) do
           local filetypes = client.config.filetypes
