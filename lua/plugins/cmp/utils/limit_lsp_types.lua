@@ -1,6 +1,6 @@
 -- Limits LSP results to specific types based on line context (FIelds, Methods, Variables)
 return function(entry, ctx)
-	local deu_certo, res = pcall(function()
+	local deu_certo, res = utils.pcall(function()
 		local kind = require('cmp.types.lsp').CompletionItemKind[entry:get_kind()]
 		local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
@@ -12,18 +12,20 @@ return function(entry, ctx)
 		-- para pegar o char na posição do cursor verdadeiro, é preciso subtrair 1
 		cur_line = cur_line:sub(1, col) .. '█' .. cur_line:sub(col + 1)
 
-		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
+			--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 
 		-- def function():█
 		if (filetype == 'python') and cur_line:match(':█') then return false end
 
 		-- [(,{]\n█)
-		local prev_line_last_char = prev_line:sub(-1, -1)
-		if
-			prev_line_last_char:match('[({,]') -- { ou ( ou ,
-			and (cur_line:match('^%s*%w*█'))
-		then
-			return (kind ~= 'Snippet')
+		if prev_line ~= nil then
+			local prev_line_last_char = prev_line:sub(-1, -1)
+			if
+					prev_line_last_char:match('[({,]') -- { ou ( ou ,
+					and (cur_line:match('^%s*%w*█'))
+			then
+				return (kind ~= 'Snippet')
+			end
 		end
 		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 		-- iterate each pattern and return false if cur_line matches
@@ -34,15 +36,15 @@ return function(entry, ctx)
 		end
 
 		if
-			lineMatchesPatterns({
-				':%s*█', -- { foo: █ }
-				'.*%.%w*█', -- <object>.█ <- metodos/atributos
-				[[['"]%w*█]], -- 'foo█' ou "foo█"
-				'%(%w*█%w*%)', -- (foo█)
-				'{%s*█', -- {█'
-				'{.+,%s*█.*}?', -- {foo: bar, █ } | {foo: bar, █, baz: qux}
-				'(.+,%s*█.*)?', -- (foo: bar, █ ) | (foo: bar, █, baz: qux)
-			})
+				lineMatchesPatterns({
+					':%s*█', -- { foo: █ }
+					'.*%.%w*█', -- <object>.█ <- metodos/atributos
+					[[['"]%w*█]], -- 'foo█' ou "foo█"
+					'%(%w*█%w*%)', -- (foo█)
+					'{%s*█', -- {█'
+					'{.+,%s*█.*}?', -- {foo: bar, █ } | {foo: bar, █, baz: qux}
+					'(.+,%s*█.*)?', -- (foo: bar, █ ) | (foo: bar, █, baz: qux)
+				})
 		then
 			return (kind ~= 'Snippet')
 		end
