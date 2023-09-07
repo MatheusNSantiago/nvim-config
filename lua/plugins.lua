@@ -124,6 +124,7 @@ require('lazy').setup({
   setup('lsp.lspsaga'),                                -- LSP UIs
   setup('lsp.illuminate'),                             -- higlight a palavra em cima do cursor
   setup('lsp.lsp-colors'),                             -- agrupa os erros do LSP por cor
+  setup('lsp.lsp-lens'),                               -- mostra quantas referências e definições a função tem
 
   { 'b0o/schemastore.nvim', lazy = true },             -- schemas para json
   { 'folke/neodev.nvim',    lazy = true },             -- docs for nvim Lua API
@@ -140,10 +141,10 @@ require('lazy').setup({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('cmp'),
-  { 'hrsh7th/cmp-nvim-lsp',                  lazy = true }, -- nvim-cmp source for neovim's built-in LSP
-  { 'hrsh7th/cmp-path',                      lazy = true }, -- nvim-cmp source for filesystem paths.
+  { 'hrsh7th/cmp-nvim-lsp',                  lazy = true },          -- nvim-cmp source for neovim's built-in LSP
+  { 'hrsh7th/cmp-path',                      lazy = true },          -- nvim-cmp source for filesystem paths.
   { 'hrsh7th/cmp-cmdline',                   event = 'CmdlineEnter' }, -- nvim-cmp source for vim's cmdline.
-  { 'hrsh7th/cmp-buffer',                    lazy = true }, -- nvim-cmp source for buffer words
+  { 'hrsh7th/cmp-buffer',                    lazy = true },          -- nvim-cmp source for buffer words
   { 'hrsh7th/cmp-nvim-lua',                  lazy = true },          -- nvim-cmp source for Neovim Lua API.
   { 'davidsierradz/cmp-conventionalcommits', lazy = true },          -- autocomplete conventional commits
   { 'saadparwaiz1/cmp_luasnip',              lazy = true },          -- completion engine
@@ -168,13 +169,14 @@ require('lazy').setup({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('dev.flutter-tools'),
-  { 'akinsho/pubspec-assist.nvim',                              config = true, ft = 'yaml' }, -- add/update dart dependencies
+  { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
   setup('dev.package-info'),
-  { 'Nash0x7E2/awesome-flutter-snippets',                       ft = 'dart' }, -- snippets
-  -- setup('dev.chatGPT'),
-  { dir = '~/Documents/Programming/nvim-plugins/ChatGPT.nvim/', config = true, lazy = true },
-  { 'jose-elias-alvarez/typescript.nvim',                       lazy = true }, -- typescript lsp
-  { 'Vimjas/vim-python-pep8-indent',                            ft = 'python' }, -- Conserta o indent do python
+  { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
+  setup('dev.chatGPT'),
+  { dir = '~/Documents/Programming/nvim-plugins/neoai.nvim/', opts = require('plugins.dev.neoai'), lazy = false },
+  { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/',  config = true,                       lazy = false },
+  { 'jose-elias-alvarez/typescript.nvim',                     lazy = true }, -- typescript lsp
+  { 'Vimjas/vim-python-pep8-indent',                          ft = 'python' }, -- Conserta o indent do python
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │

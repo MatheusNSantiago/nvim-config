@@ -32,6 +32,7 @@
   "leap-spooky.nvim": { "branch": "main", "commit": "e003f2aa376190148f2e7731a60c89239335013c" },
   "leap.nvim": { "branch": "main", "commit": "5efe985cf68fac3b6a6dfe7a75fbfaca8db2af9c" },
   "lsp-colors.nvim": { "branch": "main", "commit": "2bbe7541747fd339bdd8923fc45631a09bb4f1e5" },
+  "lsp-lens.nvim": { "branch": "main", "commit": "13d25ad8bd55aa34cc0aa3082e78a4157c401346" },
   "lsp_signature.nvim": { "branch": "master", "commit": "ce1a3c4fece642ab85913b87ac3d8b7c79cd8eda" },
   "lspkind.nvim": { "branch": "master", "commit": "57610d5ab560c073c465d6faf0c19f200cb67e6e" },
   "lspsaga.nvim": { "branch": "main", "commit": "4f075452c466df263e69ae142f6659dcf9324bf6" },
