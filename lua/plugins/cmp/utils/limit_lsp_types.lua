@@ -12,10 +12,7 @@ return function(entry, ctx)
 		-- para pegar o char na posição do cursor verdadeiro, é preciso subtrair 1
 		cur_line = cur_line:sub(1, col) .. '█' .. cur_line:sub(col + 1)
 
-			--  ╾───────────────────────────────────────────────────────────────────────────────────╼
-
-		-- def function():█
-		if (filetype == 'python') and cur_line:match(':█') then return false end
+		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 
 		-- [(,{]\n█)
 		if prev_line ~= nil then
@@ -28,15 +25,15 @@ return function(entry, ctx)
 			end
 		end
 		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
-		-- iterate each pattern and return false if cur_line matches
-		local function lineMatchesPatterns(patterns)
+		--- iterate each pattern and return false if cur_line matches
+		local function line_matches_patterns(patterns)
 			for _, pattern in ipairs(patterns) do
 				if cur_line:match(pattern) then return true end
 			end
 		end
 
 		if
-				lineMatchesPatterns({
+				line_matches_patterns({
 					':%s*█', -- { foo: █ }
 					'.*%.%w*█', -- <object>.█ <- metodos/atributos
 					[[['"]%w*█]], -- 'foo█' ou "foo█"
@@ -47,6 +44,17 @@ return function(entry, ctx)
 				})
 		then
 			return (kind ~= 'Snippet')
+		end
+
+		if filetype == 'python' then
+			if cur_line:match(':█$') then return false end -- def function():█
+			if
+					line_matches_patterns({
+						'import%s█', -- from X import █
+					})
+			then
+				return (kind ~= 'Snippet')
+			end
 		end
 
 		return true
