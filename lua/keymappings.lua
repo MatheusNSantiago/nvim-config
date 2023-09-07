@@ -52,7 +52,7 @@ keymap('c', '<C-l>', '<Left>')
 --  │                          Edição                          │
 --  ╰──────────────────────────────────────────────────────────╯
 
-keymap({ 'n', 'v' }, '<leader>q', ':q<CR>') -- [Q]uit
+keymap({ 'n', 'v' }, '<leader>q', ':q<CR>')  -- [Q]uit
 keymap({ 'n', 'v' }, '<leader>w', ':wa<CR>') -- [W]rite
 
 -- Copiar a linha horizontalmente
@@ -62,8 +62,9 @@ keymap({ 'n', 'i', 'v' }, '<S-M-k>', ':t.<CR>')
 keymap('v', '<S-M-l>', "yPgv:'<,'>m '.-1<CR>gv")
 keymap('v', '<S-M-k>', 'yPgv')
 
-keymap('x', '<leader>p', '"_dp') -- preservar buffer
+keymap('x', '<leader>p', '"_dp')         -- preservar buffer
 keymap({ 'n', 'v' }, '<leader>y', '"+y') -- copiar para o system clipboard
+keymap('n', '<leader>p', '"+p')          -- colar do system clipboard
 keymap({ 'n', 'v' }, '<leader>d', '"_d') -- deletar pro void
 
 --  ╭──────────────────────────────────────────────────────────╮
