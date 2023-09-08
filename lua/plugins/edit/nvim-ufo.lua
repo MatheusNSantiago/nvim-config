@@ -4,6 +4,7 @@ function M.setup()
   return {
     'kevinhwang91/nvim-ufo',
     config = M.config,
+    event = "LspAttach",
     keys = M.keys,
     dependencies = { 'kevinhwang91/promise-async' },
   }
