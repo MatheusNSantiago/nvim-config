@@ -11,7 +11,8 @@ function M.setup()
 end
 
 function M.keys()
-  -- Seta os keymaps que só funcionam no terminal
+  local is_first_time_opening = true
+
   utils.api.augroup('ToggleTerm', {
     event = 'TermOpen',
     pattern = 'term://*',
@@ -32,6 +33,17 @@ function M.keys()
       -- Observação: Quando eu mudava pro normal mode, o barbecue sumia
       -- Solução: Começar no normal mode (start_in_insert = false), esperar o breadcumbs processar (100 milisegundos) e voltar pro insert mode
       vim.defer_fn(function() vim.cmd('startinsert') end, 100)
+      is_first_time_opening = false
+    end,
+  }, {
+    event = 'Filetype',
+    pattern = 'toggleterm',
+    command = function(_)
+      if is_first_time_opening then return end
+
+      -- Ao entrar no toggleterm, ele já começa no insert mode
+      -- Esse autocmd é diferente do outro, pois esse proca toda vez que eu entro no toggleterm (além de não ter delay)
+      vim.schedule(function() vim.cmd('startinsert') end)
     end,
   })
 
