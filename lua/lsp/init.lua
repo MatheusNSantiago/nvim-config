@@ -15,47 +15,31 @@ M.servers = {
   'clangd',
 }
 
-function M.commom_keymaps()
-  keymap('n', 'K', ':Lspsaga hover_doc<CR>')
-  -- keymap('n', 'K', require('plugins.ui.pretty-hover.init').hover)
-
-  -- Diagnostic jump
-  keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
-  keymap('n', ']e', ':Lspsaga diagnostic_jump_next<CR>')
-
-  -- Diagnostic jump with filters such as only jumping to an error
-  keymap('n', '[E', ":lua require('lspsaga.diagnostic').goto_prev({ severity = 1 })<CR>")
-  keymap('n', ']E', ":lua require('lspsaga.diagnostic').goto_next({ severity = 1 })<CR>")
-
-  keymap('n', '<leader>sd', ':Telescope diagnostics<CR>', { desc = '[S]earch [D]iagnostics' })
-  keymap('n', '<leader>sR', ':Telescope lsp_references<CR>', { desc = '[S]earch [R]eferences' })
-  keymap('n', '<leader>si', ':Telescope lsp_implementations<CR>', { desc = '[S]earch [I]mplementations' })
-
-  keymap('n', 'gr', ':Lspsaga rename<CR>')
-  keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
-  keymap('n', 'gf', ':Lspsaga lsp_finder<CR>')
-
-  keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
-  keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')           -- Abre a definição em um novo buffer
-  keymap('n', 'gV', ':vsplit<CR><C-w>w<C-w>L:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
-  keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')                   -- Code action
-  keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')                 -- Show line diagnostics
+---editor's capabilities + some overrides.
+M.client_capabilities = function()
+  return vim.tbl_deep_extend(
+    'force',
+    vim.lsp.protocol.make_client_capabilities(),
+    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers.
+    require('cmp_nvim_lsp').default_capabilities(),
+    {
+      workspace = {
+        -- PERF: didChangeWatchedFiles is too slow.
+        -- TODO: Remove this when https://github.com/neovim/neovim/issues/23291#issuecomment-1686709265 is fixed.
+        didChangeWatchedFiles = { dynamicRegistration = false },
+      },
+    },
+    {
+      textDocument = {
+        foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }, -- Enable folding.
+      },
+    }
+  )
 end
 
-function M.common_capabilities()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = { 'documentation', 'detail', 'additionalTextEdits' },
-  }
-
-  local cmp_lsp_ok, cmp_lsp = pcall(require, 'cmp_nvim_lsp')
-  if cmp_lsp_ok then return vim.tbl_deep_extend('force', capabilities, cmp_lsp.default_capabilities()) end
-
-  return capabilities
-end
-
+---Sets up LSP keymaps and autocommands for the given buffer.
+---@param client lsp.Client
+---@param bufnr integer
 function M.common_on_attach(client, bufnr)
   local caps = client.server_capabilities
 
@@ -82,7 +66,30 @@ function M.common_on_attach(client, bufnr)
   local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
   if navbuddy_ok then navbuddy.attach(client, bufnr) end
 
-  M.commom_keymaps()
+  keymap('n', 'K', ':Lspsaga hover_doc<CR>')
+  -- keymap('n', 'K', require('plugins.ui.pretty-hover.init').hover)
+
+  -- Diagnostic jump
+  keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
+  keymap('n', ']e', ':Lspsaga diagnostic_jump_next<CR>')
+
+  -- Diagnostic jump with filters such as only jumping to an error
+  keymap('n', '[E', ":lua require('lspsaga.diagnostic').goto_prev({ severity = 1 })<CR>")
+  keymap('n', ']E', ":lua require('lspsaga.diagnostic').goto_next({ severity = 1 })<CR>")
+
+  keymap('n', '<leader>sd', ':Telescope diagnostics<CR>', { desc = '[S]earch [D]iagnostics' })
+  keymap('n', '<leader>sR', ':Telescope lsp_references<CR>', { desc = '[S]earch [R]eferences' })
+  keymap('n', '<leader>si', ':Telescope lsp_implementations<CR>', { desc = '[S]earch [I]mplementations' })
+
+  keymap('n', 'gr', ':Lspsaga rename<CR>')
+  keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
+  keymap('n', 'gf', ':Lspsaga lsp_finder<CR>')
+
+  keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
+  keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')           -- Abre a definição em um novo buffer
+  keymap('n', 'gV', ':vsplit<CR><C-w>w<C-w>L:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
+  keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')                   -- Code action
+  keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')                 -- Show line diagnostics
 end
 
 function M.get_commom_configs()
@@ -90,7 +97,7 @@ function M.get_commom_configs()
     on_attach = M.common_on_attach,
     -- on_init = M.common_on_init,
     -- on_exit = M.common_on_exit,
-    capabilities = M.common_capabilities(),
+    capabilities = M.client_capabilities(),
     flags = {
       debounce_text_changes = 150,
     },

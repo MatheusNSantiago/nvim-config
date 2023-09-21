@@ -54,8 +54,6 @@ end
 ---
 --@param map {[string|string[]]: FiletypeSettings | {[integer]: fun(args: AutocmdArgs)}}
 function M.filetype_settings(map)
-  -- map.python.picker
-
   local commands = utils.map(function(settings, ft)
     ---@diagnostic disable-next-line: param-type-mismatch
     local name = type(ft) == 'string' and ft or table.concat(ft, ',')
@@ -71,9 +69,7 @@ function M.filetype_settings(map)
           if scope == 'mappings' then return apply_ft_mappings(value, args.buf) end
           if scope == 'plugins' then return M.ftplugin_conf(value) end
 
-          utils.foreach(function(setting, option)
-            vim[scope][option] = setting
-          end, value)
+          utils.foreach(function(setting, option) vim[scope][option] = setting end, value)
         end, settings)
       end,
     }

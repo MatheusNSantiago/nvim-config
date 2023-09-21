@@ -74,7 +74,7 @@ function M.config()
 					vim.api.nvim_feedkeys('<<', 'n', true)
 				end, 2400)
 			end,
-			capabilities = require('lsp').common_capabilities(),
+			capabilities = require('lsp').client_capabilities(),
 		},
 	})
 end
