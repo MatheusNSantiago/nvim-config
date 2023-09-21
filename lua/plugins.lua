@@ -124,7 +124,7 @@ require('lazy').setup({
   setup('lsp.lspsaga'),                                -- LSP UIs
   setup('lsp.illuminate'),                             -- higlight a palavra em cima do cursor
   setup('lsp.lsp-colors'),                             -- agrupa os erros do LSP por cor
-  setup('lsp.lsp-lens'),                               -- mostra quantas referências e definições a função tem
+  setup('lsp.symbol-usage'),                               -- mostra quantas referências e definições a função tem
 
   { 'b0o/schemastore.nvim', lazy = true },             -- schemas para json
   { 'folke/neodev.nvim',    lazy = true },             -- docs for nvim Lua API
