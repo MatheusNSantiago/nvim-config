@@ -24,7 +24,7 @@ function M.config()
 
       if number_of_references then
         if number_of_references > 0 then
-          table.insert(fragments, ('[🔗%s]'):format(number_of_references)) --
+          table.insert(fragments, (' %s'):format(number_of_references)) --
         end
       end
 
