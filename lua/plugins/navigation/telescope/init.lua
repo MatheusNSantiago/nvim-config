@@ -11,9 +11,12 @@ function M.setup()
 end
 
 function M.keys()
-	local b, e = require('telescope.builtin'), require('telescope').extensions
-	-- Builtin
+	local telescope_ok, telescope = pcall(require, 'telescope')
+	if not telescope_ok then return {} end
+
+	local b, e = require('telescope.builtin'), telescope.extensions
 	return {
+		-- Builtin
 		{ '<leader>sf',  function() b.find_files() end,                               desc = '[S]earch [F]iles' },
 		{ '<leader>sg',  function() b.live_grep() end,                                desc = '[S]earch by [G]rep' },
 		{ '<leader>s/',  function() b.current_buffer_fuzzy_find() end,                desc = 'Search in file' },

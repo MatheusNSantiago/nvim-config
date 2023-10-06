@@ -1,5 +1,4 @@
 local M = {}
-local keymap = utils.api.keymap
 
 function M.setup()
   return {
@@ -17,9 +16,10 @@ function M.setup()
 end
 
 function M.keys()
-  return {
-    { '<leader>o', require('nvim-navbuddy').open, desc = 'navbuddy: open pannel' },
-  }
+  local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
+  if not navbuddy_ok then return {} end
+
+  return { { '<leader>o', navbuddy.open, desc = 'navbuddy: open pannel' } }
 end
 
 function M.config()

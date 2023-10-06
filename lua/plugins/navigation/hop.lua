@@ -1,36 +1,41 @@
 local M = {}
-local keymap = utils.api.keymap
 
 function M.setup()
 	return {
 		'phaazon/hop.nvim',
 		commit = 'caaccee',
 		config = M.config,
-    keys = M.keys,
+		keys = M.keys,
 	}
 end
 
 function M.keys()
-	local hop = require('hop')
+	local hop_ok, hop = pcall(require, 'hop')
+	if not hop_ok then return {} end
+
 	local directions = require('hop.hint').HintDirection
 	local position = require('hop.hint').HintPosition
 
-  return {
-	-- Vertical Moviments
-  {'<Leader><Leader>k', ':HopVerticalAC<CR>', mode = { 'n', 'v' }},
-  {'<Leader><Leader>l', ':HopVerticalBC<CR>', mode = { 'n', 'v' }},
-	-- Word Moviments
-  {'<Leader><Leader>b', ':HopWordBC<CR>', mode = { 'n', 'v' }},
-  {'<Leader><Leader>w', ':HopWordAC<CR>', mode = { 'n', 'v' }},
-  {'<leader><leader>e', function() hop.hint_words({ direction = directions.AFTER_CURSOR, hint_position = position.END }) end, mode = { 'n', 'v' }},
-	{
-		'<leader><leader>ge',
-		function() hop.hint_words({ direction = directions.BEFORE_CURSOR, hint_position = position.END }) end,
-    mode = { 'n', 'v' },
-	},
-	-- Pattern
-	{'<leader><leader>/', hop.hint_patterns, mode = { 'n', 'v' }},
-  }
+	return {
+		-- Vertical Moviments
+		{ '<Leader><Leader>k', ':HopVerticalAC<CR>', mode = { 'n', 'v' } },
+		{ '<Leader><Leader>l', ':HopVerticalBC<CR>', mode = { 'n', 'v' } },
+		-- Word Moviments
+		{ '<Leader><Leader>b', ':HopWordBC<CR>',     mode = { 'n', 'v' } },
+		{ '<Leader><Leader>w', ':HopWordAC<CR>',     mode = { 'n', 'v' } },
+		{
+			'<leader><leader>e',
+			function() hop.hint_words({ direction = directions.AFTER_CURSOR, hint_position = position.END }) end,
+			mode = { 'n', 'v' },
+		},
+		{
+			'<leader><leader>ge',
+			function() hop.hint_words({ direction = directions.BEFORE_CURSOR, hint_position = position.END }) end,
+			mode = { 'n', 'v' },
+		},
+		-- Pattern
+		{ '<leader><leader>/', hop.hint_patterns, mode = { 'n', 'v' } },
+	}
 end
 
 M.highlights = {

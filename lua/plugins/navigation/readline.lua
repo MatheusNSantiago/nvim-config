@@ -8,22 +8,23 @@ function M.setup()
 end
 
 function M.keys()
-	local readline = require('readline')
+	local readline_ok, readline = pcall(require, 'readline')
+	if not readline_ok then return {} end
 
-  return {
-	{'<C-f>', '<Right>', mode = '!'},
-	{'<C-b>', '<Left>', mode = '!'},
-	{'<M-f>', readline.forward_word, mode = '!'},
-	{'<M-b>', readline.backward_word, mode = '!'},
-	{'<C-a>', readline.beginning_of_line, mode = '!'},
-	{'<C-e>', readline.end_of_line, mode = '!'},
-	{'<M-d>', readline.kill_word, mode = '!'},
-	{'<C-BS>', readline.backward_kill_word, mode = '!'},
-	{'<M-BS>', readline.backward_kill_word, mode = '!'},
-	{'<C-w>', readline.unix_word_rubout, mode = '!'},
-	{'<C-k>', readline.kill_line, mode = '!'},
-	{'<C-u>', readline.backward_kill_line, mode = '!'},
-}
+	return {
+		{ '<C-f>',  '<Right>',                   mode = '!' },
+		{ '<C-b>',  '<Left>',                    mode = '!' },
+		{ '<M-f>',  readline.forward_word,       mode = '!' },
+		{ '<M-b>',  readline.backward_word,      mode = '!' },
+		{ '<C-a>',  readline.beginning_of_line,  mode = '!' },
+		{ '<C-e>',  readline.end_of_line,        mode = '!' },
+		{ '<M-d>',  readline.kill_word,          mode = '!' },
+		{ '<C-BS>', readline.backward_kill_word, mode = '!' },
+		{ '<M-BS>', readline.backward_kill_word, mode = '!' },
+		{ '<C-w>',  readline.unix_word_rubout,   mode = '!' },
+		{ '<C-k>',  readline.kill_line,          mode = '!' },
+		{ '<C-u>',  readline.backward_kill_line, mode = '!' },
+	}
 end
 
 return M
