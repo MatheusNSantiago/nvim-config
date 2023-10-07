@@ -64,7 +64,7 @@ function M.filetype_settings(map)
       desc = ('ft settings for %s'):format(name),
       command = function(args)
         utils.foreach(function(value, scope)
-          if scope == 'commands' then return value() end
+          if scope == 'commands' then return vim.schedule(value) end
           if scope == 'opt' then scope = 'opt_local' end
           if scope == 'mappings' then return apply_ft_mappings(value, args.buf) end
           if scope == 'plugins' then return M.ftplugin_conf(value) end
