@@ -4,6 +4,7 @@ settings({
   python = require('filetypes.python'),
   [{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = require('filetypes.js'),
   c = require('filetypes.c'),
+  cobol = require('filetypes.cobol'),
 })
 
 create_picker('<leader><leader>u', 'Utilities', {
