@@ -49,16 +49,6 @@ function M.common_on_attach(client, bufnr)
   -- Use LSP as the handler for formatexpr.
   if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
 
-  -- sqls
-  if client.name == 'sqls' then require('sqls').on_attach(client, bufnr) end
-
-  -- Configure for jdtls
-  if client.name == 'jdt.ls' then
-    require('jdtls').setup_dap({ hotcodereplace = 'auto' })
-    require('jdtls.dap').setup_dap_main_class_configs()
-    vim.lsp.codelens.refresh()
-  end
-
   -- setup navic (breadcrumbs) e outros simbolos
   require('lsp.utils').setup_document_symbols(client, bufnr)
 

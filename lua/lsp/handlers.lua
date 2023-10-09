@@ -2,7 +2,7 @@ local M = {}
 local icons = require("utils.icons")
 
 function M.setup()
-	-- UI
+	-- Define Signs
 	local signs = {
 		{ name = "DiagnosticSignError", text = icons.diagnostics.Error },
 		{ name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
