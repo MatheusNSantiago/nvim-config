@@ -4,7 +4,7 @@ function M.setup()
   return {
     'kevinhwang91/nvim-ufo',
     config = M.config,
-    event = "LspAttach",
+    event = 'LspAttach',
     keys = M.keys,
     dependencies = { 'kevinhwang91/promise-async' },
   }
@@ -31,8 +31,6 @@ function M.keys()
 end
 
 function M.config()
-  local ufo = require('ufo')
-
   -- ╭──────────────────────────────────────────────────────────╮
   -- │ Custom handler function                                  │
   -- ╰──────────────────────────────────────────────────────────╯
@@ -73,7 +71,7 @@ function M.config()
   vim.o.foldlevelstart = 99
   vim.o.foldenable = true
 
-  ufo.setup({
+  require('ufo').setup({
     fold_virt_text_handler = handler,
     -- provider_selector = function(_, filetype, buftype)
     --   local function handleFallbackException(bufnr, err, providerName)

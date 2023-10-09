@@ -47,7 +47,7 @@ require('lazy').setup({
   setup('ui.bufferline'),             -- Tabs/buffers
   setup('ui.dressing'),               -- selection e input
   setup('ui.noice'),                  -- messages, cmdline and popupmenu
-  setup('ui.barbecue'),               -- 	breadcrumbs
+  setup('ui.barbecue'),               -- breadcrumbs
   setup('ui.nvim-notify'),            -- messages, cmdline and popupmenu
   setup('ui.ccc'),                    -- Color picker and highlighter #FFF
   setup('ui.smart-splits'),           -- split pane management
@@ -124,7 +124,7 @@ require('lazy').setup({
   setup('lsp.lspsaga'),                                -- LSP UIs
   setup('lsp.illuminate'),                             -- higlight a palavra em cima do cursor
   setup('lsp.lsp-colors'),                             -- agrupa os erros do LSP por cor
-  setup('lsp.symbol-usage'),                               -- mostra quantas referências e definições a função tem
+  setup('lsp.symbol-usage'),                           -- mostra quantas referências e definições a função tem
 
   { 'b0o/schemastore.nvim', lazy = true },             -- schemas para json
   { 'folke/neodev.nvim',    lazy = true },             -- docs for nvim Lua API
@@ -156,11 +156,13 @@ require('lazy').setup({
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                        Treesitter                        │
   --  ╰──────────────────────────────────────────────────────────╯
+
   setup('treesitter'),
   { 'nvim-treesitter/nvim-treesitter-textobjects', commit = '8673926' }, -- Additional text objects via treesitter
   { 'RRethy/nvim-treesitter-textsubjects',         lazy = true },
   { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true },       -- conserta comments para jsx,
   { 'fladson/vim-kitty',                           ft = { 'kitty', 'conf' } }, -- syntax highlighting for kitty
+
   'windwp/nvim-ts-autotag',                                             -- tag completion
   'RRethy/nvim-treesitter-endwise',                                     -- Coloca o end no final de func e if
 
@@ -169,12 +171,12 @@ require('lazy').setup({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('dev.flutter-tools'),
-  { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
   setup('dev.package-info'),
-  { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
-  setup('dev.chatGPT'),
-  { dir = '~/Documents/Programming/nvim-plugins/neoai.nvim/', opts = require('plugins.dev.neoai'), lazy = false },
-  { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/',  config = true,                       lazy = false },
+  setup('dev.cobol'),
+
+  { 'MatheusNSantiago/mychatgpt' }, -- snippets
+  { 'Nash0x7E2/awesome-flutter-snippets',                     ft = 'dart' }, -- snippets
+  { 'akinsho/pubspec-assist.nvim',                            config = true,                       ft = 'yaml' }, -- add/update dart dependencies
   { 'jose-elias-alvarez/typescript.nvim',                     lazy = true }, -- typescript lsp
   { 'Vimjas/vim-python-pep8-indent',                          ft = 'python' }, -- Conserta o indent do python
 

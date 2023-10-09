@@ -5,8 +5,6 @@ function M.setup()
 	return {
 		'williamboman/mason.nvim',
 		build = ':MasonUpdate', -- updates registry contents
-		-- cmd = { 'Mason', 'MasonInstall', 'MasonUninstall', 'MasonUninstallAll', 'MasonLog' },
-		-- event = { 'BufRead', 'BufWinEnter', 'BufNewFile' },
 		config = M.config,
 	}
 end
@@ -31,14 +29,14 @@ function M.config()
 
 	mason_null_ls.setup({
 		ensure_installed = {
-			'ruff', -- python linter
-			'debugpy', -- python debugger
-			'black', -- python formatter
-			'yamlfmt', -- yaml formatter
-			'prettierd', -- javascript formatter
-			'cpplint', -- c/c++ linter
-			'clang-format', -- c/c++ formatter
-			'fixjson', -- json
+			'ruff',             -- python linter
+			'debugpy',          -- python debugger
+			'black',            -- python formatter
+			'yamlfmt',          -- yaml formatter
+			'prettierd',        -- javascript formatter
+			'cpplint',          -- c/c++ linter
+			'clang-format',     -- c/c++ formatter
+			'fixjson',          -- json
 		},
 		automatic_setup = true, -- Recommended, but optional
 	})
@@ -71,9 +69,9 @@ function M.config()
 
 			require('typescript').setup({
 				disable_commands = false, -- prevent the plugin from creating Vim commands
-				debug = false, -- enable debug logging for commands
+				debug = false,        -- enable debug logging for commands
 				go_to_source_definition = {
-					fallback = true, -- fall back to standard LSP definition on failure
+					fallback = true,    -- fall back to standard LSP definition on failure
 				},
 				server = config,
 			})
