@@ -75,7 +75,6 @@ function M.config()
       {
         name = 'path',
         priority = 250,
-        max_item_count = 4,
         group_index = 1,
       },
     }),
