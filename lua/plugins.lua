@@ -1,22 +1,16 @@
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
-    lazypath,
-  })
+  local repo = 'https://github.com/folke/lazy.nvim.git'
+  vim.fn.system({ 'git', 'clone', '--filter=blob:none', repo, '--branch=stable', lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
 local function setup(file, dependencies)
   local plugin = file:match('([^.]*)$')
   local setup_ok, _setup = utils.pcall('Erro no setup do plugin: ' .. plugin, require('plugins.' .. file).setup)
-  if setup_ok and type(_setup) == 'table' then
+  if setup_ok then
     if dependencies ~= nil then _setup.dependencies = dependencies end -- adiciona dependências
-    return _setup
+    return _setup or {}
   end
 end
 
@@ -56,6 +50,7 @@ require('lazy').setup({
   setup('ui.hlsearch'),               -- auto remove search highlight and rehighlight
   setup('ui.rainbow-delimiters'),     -- rainbow parentheses
   setup('ui.trouble'),                -- pretty diagnostics, refs, quickfix
+  setup('ui.virtcolumn'),             -- ColorColumn como um |
   -- setup('ui.pretty-hover'),
   setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
 
@@ -92,7 +87,7 @@ require('lazy').setup({
   setup('edit.comment-box'),  -- comment box
   setup('edit.prettier'),
   setup('edit.nvim-ufo'),     -- folding
-  -- setup('edit.template-string')    -- muda pra template-string automaticamente
+  -- setup('edit.template-string'),    -- muda pra template-string automaticamente
 
   setup('edit.vim-visual-multi'),   -- multicursor
   setup('edit.neogen'),             -- documentation generation
@@ -174,11 +169,12 @@ require('lazy').setup({
   setup('dev.package-info'),
   setup('dev.cobol'),
 
-  { 'MatheusNSantiago/mychatgpt' }, -- snippets
-  { 'Nash0x7E2/awesome-flutter-snippets',                     ft = 'dart' }, -- snippets
-  { 'akinsho/pubspec-assist.nvim',                            config = true,                       ft = 'yaml' }, -- add/update dart dependencies
-  { 'jose-elias-alvarez/typescript.nvim',                     lazy = true }, -- typescript lsp
-  { 'Vimjas/vim-python-pep8-indent',                          ft = 'python' }, -- Conserta o indent do python
+  { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/', config = true, lazy = false },
+  -- { 'MatheusNSantiago/mychatgpt',         config = true },      -- snippets
+  { 'Nash0x7E2/awesome-flutter-snippets',                    ft = 'dart' }, -- snippets
+  { 'akinsho/pubspec-assist.nvim',                           config = true, ft = 'yaml' }, -- add/update dart dependencies
+  { 'jose-elias-alvarez/typescript.nvim',                    lazy = true }, -- typescript lsp
+  { 'Vimjas/vim-python-pep8-indent',                         ft = 'python' }, -- Conserta o indent do python
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
