@@ -2,7 +2,8 @@ local M = {}
 
 function M.setup()
 	return {
-		'jose-elias-alvarez/null-ls.nvim',
+		'nvimtools/none-ls.nvim',
+		-- 'jose-elias-alvarez/null-ls.nvim',
 		config = M.config,
 	}
 end

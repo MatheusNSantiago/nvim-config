@@ -42,6 +42,14 @@ augroup('Salvar antes de sair', {
 	end,
 })
 
+augroup('Salvar antes de sair', {
+	event = 'BufRead',
+	pattern = '*.jcl',
+	command = function()
+			vim.bo.filetype = "jcl"
+	end,
+})
+
 -- augroup( ---@see https://stackoverflow.com/a/68156828
 -- 	'Lembrar dos folds',
 -- 	{ event = 'BufWinLeave', pattern = '*.*', command = 'mkview' },
