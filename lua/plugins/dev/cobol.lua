@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
   return {
     'Jorengarenar/COBOL.vim',
+    ft = { 'cobol' },
     config = M.config,
   }
 end
