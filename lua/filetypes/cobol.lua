@@ -2,14 +2,11 @@ return {
   commands = function()
     vim.cmd('silent DisableHLIndent')
 
-
-    local client_id = vim.lsp.start_client({
-      name = "cobol_ls",
-      cmd = vim.lsp.rpc.connect('127.0.0.1', 1044)
+    utils.api.augroup('cobol', {
+      event = 'VimLeavePre',
+      desc = 'kill cobol_ls when exiting nvim',
+      command = 'silent !killall server-linux',
     })
-
-    if not client_id then return end
-    vim.lsp.buf_attach_client(0, client_id)
   end,
   mappings = {
     {
