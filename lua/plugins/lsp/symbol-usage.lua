@@ -38,7 +38,7 @@ function M.config()
       local round_start = { '', 'SymbolUsageRounding' }
       local round_end = { '', 'SymbolUsageRounding' }
 
-      if number_of_references then
+      if number_of_references > 0 then
         table.insert(res, round_start)
         table.insert(res, { ' ', 'SymbolUsageRef' }) --
         table.insert(res, { tostring(number_of_references), 'SymbolUsageContent' })
