@@ -17,6 +17,7 @@ function M.config()
       exclude_filetypes = {
         aerial = true,
         dashboard = true,
+        cobol = true,
       },
       support_filetypes = {
         '*.py',
@@ -41,9 +42,7 @@ function M.config()
       enable = true,
       use_treesitter = false,
       chars = { '│', '¦', '┆', '┊' },
-      style = {
-        '#3b4261',
-      },
+      style = { '#3b4261' },
     },
     line_num = {
       enable = false,
