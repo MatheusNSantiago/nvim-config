@@ -278,6 +278,12 @@ hls.python = {
 	['@punctuation.special.python'] = { link = 'Operator' },
 }
 
+hls.cobol = {
+	cobolCalls = { fg = c.yellow, bold = true },
+	cobolParagraph = { fg = c.orange, bold = true },
+	cobolDataLvl = { fg = c.red },
+}
+
 hls.editor = {
 	CursorLineNR = { fg = c.secondary },
 	BufferOffset = { fg = c.secondary },
@@ -302,8 +308,8 @@ hls.editor = {
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                           foo                            │
 	--  ╰──────────────────────────────────────────────────────────╯
+	-- -- ColorColumn = { bg = c.red, fg = c.transparent },
 	-- -- ColorColumn	Used for the columns set with 'colorcolumn'.
-	-- ColorColumn = { bg = theme.ui.bg_p1 },
 	-- -- Conceal		Placeholder characters substituted for concealed text (see 'conceallevel').
 	-- Conceal = { fg = theme.ui.special, bold = true },
 	-- -- CurSearch	Used for highlighting a search pattern under the cursor (see 'hlsearch').
