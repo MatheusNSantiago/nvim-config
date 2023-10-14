@@ -1,19 +1,14 @@
 local M = {}
 
+M.cmd = { 'lua-language-server' }
 M.settings = {
-  Lua = {
-    completion = { callSnippet = "Replace" },
-    diagnostics = {
-      globals = { "vim", "bit", "packer_plugins" },
-    },
-    runtime = {
-      -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-      version = "LuaJIT",
-    },
-    workspace = { checkThirdParty = false },
-    telemetry = { enable = false },
-    -- hint = { enable = false },
-  },
+	Lua = {
+		completion = { callSnippet = 'Replace' },
+		diagnostics = { globals = { 'vim', 'bit', 'packer_plugins' } },
+		runtime = { version = 'LuaJIT' },
+		workspace = { checkThirdParty = false },
+		telemetry = { enable = false },
+	},
 }
 
 return M
