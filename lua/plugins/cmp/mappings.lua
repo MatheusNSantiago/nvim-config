@@ -84,8 +84,8 @@ return function()
         cmp.complete()
       end
     end, { 'i', 'c' }),
-    ['<Tab>'] = cmp.mapping(tab, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 's' }),
+    -- ['<Tab>'] = cmp.mapping(tab, { 'i', 's' }),
+    -- ['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 's' }),
     ['<CR>'] = cmp.mapping(function(fallback)
       local copilot_ok, suggestion = pcall(require, 'copilot.suggestion')
       if copilot_ok and suggestion.is_visible() then
