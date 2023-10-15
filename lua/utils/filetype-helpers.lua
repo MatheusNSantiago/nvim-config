@@ -28,7 +28,7 @@ end
 function M.ftplugin_conf(configs)
   if type(configs) ~= 'table' then return end
   for name, callback in pairs(configs) do
-    local ok, plugin = M.pcall(require, name)
+    local ok, plugin = utils.pcall(require, name)
     if ok then callback(plugin) end
   end
 end
