@@ -15,10 +15,18 @@ M.opt = {
 }
 
 M.mappings = {
-  { 'n', '<leader>r', function() M._run_code() end },
+  { 'n',          '<leader>r',  function() M._run_code() end },
+  { { 'n', 'v' }, '<leader>cl', function() require('comment-box').line(5) end },
+  { { 'n', 'v' }, '<leader>cb', require('comment-box').cbox },
 }
 
 M.plugins = {
+  ['comment-box'] = function(plugin)
+    plugin.setup({
+      box_width = 64, -- width of the boxes
+      line_width = 72, -- width of the lines
+    })
+  end,
   Comment = function(plugin)
     plugin.setup({
       sticky = true,
