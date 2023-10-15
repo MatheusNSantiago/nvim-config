@@ -167,7 +167,6 @@ require('lazy').setup({
 
   setup('dev.flutter-tools'),
   setup('dev.package-info'),
-  setup('dev.cobol'),
   setup('dev.typescript'), -- typescript lsp
   (
     { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/', config = true, lazy = false }),
