@@ -281,7 +281,8 @@ hls.python = {
 hls.cobol = {
 	cobolCalls = { fg = c.yellow, bold = true },
 	cobolParagraph = { fg = c.orange, bold = true },
-	cobolDataLvl = { fg = c.red },
+	CobolDeclA = { fg = c.red },
+	CobolDecl = { fg = c.red },
 }
 
 hls.editor = {
