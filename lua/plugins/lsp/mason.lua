@@ -10,22 +10,22 @@ function M.setup()
 end
 
 function M.config()
-	local mason = require('mason')
+	-- local mason = require('mason')
 	-- local lspconfig = require('lspconfig')
 	-- local mason_lspconfig = require('mason-lspconfig')
 	-- local lsp = require('lsp')
 	-- local mason_null_ls = require('mason-null-ls')
 
-	mason.setup({
-		ui = {
-			border = 'rounded',
-			icons = {
-				package_installed = '✓',
-				package_uninstalled = '✗',
-				package_pending = '⟳',
-			},
-		},
-	})
+	-- mason.setup({
+	-- 	ui = {
+	-- 		border = 'rounded',
+	-- 		icons = {
+	-- 			package_installed = '✓',
+	-- 			package_uninstalled = '✗',
+	-- 			package_pending = '⟳',
+	-- 		},
+	-- 	},
+	-- })
 
 	-- mason_null_ls.setup({
 	-- 	ensure_installed = {
