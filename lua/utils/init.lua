@@ -48,7 +48,7 @@ function M.log(content)
     end
     recursive_log(content)
 
-    vim.api.nvim_echo({ {txt} }, false, {})
+    vim.api.nvim_echo({ { txt } }, false, {})
 end
 
 ---Determine if a value of any type is empty
@@ -126,7 +126,7 @@ end
 ---This function takes a pattern as input and checks if the current line, with a marker indicating the current cursor position, matches the pattern. The marker is represented by the Unicode character '█'.
 ---
 ---@param pattern (string) The pattern to match against the current line.
----@return (boolean) Returns true if the current line matches the pattern, false otherwise.
+---@return boolean: Returns true if the current line matches the pattern, false otherwise.
 function M.currentLineMatches(pattern)
     local col = vim.api.nvim_win_get_cursor(0)[2]
     local cur_line = vim.api.nvim_get_current_line()
