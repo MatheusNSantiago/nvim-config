@@ -87,12 +87,8 @@ end
 function M.get_commom_configs()
 	return {
 		on_attach = M.common_on_attach,
-		-- on_init = M.common_on_init,
-		-- on_exit = M.common_on_exit,
 		capabilities = M.client_capabilities(),
-		flags = {
-			debounce_text_changes = 150,
-		},
+		flags = { debounce_text_changes = 150 },
 	}
 end
 
@@ -110,25 +106,28 @@ function M.get_configs_for(server_name)
 end
 
 function M.setup()
-	local lsp_status_ok, lspconfig = pcall(require, 'lspconfig')
-	if not lsp_status_ok then return end
-
-	local neodev_ok, neodev = pcall(require, 'neodev')                        -- nvim-dap-ui type checking/docs/autocompletion
-	if neodev_ok then
-		neodev.setup({ library = { plugins = { 'nvim-dap-ui' }, types = true } }) -- Atenção: setup neodev BEFORE lspconfig
-	end
-
-	for _, server in ipairs(M.servers) do
-		local config = M.get_configs_for(server)
-
-		local is_server_special = vim.tbl_contains({ 'dart_ls', 'tsserver' }, server)
-		if not is_server_special then
-			lspconfig[server].setup(config) --
-		end
-	end
-
 	require('lspconfig.ui.windows').default_options.border = 'single'
 	require('lsp.handlers').setup() -- Setup LSP handlers
+
+	--- No WSL o mason não vai rodar, então precisamos carregar os LSPs aqui
+	if utils.is_os_running_on_wsl() then
+		local lsp_status_ok, lspconfig = pcall(require, 'lspconfig')
+		if not lsp_status_ok then return end
+
+		local neodev_ok, neodev = pcall(require, 'neodev')                       -- nvim-dap-ui type checking/docs/autocompletion
+		if neodev_ok then
+			neodev.setup({ library = { plugins = { 'nvim-dap-ui' }, types = true } }) -- Atenção: setup neodev BEFORE lspconfig
+		end
+
+		for _, server in ipairs(M.servers) do
+			local config = M.get_configs_for(server)
+
+			local is_server_on_external_plugin = vim.tbl_contains({ 'dart_ls', 'tsserver' }, server)
+			if not is_server_on_external_plugin then
+				lspconfig[server].setup(config) --
+			end
+		end
+	end
 end
 
 return M
