@@ -1,6 +1,6 @@
 local M = {}
 
--- return all tables flattened into one
+--Return all tables flattened into one
 function M.flatten(tbl)
     local result = {}
     for _, sub_table in pairs(tbl) do
@@ -19,24 +19,13 @@ function M.set_hls(highlights)
     end
 end
 
-function M.log(msg, hl, name)
-    name = name or 'Neovim'
-    hl = hl or 'Todo'
-    vim.api.nvim_echo({ { name .. ': ', hl }, { msg } }, true, {})
-end
-
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
 
-function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name }) end
-
-function M.info(msg, name) vim.notify(msg, vim.log.levels.INFO, { title = name }) end
-
-function M.log_table(table)
+function M.log(content)
     local txt = ''
 
     local function recursive_log(obj, cnt)
         cnt = cnt or 0
-
         if type(obj) == 'table' then
             txt = txt .. '\n' .. string.rep('\t', cnt) .. '{\n'
             cnt = cnt + 1
@@ -57,32 +46,10 @@ function M.log_table(table)
             txt = txt .. tostring(obj)
         end
     end
-    recursive_log(table)
-    M.log(txt)
+    recursive_log(content)
 
-    -- local function dump(o)
-    --     if type(o) == 'table' then
-    --         local s = '{\n'
-    --         for k, v in pairs(o) do
-    --             if type(k) ~= 'number' then k = '"' .. k .. '"' end
-    --             s = s .. '[' .. k .. '] = ' .. dump(v) .. ',\n'
-    --         end
-    --         return s .. '}'
-    --     else
-    --         return tostring(o)
-    --     end
-    -- end
-    --
-    -- return M.log(dump(table))
+    vim.api.nvim_echo({ {txt} }, false, {})
 end
-
-vim.keymap.set("n", "<leader>r", function ()
-      local foo = vim.lsp.util.make_text_document_params()
-    M.log_table(foo)
-
-end)
-
-function M.isempty(s) return s == nil or s == '' end
 
 ---Determine if a value of any type is empty
 ---@param item any
@@ -97,17 +64,8 @@ function M.falsy(item)
     return item ~= nil
 end
 
-function M.get_buf_option(opt)
-    local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
-    if not status_ok then
-        return nil
-    else
-        return buf_option
-    end
-end
-
---- Convert a list or map of items into a value by iterating all it's fields and transforming
---- them with a callback
+---Convert a list or map of items into a value by iterating all it's fields and transforming
+---them with a callback
 ---@generic T, S
 ---@param callback fun(acc: S, item: T, key: string | number): S
 ---@param list T[]
@@ -142,9 +100,9 @@ function M.map(callback, list)
     end, list, {})
 end
 
---- Call the given function and use `vim.notify` to notify of any errors
---- this function is a wrapper around `xpcall` which allows having a single
---- error handler for all errors
+---Call the given function and use `vim.notify` to notify of any errors
+---this function is a wrapper around `xpcall` which allows having a single
+---error handler for all errors
 ---@param msg string
 ---@param func function
 ---@param ... any
@@ -180,11 +138,16 @@ function M.currentLineMatches(pattern)
     return foo
 end
 
-_G.utils = M
-_G.utils.api = require('utils.api-wrappers')
-_G.utils.icons = require('utils.icons')
+---Checks if the operating system is running on Windows Subsystem for Linux (WSL).
+---@return boolean: True if running on WSL, false otherwise.
+function M.is_os_running_on_wsl() return vim.fn.system('grep Microsoft /proc/version'):len() > 0 end
+
+M.api = require('utils.api-wrappers')
+M.icons = require('utils.icons')
+M.ft_helpers = require('utils.filetype-helpers')
+
 _G.c = require('utils.colors')
-_G.utils.ft_helpers = require('utils.filetype-helpers')
 _G.create_picker = require('plugins.navigation.telescope.picker')
+_G.utils = M
 
 return M
