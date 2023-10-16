@@ -31,22 +31,56 @@ function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name
 
 function M.info(msg, name) vim.notify(msg, vim.log.levels.INFO, { title = name }) end
 
-function M.logTable(table)
-    local function dump(o)
-        if type(o) == 'table' then
-            local s = '{\n'
-            for k, v in pairs(o) do
-                if type(k) ~= 'number' then k = '"' .. k .. '"' end
-                s = s .. '[' .. k .. '] = ' .. dump(v) .. ',\n'
+function M.log_table(table)
+    local txt = ''
+
+    local function recursive_log(obj, cnt)
+        cnt = cnt or 0
+
+        if type(obj) == 'table' then
+            txt = txt .. '\n' .. string.rep('\t', cnt) .. '{\n'
+            cnt = cnt + 1
+
+            for k, v in pairs(obj) do
+                if type(k) == 'string' then txt = txt .. string.rep('\t', cnt) .. '["' .. k .. '"]' .. ' = ' end
+                if type(k) == 'number' then txt = txt .. string.rep('\t', cnt) .. '[' .. k .. ']' .. ' = ' end
+
+                recursive_log(v, cnt)
+                txt = txt .. ',\n'
             end
-            return s .. '}'
+
+            cnt = cnt - 1
+            txt = txt .. string.rep('\t', cnt) .. '}'
+        elseif type(obj) == 'string' then
+            txt = txt .. string.format('%q', obj)
         else
-            return tostring(o)
+            txt = txt .. tostring(obj)
         end
     end
+    recursive_log(table)
+    M.log(txt)
 
-    return M.log(dump(table))
+    -- local function dump(o)
+    --     if type(o) == 'table' then
+    --         local s = '{\n'
+    --         for k, v in pairs(o) do
+    --             if type(k) ~= 'number' then k = '"' .. k .. '"' end
+    --             s = s .. '[' .. k .. '] = ' .. dump(v) .. ',\n'
+    --         end
+    --         return s .. '}'
+    --     else
+    --         return tostring(o)
+    --     end
+    -- end
+    --
+    -- return M.log(dump(table))
 end
+
+vim.keymap.set("n", "<leader>r", function ()
+      local foo = vim.lsp.util.make_text_document_params()
+    M.log_table(foo)
+
+end)
 
 function M.isempty(s) return s == nil or s == '' end
 

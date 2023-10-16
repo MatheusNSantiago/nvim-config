@@ -1,5 +1,4 @@
 {
-  "COBOL.vim": { "branch": "master", "commit": "47cb2460f3cb902a5e9d2b1a0fa36a3c075660af" },
   "Comment.nvim": { "branch": "master", "commit": "0236521ea582747b58869cb72f70ccfa967d2e89" },
   "LuaSnip": { "branch": "master", "commit": "0df29db3543837f8b41597f2640397c5ec792b7b" },
   "awesome-flutter-snippets": { "branch": "master", "commit": "48d4b8ba44dc0133c2299d9d810eceb5efa441a7" },

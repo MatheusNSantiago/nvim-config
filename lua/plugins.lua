@@ -26,7 +26,7 @@ require('lazy').setup({
   --  │                          Base                            │
   --  ╰──────────────────────────────────────────────────────────╯
 
-  'nvim-lua/plenary.nvim', -- Common utilities
+  { 'nvim-lua/plenary.nvim',      lazy = true }, -- Common utilities
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                        Interface                         │
@@ -168,12 +168,11 @@ require('lazy').setup({
   setup('dev.flutter-tools'),
   setup('dev.package-info'),
   setup('dev.typescript'), -- typescript lsp
-  (
-    { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/', config = true, lazy = false }),
+  { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/', config = true, lazy = false },
   -- { 'MatheusNSantiago/mychatgpt',         config = true },      -- snippets
-  { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
-  { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
-  { 'Vimjas/vim-python-pep8-indent',      ft = 'python' },      -- Conserta o indent do python
+  { 'Nash0x7E2/awesome-flutter-snippets',                    ft = 'dart' }, -- snippets
+  { 'akinsho/pubspec-assist.nvim',                           config = true, ft = 'yaml' }, -- add/update dart dependencies
+  { 'vimjas/vim-python-pep8-indent',                         ft = 'python' }, -- Conserta o indent do python
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
