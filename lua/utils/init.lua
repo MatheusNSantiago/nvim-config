@@ -149,7 +149,7 @@ end
 
 ---Checks if the operating system is running on Windows Subsystem for Linux (WSL).
 ---@return boolean: True if running on WSL, false otherwise.
-function M.is_os_running_on_wsl() return vim.fn.system('grep Microsoft /proc/version'):len() > 0 end
+function M.is_os_running_on_wsl() return vim.fn.system('grep microsoft /proc/version'):len() > 0 end
 
 M.api = require('utils.api-wrappers')
 M.icons = require('utils.icons')
