@@ -121,6 +121,15 @@ function M.pcall(msg, func, ...)
     end, unpack(args))
 end
 
+---Generates a command string for a plugin.
+---@param plugin string ex: telescope
+---@param cmd string ex: "find_files"
+---@param opts string? (optional) ex: { cwd_only = true }
+---@return string: The generated command string.
+function M.generate_plugin_command_string(plugin, cmd, opts)
+    return ':lua require("' .. plugin .. '").' .. cmd .. '(' .. (opts or '') .. ')<CR>'
+end
+
 ---Checks if the current line matches a given pattern.
 ---
 ---This function takes a pattern as input and checks if the current line, with a marker indicating the current cursor position, matches the pattern. The marker is represented by the Unicode character '█'.
