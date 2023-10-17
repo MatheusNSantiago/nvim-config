@@ -11,31 +11,46 @@ function M.setup()
 end
 
 function M.keys()
-	local telescope_ok, telescope = pcall(require, 'telescope')
-	if not telescope_ok then return {} end
+	local gen = utils.generate_plugin_command_string
 
-	local b, e = require('telescope.builtin'), telescope.extensions
-	return {
+	local b, e = 'telescope.builtin', "require('telescope').extensions"
+	local mappings = {
 		-- Builtin
-		{ '<leader>sf',  function() b.find_files() end,                               desc = '[S]earch [F]iles' },
-		{ '<leader>sg',  function() b.live_grep() end,                                desc = '[S]earch by [G]rep' },
-		{ '<leader>s/',  function() b.current_buffer_fuzzy_find() end,                desc = 'Search in file' },
-		{ '<leader>sk',  function() b.keymaps() end,                                  desc = '[S]earch [K]eymaps' },
-		{ '<leader>sof', function() b.oldfiles() end,                                 desc = '[S]earch [O]ld [F]iles' },
-		{ '<leader>sh',  function() b.help_tags() end,                                desc = '[S]earch [H]elp' },
-		{ '<leader>sw',  function() b.grep_string() end,                              desc = '[S]earch [W]ord' },
-		{ '<leader>ss',  function() b.treesitter() end,                               desc = '[S]earch [S]ymbols' },
+		-- { '<leader>sf',  gen(b, 'find_files'),                desc = '[S]earch [F]iles' },
+		{ '<leader>sg',  gen(b, 'live_grep'),                 desc = '[S]earch by [G]rep' },
+		{ '<leader>s/',  gen(b, 'current_buffer_fuzzy_find'), desc = 'Search in file' },
+		{ '<leader>sk',  gen(b, 'keymaps'),                   desc = '[S]earch [K]eymaps' },
+		{ '<leader>sof', gen(b, 'oldfiles'),                  desc = '[S]earch [O]ld [F]iles' },
+		{ '<leader>sh',  gen(b, 'help_tags'),                 desc = '[S]earch [H]elp' },
+		{ '<leader>sw',  gen(b, 'grep_string'),               desc = '[S]earch [W]ord' },
+		{ '<leader>ss',  gen(b, 'treesitter'),                desc = '[S]earch [S]ymbols' },
 		-- Extension
-		{ '<leader>sf',  function() e.smart_open.smart_open({ cwd_only = true }) end, desc = '[S]earch [F]iles' },
-		{ '<leader>smf', function() e.media_files.media_files() end,                  desc = '[S]earch [M]edia [F]iles' },
-		{ '<leader>sy',  function() e.neoclip.default() end,                          desc = '[S]earch [Y]anks' },
-		{ '<leader>su',  function() e.undo.undo() end,                                desc = '[S]earch [U]ndos' },
+		{
+			'<leader>sf',
+			':lua ' .. e .. '.smart_open.smart_open({ cwd_only = true })<CR>',
+			desc = '[S]earch [F]iles',
+		},
+		{ '<leader>smf', ':lua ' .. e .. '.media_files.media_files()<CR>', desc = '[S]earch [M]edia [F]iles' },
+		{ '<leader>sy',  ':lua ' .. e .. '.neoclip.default()<CR>',         desc = '[S]earch [Y]anks' },
+		{ '<leader>su',  ':lua ' .. e .. '.undo.undo()<CR>',               desc = '[S]earch [U]ndos' },
 	}
+	-- add silent = true to all mappings
+	for _, mapping in ipairs(mappings) do
+		mapping.silent = true
+	end
+
+	return mappings
 end
 
 function M.config()
 	local telescope = require('telescope')
 	local icons = require('utils.icons')
+
+	-- Por algum motivo, as vezes as keys que eu botei no lazy não funcionam
+	-- Isso aqui é um workaround pra fazer as keympas funcionarem
+	for _, mapping in ipairs(M.keys()) do
+		utils.api.keymap('n', mapping[1], mapping[2], { desc = mapping.desc })
+	end
 
 	-- Custom previewer
 	local previewers = require('telescope.previewers')
