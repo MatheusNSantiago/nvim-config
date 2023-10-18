@@ -19,7 +19,6 @@ function M.config()
   local cmp = require('cmp')
   local types = require('cmp.types.cmp')
   local get_mappings = require('plugins.cmp.mappings')
-
   local lspkind = require('lspkind')
   local luasnip = require('luasnip')
 
@@ -86,12 +85,7 @@ function M.config()
     sorting = {
       priority_weight = 2,
       comparators = {
-        function(entry1, entry2)
-          local is_wsl = utils.is_os_running_on_wsl()
-          if not is_wsl then
-            return require('copilot_cmp.comparators').prioritize(entry1, entry2) --
-          end
-        end,
+        (utils.is_os_running_on_wsl() and require('copilot_cmp.comparators').prioritize) or nil,
         require('plugins.cmp.utils.comparators').prioritizeVariables,
         require('cmp-under-comparator').under,
         cmp.config.compare.score,
