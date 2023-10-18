@@ -11,8 +11,7 @@ M.indent = function()
 
   M.add_new_line()
 
-  -- Add the correct indentation
-  lsp.tree_wrapper(function(tree)
+  lsp.tree_provider(function(tree)
     local is_cursor_in_procedure_division = M.is_cursor_in_node('PROCEDURE DIVISION', tree)
     local has_7_spaces_before_char = M.blanklines_util_char() == 7
 

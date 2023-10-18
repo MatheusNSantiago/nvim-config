@@ -22,7 +22,7 @@ M.search_node = function(name, node)
 end
 
 ---@param callback fun(tree: Node): any
-M.tree_wrapper = function(callback)
+M.tree_provider = function(callback)
   local client = M._get_client()
 
     client.request(
