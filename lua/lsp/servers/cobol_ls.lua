@@ -1,5 +1,12 @@
 local lsp = require('lsp')
-local M = {}
+
+local M = {
+	filetypes = { 'cobol' },
+	on_attach = lsp.common_on_attach,
+	capabilities = lsp.client_capabilities(),
+	root_dir = require('lspconfig.util').find_git_ancestor,
+	single_file_support = true,
+}
 
 M.cmd = function(dispatcher)
 	local lsp_path = '~/Documents/Programming/nvim-plugins/CobolLSP/extension/server/native/server-linux'
@@ -13,9 +20,5 @@ M.cmd = function(dispatcher)
 
 	return lsp_rpc_client_factory(dispatcher)
 end
-
-M.filetypes = { 'cobol' }
-M.on_attach = lsp.common_on_attach
-M.capabilities = lsp.client_capabilities()
 
 return M
