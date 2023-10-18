@@ -44,7 +44,7 @@ function M.config()
 
 	mason_lspconfig.setup({
 		ensure_installed = vim.tbl_filter(function(server)
-			local custom_lsps = { 'dart_ls', 'cobol_ls' }
+			local custom_lsps = { 'tsserver', 'dart_ls', 'cobol_ls' }
 			local is_custom_lsp = vim.tbl_contains(custom_lsps, server)
 			return not is_custom_lsp
 		end, lsp.servers),
@@ -64,27 +64,11 @@ function M.config()
 			local config = lsp.get_configs_for(server_name)
 			lspconfig[server_name].setup(config)
 		end,
-		-- Custom handlers
-		['lua_ls'] = function()
-			local config = lsp.get_configs_for('lua_ls')
-
-			lspconfig['lua_ls'].setup(config)
-		end,
-		['tsserver'] = function()
-			local config = require('lsp').get_configs_for('tsserver')
-
-			local ts_ok, ts = pcall(require, 'typescript')
-			if not ts_ok then return end
-			ts.setup({
-				disable_commands = false, -- prevent the plugin from creating Vim commands
-				debug = false,        -- enable debug logging for commands
-				go_to_source_definition = {
-					fallback = true,    -- fall back to standard LSP definition on failure
-				},
-				server = config,
-			})
-		end,
 	})
+
+	local cobol_cfg = lsp.get_configs_for('cobol_ls')
+	lspconfig["cobol_ls"].setup(cobol_cfg)
+
 	require('lspconfig.ui.windows').default_options.border = 'single'
 end
 
