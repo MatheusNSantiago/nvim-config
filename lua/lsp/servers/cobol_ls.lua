@@ -1,9 +1,12 @@
-local lsp= require('lsp')
+local lsp = require('lsp')
 local M = {}
 
-
 M.cmd = function(dispatcher)
-	vim.cmd('silent !~/Documents/Programming/nvim-plugins/CobolLSP/extension/server/native/server-linux &')
+	local lsp_path = '~/Documents/Programming/nvim-plugins/CobolLSP/extension/server/native/server-linux'
+	local params =
+	[[-pipeEnabled --Dline.separator=\r\n Dlogback.statusListenerClass=ch.qos.logback.core.status.NopStatusListener DserverType=NATIVE]]
+
+	vim.cmd(('silent !%s %s &'):format(lsp_path, params))
 
 	os.execute('sleep 0.1')
 	local lsp_rpc_client_factory = vim.lsp.rpc.connect('127.0.0.1', 1044)
