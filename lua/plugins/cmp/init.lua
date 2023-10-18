@@ -48,7 +48,6 @@ function M.config()
       {
         name = 'nvim_lsp',
         priority = 1000,
-        -- max_item_count = 10,
         entry_filter = require('plugins.cmp.utils.limit_lsp_types'),
         group_index = 1,
       },
@@ -87,7 +86,12 @@ function M.config()
     sorting = {
       priority_weight = 2,
       comparators = {
-        require('copilot_cmp.comparators').prioritize,
+        function(entry1, entry2)
+          local is_wsl = utils.is_os_running_on_wsl()
+          if not is_wsl then
+            return require('copilot_cmp.comparators').prioritize(entry1, entry2) --
+          end
+        end,
         require('plugins.cmp.utils.comparators').prioritizeVariables,
         require('cmp-under-comparator').under,
         cmp.config.compare.score,
