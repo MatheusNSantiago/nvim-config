@@ -26,7 +26,7 @@ require('lazy').setup({
   --  │                          Base                            │
   --  ╰──────────────────────────────────────────────────────────╯
 
-  { 'nvim-lua/plenary.nvim',      lazy = true }, -- Common utilities
+  { 'nvim-lua/plenary.nvim',                     lazy = true }, -- Common utilities
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                        Interface                         │
