@@ -42,12 +42,14 @@ function M.config()
 		automatic_setup = true, -- Recommended, but optional
 	})
 
+	local lsp_list = vim.tbl_filter(function(server)
+		local custom_lsps = { 'tsserver', 'dart_ls', 'cobol_ls' }
+		local is_custom_lsp = vim.tbl_contains(custom_lsps, server)
+		return not is_custom_lsp
+	end, lsp.servers)
+
 	mason_lspconfig.setup({
-		ensure_installed = vim.tbl_filter(function(server)
-			local custom_lsps = { 'tsserver', 'dart_ls', 'cobol_ls' }
-			local is_custom_lsp = vim.tbl_contains(custom_lsps, server)
-			return not is_custom_lsp
-		end, lsp.servers),
+		ensure_installed = lsp_list,
 		automatic_installation = true,
 	})
 
@@ -59,15 +61,13 @@ function M.config()
 		}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
 	end
 
-	mason_lspconfig.setup_handlers({
-		function(server_name)
-			local config = lsp.get_configs_for(server_name)
-			lspconfig[server_name].setup(config)
-		end,
-	})
+	for _, server in ipairs(lsp_list) do
+		local config = lsp.get_configs_for(server)
+		lspconfig[server].setup(config)
+	end
 
 	local cobol_cfg = lsp.get_configs_for('cobol_ls')
-	lspconfig["cobol_ls"].setup(cobol_cfg)
+	lspconfig['cobol_ls'].setup(cobol_cfg)
 
 	require('lspconfig.ui.windows').default_options.border = 'single'
 end
