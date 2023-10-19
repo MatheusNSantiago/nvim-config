@@ -68,7 +68,7 @@ M._lsp_str_to_num = vim.tbl_add_reverse_lookup({
 })
 
 function M._clean_tree(node, parent)
-  local selection_range = node['selectionRange']
+  local range = node['range']
   local kind = node['kind']
 
   local cleanedNode = {
@@ -77,8 +77,8 @@ function M._clean_tree(node, parent)
     parent = parent,
     children = {},
     range = {
-      start = selection_range['start']['line'],
-      finish = selection_range['end']['line'],
+      start = range['start']['line'],
+      finish = range['end']['line'],
     },
   }
 
