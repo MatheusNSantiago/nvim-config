@@ -25,13 +25,6 @@ M.client_capabilities = function()
 		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers.
 		require('cmp_nvim_lsp').default_capabilities(),
 		{
-			workspace = {
-				-- PERF: didChangeWatchedFiles is too slow.
-				-- TODO: Remove this when https://github.com/neovim/neovim/issues/23291#issuecomment-1686709265 is fixed.
-				didChangeWatchedFiles = { dynamicRegistration = false },
-			},
-		},
-		{
 			textDocument = {
 				foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }, -- Enable folding.
 			},
@@ -75,7 +68,7 @@ function M.common_on_attach(client, bufnr)
 
 	keymap('n', 'gr', ':Lspsaga rename<CR>')
 	keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
-	keymap('n', 'gf', ':Lspsaga lsp_finder<CR>')
+	keymap('n', 'gf', ':Lspsaga finder<CR>')
 
 	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
 	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')           -- Abre a definição em um novo buffer

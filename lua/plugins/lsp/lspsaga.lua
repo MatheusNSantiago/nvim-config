@@ -8,7 +8,7 @@ function M.setup()
       'nvim-tree/nvim-web-devicons',  -- optional
     },
     event = "LspAttach",
-    commit = '4f075452c466df263e69ae142f6659dcf9324bf6',
+    -- commit = '4f075452c466df263e69ae142f6659dcf9324bf6',
     config = M.config,
   }
 end
@@ -87,16 +87,16 @@ function M.config()
       },
     },
     finder = {
-      --percentage
       max_height = 0.5,
       force_max_height = false,
+      default = "ref+imp",
       keys = {
-        jump_to = 'p',
+        shuttle = { '<C-j>', 'p' },
         edit = { 'o', '<CR>' },
         vsplit = 'v',
         split = 'h',
-        tabe = 't',
-        tabnew = 'r',
+        tabnew = 't',
+        tabe = 'r',
         quit = { 'q', '<ESC>' },
         close_in_preview = '<ESC>',
       },
