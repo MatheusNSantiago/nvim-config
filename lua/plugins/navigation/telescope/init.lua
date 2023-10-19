@@ -11,34 +11,38 @@ function M.setup()
 end
 
 function M.keys()
-	local gen = utils.generate_plugin_command_string
+	local telescope_ok, telescope = pcall(require, 'telescope')
+	if not telescope_ok then return {} end
 
-	local b, e = 'telescope.builtin', "require('telescope').extensions"
+	local b, e = require('telescope.builtin'), telescope.extensions
 	local mappings = {
 		-- Builtin
-		-- { '<leader>sf',  gen(b, 'find_files'),                desc = '[S]earch [F]iles' },
-		{ '<leader>sg',  gen(b, 'live_grep'),                 desc = '[S]earch by [G]rep' },
-		{ '<leader>s/',  gen(b, 'current_buffer_fuzzy_find'), desc = 'Search in file' },
-		{ '<leader>sk',  gen(b, 'keymaps'),                   desc = '[S]earch [K]eymaps' },
-		{ '<leader>sof', gen(b, 'oldfiles'),                  desc = '[S]earch [O]ld [F]iles' },
-		{ '<leader>sh',  gen(b, 'help_tags'),                 desc = '[S]earch [H]elp' },
-		{ '<leader>sw',  gen(b, 'grep_string'),               desc = '[S]earch [W]ord' },
-		{ '<leader>ss',  gen(b, 'treesitter'),                desc = '[S]earch [S]ymbols' },
+		{ '<leader>sg',  b.live_grep,                 desc = '[S]earch by [G]rep' },
+		{ '<leader>s/',  b.current_buffer_fuzzy_find, desc = 'Search in file' },
+		{ '<leader>sk',  b.keymaps,                   desc = '[S]earch [K]eymaps' },
+		{ '<leader>sof', b.oldfiles,                  desc = '[S]earch [O]ld [F]iles' },
+		{ '<leader>sh',  b.help_tags,                 desc = '[S]earch [H]elp' },
+		{ '<leader>sw',  b.grep_string,               desc = '[S]earch [W]ord' },
+		{
+			'<leader>sw',
+			function() return b.grep_string({ search = '"' .. utils.get_visual_selection() .. '"' }) end,
+			mode = 'x',
+			desc = '[S]earch [W]ord',
+		},
+		{ '<leader>ss',  b.treesitter,              desc = '[S]earch [S]ymbols' },
 		-- Extension
 		{
 			'<leader>sf',
-			':lua ' .. e .. '.smart_open.smart_open({ cwd_only = true })<CR>',
+			function() e.smart_open.smart_open({ cwd_only = true }) end,
 			desc = '[S]earch [F]iles',
 		},
-		{ '<leader>smf', ':lua ' .. e .. '.media_files.media_files()<CR>', desc = '[S]earch [M]edia [F]iles' },
-		{ '<leader>sy',  ':lua ' .. e .. '.neoclip.default()<CR>',         desc = '[S]earch [Y]anks' },
-		{ '<leader>su',  ':lua ' .. e .. '.undo.undo()<CR>',               desc = '[S]earch [U]ndos' },
+		{ '<leader>smf', e.media_files.media_files, desc = '[S]earch [M]edia [F]iles' },
+		{ '<leader>sy',  e.neoclip.default,         desc = '[S]earch [Y]anks' },
+		{ '<leader>su',  e.undo.undo,               desc = '[S]earch [U]ndos' },
 	}
-	-- add silent = true to all mappings
 	for _, mapping in ipairs(mappings) do
 		mapping.silent = true
 	end
-
 	return mappings
 end
 
@@ -49,7 +53,7 @@ function M.config()
 	-- Por algum motivo, as vezes as keys que eu botei no lazy não funcionam
 	-- Isso aqui é um workaround pra fazer as keympas funcionarem
 	for _, mapping in ipairs(M.keys()) do
-		utils.api.keymap('n', mapping[1], mapping[2], { desc = mapping.desc })
+		utils.api.keymap(mapping.mode or 'n', mapping[1], mapping[2], { desc = mapping.desc })
 	end
 
 	-- Custom previewer
