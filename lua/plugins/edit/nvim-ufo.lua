@@ -35,35 +35,35 @@ function M.config()
   -- │ Custom handler function                                  │
   -- ╰──────────────────────────────────────────────────────────╯
 
-  local handler = function(virtText, lnum, endLnum, width, truncate)
-    local newVirtText = {}
-    local suffix = ('  %d '):format(endLnum - lnum)
-    local sufWidth = vim.fn.strdisplaywidth(suffix)
-    local targetWidth = width - sufWidth
-    local curWidth = 0
+local handler = function(virt_text, start_line, end_line, width, truncate)
+    local new_virt_text = {}
+    local suffix = ('  %d '):format(end_line - start_line)
+    local suf_width = vim.fn.strdisplaywidth(suffix)
+    local target_width = width - suf_width
+    local cur_width = 0
 
-    for _, chunk in ipairs(virtText) do
-      local chunkText = chunk[1]
-      local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-      if targetWidth > curWidth + chunkWidth then
-        table.insert(newVirtText, chunk)
+    for _, chunk in ipairs(virt_text) do
+      local chunk_text = chunk[1]
+      local chunk_width = vim.fn.strdisplaywidth(chunk_text)
+      if target_width > cur_width + chunk_width then
+        table.insert(new_virt_text, chunk)
       else
-        chunkText = truncate(chunkText, targetWidth - curWidth)
-        local hlGroup = chunk[2]
-        table.insert(newVirtText, { chunkText, hlGroup })
-        chunkWidth = vim.fn.strdisplaywidth(chunkText)
+        chunk_text = truncate(chunk_text, target_width - cur_width)
+        local hl_group = chunk[2]
+        table.insert(new_virt_text, { chunk_text, hl_group })
+        chunk_width = vim.fn.strdisplaywidth(chunk_text)
         -- str width returned from truncate() may less than 2nd argument, need padding
-        if curWidth + chunkWidth < targetWidth then
-          suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+        if cur_width + chunk_width < target_width then
+          suffix = suffix .. (' '):rep(target_width - cur_width - chunk_width)
         end
         break
       end
-      curWidth = curWidth + chunkWidth
+      cur_width = cur_width + chunk_width
     end
 
-    table.insert(newVirtText, { suffix, 'MoreMsg' })
+    table.insert(new_virt_text, { suffix, 'MoreMsg' })
 
-    return newVirtText
+    return new_virt_text
   end
 
   -- vim.o.foldcolumn = '1' -- '0' is not bad

@@ -29,4 +29,16 @@ M.cmd = function(dispatcher)
 	return lsp_rpc_client_factory(dispatcher)
 end
 
+M.handlers = {
+	['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
+	['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
+	['textDocument/publishDiagnostics'] = vim.lsp.with(
+		vim.lsp.diagnostic.on_publish_diagnostics,
+		{ virtual_text = true }
+	),
+	['copybook/resolve'] = function(err, result, ctx)
+		return 'file:///home/matheus/Documents/Programming/cobol/copy-books/vendas.cpy'
+	end,
+}
+
 return M
