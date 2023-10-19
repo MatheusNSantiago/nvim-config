@@ -121,15 +121,6 @@ function M.pcall(msg, func, ...)
     end, unpack(args))
 end
 
----Generates a command string for a plugin.
----@param plugin string ex: telescope
----@param cmd string ex: "find_files"
----@param opts string? (optional) ex: { cwd_only = true }
----@return string: The generated command string.
-function M.generate_plugin_command_string(plugin, cmd, opts)
-    return ':lua require("' .. plugin .. '").' .. cmd .. '(' .. (opts or '') .. ')<CR>'
-end
-
 ---Checks if the current line matches a given pattern.
 ---
 ---This function takes a pattern as input and checks if the current line, with a marker indicating the current cursor position, matches the pattern. The marker is represented by the Unicode character '█'.
@@ -150,6 +141,27 @@ end
 ---Checks if the operating system is running on Windows Subsystem for Linux (WSL).
 ---@return boolean: True if running on WSL, false otherwise.
 function M.is_os_running_on_wsl() return vim.fn.system('grep microsoft /proc/version'):len() > 0 end
+
+function M.get_visual_selection()
+	local ESC_FEEDKEY = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
+
+	vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
+	vim.api.nvim_feedkeys('gv', 'x', false)
+	vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
+
+	local _, start_line, start_col = unpack(vim.fn.getpos("'<"))
+	local _, end_line, end_col = unpack(vim.fn.getpos("'>"))
+
+	local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+
+	-- Reduz a primeira/última linha de acordo com start_col/end_col.
+	lines[#lines] = lines[#lines]:sub(1, end_col)
+	lines[1] = lines[1]:sub(start_col)
+	local content = table.concat(lines, '\n')
+
+	return content
+end
+
 
 M.api = require('utils.api-wrappers')
 M.icons = require('utils.icons')
