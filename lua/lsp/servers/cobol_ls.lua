@@ -9,9 +9,17 @@ local M = {
 }
 
 M.cmd = function(dispatcher)
+	local is_wsl = utils.is_os_running_on_wsl()
 	local lsp_path = '~/Documents/Programming/nvim-plugins/CobolLSP/extension/server/native/server-linux'
+
+	if is_wsl then
+		lsp_path =
+		"~/.vscode-server/extensions/broadcommfd.cobol-language-support-2.0.3-linux-x64/server/native/server-linux"
+	end
+
 	local params =
-	[[-pipeEnabled --Dline.separator=\r\n Dlogback.statusListenerClass=ch.qos.logback.core.status.NopStatusListener DserverType=NATIVE]]
+	[[Dline.separator=\r\n Dlogback.statusListenerClass=ch.qos.logback.core.status.NopStatusListener DserverType=NATIVE]]
+	-- [[pipeEnabled Dline.separator=\r\n Dlogback.statusListenerClass=ch.qos.logback.core.status.NopStatusListener DserverType=NATIVE]]
 
 	vim.cmd(('silent !%s %s &'):format(lsp_path, params))
 
