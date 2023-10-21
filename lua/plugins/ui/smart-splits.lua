@@ -1,5 +1,4 @@
 local M = {}
-local keymap = utils.api.keymap
 
 function M.setup()
   return {
@@ -25,8 +24,10 @@ function M.keys()
     { '<C-j>', smart_splits.move_cursor_left, desc = 'smart-splits: move cursor left' },
     { '<C-w>l', smart_splits.move_cursor_right, desc = 'smart-splits: move cursor right' }, -- (auto key = <C-ç>)
 
-    { '<C-A-j>', smart_splits.swap_buf_left, desc = 'smart-splits: swap buffer left' },
-    { '<C-A-ç>', smart_splits.swap_buf_right, desc = 'smart-splits: swap buffer right' },
+    { '<leader>J', smart_splits.swap_buf_left, desc = 'smart-splits: swap buffer left' },
+    { '<leader>Ç', smart_splits.swap_buf_right, desc = 'smart-splits: swap buffer right' },
+    { '<leader>L', smart_splits.swap_buf_up, desc = 'smart-splits: swap buffer up' },
+    { '<leader>K', smart_splits.swap_buf_down, desc = 'smart-splits: swap buffer down' },
   }
 end
 
