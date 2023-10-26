@@ -90,8 +90,9 @@ function M._refresh()
   --                                                                ↓↓↓↓↓↓↓↓↓↓↓
   local lines = api.nvim_buf_get_lines(curbuf, offset, visible_last + debounce, false)
   local rep = string.rep(' ', vim.opt.tabstop:get())
-  local char = '▕'
-  local priority = 10
+  -- local char = '▕'
+  local char = '¦'
+  local priority = 100
 
   local line, lnum, strwidth
   for idx = 1, #lines do
