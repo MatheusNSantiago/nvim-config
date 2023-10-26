@@ -27,7 +27,7 @@ function M.setup()
     end,
   }, {
     event = 'ColorScheme',
-    command = function() api.nvim_set_hl(0, 'VirtColumn', { fg = c.blue, default = true }) end,
+    command = function() api.nvim_set_hl(0, 'VirtColumn', { fg = '#3b4261', default = true }) end,
   })
 end
 
@@ -90,9 +90,8 @@ function M._refresh()
   --                                                                ↓↓↓↓↓↓↓↓↓↓↓
   local lines = api.nvim_buf_get_lines(curbuf, offset, visible_last + debounce, false)
   local rep = string.rep(' ', vim.opt.tabstop:get())
-  -- local char = '▕'
-  local char = '¦'
-  local priority = 100
+  local char = '┊'
+  local priority = 10
 
   local line, lnum, strwidth
   for idx = 1, #lines do
@@ -114,7 +113,7 @@ function M._refresh()
 end
 
 function M.refresh(args)
-  -- Avoid unnecessary refreshing as much as possible lcoallfdafffadf
+  -- Avoid unnecessary refreshing as much as possible
   local winscrolled_timer
   local textchanged_timer
   ---@type string
