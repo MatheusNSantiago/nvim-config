@@ -33,6 +33,18 @@ end
 function M.config()
   local ts = require('nvim-treesitter.configs')
 
+  local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+  parser_config.cobol = {
+    install_info = {
+      url = '~/Documents/Programming/cobol/tree-sitter-cobol/', -- local path or git repo
+      files = {
+        'src/parser.c',
+        'src/scanner.c',
+      }, -- note that some parsers also require src/scanner.c or src/scanner.cc
+    },
+    filetype = 'cobol',
+  }
+
   ts.setup({
     ensure_installed = {
       'vim',
