@@ -11,6 +11,10 @@ end
 function M.keys()
   local is_installed, smart_splits = pcall(require, 'smart-splits')
   if not is_installed then return end
+
+  local is_wsl = utils.is_os_running_on_wsl()
+  local keymap_cursor_right = is_wsl and '<C-M-A>' or '<C-w>l'
+
   return {
     -- resizing splits
     { '<C-S-A-i>', smart_splits.resize_up, desc = 'smart-splits: resize up' }, -- (autokey = <C-S-A-l>)
@@ -22,8 +26,7 @@ function M.keys()
     { '<C-l>', smart_splits.move_cursor_up, desc = 'smart-splits: move cursor up' },
     { '<C-k>', smart_splits.move_cursor_down, desc = 'smart-splits: move cursor down' },
     { '<C-j>', smart_splits.move_cursor_left, desc = 'smart-splits: move cursor left' },
-    { '<C-w>l', smart_splits.move_cursor_right, desc = 'smart-splits: move cursor right' }, -- (auto key = <C-ç>)
-
+    { keymap_cursor_right, smart_splits.move_cursor_right, desc = 'smart-splits: move cursor right' }, -- (auto key = <C-ç>)
     { '<leader>J', smart_splits.swap_buf_left, desc = 'smart-splits: swap buffer left' },
     { '<leader>Ç', smart_splits.swap_buf_right, desc = 'smart-splits: swap buffer right' },
     { '<leader>L', smart_splits.swap_buf_up, desc = 'smart-splits: swap buffer up' },
