@@ -32,15 +32,17 @@ end
 
 function M.config()
   local ts = require('nvim-treesitter.configs')
-
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+
+  local cobol_parser_path = '~/Documents/Programming/cobol/tree-sitter-cobol/'
+  if utils.is_os_running_on_wsl() then
+    cobol_parser_path = '~/cobol/ts_cobol/'
+  end
+
   parser_config.cobol = {
     install_info = {
-      url = '~/Documents/Programming/cobol/tree-sitter-cobol/', -- local path or git repo
-      files = {
-        'src/parser.c',
-        'src/scanner.c',
-      }, -- note that some parsers also require src/scanner.c or src/scanner.cc
+      url = cobol_parser_path,
+      files = { 'src/parser.c', 'src/scanner.c' },
     },
     filetype = 'cobol',
   }
