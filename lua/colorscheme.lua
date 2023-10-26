@@ -10,7 +10,7 @@ hls.syntax = {
 	Todo = { fg = c.comments },
 	Constant = { fg = c.cyan, bold = true },
 	String = { fg = c.green },
-	Identifier = { fg = c.yellow },
+	Identifier = { fg = 'None' },
 	Type = { fg = c.purple },
 	TypeDef = { fg = c.yellow },
 	Function = { fg = c.yellow },
@@ -47,8 +47,8 @@ hls.lsp = {
 	-- ["@lsp.type.type"] = { link = "Type" },
 	['@lsp.type.type'] = { link = 'TypeDef' },
 	['@lsp.type.typeParameter'] = { link = 'TypeDef' },
-	['@lsp.type.variable'] = { fg = 'none' }, -- Identifier
-	['@lsp.type.comment'] = { fg = 'none' }, -- Comment
+	['@lsp.type.variable'] = { link = 'Identifier' }, -- Identifier
+	['@lsp.type.comment'] = { fg = 'none' },         -- Comment
 	['@lsp.type.selfParameter'] = { link = '@variable.builtin' },
 	-- ["@lsp.type.builtinConstant"] = { link = "@constant.builtin" },
 	['@lsp.type.builtinConstant'] = { link = '@constant.builtin' },
@@ -279,6 +279,16 @@ hls.python = {
 }
 
 hls.cobol = {
+	['@division.cobol'] = { fg = c.purple, bold = true, underline = true },
+	['@section.cobol'] = { fg = c.orange, bold = true },
+	['@paragraph.cobol'] = { fg = c.white },
+
+	['@constant.cobol'] = { fg = c.cyan },
+	['@variable.cobol'] = { fg = c.cyan },
+	['@keyword.cobol'] = { link = 'Keyword' },
+
+	['@picture_level.cobol'] = { fg = c.red },
+
 	cobolCalls = { fg = c.yellow, bold = true },
 	cobolParagraph = { fg = c.orange, bold = true },
 	CobolDeclA = { fg = c.red },
