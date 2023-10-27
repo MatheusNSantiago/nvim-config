@@ -1,7 +1,7 @@
 local ts = vim.treesitter
 local M = {
   NS = vim.api.nvim_create_namespace('chunk'),
-  shiftwidth = 3,
+  shiftwidth = 2,
 }
 
 function M.render()
@@ -12,6 +12,13 @@ function M.render()
   local beg_row, end_row = unpack(chunk_info.range)
   local beg_blank_len = vim.fn.indent(beg_row)
   local end_blank_len = vim.fn.indent(end_row)
+
+
+  local is_end_invalid = end_blank_len == -1
+  if is_end_invalid then
+    end_blank_len = beg_blank_len - 1
+    end_row = end_row - 1
+  end
 
   local start_col = math.max(math.min(beg_blank_len, end_blank_len) - M.shiftwidth, 0)
   local offset = vim.fn.winsaveview().leftcol
@@ -51,6 +58,7 @@ function M.render()
       local utfBeg = vim.str_byteindex(end_virt_text, byte_idx)
       end_virt_text = end_virt_text:sub(utfBeg + 1)
     end
+
     row_opts.virt_text = { { end_virt_text, text_hl } }
     row_opts.virt_text_win_col = math.max(start_col - offset, 0)
     vim.api.nvim_buf_set_extmark(0, M.NS, end_row - 1, 0, row_opts)
