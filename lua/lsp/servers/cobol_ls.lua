@@ -23,7 +23,7 @@ M.cmd = function(dispatchers)
 
 	vim.cmd(('silent !%s %s &'):format(lsp_path, params))
 
-	os.execute('sleep 0.2')
+	os.execute('sleep 0.5')
 	local lsp_rpc_client_factory = vim.lsp.rpc.connect('127.0.0.1', 1044)
 
 	return lsp_rpc_client_factory(dispatchers)

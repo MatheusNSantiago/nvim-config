@@ -8,7 +8,7 @@ M.mappings = {
   --   '<leader>r',
   --   function () require('filetypes.cobol.lsp').search_node("PROCEDURE DIVISION") end,
   -- },
-  -- { 'n',          '<leader>r',  function() M.run_code() end },
+  { 'n',          '<leader>r',  function() M.run_code() end },
   { 'n',          '<leader>cl', function() comment_box.line(5) end },
   { 'n',          '<leader>cd', function() M.add_division_comment() end },
   { { 'n', 'v' }, '<leader>cb', function() comment_box.cbox() end },

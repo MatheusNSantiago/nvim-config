@@ -66,8 +66,8 @@ function M.config()
 		lspconfig[server].setup(config)
 	end
 
-	local cobol_cfg = lsp.get_configs_for('cobol_ls')
-	lspconfig['cobol_ls'].setup(cobol_cfg)
+	-- local cobol_cfg = lsp.get_configs_for('cobol_ls')
+	-- lspconfig['cobol_ls'].setup(cobol_cfg)
 
 	require('lspconfig.ui.windows').default_options.border = 'single'
 end
