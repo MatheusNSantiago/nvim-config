@@ -3,14 +3,14 @@
 ( _ paragraph: ( _ name: (_)  @paragraph ))
 
 (comment) @comment
-
-(program_id name: (identifier) @identifier)
-(author name: (identifier) @identifier)
+(identifier) @identifier
 
 [
 "PROGRAM-ID."
 "AUTHOR."
 ] @paragraph
+
+( _ procedure: (identifier) @function )
 
 ; ╭──────────────────────────────────────────────────────────╮
 ; │                         Picture                          │
@@ -18,7 +18,12 @@
 
 ( _
   picture_level: (picture_level) @picture_level
-  picture_name:  (picture_name) @variable
+  picture_name: (picture_name) @variable
+  picture_type: (_)? @paragraph
+  picture_value: [
+        (picture_value_numeric) @Number
+        (picture_value_alphanumeric) @String
+  ]?
 )
 
 ; ╭──────────────────────────────────────────────────────────╮
@@ -57,9 +62,13 @@
 "END-WRITE"
 "EQUAL"
 "EVALUATE"
+"END-EVALUATE"
+"EXEC"
+"END-EXEC"
 "EXIT"
 "FALSE"
 "FD"
+"FILLER"
 "FOR"
 "FROM"
 "GO"
@@ -86,6 +95,8 @@
 "REDEFINES"
 "THRU"
 "SUBTRACT"
+"STOP"
+"RUN"
 "SUM"
 "THAN"
 "THEN"
@@ -248,8 +259,6 @@
 ; END-DELETE
 ; END-DISPLAY
 ; END-DIVIDE
-; END-EVALUATE
-; END-EXEC
 ; END-INVOKE
 ; END-JSON
 ; END-MULTIPLY
@@ -274,13 +283,11 @@
 ; EVERY
 ; EXCEPTION
 ; EXCEPTION-OBJECT
-; EXEC
 ; EXECUTE
 ; EXTEND
 ; EXTERNAL
 ; FACTORY
 ; FILE-CONTROL
-; FILLER
 ; FINAL
 ; FIRST
 ; FLOAT-EXTENDED
@@ -450,7 +457,6 @@
 ; RH
 ; RIGHT
 ; ROUNDED
-; RUN
 ; SAME
 ; SCREEN
 ; SD
@@ -491,7 +497,6 @@
 ; STANDARD-2
 ; START
 ; STATUS
-; STOP
 ; STRING
 ; SUB-QUEUE-1
 ; SUB-QUEUE-2
