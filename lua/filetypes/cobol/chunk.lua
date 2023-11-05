@@ -2,6 +2,7 @@ local ts = vim.treesitter
 local M = {
   NS = vim.api.nvim_create_namespace('chunk'),
   shiftwidth = 2,
+  priority = 100,
 }
 
 function M.render()
@@ -12,7 +13,6 @@ function M.render()
   local beg_row, end_row = unpack(chunk_info.range)
   local beg_blank_len = vim.fn.indent(beg_row)
   local end_blank_len = vim.fn.indent(end_row)
-
 
   local is_end_invalid = end_blank_len == -1
   if is_end_invalid then
@@ -26,7 +26,7 @@ function M.render()
   local row_opts = {
     virt_text_pos = 'overlay',
     hl_mode = 'combine',
-    priority = 100,
+    priority = M.priority,
   }
 
   -- render beg_row
@@ -93,11 +93,13 @@ function M.get_chunk_info()
 
     if (node_start ~= node_end) and M.is_chunk(node_type) then
       local chunk_type = node_type:match('_(%w+)$')
+      local end_offset = M._calculate_node_end_offset(node_end)
+
       return {
         type = chunk_type,
         range = {
           node_start + 1,
-          node_end + 1 + 1, -- adiciona 1 pq eu quero que inclua a próxima divisão (que não é parte do chunk)
+          node_end + 1 + end_offset,
         },
       }
     end
@@ -105,6 +107,17 @@ function M.get_chunk_info()
   end
 
   return nil
+end
+
+--- Por algum motivo, quando tem comentário no final do node, ele esquece de
+--- contar com o offset do último comentário (=1).
+function M._calculate_node_end_offset(node_end)
+  local offset = 0
+  -- se o próximo nó for um comentário, adiciona + 1 no offset
+  local line = vim.fn.getline(node_end)
+  if line:find('^      %*') then offset = 1 end
+
+  return offset
 end
 
 function M.is_chunk(node_type)
