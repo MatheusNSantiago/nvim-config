@@ -15,7 +15,6 @@ hls.syntax = {
 	TypeDef = { fg = c.yellow },
 	Function = { fg = c.yellow },
 	Statement = { fg = c.purple },
-	-- Operator = { fg = c.purple },
 	Operator = { fg = c.red },
 	WarningMsg = { fg = c.orange },
 	PreProc = { fg = c.purple },
@@ -26,7 +25,6 @@ hls.syntax = {
 	Include = { fg = c.purple },
 	Macro = { fg = c.purple },
 	Structure = { fg = c.red },
-	-- Structure = { fg = c.yellow },
 	Underlined = { fg = 'None' },
 	Error = { fg = c.red, underline = true },
 }
@@ -283,11 +281,11 @@ hls.cobol = {
 	['@section.cobol'] = { fg = c.orange, bold = true },
 	['@paragraph.cobol'] = { fg = c.white },
 
-	['@constant.cobol'] = { fg = c.cyan },
-	['@variable.cobol'] = { fg = c.cyan },
+	['@constant.cobol'] = { link = "Constant" },
+	['@variable.cobol'] = { link = "@variable" },
 	['@keyword.cobol'] = { link = 'Keyword' },
 
-	['@picture_level.cobol'] = { fg = c.red },
+	['@level_number.cobol'] = { fg = c.red },
 
 	cobolCalls = { fg = c.yellow, bold = true },
 	cobolParagraph = { fg = c.orange, bold = true },
