@@ -143,31 +143,46 @@ end
 function M.is_os_running_on_wsl() return vim.fn.system('grep microsoft /proc/version'):len() > 0 end
 
 function M.get_visual_selection()
-	local ESC_FEEDKEY = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
+    local ESC_FEEDKEY = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
 
-	vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
-	vim.api.nvim_feedkeys('gv', 'x', false)
-	vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
+    vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
+    vim.api.nvim_feedkeys('gv', 'x', false)
+    vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
 
-	local _, start_line, start_col = unpack(vim.fn.getpos("'<"))
-	local _, end_line, end_col = unpack(vim.fn.getpos("'>"))
+    local _, start_line, start_col = unpack(vim.fn.getpos("'<"))
+    local _, end_line, end_col = unpack(vim.fn.getpos("'>"))
 
-	local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+    local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
 
-	-- Reduz a primeira/última linha de acordo com start_col/end_col.
-	lines[#lines] = lines[#lines]:sub(1, end_col)
-	lines[1] = lines[1]:sub(start_col)
-	local content = table.concat(lines, '\n')
+    -- Reduz a primeira/última linha de acordo com start_col/end_col.
+    lines[#lines] = lines[#lines]:sub(1, end_col)
+    lines[1] = lines[1]:sub(start_col)
+    local content = table.concat(lines, '\n')
 
-	return content
+    return content
 end
 
+---Restringe a execução de uma função a um intervalo de tempo definido.
+---@param func function: A função a ser limitada.
+---@param delay number: O tempo mínimo, em milissegundos, para esperar entre as execuções da função.
+---@return function: Uma nova função que envolve a função original com lógica de limitação.
+function M.throttle(func, delay)
+    local lastExecuted = 0
+    return function(...)
+        local now = vim.loop.now()
+        if (now - lastExecuted) >= delay then
+            func(...)
+            lastExecuted = now
+        end
+    end
+end
 
 M.api = require('utils.api-wrappers')
 M.icons = require('utils.icons')
 M.ft_helpers = require('utils.filetype-helpers')
 
 _G.c = require('utils.colors')
+_G.log = M.log
 _G.create_picker = require('plugins.navigation.telescope.picker')
 _G.utils = M
 
