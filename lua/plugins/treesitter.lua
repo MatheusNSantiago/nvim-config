@@ -44,6 +44,7 @@ function M.config()
       url = cobol_parser_path,
       files = { 'src/parser.c', 'src/scanner.c' },
     },
+    branch = "master",
     filetype = 'cobol',
   }
 
@@ -87,7 +88,7 @@ function M.config()
         node_decremental = '<BS>',
       },
     },
-    highlight = { enable = true, additional_vim_regex_highlighting = false },
+    highlight = { enable = true, additional_vim_regex_highlighting = true },
     context_commentstring = {
       enable = true,
       enable_autocmd = false,
