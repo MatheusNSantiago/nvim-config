@@ -61,13 +61,15 @@ function M.config()
 		}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
 	end
 
-	for _, server in ipairs(lsp_list) do
+	local setup_lsp = function(server)
 		local config = lsp.get_configs_for(server)
 		lspconfig[server].setup(config)
 	end
 
-	-- local cobol_cfg = lsp.get_configs_for('cobol_ls')
-	-- lspconfig['cobol_ls'].setup(cobol_cfg)
+	for _, server in ipairs(lsp_list) do
+		setup_lsp(server)
+	end
+	setup_lsp('cobol_ls')
 
 	require('lspconfig.ui.windows').default_options.border = 'single'
 end

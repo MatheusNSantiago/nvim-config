@@ -30,19 +30,11 @@ M.cmd = function(dispatchers)
 end
 
 M.handlers = {
-	-- ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
-	-- ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
-	-- ['textDocument/publishDiagnostics'] = vim.lsp.with(
-	-- 	vim.lsp.diagnostic.on_publish_diagnostics,
-	-- 	{ virtual_text = true }
-	-- ),
 	['copybook/resolve'] = function(err, result, ctx)
 		return 'file:///home/matheus/Documents/Programming/cobol/copy-books/vendas.cpy'
 	end,
 }
 
-M.on_attach = function(client, bufnr)
-	lsp.common_on_attach(client, bufnr)
-end
+M.on_attach = function(client, bufnr) lsp.common_on_attach(client, bufnr) end
 
 return M
