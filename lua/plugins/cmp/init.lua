@@ -27,9 +27,9 @@ function M.config()
       expand = function(args)
         local body = args.body
 
-        local isAlreadyInstanced = utils.currentLineMatches('█%s*%(')
+        local is_already_instanced = utils.current_line_matches('█%s*%(')
         -- Imagem que a função é: func(arg1, arg2, arg3)
-        if isAlreadyInstanced then
+        if is_already_instanced then
           -- - Default: `func█(a1, a2, a3)` =Complete=> `doSomething( , , )(a1, a2, a3)`
           -- - Meu: `dosomethi█(a1, a2, a3)` =Complete=> `dosomething(a1, a2, a3)`
           body = args.body:gsub('%b()', '') -- remove tudo entre os parenteses

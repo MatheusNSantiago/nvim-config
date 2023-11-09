@@ -127,7 +127,7 @@ end
 ---
 ---@param pattern (string) The pattern to match against the current line.
 ---@return boolean: Returns true if the current line matches the pattern, false otherwise.
-function M.currentLineMatches(pattern)
+function M.current_line_matches(pattern)
     local col = vim.api.nvim_win_get_cursor(0)[2]
     local cur_line = vim.api.nvim_get_current_line()
 

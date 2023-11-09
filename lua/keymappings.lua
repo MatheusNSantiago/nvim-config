@@ -58,7 +58,7 @@ keymap({ 'n', 'v' }, '<leader>w', ':wa<CR>') -- [W]rite
 -- Copiar a linha horizontalmente
 keymap({ 'n', 'i', 'v' }, '<S-M-l>', ':t-1<CR>')
 keymap({ 'n', 'i', 'v' }, '<S-M-k>', ':t.<CR>')
-keymap('i' , '<S-TAB>', '<C-D>')
+keymap('i', '<S-TAB>', '<C-D>')
 
 keymap('v', '<S-M-l>', "yPgv:'<,'>m '.-1<CR>gv")
 keymap('v', '<S-M-k>', 'yPgv')
