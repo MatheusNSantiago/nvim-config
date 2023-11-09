@@ -25,18 +25,16 @@ end
 M.tree_provider = function(callback)
   local client = M._get_client()
 
-    client.request(
-      'textDocument/documentSymbol',
-      { textDocument = vim.lsp.util.make_text_document_params() },
-      function(_, symbols, _)
-        local tree = symbols[1]
-        tree = M._clean_tree(tree)
-        callback(tree)
-      end
-    )
+  client.request(
+    'textDocument/documentSymbol',
+    { textDocument = vim.lsp.util.make_text_document_params() },
+    function(_, symbols, _)
+      local tree = symbols[1]
+      tree = M._clean_tree(tree)
+      callback(tree)
+    end
+  )
 end
-
-
 
 M._lsp_str_to_num = vim.tbl_add_reverse_lookup({
   File = 1,
@@ -88,7 +86,6 @@ function M._clean_tree(node, parent)
 
   return cleanedNode
 end
-
 
 M._get_client = function()
   local clients = vim.lsp.get_active_clients()
