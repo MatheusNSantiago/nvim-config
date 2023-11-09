@@ -1,16 +1,20 @@
-local U = require('filetypes.cobol.foo.ws_utils')
+local U = require('filetypes.cobol.quick-add.working-storage.utils')
 
-return function()
+---@param name? string: seta o nome (via quick-add)
+return function(name)
   local pattern = U.insert_after_every_char('INDICADORES', '%s*')
-  local line_idx = U.get_first_empty_ws_line_after_pattern(pattern)
+  local first_empty_line_idx = U.get_first_empty_ws_line_after_pattern(pattern)
+  if not first_empty_line_idx then return end
+
+  local has_final_name = name ~= nil
 
   U.use_get_data_description({
     defaults = {
       level = '77',
-      name = 'IND-',
+      name = name or 'IND-',
       type = '9(001)',
     },
-    final = { level = true, name = false, type = true, value = true },
+    is_final = { level = true, name = has_final_name, type = true, value = true },
     callback = function(data)
       local pic_col = 40
 
@@ -35,10 +39,11 @@ return function()
         )
       end
 
-      local cnd_nao = add_cnd('NAO', '0')
-      local cnd_sim = add_cnd('SIM', '1')
-
-      vim.api.nvim_buf_set_lines(0, line_idx - 1, line_idx - 1, false, { indicador, cnd_nao, cnd_sim })
+      U.insert_lines(first_empty_line_idx, {
+        indicador,
+        add_cnd('NAO', '0'),
+        add_cnd('SIM', '1'),
+      })
     end,
   })
 end

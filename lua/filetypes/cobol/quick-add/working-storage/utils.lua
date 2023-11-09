@@ -1,4 +1,4 @@
-local Input = require('filetypes.cobol.foo.input')
+local Input = require('filetypes.cobol.quick-add.input')
 local ts = vim.treesitter
 local M = {}
 
@@ -25,8 +25,9 @@ function M.get_first_empty_ws_line_after_pattern(pattern)
 end
 
 function M.get_working_storage_range()
-  local root = M.get_root()
-  if not root then return end
+  local node = ts.get_node()
+  if not node then return end
+  local root = node:tree():root()
 
   -- go to data_division
   local data_div_node = M.get_child(root, 'data_division')
@@ -37,7 +38,6 @@ function M.get_working_storage_range()
   if not ws_sec_node then return end
 
   local ws_start, _, ws_end, _ = ws_sec_node:range()
-
   return ws_start, ws_end
 end
 
@@ -49,13 +49,6 @@ function M.get_child(node, type)
   end
 end
 
-function M.get_root()
-  local node = ts.get_node()
-  if not node then return end
-
-  return node:tree():root()
-end
-
 ---@class DataDescription
 ---@field level string | nil
 ---@field name string | nil
@@ -65,7 +58,7 @@ end
 ---@class UseGetDataDescOpts
 ---@field callback fun(data: DataDescription)
 ---@field defaults? DataDescription
----@field final? {level: boolean, name: boolean, type: boolean, value: boolean}
+---@field is_final? {level: boolean, name: boolean, type: boolean, value: boolean}
 
 ---@param opts UseGetDataDescOpts
 function M.use_get_data_description(opts)
@@ -103,7 +96,8 @@ function M.use_get_data_description(opts)
         end
       end
 
-      if opts.final[field] then
+      local is_final_field = opts.is_final[field] == true
+      if is_final_field then
         data[field] = d[field]
         if field == 'value' and _opts.callback then _opts.callback(data) end
         return mount_next_field()
@@ -116,7 +110,7 @@ function M.use_get_data_description(opts)
         on_submit = function(value)
           data[field] = value:upper()
           mount_next_field()
-          if _opts.callback then _opts.callback(value) end
+          if _opts.callback then _opts.callback(data) end
         end,
       })
     end
@@ -157,6 +151,29 @@ function M.insert_after_every_char(str, insert)
   end
   return result
 end
+
 function M.spaces(n) return string.rep(' ', n) end
+
+--- Inserts lines into the current buffer at a specified line index.
+--- @param line_idx number: The index of the line where the new lines should be inserted.
+--- @param lines table: A table of strings, each representing a line to be inserted.
+function M.insert_lines(line_idx, lines)
+  vim.api.nvim_buf_set_lines(0, line_idx - 1, line_idx - 1, false, lines) --
+end
+
+---@return string | nil
+function M.get_word_under_cursor()
+  local col = vim.api.nvim_win_get_cursor(0)[2]
+  local cur_line = vim.api.nvim_get_current_line()
+
+  cur_line = cur_line:sub(1, col) .. '█' .. cur_line:sub(col + 1)
+
+  local word_under_cursor = cur_line:match('%W' .. '([A-Za-z0-9-_]+' .. '█' .. '[A-Za-z0-9-_]+)' .. '%W')
+
+  if word_under_cursor then
+    word_under_cursor = word_under_cursor:gsub('█', '')
+    return word_under_cursor
+  end
+end
 
 return M
