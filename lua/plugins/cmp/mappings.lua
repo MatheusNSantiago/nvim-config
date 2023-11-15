@@ -88,15 +88,19 @@ return function()
     ['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 's' }),
     ['<CR>'] = cmp.mapping(function(fallback)
       local copilot_ok, suggestion = pcall(require, 'copilot.suggestion')
-      if copilot_ok and suggestion.is_visible() then
-        suggestion.accept()
-      elseif cmp.visible() then
-        cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }, function()
+
+      local is_copilot_suggestion_visible = copilot_ok and suggestion.is_visible()
+      if is_copilot_suggestion_visible then --
+        return suggestion.accept()
+      end
+
+      if cmp.visible() then
+        return cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }, function()
           if luasnip.expandable() then expand() end
         end)
-      else
-        fallback()
       end
+
+      fallback()
     end, { 'i', 's' }),
 
     ['<ESC>'] = cmp.mapping({
