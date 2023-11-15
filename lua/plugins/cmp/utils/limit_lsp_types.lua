@@ -4,13 +4,10 @@ return function(entry, ctx)
 		local kind = require('cmp.types.lsp').CompletionItemKind[entry:get_kind()]
 		local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
-		local col = vim.api.nvim_win_get_cursor(0)[2]
-		local line = vim.api.nvim_win_get_cursor(0)[1]
-		local prev_line = vim.api.nvim_buf_get_lines(0, line - 2, line - 1, false)[1]
-		local cur_line = vim.api.nvim_get_current_line()
-		-- O cursor fica uma posição a frente do que realmente está
-		-- para pegar o char na posição do cursor verdadeiro, é preciso subtrair 1
-		cur_line = cur_line:sub(1, col) .. '█' .. cur_line:sub(col + 1)
+		local lnum = vim.fn.line('.')
+		local prev_line = vim.fn.getline(lnum - 1)
+
+		local cur_line = utils.get_current_line_with_cursor()
 
 		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 
