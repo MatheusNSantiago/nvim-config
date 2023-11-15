@@ -82,19 +82,19 @@ function M.fold(callback, list, accum)
 end
 
 ---@generic T:table
----@param callback fun(item: T, key: any)
 ---@param list table<any, T>
-function M.foreach(callback, list)
+---@param callback fun(item: T, key: any)
+function M.foreach(list, callback)
     for k, v in pairs(list) do
         callback(v, k)
     end
 end
 
 ---@generic T
----@param callback fun(item: T, key: string | number, list: T[]): T
 ---@param list T[]
+---@param callback fun(item: T, key: string | number, list: T[]): T
 ---@return T[]
-function M.map(callback, list)
+function M.map(list, callback)
     return M.fold(function(accum, v, k)
         accum[#accum + 1] = callback(v, k, accum)
         return accum

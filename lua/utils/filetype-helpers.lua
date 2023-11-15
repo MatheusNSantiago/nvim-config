@@ -10,7 +10,7 @@ local M = {}
 ---@param args {[1]: string, [2]: string, [3]: string, [string]: boolean | integer}[]
 ---@param buf integer
 local function apply_ft_mappings(args, buf)
-  utils.foreach(function(m)
+  utils.foreach(args, function(m)
     assert(m[1] and m[2] and m[3], 'map args must be a table with at least 3 items')
 
     local opts = utils.fold(function(acc, item, key)
@@ -19,7 +19,7 @@ local function apply_ft_mappings(args, buf)
     end, m, { buffer = buf })
 
     utils.api.keymap(m[1], m[2], m[3], opts)
-  end, args)
+  end)
 end
 
 --- A convenience wrapper that calls the ftplugin config for a plugin if it exists
@@ -54,7 +54,7 @@ end
 ---
 --@param map {[string|string[]]: FiletypeSettings | {[integer]: fun(args: AutocmdArgs)}}
 function M.filetype_settings(map)
-  local commands = utils.map(function(settings, ft)
+  local commands = utils.map(map, function(settings, ft)
     ---@diagnostic disable-next-line: param-type-mismatch
     local name = type(ft) == 'string' and ft or table.concat(ft, ',')
 
@@ -64,18 +64,18 @@ function M.filetype_settings(map)
       desc = ('ft settings for %s'):format(name),
       command = function(args)
         vim.schedule(function()
-          utils.foreach(function(value, scope)
+          utils.foreach(settings, function(value, scope)
             if scope == 'commands' then return value() end
             if scope == 'opt' then scope = 'opt_local' end
             if scope == 'mappings' then return apply_ft_mappings(value, args.buf) end
             if scope == 'plugins' then return M.ftplugin_conf(value) end
 
-            utils.foreach(function(setting, option) vim[scope][option] = setting end, value)
-          end, settings)
+            utils.foreach(value, function(setting, option) vim[scope][option] = setting end)
+          end)
         end)
       end,
     }
-  end, map)
+  end)
 
   utils.api.augroup('filetype-settings', unpack(commands))
 end
