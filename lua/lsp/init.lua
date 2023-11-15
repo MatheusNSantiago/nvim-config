@@ -15,6 +15,7 @@ M.servers = {
 	'tsserver',
 	'tailwindcss',
 	'clangd',
+	'jdtls',
 }
 
 ---editor's capabilities + some overrides.
@@ -100,11 +101,55 @@ end
 
 function M.setup()
 	require('lspconfig.ui.windows').default_options.border = 'single'
-	require('lsp.handlers').setup() -- Setup LSP handlers
+	local diagnostics = utils.icons.diagnostics
 
-	--- No WSL o mason não vai rodar, então precisamos carregar os LSPs aqui
-	if not utils.is_os_running_on_wsl() then return end
+	-- Define Signs
+	local signs = {
+		{ name = 'DiagnosticSignError', text = diagnostics.Error },
+		{ name = 'DiagnosticSignWarn',  text = diagnostics.Warning },
+		{ name = 'DiagnosticSignHint',  text = diagnostics.Hint },
+		{ name = 'DiagnosticSignInfo',  text = diagnostics.Information },
+	}
 
+	for _, sign in ipairs(signs) do
+		vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+	end
+
+	-- Diagnostic configuration
+	vim.diagnostic.config({
+		virtual_text = true,
+		-- virtual_text = { spacing = 4, prefix = "●" },
+		-- virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
+		signs = { active = signs },
+		underline = true,
+		update_in_insert = false,
+		severity_sort = true,
+		float = {
+			focusable = true,
+			style = 'minimal',
+			border = 'rounded',
+			source = 'always',
+			header = '',
+			prefix = '',
+			format = function(d)
+				local code = d.code or (d.user_data and d.user_data.lsp.code)
+				if code then return string.format('%s [%s]', d.message, code):gsub('1. ', '') end
+				return d.message
+			end,
+		},
+	})
+
+	-- define handlers
+	local float = { focusable = true, style = 'minimal', border = 'rounded' }
+
+	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float)
+	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
+
+	--- No WSL o mason não funfa, então precisamos setar os LSPs aqui
+	if utils.is_os_running_on_wsl() then M.setup_language_servers() end
+end
+
+M.setup_language_servers = function()
 	local lsp_status_ok, lspconfig = pcall(require, 'lspconfig')
 	if not lsp_status_ok then return end
 
