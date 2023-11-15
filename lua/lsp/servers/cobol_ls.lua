@@ -1,10 +1,11 @@
 local lsp = require('lsp')
 
-local M = {
+
+local  M = {
 	name = 'cobol_ls',
 	filetypes = { 'cobol' },
 	capabilities = lsp.client_capabilities(),
-	root_dir = require('lspconfig.util').find_git_ancestor(),
+	root_dir = lsp.utils.find_root_dir,
 	single_file_support = true,
 }
 
@@ -30,8 +31,17 @@ M.cmd = function(dispatchers)
 end
 
 M.handlers = {
-	['copybook/resolve'] = function(err, result, ctx)
-		return 'file:///home/matheus/Documents/Programming/cobol/copy-books/vendas.cpy'
+	['copybook/resolve'] = function(_, result, _)
+		local uri, name = unpack(result)
+		local path = uri:gsub('file://', '')
+		local filename = name .. '.cpy'
+
+		-- acha o copybook no workspace (diretorio acima do arquivo atual)
+		local parent_dir = vim.fn.fnamemodify(path, ':h')
+		local copybook_path = vim.fn.glob(parent_dir .. '/**/' .. filename)
+		local copybook_uri = 'file://' .. copybook_path
+
+		return copybook_uri
 	end,
 }
 

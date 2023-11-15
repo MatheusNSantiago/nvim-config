@@ -15,7 +15,6 @@ M.servers = {
 	'tsserver',
 	'tailwindcss',
 	'clangd',
-	'jdtls',
 }
 
 ---editor's capabilities + some overrides.
@@ -169,5 +168,7 @@ M.setup_language_servers = function()
 		end
 	end
 end
+
+M.utils = require('lsp.utils')
 
 return M
