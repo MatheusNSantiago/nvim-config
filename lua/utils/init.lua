@@ -1,3 +1,4 @@
+local fn = vim.fn
 local M = {}
 
 --Return all tables flattened into one
@@ -121,26 +122,22 @@ function M.pcall(msg, func, ...)
     end, unpack(args))
 end
 
----Checks if the current line matches a given pattern.
----
----This function takes a pattern as input and checks if the current line, with a marker indicating the current cursor position, matches the pattern. The marker is represented by the Unicode character '█'.
----
+function M.get_current_line_with_cursor()
+    local current_line = fn.getline('.')
+    local col = fn.col('.')
+    return current_line:sub(1, col) .. '█' .. current_line:sub(col + 1)
+end
+
 ---@param pattern (string) The pattern to match against the current line.
 ---@return boolean: Returns true if the current line matches the pattern, false otherwise.
 function M.current_line_matches(pattern)
-    local col = vim.api.nvim_win_get_cursor(0)[2]
-    local cur_line = vim.api.nvim_get_current_line()
-
-    -- The cursor is one position ahead of the actual position
-    -- To get the character at the actual cursor position, we need to subtract 1
-    cur_line = cur_line:sub(1, col) .. '█' .. cur_line:sub(col + 1)
-    local foo = cur_line:match(pattern)
-    return foo
+    local cur_line = M.get_current_line_with_cursor()
+    return cur_line:match(pattern)
 end
 
 ---Checks if the operating system is running on Windows Subsystem for Linux (WSL).
 ---@return boolean: True if running on WSL, false otherwise.
-function M.is_os_running_on_wsl() return vim.fn.system('grep microsoft /proc/version'):len() > 0 end
+function M.is_os_running_on_wsl() return fn.system('grep microsoft /proc/version'):len() > 0 end
 
 function M.get_visual_selection()
     local ESC_FEEDKEY = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
@@ -149,8 +146,8 @@ function M.get_visual_selection()
     vim.api.nvim_feedkeys('gv', 'x', false)
     vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
 
-    local _, start_line, start_col = unpack(vim.fn.getpos("'<"))
-    local _, end_line, end_col = unpack(vim.fn.getpos("'>"))
+    local _, start_line, start_col = unpack(fn.getpos("'<"))
+    local _, end_line, end_col = unpack(fn.getpos("'>"))
 
     local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
 
