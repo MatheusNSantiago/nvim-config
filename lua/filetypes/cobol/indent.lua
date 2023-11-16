@@ -1,5 +1,6 @@
 local fn = vim.fn
 local ts = vim.treesitter
+local U = require('filetypes.cobol.utils')
 local M = {}
 
 ---@return TSNode[]
@@ -63,8 +64,6 @@ local function indent(size)
   end)
 end
 
-local function is_comment(line) return line:match('^      %*') end
-
 local function is_first_relevant_line_after(lnum, pattern)
   local max_lines_above = 5
   for i = 0, max_lines_above + 1, 1 do
@@ -73,7 +72,7 @@ local function is_first_relevant_line_after(lnum, pattern)
     local is_division = line:match(pattern)
     local is_blank = #line == 0
 
-    local is_relevant_line = not (is_comment(line) or is_blank or is_division)
+    local is_relevant_line = not (U.is_comment(line) or is_blank or is_division)
     if is_relevant_line then return false end
     if is_division then return true end
   end
@@ -94,9 +93,8 @@ end
 
 function M.new_indentedline_below()
   local is_cursor_in_proc_div = is_cursor_on_division('procedure')
-  local lnum = fn.line('.')
-  local line = fn.getline(lnum)
-  local line_is_comment = is_comment(line)
+  local lnum, line = fn.line('.'), fn.getline('.')
+  local line_is_comment = U.is_comment(line)
 
   insert_line_below()
 
@@ -117,6 +115,7 @@ function M.new_indentedline_below()
 
   local is_root_of_group = line:match('^%s+01 .+%.$')
   if is_root_of_group then return indent(4) end
+
   -- o indent padrão identa na msm coluna do inicio do comentário, queremos que ele começe
   -- na primeira coluna válida
   if line_is_comment then return indent(1) end
