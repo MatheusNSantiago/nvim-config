@@ -1,10 +1,5 @@
 return {
-  ['comment-box'] = function(plugin)
-    plugin.setup({
-      box_width = 64, -- width of the boxes
-      line_width = 72, -- width of the lines
-    })
-  end,
+  ['comment-box'] = function(plugin) plugin.setup({ box_width = 64, line_width = 64 }) end,
   ['Comment'] = function(plugin)
     plugin.setup({
       sticky = true,
