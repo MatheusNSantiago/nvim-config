@@ -21,19 +21,39 @@ M.search_node = function(name, node)
   return nil
 end
 
+local get_clients = vim.lsp.get_clients or vim.lsp.get_active_clients
+
+local request = function(bufnr, method, params, handler)
+  local clients = get_clients({ bufnr = bufnr, name = 'cobol_ls' })
+  local _, client = next(clients)
+  if not client then
+    utils.warn('No LSP client with name `cobol_ls` available')
+    return
+  end
+
+  local co
+  if not handler then
+    co = coroutine.running()
+    if co then
+      handler = function(err, result, ctx)
+        coroutine.resume(co, err, result, ctx) --
+      end
+    end
+  end
+  client.request(method, params, handler, bufnr)
+  if co then return coroutine.yield() end
+end
+
 ---@param callback fun(tree: Node): any
 M.tree_provider = function(callback)
-  local client = M._get_client()
-
-  client.request(
-    'textDocument/documentSymbol',
-    { textDocument = vim.lsp.util.make_text_document_params() },
-    function(_, symbols, _)
-      local tree = symbols[1]
-      tree = M._clean_tree(tree)
-      callback(tree)
-    end
-  )
+  local params = {
+    textDocument = vim.lsp.util.make_text_document_params(),
+  }
+  request(0, 'textDocument/documentSymbol', params, function(_, result, _)
+    local tree = result[1]
+    tree = M._clean_tree(tree)
+    callback(tree)
+  end)
 end
 
 M._lsp_str_to_num = vim.tbl_add_reverse_lookup({
@@ -85,20 +105,6 @@ function M._clean_tree(node, parent)
   end
 
   return cleanedNode
-end
-
-M._get_client = function()
-  local clients = vim.lsp.get_active_clients()
-  local cobol_ls
-
-  for _, client in ipairs(clients) do
-    if client.name == 'cobol_ls' then
-      cobol_ls = client
-      break
-    end
-  end
-
-  return cobol_ls
 end
 
 return M
