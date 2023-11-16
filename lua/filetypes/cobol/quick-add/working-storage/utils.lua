@@ -1,27 +1,44 @@
 local Input = require('filetypes.cobol.quick-add.input')
+local cobol_utils = require('filetypes.cobol.utils')
 local ts = vim.treesitter
 local M = {}
 
-function M.get_first_empty_ws_line_after_pattern(pattern)
+---@alias  WSCategories "GUARDAS" | "CONTADORES" | "INDICADORES"
+---@param category WSCategories
+function M.get_last_line_for_categorie(category)
+  local pattern = M.insert_after_every_char(category, '%s*')
   local ws_start, ws_end = M.get_working_storage_range()
   if not ws_start or not ws_end then return end
 
   local cursor_line
   for i = ws_start, ws_end do
     local line = vim.fn.getline(i)
-    if line:find(pattern) then cursor_line = i end
+
+    local is_category_heading = line:find(pattern)
+    if is_category_heading then cursor_line = i end
   end
 
-  -- busca pela primeira linha vazia
-  while vim.fn.getline(cursor_line) ~= '' do
-    cursor_line = cursor_line + 1
+  -- coloca cursor na primeira linha após a heading da categoria
+  cursor_line = cursor_line + 2
 
-    if cursor_line > ws_end then
-      print('Não foi possível encontrar uma linha disponível')
-      return
+  while cursor_line <= ws_end do
+    local line = vim.fn.getline(cursor_line)
+
+    local is_empty = line == ''
+    if is_empty then return cursor_line end
+
+    local is_commented = cobol_utils.is_comment(line)
+    if is_commented then
+      local next_line = vim.fn.getline(cursor_line + 1)
+
+      local is_next_line_commented = cobol_utils.is_comment(next_line)
+      if is_next_line_commented then return cursor_line end
     end
+
+    cursor_line = cursor_line + 1
   end
-  return cursor_line
+
+  print('Não foi possível encontrar uma linha disponível')
 end
 
 function M.get_working_storage_range()
