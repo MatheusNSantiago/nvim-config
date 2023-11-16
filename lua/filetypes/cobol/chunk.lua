@@ -5,6 +5,11 @@ local M = {
   priority = 100,
 }
 
+function M.refresh()
+  M.clear()
+  M.render()
+end
+
 function M.render()
   local chunk_info = M.get_chunk_info()
   if not chunk_info then return end
