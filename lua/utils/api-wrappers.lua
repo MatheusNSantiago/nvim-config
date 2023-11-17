@@ -105,4 +105,13 @@ end
 ---@return string
 function M.replace_termcodes(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
 
+---@param keys string
+---@param mode string? defaults to 'n'
+function M.feedkeys(keys, mode)
+	vim.schedule(function()
+		mode = mode or 'n'
+		vim.api.nvim_feedkeys(M.replace_termcodes(keys), mode, false)
+	end)
+end
+
 return M
