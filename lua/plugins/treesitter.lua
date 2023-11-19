@@ -9,23 +9,23 @@ function M.setup()
     config = M.config,
     keys = {
       { '<c-space>', desc = 'Increment selection' },
-      { '<bs>', desc = 'Decrement selection', mode = 'x' },
+      { '<bs>',      desc = 'Decrement selection',                    mode = 'x' },
       -- Text Objects
-      { 'af', desc = 'Around Function', mode = 'x' },
-      { 'if', desc = 'Inner Function', mode = 'x' },
-      { 'ac', desc = 'Around Class', mode = 'x' },
-      { 'ic', desc = 'Inner Class', mode = 'x' },
-      { 'aB', desc = 'Around Block', mode = 'x' },
-      { 'iB', desc = 'Inner Block', mode = 'x' },
+      { 'af',        desc = 'Around Function',                        mode = 'x' },
+      { 'if',        desc = 'Inner Function',                         mode = 'x' },
+      { 'ac',        desc = 'Around Class',                           mode = 'x' },
+      { 'ic',        desc = 'Inner Class',                            mode = 'x' },
+      { 'aB',        desc = 'Around Block',                           mode = 'x' },
+      { 'iB',        desc = 'Inner Block',                            mode = 'x' },
       -- Moving between Text Objects
-      { ']f', desc = 'Mover para o início da próxima função', mode = { 'n', 'x' } },
-      { ']c', desc = 'Mover para o início da próxima classe', mode = { 'n', 'x' } },
-      { '[f', desc = 'Mover para o início da função anterior', mode = { 'n', 'x' } },
-      { '[c', desc = 'Mover para o início da classe anterior', mode = { 'n', 'x' } },
-      { ']F', desc = 'Mover para o final da próxima função', mode = { 'n', 'x' } },
-      { ']C', desc = 'Mover para o final da próxima classe', mode = { 'n', 'x' } },
-      { '[F', desc = 'Mover para o final da função anterior', mode = { 'n', 'x' } },
-      { '[C', desc = 'Mover para o final da classe anterior', mode = { 'n', 'x' } },
+      { ']f',        desc = 'Mover para o início da próxima função',  mode = { 'n', 'x' } },
+      { ']c',        desc = 'Mover para o início da próxima classe',  mode = { 'n', 'x' } },
+      { '[f',        desc = 'Mover para o início da função anterior', mode = { 'n', 'x' } },
+      { '[c',        desc = 'Mover para o início da classe anterior', mode = { 'n', 'x' } },
+      { ']F',        desc = 'Mover para o final da próxima função',   mode = { 'n', 'x' } },
+      { ']C',        desc = 'Mover para o final da próxima classe',   mode = { 'n', 'x' } },
+      { '[F',        desc = 'Mover para o final da função anterior',  mode = { 'n', 'x' } },
+      { '[C',        desc = 'Mover para o final da classe anterior',  mode = { 'n', 'x' } },
     },
   }
 end
@@ -86,7 +86,25 @@ function M.config()
         node_decremental = '<BS>',
       },
     },
-    highlight = { enable = true, additional_vim_regex_highlighting = false },
+    highlight = {
+      enable = true,
+      -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+      -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+      -- the name of the parser)
+      -- list of language that will be disabled
+      -- disable = { 'c', 'rust' },
+      -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+      disable = function(lang, buf)
+        local max_filesize = 70 * 1024 -- 70 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then return true end
+      end,
+      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+      -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+      -- Using this option may slow down your editor, and you may see some duplicate highlights.
+      -- Instead of true it can also be a list of languages
+      additional_vim_regex_highlighting = { 'cobol' },
+    },
     context_commentstring = {
       enable = true,
       enable_autocmd = false,

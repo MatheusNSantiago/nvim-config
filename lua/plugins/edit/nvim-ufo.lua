@@ -31,11 +31,12 @@ function M.keys()
 end
 
 function M.config()
+  local ufo = require('ufo')
   -- ╭──────────────────────────────────────────────────────────╮
   -- │ Custom handler function                                  │
   -- ╰──────────────────────────────────────────────────────────╯
 
-local handler = function(virt_text, start_line, end_line, width, truncate)
+  local handler = function(virt_text, start_line, end_line, width, truncate)
     local new_virt_text = {}
     local suffix = ('  %d '):format(end_line - start_line)
     local suf_width = vim.fn.strdisplaywidth(suffix)
@@ -67,29 +68,38 @@ local handler = function(virt_text, start_line, end_line, width, truncate)
   end
 
   -- vim.o.foldcolumn = '1' -- '0' is not bad
-  vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+  vim.o.foldlevel = 99  -- Using ufo provider need a large value, feel free to decrease the value
   vim.o.foldlevelstart = 99
   vim.o.foldenable = true
 
-  require('ufo').setup({
+  ufo.setup({
     fold_virt_text_handler = handler,
-    -- provider_selector = function(_, filetype, buftype)
-    --   local function handleFallbackException(bufnr, err, providerName)
-    --     if type(err) == 'string' and err:match('UfoFallbackException') then
-    --       return ufo.getFolds(bufnr, providerName)
-    --     else
-    --       return require('promise').reject(err)
-    --     end
-    --   end
-    --
-    --   return (filetype == '' or buftype == 'nofile') and 'indent' -- only use indent until a file is opened
-    --       or function(bufnr)
-    --         return ufo
-    --             .getFolds(bufnr, 'lsp')
-    --             :catch(function(err) return handleFallbackException(bufnr, err, 'treesitter') end)
-    --             :catch(function(err) return handleFallbackException(bufnr, err, 'indent') end)
-    --       end
-    -- end,
+    provider_selector = function(_, filetype, buftype)
+      -- return a table with string elements: 1st is name of main provider, 2nd is fallback
+      -- return a string type: use ufo inner providers
+      -- return a string in a table: like a string type above
+      -- return empty string '': disable any providers
+      -- return `nil`: use default value {'lsp', 'indent'}
+      -- return a function: it will be involved and expected return `UfoFoldingRange[]|Promise`
+      --  ╾───────────────────────────────────────────────────────────────────────────────────╼
+      local function handleFallbackException(bufnr, err, providerName)
+        if type(err) == 'string' and err:match('UfoFallbackException') then
+          return ufo.getFolds(bufnr, providerName)
+        else
+          return require('promise').reject(err)
+        end
+      end
+
+      local is_file_opened = filetype == '' or buftype == 'nofile'
+      if is_file_opened then return 'indent' end -- only use indent until a file is opened
+
+      return function(bufnr)
+        return ufo
+            .getFolds(bufnr, 'lsp')
+            :catch(function(err) return handleFallbackException(bufnr, err, 'treesitter') end)
+            :catch(function(err) return handleFallbackException(bufnr, err, 'indent') end)
+      end
+    end,
   })
 end
 

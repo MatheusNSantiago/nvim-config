@@ -63,8 +63,8 @@ syn cluster cobolCode add=cobolInlineComment
 syn match cobolPreProc '\$.*$' contained containedin=cobolIndicator
 syn match cobolPreProc '^\s*\$.*$'   contained containedin=cobolFormatFree
 
-syn match cobolDebugLine  '\v(%7cD\s*)@<=.*$' contains=ALLBUT,cobolBad
-syn match cobolDebugLine  '^\s*D .*$'  contains=ALL contained containedin=cobolFormatFree
+" syn match cobolDebugLine  '\v(%7cD\s*)@<=.*$' contains=ALLBUT,cobolBad
+" syn match cobolDebugLine  '^\s*D .*$'  contains=ALL contained containedin=cobolFormatFree
 
 " ╭──────────────────────────────────────────────────────────╮
 " │               DIVISION, SECTION, PRAGRAPH                │
@@ -100,7 +100,7 @@ syn cluster cobolCode add=cobolString
 " syn match cobolDataLvl '\%8c\s*\d\?\d\s'
 " syn match cobolDataLvl '\v^\s*\d?\d\s' contained containedin=cobolFormatFree
 
-syn match cobolPic '\v%(PIC\s*)@<=[9AXVSPZ]+(\(\d+\))?'
+" syn match cobolPic '\v%(PIC\s*)@<=[9AXVSPZ]+(\(\d+\))?' " esse regex é muito lento
 syn cluster cobolCode add=cobolPic
 
 " ╭──────────────────────────────────────────────────────────╮
@@ -201,7 +201,7 @@ let b:cobol_syntax_missing_keywords = [ "CONTAINS" ]
 
 " ~ {{{2
 
-syn match cobolBadFree '\v^\s*\d{6}(\w\k*\.)@!' contained containedin=cobolFormatFree
+" syn match cobolBadFree '\v^\s*\d{6}(\w\k*\.)@!' contained containedin=cobolFormatFree
 
 " if b:cobol_legacy_code
 " syn match cobolBad '^\s\{,6}'
@@ -210,46 +210,6 @@ syn match cobolBadFree '\v^\s*\d{6}(\w\k*\.)@!' contained containedin=cobolForma
 syn match cobolTodo		'TODO' contained containedin=.*Comment
 
 syn match cobolSeqNum '.'    contained containedin=cobolSeqNumArea
-
-" ╭──────────────────────────────────────────────────────────╮
-" │                         FOLDING                          │
-" ╰──────────────────────────────────────────────────────────╯
-
-syn region cobolIdDivFold      transparent fold
-      \ start = '\v%(IDENTIFICATION DIVISION)@<=\.'
-      \ end   = '\ze.*DIVISION'
-
-syn region cobolSectionFold    transparent fold
-      \ start = '\v%(SECTION)@<=\.'
-      \ end   = '\ze.*SECTION\.'
-      \ end   = '\ze.*DIVISION'
-
-syn region cobolParagraphFold  transparent fold
-      \ start = '\v%(^%(%(\s|\d){6}.)?\k+)@<=\.$'
-      \ end   = '\ze\v^%(%(\s|\d){6}.)?\k+\.$'
-      \ end   = '\ze.*SECTION\.'
-      \ end   = '\ze.*DIVISION'
-
-
-function! s:foldingTerminated(kw, ...) abort
-  exec 'syntax region cobol_' . a:kw . '_Fold transparent fold'
-        \ . ' start = "\v(<' . a:kw . ')@<=\s' . get(a:, 1, '') . '"'
-        \ . ' skip  = "\v^%(%(\s|\d){6}|\s*)?[*/C].*"'
-        \ . ' end   = "\ze\<END-' . a:kw . '\>"'
-endfunction
-
-call s:foldingTerminated('DELETE')
-call s:foldingTerminated('EVALUATE')
-call s:foldingTerminated('IF')
-call s:foldingTerminated('PERFORM', '\ze\s*UNTIL>')
-call s:foldingTerminated('READ')
-call s:foldingTerminated('REWRITE')
-call s:foldingTerminated('SEARCH', '\ze\s*ALL>')
-call s:foldingTerminated('STRING')
-call s:foldingTerminated('UNSTRING')
-call s:foldingTerminated('WRITE')
-
-syn cluster cobolFolds contains=cobol.*Fold
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                        HIGHLIGHTS                        │
