@@ -177,6 +177,7 @@ end
 M.api = require('utils.api-wrappers')
 M.icons = require('utils.icons')
 M.ft_helpers = require('utils.filetype-helpers')
+M.table = require('utils.table')
 
 _G.c = require('utils.colors')
 _G.log = M.log
