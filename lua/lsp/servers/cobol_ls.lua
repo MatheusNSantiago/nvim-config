@@ -1,12 +1,11 @@
 local lsp = require('lsp')
 
-
-local  M = {
+local M = {
 	name = 'cobol_ls',
 	filetypes = { 'cobol' },
 	capabilities = lsp.client_capabilities(),
 	root_dir = lsp.utils.find_root_dir,
-	single_file_support = true,
+	-- single_file_support = true,
 }
 
 M.cmd = function(dispatchers)
@@ -33,15 +32,22 @@ end
 M.handlers = {
 	['copybook/resolve'] = function(_, result, _)
 		local uri, name = unpack(result)
-		local path = uri:gsub('file://', '')
 		local filename = name .. '.cpy'
+		local path = uri:gsub('file://', '')
 
-		-- acha o copybook no workspace (diretorio acima do arquivo atual)
-		local parent_dir = vim.fn.fnamemodify(path, ':h')
-		local copybook_path = vim.fn.glob(parent_dir .. '/**/' .. filename)
-		local copybook_uri = 'file://' .. copybook_path
+		while path ~= '/' do
+			local parent_dir_path = vim.fn.fnamemodify(path, ':h')
+			local parent_dir_files = vim.fn.readdir(parent_dir_path)
 
-		return copybook_uri
+			if utils.table.contains(parent_dir_files, 'copybook') then
+				local copybook_uri = ('file://%s/copybook/%s'):format(parent_dir_path, filename)
+				return copybook_uri
+			end
+
+			path = parent_dir_path
+		end
+
+		print("Não foi possível encontrar o copybook '" .. filename .. "'")
 	end,
 }
 
