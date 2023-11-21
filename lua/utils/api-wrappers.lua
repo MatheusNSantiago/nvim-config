@@ -114,4 +114,10 @@ function M.feedkeys(keys, mode)
 	end)
 end
 
+---A terser proxy for `nvim_get_hl_by_name`
+function M.get_hl_by_name(name)
+	---@diagnostic disable-next-line: undefined-field
+	return vim.api.nvim_get_hl_by_name(name, false)
+end
+
 return M
