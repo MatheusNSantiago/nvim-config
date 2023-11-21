@@ -15,7 +15,7 @@ end
 
 ---@param name? string: seta o nome (via quick-add)
 return function(name)
-  local first_empty_line_idx = U.get_last_line_for_categorie("CONTADORES")
+  local first_empty_line_idx = U.get_last_line_for_category("CONTADORES")
   if not first_empty_line_idx then return end
 
   local defaults = {

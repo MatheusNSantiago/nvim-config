@@ -5,7 +5,7 @@ local M = {}
 
 ---@alias  WSCategories "GUARDAS" | "CONTADORES" | "INDICADORES"
 ---@param category WSCategories
-function M.get_last_line_for_categorie(category)
+function M.get_last_line_for_category(category)
   local pattern = M.insert_after_every_char(category, '%s*')
   local ws_start, ws_end = M.get_working_storage_range()
   if not ws_start or not ws_end then return end
