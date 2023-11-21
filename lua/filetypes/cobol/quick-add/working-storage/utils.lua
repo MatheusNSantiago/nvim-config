@@ -178,19 +178,4 @@ function M.insert_lines(line_idx, lines)
   vim.api.nvim_buf_set_lines(0, line_idx - 1, line_idx - 1, false, lines) --
 end
 
----@return string | nil
-function M.get_word_under_cursor()
-  local col = vim.api.nvim_win_get_cursor(0)[2]
-  local cur_line = vim.api.nvim_get_current_line()
-
-  cur_line = cur_line:sub(1, col) .. '█' .. cur_line:sub(col + 1)
-
-  local word_under_cursor = cur_line:match('%W' .. '([A-Za-z0-9-_]+' .. '█' .. '[A-Za-z0-9-_]+)' .. '%W')
-
-  if word_under_cursor then
-    word_under_cursor = word_under_cursor:gsub('█', '')
-    return word_under_cursor
-  end
-end
-
 return M
