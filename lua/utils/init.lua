@@ -20,6 +20,7 @@ function M.set_hls(highlights)
     end
 end
 
+function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name }) end
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
 
 function M.log(content)
@@ -177,10 +178,11 @@ end
 M.api = require('utils.api-wrappers')
 M.icons = require('utils.icons')
 M.ft_helpers = require('utils.filetype-helpers')
-M.table = require('utils.table')
 
 _G.c = require('utils.colors')
 _G.log = M.log
+_G.Class = require('utils.class')
+_G.Tbl = require('utils.table')
 _G.create_picker = require('plugins.navigation.telescope.picker')
 _G.utils = M
 
