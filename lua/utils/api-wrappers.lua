@@ -1,3 +1,4 @@
+local api = vim.api
 ----------------------------------------------------------------------------------------------------
 -- API Wrappers
 ----------------------------------------------------------------------------------------------------
@@ -68,11 +69,13 @@ function M.augroup(name, ...)
 	local commands = { ... }
 	assert(name ~= 'User', 'The name of an augroup CANNOT be User')
 	assert(#commands > 0, string.format('You must specify at least one autocommand for %s', name))
-	local id = vim.api.nvim_create_augroup(name, { clear = true })
+
+	local id = api.nvim_create_augroup(name, { clear = true })
 	for _, autocmd in ipairs(commands) do
 		validate_autocmd(name, autocmd)
 		local is_callback = type(autocmd.command) == 'function'
-		vim.api.nvim_create_autocmd(autocmd.event, {
+
+		api.nvim_create_autocmd(autocmd.event, {
 			group = name,
 			pattern = autocmd.pattern,
 			desc = autocmd.desc,
@@ -97,27 +100,30 @@ end
 ---@param opts table?
 function M.command(name, rhs, opts)
 	opts = opts or {}
-	vim.api.nvim_create_user_command(name, rhs, opts)
+	api.nvim_create_user_command(name, rhs, opts)
 end
 
 ---A terser proxy for `nvim_replace_termcodes`
 ---@param str string
 ---@return string
-function M.replace_termcodes(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
+function M.replace_termcodes(str) return api.nvim_replace_termcodes(str, true, true, true) end
 
 ---@param keys string
 ---@param mode string? defaults to 'n'
 function M.feedkeys(keys, mode)
 	vim.schedule(function()
 		mode = mode or 'n'
-		vim.api.nvim_feedkeys(M.replace_termcodes(keys), mode, false)
+		api.nvim_feedkeys(M.replace_termcodes(keys), mode, false)
 	end)
 end
 
 ---A terser proxy for `nvim_get_hl_by_name`
 function M.get_hl_by_name(name)
-	---@diagnostic disable-next-line: undefined-field
-	return vim.api.nvim_get_hl_by_name(name, false)
+	local hl = api.nvim_get_hl(0, {
+		name = name,
+		link = false,
+	})
+	return hl
 end
 
 return M
