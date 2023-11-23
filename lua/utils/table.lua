@@ -19,4 +19,30 @@ function M.contains(table, element)
 	return M.find_first(table, function(e) return e == element end) ~= nil
 end
 
+function M.count(table)
+	local count = 0
+	utils.foreach(table, function() count = count + 1 end)
+	return count
+end
+
+function M.filter(tbl, predicate)
+	local filtered = {}
+	utils.foreach(tbl, function(e)
+		if predicate(e) then table.insert(filtered, e) end
+	end)
+	return filtered
+end
+
+function M.count_occurrences(table, element)
+	local count = 0
+	utils.foreach(table, function(e)
+		if e == element then count = count + 1 end
+	end)
+	return count
+end
+
+function M.any(table, predicate) return M.find_first(table, predicate) ~= nil end
+
+function M.map(table, callback) return vim.tbl_map(callback, table) end
+
 return M
