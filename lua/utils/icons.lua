@@ -7,7 +7,6 @@ M.base = {
 	bigCircle = '  ',
 	bigUnfilledCircle = '  ',
 	bookMark = '  ',
-	boolean = ' 蘒',
 	box = '  ',
 	bug = '',
 	calendar = '  ',
@@ -67,7 +66,6 @@ M.base = {
 	info = '  ',
 	infoOutline = '  ',
 	interface = '  ',
-	key = '  ',
 	keyword = '  ',
 	list = '  ',
 	lock = '  ',
@@ -114,7 +112,6 @@ M.base = {
 	toggleSelected = ' 蘒',
 	trash = '  ',
 	treeDiagram = '  ',
-	typeParameter = '  ',
 	unit = '  ',
 	up_hexagon = '  ',
 	value = '  ',
@@ -300,6 +297,7 @@ M.lspkind = {
 	Snippet = ' ', --"",
 	Constant = '󰏿',
 	Operator = '󰆕 ',
+	Macro = '󰉨 ',
 }
 
 return M
