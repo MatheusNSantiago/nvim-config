@@ -36,7 +36,7 @@ end
 ---@field autocommands? Autocommand[]
 
 ---Define filetype settings in a single place, then creating FileType autocommands from this definition
----@param map { [string[]]: FiletypeSettings }}
+---@param map { [string[] | string ]: FiletypeSettings }
 function M.filetype_settings(map)
   local commands = utils.map(map, function(settings, ft)
     ---@diagnostic disable-next-line: param-type-mismatch

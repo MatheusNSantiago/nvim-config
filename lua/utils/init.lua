@@ -14,13 +14,14 @@ function M.flatten(tbl)
     return result
 end
 
-function M.set_hls(highlights)
+function M.set_hls(highlights, ns)
     for group, hl in pairs(highlights) do
-        vim.api.nvim_set_hl(0, group, hl)
+        vim.api.nvim_set_hl(ns or 0, group, hl)
     end
 end
 
 function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name }) end
+
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
 
 function M.log(content)
@@ -80,15 +81,6 @@ function M.fold(callback, list, accum)
         assert(accum ~= nil, 'The accumulator must be returned on each iteration')
     end
     return accum
-end
-
----@generic T:table
----@param list table<any, T>
----@param callback fun(item: T, key: any)
-function M.foreach(list, callback)
-    for k, v in pairs(list) do
-        callback(v, k)
-    end
 end
 
 ---@generic T
@@ -175,6 +167,22 @@ function M.throttle(func, delay)
     end
 end
 
+---@example:
+---switch(a, {
+---    [1] = function() print("Case 1") end,
+---	   [2] = function()	print("Case 2") end,
+---	   default = function()	print("default") end, <- pode ser omitido
+---})
+---@param param any
+---@param case_table table
+function M.switch(param, case_table)
+    local case = case_table[param]
+    if case then return case() end
+
+    local default = case_table['default']
+    return default and default() or nil
+end
+
 M.api = require('utils.api-wrappers')
 M.icons = require('utils.icons')
 M.ft_helpers = require('utils.filetype-helpers')
@@ -182,7 +190,7 @@ M.ft_helpers = require('utils.filetype-helpers')
 _G.c = require('utils.colors')
 _G.log = M.log
 _G.Class = require('utils.class')
-_G.Tbl = require('utils.table')
+_G.list = require('utils.list')
 _G.create_picker = require('plugins.navigation.telescope.picker')
 _G.utils = M
 
