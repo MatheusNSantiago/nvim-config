@@ -3,11 +3,14 @@
 ( _ paragraph_header: (_) @paragraph )
 
 (comment) @comment
-; (WORD) @identifier
+(WORD) @identifier
 
-; [
-; "PROGRAM-ID"
-; "AUTHOR"
-; ] @paragraph
-;
+((WORD) @constant
+  (#match? @constant "^CTE-.*"))
+
+((WORD) @boolean
+  (#match? @boolean "^CND-.*"))
+
+(call_statement x: (qualified_word (_) @Function) )
+
 (data_description (level_number) @level_number)
