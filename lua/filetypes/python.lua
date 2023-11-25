@@ -1,11 +1,14 @@
+---@type FiletypeSettings
 return {
-    commands = function()
-        create_picker('<leader><leader>o', 'Python Commands', {
+    picker = {
+        keymap = '<leader><leader>o',
+        title = 'Python Commands',
+        actions_tbl = {
             { name = 'Criar venv',           handler = 'python -m venv --upgrade-deps .venv' },
             { name = 'install requirements', handler = 'pip install -r requirements.txt' },
-        })
-    end,
+        },
+    },
     mappings = {
-        { 'n', '<leader>r', [[:w<CR>:TermExec cmd='python "%"'<CR>]], desc = 'python: [R]un' },
+        { 'n', '<leader>rp', [[:w<CR>:TermExec cmd='python "%"'<CR>]], desc = 'python: [R]un [P]rogram' },
     },
 }

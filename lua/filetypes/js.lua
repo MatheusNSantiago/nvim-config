@@ -1,17 +1,26 @@
+---@type FiletypeSettings
 return {
-  commands = function()
-    create_picker(
-      '<leader><leader>o',
-      'JS/TS',
-      {
-        { name = 'npm run dev', handler = 'npm run dev' },
-      } --
-    )
-  end,
+  picker = {
+    '<leader><leader>o',
+    'JS/TS',
+    {
+      { name = 'npm run dev', handler = 'npm run dev' },
+    },
+  },
   mappings = {
-    { 'n', '<leader>r', ":TermExec cmd='tree-sitter generate && tree-sitter parse examples/foo.cbl'<CR>"},
-    { 'n', 'gd', ':TypescriptGoToSourceDefinition<CR>',             desc = 'typescript: go to source definition' },
-    { 'n', 'gD', ':tab split | TypescriptGoToSourceDefinition<CR>', desc = 'typescript: go to source definition' },
+    { 'n', '<leader>r', ":TermExec cmd='tree-sitter generate && tree-sitter parse examples/foo.cbl'<CR>" },
+    {
+      'n',
+      'gd',
+      ':TypescriptGoToSourceDefinition<CR>',
+      desc = 'typescript: go to source definition',
+    },
+    {
+      'n',
+      'gD',
+      ':tab split | TypescriptGoToSourceDefinition<CR>',
+      desc = 'typescript: go to source definition',
+    },
     {
       'n',
       'gV',

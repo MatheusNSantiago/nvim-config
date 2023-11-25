@@ -1,10 +1,8 @@
-local settings = utils.ft_helpers.filetype_settings
-
-settings({
-  python = require('filetypes.python'),
+utils.ft_helpers.filetype_settings({
+  ['python'] = require('filetypes.python'),
   [{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = require('filetypes.js'),
-  c = require('filetypes.c'),
-  cobol = require('filetypes.cobol'),
+  ['c'] = require('filetypes.c'),
+  ['cobol'] = require('filetypes.cobol'),
 })
 
 create_picker('<leader><leader>u', 'Utilities', {
