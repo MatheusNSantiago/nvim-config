@@ -163,10 +163,10 @@ syn keyword cobolReserved  contained  EQUAL GREATER IS LESS NOT
 
 " ╾───────────────────────────────────────────────────────────────────────────────────╼
 
-syn keyword cobolArithmetic   contained  COMPUTE END-COMPUTE ADD END-ADD SUBTRACT END-SUBTRACT MULTIPLY END-MULTIPLY DIVIDE END-DIVIDE
+" syn keyword cobolArithmetic   contained  COMPUTE END-COMPUTE ADD END-ADD SUBTRACT END-SUBTRACT MULTIPLY END-MULTIPLY DIVIDE END-DIVIDE
 syn keyword cobolBoolean      contained  TRUE FALSE
 syn keyword cobolBoolOperator contained  AND OR
-syn keyword cobolCalls        contained  FUNCTION CALL END-CALL CANCEL GOBACK PERFORM END-PERFORM INVOKE END-INVOKE THRU
+" syn keyword cobolCalls        contained  FUNCTION CALL END-CALL CANCEL GOBACK PERFORM END-PERFORM INVOKE END-INVOKE THRU
 
 syn keyword cobolComp         contained  COMP COMP-1 COMP-2 COMP-3 COMP-4 COMP-5
 syn keyword cobolComp         contained  COMPUTATIONAL COMPUTATIONAL-1 COMPUTATIONAL-2 COMPUTATIONAL-3 COMPUTATIONAL-4 COMPUTATIONAL-5
@@ -185,7 +185,6 @@ syn cluster cobolCode add=cobolReserved
       \ add=cobolArithmetic
       \ add=cobolBoolean
       \ add=cobolBoolOperator
-      \ add=cobolCalls
       \ add=cobolComp
       \ add=cobolCompare
       \ add=cobolConditional
@@ -196,6 +195,7 @@ syn cluster cobolCode add=cobolReserved
       \ add=cobolRepeat
       \ add=cobolSort
       \ add=cobolSorting
+      " \ add=cobolCalls
 
 let b:cobol_syntax_missing_keywords = [ "CONTAINS" ]
 
