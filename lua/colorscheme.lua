@@ -278,19 +278,15 @@ hls.python = {
 
 hls.cobol = {
 	['@division.cobol'] = { fg = c.purple, bold = true, underline = true },
-	['@section.cobol'] = { fg = c.orange, bold = true },
+	['@section.cobol'] = { fg = c.lime },
 	['@paragraph.cobol'] = { fg = c.white },
+	['@identifier.cobol'] = { fg = c.ice },
 
-	['@constant.cobol'] = { link = "Constant" },
-	['@variable.cobol'] = { link = "@variable" },
+	['@constant.cobol'] = { link = 'Constant' },
+	['@variable.cobol'] = { link = '@variable' },
 	['@keyword.cobol'] = { link = 'Keyword' },
 
 	['@level_number.cobol'] = { fg = c.red },
-
-	cobolCalls = { fg = c.yellow, bold = true },
-	cobolParagraph = { fg = c.orange, bold = true },
-	CobolDeclA = { fg = c.red },
-	CobolDecl = { fg = c.red },
 }
 
 hls.editor = {
