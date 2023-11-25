@@ -5,7 +5,6 @@ local M = {
 	filetypes = { 'cobol' },
 	capabilities = lsp.client_capabilities(),
 	root_dir = lsp.utils.find_root_dir,
-	-- single_file_support = true,
 }
 
 M.cmd = function(dispatchers)
@@ -39,7 +38,7 @@ M.handlers = {
 			local parent_dir_path = vim.fn.fnamemodify(path, ':h')
 			local parent_dir_files = vim.fn.readdir(parent_dir_path)
 
-			if utils.table.contains(parent_dir_files, 'copybook') then
+			if list.contains(parent_dir_files, 'copybook') then
 				local copybook_uri = ('file://%s/copybook/%s'):format(parent_dir_path, filename)
 				return copybook_uri
 			end
@@ -51,6 +50,6 @@ M.handlers = {
 	end,
 }
 
-M.on_attach = function(client, bufnr) lsp.common_on_attach(client, bufnr) end
+M.on_attach = lsp.common_on_attach
 
 return M
