@@ -32,7 +32,7 @@ end
 ---@field mappings {[1]: string | string[], [2]: string, [3]: string|function, [string]: any }[]
 ---@field plugins? {[string]: fun(module: table)}
 ---@field on_buf_enter? fun(args: AutocmdArgs)
----@field picker? {keymap: string, title: string, actions_tbl: {name: string, handler: function | string}}
+---@field picker? {keymap: string, title: string, actions: {name: string, handler: function | string}}
 ---@field autocommands? Autocommand[]
 
 ---Define filetype settings in a single place, then creating FileType autocommands from this definition
@@ -57,7 +57,7 @@ function M.filetype_settings(map)
                 vim.opt_local[option] = setting
               end
             end,
-            picker = function() create_picker(value.keymap, value.title, value.actions_tbl) end,
+            picker = function() create_picker(value.keymap, value.title, value.actions) end,
             autocommands = function() utils.api.augroup(name, unpack(value)) end,
           })
         end

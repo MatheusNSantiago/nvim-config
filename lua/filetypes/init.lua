@@ -1,3 +1,5 @@
+---@diagnostic disable: missing-fields
+
 utils.ft_helpers.filetype_settings({
   ['python'] = require('filetypes.python'),
   [{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = require('filetypes.js'),

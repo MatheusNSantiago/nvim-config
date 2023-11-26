@@ -3,7 +3,7 @@ return {
     picker = {
         keymap = '<leader><leader>o',
         title = 'Python Commands',
-        actions_tbl = {
+        actions= {
             { name = 'Criar venv',           handler = 'python -m venv --upgrade-deps .venv' },
             { name = 'install requirements', handler = 'pip install -r requirements.txt' },
         },
