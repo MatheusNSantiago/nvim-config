@@ -6,18 +6,22 @@ function M.add_section()
   local bufnr = vim.api.nvim_get_current_buf()
 
   Input({
-    on_submit = function(value)
-      local value_99 = value:gsub('%d%d%D', '99-')
+    auto_mount = true,
+    on_submit = function(header)
+      header = header:upper()
+
+      local header_number = header:match('^(%d+)-') or ''
+      local header_number_99 = header_number:gsub('%d%d$', '99')
 
       local template = {
         '*',
         '*---------------------------------------*',
-        value,
+        header,
         '*---------------------------------------*',
         '*',
         ' ',
         '*',
-        ' ' .. (value_99 or value) .. '-SAI.',
+        ' ' .. header_number_99 .. '-SAI.',
         '     EXIT.',
       }
 
@@ -26,7 +30,7 @@ function M.add_section()
       M.add_left_pad(template)
 
       local section = 'SECTION.'
-      local middle_pad = full_len - #value - #section
+      local middle_pad = full_len - #header - #section
       template[3] = ' ' .. template[3] .. string.rep(' ', middle_pad - 1) .. section
 
       vim.api.nvim_buf_set_lines(bufnr, line_number - 1, line_number, false, template)
@@ -40,8 +44,8 @@ end
 --- adiconar padding até a seção A
 function M.add_left_pad(lines)
   for i, text in ipairs(lines) do
-    lines[i] = string.rep(' ', 6) .. text:upper()
+    lines[i] = string.rep(' ', 6) .. text
   end
 end
 
-return M.add_section
+return M
