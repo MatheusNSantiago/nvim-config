@@ -77,10 +77,10 @@ syn match cobolPreProc '^\s*\$.*$'   contained containedin=cobolFormatFree
 " syn keyword cobolSectionName    contained  CONFIGURATION INPUT-OUTPUT FILE WORKING-STORAGE LOCAL-STORAGE LINKAGE
 
 " syn match   cobolParagraph      contained '\v%(^((\s|\d){6}.)?)@<=\w\k*\ze\.'  contains=cobolParaNameIdDiv,cobolParaNameSec
-" syn keyword cobolParaNameIdDiv  contained  PROGRAM-ID AUTHOR INSTALLATION SOURCE-COMPUTER OBJECT-COMPUTER DATE-WRITTEN DATE-COMPILED SECURITY
+syn keyword cobolParaNameIdDiv  contained  PROGRAM-ID AUTHOR INSTALLATION SOURCE-COMPUTER OBJECT-COMPUTER DATE-WRITTEN DATE-COMPILED SECURITY
 " syn keyword cobolParaNameSec    contained  SPECIAL-NAMES FILE-CONTROL I-O-CONTROL
 
-syn cluster cobolCode add=cobolDivision,cobolSection,cobolParagraph
+syn cluster cobolCode add=cobolParaNameIdDiv
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                     Strings, numbers                     │
@@ -247,7 +247,7 @@ hi def link cobolFunction       Function
 "
 " hi def link cobolDivisionName   Keyword
 " hi def link cobolSectionName    Keyword
-" hi def link cobolParaNameIdDiv  Keyword
+hi def link cobolParaNameIdDiv  @paragraph.cobol
 " hi def link cobolParaNameSec    Keyword
 hi def link cobolBad            Error
 
@@ -256,7 +256,7 @@ hi def link cobolOver80         Comment
 
 hi def link cobolConstant       Constant
 " hi def link cobolNumber         cobolConstant
-hi def link cobolString         cobolConstant
+hi def link cobolString         String
 
 hi def link cobolBoolean        Boolean
 hi def link cobolBoolOperator   Operator

@@ -278,11 +278,11 @@ hls.python = {
 
 hls.cobol = {
 	['@division.cobol'] = { fg = c.purple, bold = true, underline = true },
-	['@section.cobol'] = { fg = c.lime },
+	['@section.cobol'] = { fg = c.lime, bold = true },
 	['@paragraph.cobol'] = { fg = c.white },
 	['@identifier.cobol'] = { fg = c.ice },
 
-	['@constant.cobol'] = { link = 'Constant' },
+	['@constant.cobol'] = { fg = c.ice, bold = true },
 	['@variable.cobol'] = { link = '@variable' },
 	['@keyword.cobol'] = { link = 'Keyword' },
 
