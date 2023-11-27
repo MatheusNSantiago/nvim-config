@@ -6,6 +6,8 @@ return {
       pre_hook = function() return '%s' end, -- previnir o default "     *%s" (que não funfava)
       --- cria um toggle comment functional
       post_hook = function(ctx)
+        if vim.bo.filetype ~= 'cobol' then return end
+
         local row_start = ctx.range.srow
         local row_end = ctx.range.erow
 
