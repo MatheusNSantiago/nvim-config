@@ -190,7 +190,7 @@ M.ft_helpers = require('utils.filetype-helpers')
 _G.c = require('utils.colors')
 _G.log = M.log
 _G.Class = require('utils.class')
-_G.list = require('utils.list')
+_G.Array = require('utils.array')
 _G.create_picker = require('plugins.navigation.telescope.picker')
 _G.utils = M
 
