@@ -50,7 +50,7 @@ function M.filetype_settings(map)
         for scope, value in pairs(settings) do
           utils.switch(scope, {
             mappings = function() apply_ft_mappings(value, args.buf) end,
-            on_buf_enter = vim.schedule_wrap(value),
+            on_buf_enter = vim.schedule_wrap(function() value(args) end),
             plugins = function() M.ftplugin_conf(value) end,
             opt = function()
               for option, setting in pairs(value) do
