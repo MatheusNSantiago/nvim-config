@@ -13,13 +13,13 @@ local function setup(file, dependencies)
     return _setup or {}
   end
 end
+local is_wsl = utils.is_os_running_on_wsl()
 
-require('lazy').setup({
+local plugins = Array({
   {
     'dstein64/vim-startuptime',
     cmd = 'StartupTime',
     init = function() vim.g.startuptime_tries = 80 end,
-    keys = { { '<leader><leader>s', ':StartupTime<CR>' } },
   },
 
   --  ╭──────────────────────────────────────────────────────────╮
@@ -167,12 +167,12 @@ require('lazy').setup({
 
   setup('dev.flutter-tools'),
   setup('dev.package-info'),
-  setup('dev.typescript'), -- typescript lsp
-  { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/', config = true, lazy = false },
-  -- { 'MatheusNSantiago/mychatgpt',         config = true },      -- snippets
-  { 'Nash0x7E2/awesome-flutter-snippets',                    ft = 'dart' }, -- snippets
-  { 'akinsho/pubspec-assist.nvim',                           config = true, ft = 'yaml' }, -- add/update dart dependencies
-  { 'vimjas/vim-python-pep8-indent',                         ft = 'python' }, -- Conserta o indent do python
+  setup('dev.typescript'),
+
+  { 'MatheusNSantiago/mychatgpt',         config = true, enabled = is_wsl }, -- snippets
+  { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },           -- snippets
+  { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
+  { 'vimjas/vim-python-pep8-indent',      ft = 'python' },         -- Conserta o indent do python
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
@@ -191,3 +191,12 @@ require('lazy').setup({
   { 'mfussenegger/nvim-dap-python',    lazy = true },
   { 'theHamsta/nvim-dap-virtual-text', lazy = true },
 })
+
+if not is_wsl then
+  plugins:extend({
+    { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/',    config = true },
+    { dir = '~/Documents/Programming/nvim-plugins/CobolOutline/', config = true },
+  })
+end
+
+require('lazy').setup(plugins)
