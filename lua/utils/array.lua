@@ -35,17 +35,16 @@ function Array:size() return #self end
 
 ---@param f fun(e: any, idx?: number)
 function Array:foreach(f)
-  log(self)
-  for k, v in pairs(self) do
+  for k, v in ipairs(self) do
     f(v, k)
   end
 end
 
 function Array:map(f)
   local new_arr = Array:initialize()
-  for k, v in pairs(self) do
-    new_arr:push(f(v, k))
-  end
+  self:foreach(function(e, idx) --
+    new_arr:push(f(e, idx))
+  end)
   return new_arr
 end
 
