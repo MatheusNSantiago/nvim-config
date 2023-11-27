@@ -36,9 +36,9 @@ M.handlers = {
 
 		while path ~= '/' do
 			local parent_dir_path = vim.fn.fnamemodify(path, ':h')
-			local parent_dir_files = vim.fn.readdir(parent_dir_path)
+			local parent_dir_files = Array(vim.fn.readdir(parent_dir_path))
 
-			if list.contains(parent_dir_files, 'copybook') then
+			if parent_dir_files:contains('copybook') then
 				local copybook_uri = ('file://%s/copybook/%s'):format(parent_dir_path, filename)
 				return copybook_uri
 			end
