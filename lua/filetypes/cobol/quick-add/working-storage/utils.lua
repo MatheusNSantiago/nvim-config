@@ -1,10 +1,10 @@
 local Input = require('filetypes.cobol.quick-add.input')
 local cobol_utils = require('filetypes.cobol.utils')
-local ts = vim.treesitter
 local M = {}
+local ts = vim.treesitter
 
----@alias  WSCategories "GUARDAS" | "CONTADORES" | "INDICADORES"
----@param category WSCategories
+---@param category "GUARDAS" | "CONTADORES" | "INDICADORES" | "BOOKS" | "CONSTANTES"
+---@return number | nil
 function M.get_last_line_for_category(category)
   local pattern = M.insert_after_every_char(category, '%s*')
   local ws_start, ws_end = M.get_working_storage_range()
@@ -17,6 +17,8 @@ function M.get_last_line_for_category(category)
     local is_category_heading = line:find(pattern)
     if is_category_heading then cursor_line = i end
   end
+
+  if not cursor_line then return nil end
 
   -- coloca cursor na primeira linha após a heading da categoria
   cursor_line = cursor_line + 2
@@ -38,7 +40,7 @@ function M.get_last_line_for_category(category)
     cursor_line = cursor_line + 1
   end
 
-  print('Não foi possível encontrar uma linha disponível')
+  return nil
 end
 
 function M.get_working_storage_range()

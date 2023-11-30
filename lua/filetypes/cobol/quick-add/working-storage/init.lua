@@ -2,6 +2,7 @@ local U = require('filetypes.cobol.utils')
 local add_indicator = require('filetypes.cobol.quick-add.working-storage.indicador')
 local add_guarda = require('filetypes.cobol.quick-add.working-storage.guarda')
 local add_contador = require('filetypes.cobol.quick-add.working-storage.contador')
+local add_book = require('filetypes.cobol.quick-add.working-storage.book')
 
 local M = {}
 
@@ -30,5 +31,6 @@ end
 M.add_indicator = add_indicator
 M.add_guarda = add_guarda
 M.add_contador = add_contador
+M.add_book = add_book
 
 return M
