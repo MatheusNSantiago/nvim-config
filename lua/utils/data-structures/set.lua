@@ -12,7 +12,7 @@ function Set:initialize(...)
   end
 
   for _, v in ipairs(temp_arr) do
-    if self:_is_unique(v) then --
+    if not self:has(v) then --
       self:push(v)
     end
   end
@@ -20,11 +20,11 @@ function Set:initialize(...)
   return self
 end
 
-function Set:_is_unique(element)
+function Set:has(element)
   for _, v in ipairs(self) do
-    if v == element then return false end
+    if v == element then return true end
   end
-  return true
+  return false
 end
 
 function Set.is_set(element)
@@ -61,14 +61,13 @@ function Set:filter(predicate)
   return new_arr
 end
 
-function Set:push(v)
-  local size = self:size()
-  self[size + 1] = v
-  return self
+function Set:push(element)
+  if not self:has(element) then --
+    table.insert(self, element)
+  end
 end
 
 function Set:remove(value)
-  local size = self:size()
   local _, idx = self:find_first(function(e) return e == value end)
   if idx == nil then
     print('Value' .. value .. ' not found in Set')
