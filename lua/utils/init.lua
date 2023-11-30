@@ -26,7 +26,7 @@ function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }
 
 ---@param content  any
 function M.log(content)
-    if Array.is_array(content) then content = content:to_table() end
+    if Array.is_array(content) or Set.is_set(content) then content = content:to_table() end
     local txt = ''
     local function recursive_log(obj, cnt)
         cnt = cnt or 0
@@ -191,7 +191,8 @@ M.ft_helpers = require('utils.filetype-helpers')
 _G.c = require('utils.colors')
 _G.log = M.log
 _G.Class = require('utils.class')
-_G.Array = require('utils.array')
+_G.Array = require('utils.data-structures.array')
+_G.Set = require('utils.data-structures.set')
 _G.create_picker = require('plugins.navigation.telescope.picker')
 _G.utils = M
 
