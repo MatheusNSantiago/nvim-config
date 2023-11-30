@@ -1,9 +1,26 @@
 local ts = vim.treesitter
+local U = require('filetypes.cobol.utils')
 local M = {
   NS = vim.api.nvim_create_namespace('chunk'),
   shiftwidth = 2,
   priority = 100,
 }
+
+function M.setup_highlights()
+  local get_hl = utils.api.get_hl_by_name
+  local hl_map = {
+    division = get_hl('@division.cobol'),
+    section = get_hl('@section.cobol'),
+    paragraph = get_hl('@paragraph.cobol'),
+  }
+
+  for hl_name, hl in pairs(hl_map) do
+    local hl_group = hl_name .. '_chunk'
+    hl.underline = false
+
+    utils.set_hls({ [hl_group] = hl })
+  end
+end
 
 function M.refresh()
   M.clear()
@@ -11,7 +28,7 @@ function M.refresh()
 end
 
 function M.render()
-  local chunk_info = M.get_chunk_info()
+  local chunk_info = M.get_current_chunk_info()
   if not chunk_info then return end
 
   local text_hl = M._pick_hl(chunk_info.type)
@@ -90,23 +107,27 @@ function M._col_in_screen(col)
   return col >= leftcol
 end
 
-function M.get_chunk_info()
+function M.get_current_chunk_info()
   local cursor_node = ts.get_node()
+
+  -- Sobe a AST até achar um chunk node
   while cursor_node do
     local node_type = cursor_node:type()
     local node_start, _, node_end, _ = cursor_node:range()
 
     if (node_start ~= node_end) and M.is_chunk(node_type) then
       local chunk_type = node_type:match('_(%w+)$')
-      local end_offset = M._calculate_node_end_offset(node_end)
+      local end_offset = M._calculate_node_end_offset(chunk_type, node_end)
 
-      return {
+      local chunk = {
         type = chunk_type,
         range = {
           node_start + 1,
           node_end + 1 + end_offset,
         },
       }
+
+      return chunk
     end
     cursor_node = cursor_node:parent()
   end
@@ -116,13 +137,15 @@ end
 
 --- Por algum motivo, quando tem comentário no final do node, ele esquece de
 --- contar com o offset do último comentário (=1).
-function M._calculate_node_end_offset(node_end)
-  local offset = 0
-  -- se o próximo nó for um comentário, adiciona + 1 no offset
-  local line = vim.fn.getline(node_end)
-  if line:find('^      %*') then offset = 1 end
+function M._calculate_node_end_offset(chunk_type, node_end)
+  -- Hack: Paragrafos por algum motivo não contam com o C($) depois da última instrução.
+  -- Precisamos fackear o C($) pra saber a natureza da proxima instrução
+  if chunk_type == 'paragraph' then return 1 end
 
-  return offset
+  local line = vim.fn.getline(node_end)
+  if U.is_comment(line) then return 1 end
+
+  return 0
 end
 
 function M.is_chunk(node_type)
@@ -138,13 +161,11 @@ function M.is_chunk(node_type)
 end
 
 function M._pick_hl(chunk_type)
-  local hl_map = {
-    division = 'Type',
-    section = '@section.cobol',
-    paragraph = '@paragraph.cobol',
-  }
-
-  return hl_map[chunk_type]
+  return ({
+    division = 'division_chunk',
+    section = 'section_chunk',
+    paragraph = 'paragraph_chunk',
+  })[chunk_type]
 end
 
 return M
