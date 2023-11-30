@@ -1,7 +1,8 @@
 local ws = require('filetypes.cobol.quick-add.working-storage')
+local section = require('filetypes.cobol.quick-add.section')
 
-local M = {}
-
-M.quick_add_to_WS = ws.quick_add_to_WS
-
-return M
+return {
+  add_pic_under_cursor = ws.add_pic_under_cursor,
+  add_section = section.add_section,
+  working_storage = ws,
+}

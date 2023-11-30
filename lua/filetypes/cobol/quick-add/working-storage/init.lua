@@ -5,7 +5,7 @@ local add_contador = require('filetypes.cobol.quick-add.working-storage.contador
 
 local M = {}
 
-function M.add_pic()
+function M.add_pic_under_cursor()
   local word = U.get_word_under_cursor()
   if not word then return end
   word = word:upper()
@@ -26,5 +26,9 @@ function M.add_pic()
   -- centraliza a tela
   vim.cmd('normal! zz')
 end
+
+M.add_indicator = add_indicator
+M.add_guarda = add_guarda
+M.add_contador = add_contador
 
 return M
