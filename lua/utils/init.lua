@@ -24,9 +24,10 @@ function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name
 
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
 
+---@param content  any
 function M.log(content)
+    if Array.is_array(content) then content = content:to_table() end
     local txt = ''
-
     local function recursive_log(obj, cnt)
         cnt = cnt or 0
         if type(obj) == 'table' then
