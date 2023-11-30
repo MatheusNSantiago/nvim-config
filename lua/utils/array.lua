@@ -17,18 +17,11 @@ function Array:initialize(...)
   return self
 end
 
-function Array:from(t, f)
-  local new_arr = Array:initialize()
-  if type(t) == 'table' then
-    for k, v in pairs(t) do
-      new_arr:push(f and f(v, k) or v)
-    end
-  elseif type(t) == 'string' then
-    for i = 1, #t do
-      new_arr:push(f and f(t:sub(i, i), i) or t:sub(i, i))
-    end
-  end
-  return new_arr
+function Array.is_array(element)
+  if type(element) ~= 'table' then return false end
+  local ok, is_array = pcall(function() return element:is_instance_of(Array) end)
+
+  return ok and is_array
 end
 
 function Array:size() return #self end
@@ -40,12 +33,12 @@ function Array:foreach(f)
   end
 end
 
+---@param f fun(e: any, idx?: number): any
 function Array:map(f)
-  local new_arr = Array:initialize()
-  self:foreach(function(e, idx) --
-    new_arr:push(f(e, idx))
-  end)
-  return new_arr
+  for k, v in ipairs(self) do
+    self[k] = f(v, k)
+  end
+  return self
 end
 
 ---@param predicate fun(e: any, idx?: number): boolean
