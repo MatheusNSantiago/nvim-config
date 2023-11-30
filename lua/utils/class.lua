@@ -2,54 +2,19 @@ local middleclass = {
   _VERSION = 'middleclass v4.1.1',
   _DESCRIPTION = 'Object Orientation for Lua',
   _URL = 'https://github.com/kikito/middleclass',
-  _LICENSE = [[
-    MIT LICENSE
-
-    Copyright (c) 2011 Enrique García Cota
-
-    Permission is hereby granted, free of charge, to any person obtaining a
-    copy of this software and associated documentation files (the
-    "Software"), to deal in the Software without restriction, including
-    without limitation the rights to use, copy, modify, merge, publish,
-    distribute, sublicense, and/or sell copies of the Software, and to
-    permit persons to whom the Software is furnished to do so, subject to
-    the following conditions:
-
-    The above copyright notice and this permission notice shall be included
-    in all copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  ]],
 }
-
 local function _createIndexWrapper(aClass, f)
   if f == nil then
     return aClass.__instanceDict
   elseif type(f) == 'function' then
     return function(self, name)
       local value = aClass.__instanceDict[name]
-
-      if value ~= nil then
-        return value
-      else
-        return (f(self, name))
-      end
+      return value or (f(self, name))
     end
   else -- if  type(f) == "table" then
     return function(self, name)
       local value = aClass.__instanceDict[name]
-
-      if value ~= nil then
-        return value
-      else
-        return f[name]
-      end
+      return value or f[name]
     end
   end
 end
@@ -127,7 +92,7 @@ local DefaultMixin = {
 
   initialize = function(self, ...) end,
 
-  isInstanceOf = function(self, aClass)
+  is_instance_of = function(self, aClass)
     return type(aClass) == 'table'
         and type(self) == 'table'
         and (
@@ -143,7 +108,9 @@ local DefaultMixin = {
       assert(type(self) == 'table', "Make sure that you are using 'Class:allocate' instead of 'Class.allocate'")
       return setmetatable({ class = self }, self.__instanceDict)
     end,
-
+    is_same_class = function(self, other)
+      return type(self) == 'table' and type(other) == 'table' and self.class == other.class
+    end,
     new = function(self, ...)
       assert(type(self) == 'table', "Make sure that you are using 'Class:new' instead of 'Class.new'")
       local instance = self:allocate()
@@ -190,7 +157,9 @@ local DefaultMixin = {
 
 function middleclass.class(name, super)
   assert(type(name) == 'string', 'A name (string) is needed for the new class')
-  return super and super:subclass(name) or _includeMixin(_createClass(name), DefaultMixin)
+  if super then return super:subclass(name) end
+
+  return _includeMixin(_createClass(name), DefaultMixin)
 end
 
 setmetatable(middleclass, { __call = function(_, ...) return middleclass.class(...) end })
