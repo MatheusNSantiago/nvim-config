@@ -36,7 +36,11 @@ function M.copy_book_dropdown()
             t_actions.close(telescope_buf)
           end)
           t_actions.close:enhance({
-            post = function(_) quick_add.working_storage.add_book(copybook) end,
+            post = function(_)
+              if copybook then
+                quick_add.working_storage.add_book(copybook)
+              end
+            end,
           })
           return true
         end,
