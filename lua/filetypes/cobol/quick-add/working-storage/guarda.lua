@@ -26,13 +26,13 @@ end
 function M.make_entry(data)
   local pic_col = 40
   local pic_def = string.format(
-    '%s%s  %s%sPIC  %s VALUE %s.',
+    '%s%s  %s%sPIC  %s%s.',
     string.rep(' ', 7),
     data.level,
     data.name,
     string.rep(' ', pic_col - 7 - 3 - #data.level - #data.name), -- Espaços pra fazer o alinhamento do PIC
     data.type,
-    data.value
+    data.value ~= '' and (' VALUE ' .. data.value) or ''
   )
   return { pic_def }
 end
