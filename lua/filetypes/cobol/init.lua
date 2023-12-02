@@ -1,32 +1,9 @@
 local U = require('filetypes.cobol.utils')
+local chunk = require('filetypes.cobol.chunk')
 
 ---@type FiletypeSettings
 ---@diagnostic disable-next-line: missing-fields
 local M = {}
-
-local add_copybook = function()
-  local Input = require('nui.input')
-
-  local input = Input({
-    relative = 'editor',
-    position = '50%',
-    size = { width = 20, height = 1 },
-    border = {
-      style = 'rounded',
-      text = { top = 'Novo book', top_align = 'center' },
-    },
-  }, {
-    on_submit = function(value) print(value) end,
-  })
-  input:mount()
-
-  input:on('BufLeave', function() input:unmount() end)
-
-  input:map('n', 'q', function() input:unmount() end)
-  input:map('i', '<C-c>', function() input:unmount() end)
-
-  vim.schedule(function() vim.cmd('startinsert') end)
-end
 
 local capitalize_code = function()
   local lines = vim.fn.getline(1, '$')
@@ -43,37 +20,14 @@ local capitalize_code = function()
   vim.api.nvim_buf_set_lines(0, 0, -1, false, new_lines)
 end
 
-M.autocommands = {
-  {
-    desc = 'kill cobol_ls when exiting nvim',
-    pattern = '*.cbl',
-    event = 'VimLeavePre',
-    command = 'silent !killall server-linux',
-  },
-  {
-    desc = 'mostrar aqueles indicadores iguais ao do HLChunk',
-    event = { 'CursorMovedI', 'CursorMoved' },
-    pattern = '*.cbl',
-    command = utils.throttle(require('filetypes.cobol.chunk').refresh, 70),
-  },
-  {
-    desc = 'Capitalizar código depois de salvar',
-    event = 'BufWritePost',
-    pattern = '*.cbl',
-    command = capitalize_code,
-  },
-}
-
 M.picker = {
   keymap = '<leader><leader>o',
   title = 'Cobol Commands',
-  actions = {
-    { name = 'add copybook', handler = add_copybook },
-  },
+  actions = require('filetypes.cobol.picker-actions'),
 }
 
 M.on_buf_enter = function()
-  require('filetypes.cobol.chunk').setup_highlights()
+  chunk.setup_highlights()
   vim.cmd('silent! DisableHLIndent')
 end
 
@@ -86,7 +40,7 @@ M.mappings = {
   { { 'n', 'x' }, 'w',          require('filetypes.cobol.motions').to_start_of_next_word },
   { { 'n', 'x' }, 'e',          require('filetypes.cobol.motions').to_end_of_word },
   { { 'n', 'x' }, 'b',          require('filetypes.cobol.motions').start_of_previous_word },
-  { 'n',          '<leader>ap', require('filetypes.cobol.quick-add').add_pic },
+  { 'n',          '<leader>ap', require('filetypes.cobol.quick-add').add_pic_under_cursor },
   { 'n',          '<leader>as', require('filetypes.cobol.quick-add').add_section },
   { 'n',          '<leader>r',  require('filetypes.cobol.code-runner').run },
   { 'n',          '<leader>cl', function() require('comment-box').line(5) end },
@@ -102,6 +56,27 @@ M.opt = {
   colorcolumn = '7,11,73,80',
   commentstring = '      *%s',
   iskeyword = '@,48-57,_,-',
+}
+
+M.autocommands = {
+  {
+    desc = 'kill cobol_ls when exiting nvim',
+    pattern = '*.cbl',
+    event = 'VimLeavePre',
+    command = 'silent !killall server-linux',
+  },
+  {
+    desc = 'mostrar aqueles indicadores iguais ao do HLChunk',
+    event = { 'CursorMovedI', 'CursorMoved' },
+    pattern = '*.cbl',
+    command = utils.throttle(chunk.refresh, 70),
+  },
+  {
+    desc = 'Capitalizar código depois de salvar',
+    event = 'BufWritePost',
+    pattern = '*.cbl',
+    command = capitalize_code,
+  },
 }
 
 return M
