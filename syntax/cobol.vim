@@ -1,18 +1,17 @@
 if exists("b:current_syntax") | finish | endif
 let b:current_syntax = "cobol"
 
-setlocal isk=@,48-57,-,_ " important for most of the keywords to work!
+" setlocal isk=@,48-57,-,_ " important for most of the keywords to work!
 
-let g:omni_syntax_group_exclude_cobol = ''
-      \ . 'cobolSeqNumArea,cobolIndicator,cobolAB,cobolProgIdArea,cobolover80,cobolUnder7'
-      \ . 'cobolComment,cobolTodo,cobolDebugLine,cobolPreProc,'
-      \ . 'cobolDivision,cobolSection,cobolParagraph,'
-      \ . 'cobolDataLvl,'
-      \ . 'cobolSeqNum,'
-      \ . 'cobolIndComment,cobolIndDebug,cobolIndPreProc,cobolIndCont,'
-      \ . 'cobolFormatFree,cobolBadFree,'
-      \ . 'cobolBad'
-
+" let g:omni_syntax_group_exclude_cobol = ''
+"       \ . 'cobolSeqNumArea,cobolIndicator,cobolAB,cobolProgIdArea,cobolover80,cobolUnder7'
+"       \ . 'cobolComment,cobolTodo,cobolDebugLine,cobolPreProc,'
+"       \ . 'cobolDivision,cobolSection,cobolParagraph,'
+"       \ . 'cobolDataLvl,'
+"       \ . 'cobolSeqNum,'
+"       \ . 'cobolIndComment,cobolIndDebug,cobolIndPreProc,cobolIndCont,'
+"       \ . 'cobolBad'
+" \ . 'cobolFormatFree,cobolBadFree,'
 
 syn case ignore
 
@@ -29,40 +28,36 @@ syn match cobolProgIdArea  '\%>72c.\%<81c'
 syn match cobolOver80      '\%>80c.'
 syn match cobolUnder7      '\%<7c.'
 
-syn cluster cobolAreas contains=cobolSeqNumArea,cobolIndicator,cobolAB,cobolProgIdArea
+" syn cluster cobolAreas contains=cobolSeqNumArea,cobolIndicator,cobolAB,cobolProgIdArea
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                        Indicators                        │
 " ╰──────────────────────────────────────────────────────────╯
 
-syn match cobolIndComment  '[*/]'  contained containedin=cobolIndicator
-syn match cobolIndComment  '^[*/]' contained containedin=cobolFormatFree
+" syn match cobolIndComment  '[*/]'  contained containedin=cobolIndicator
+" syn keyword cobolIndDebug    D     contained containedin=cobolIndicator
+" syn match cobolIndPreProc  '\$'    contained containedin=cobolIndicator
+" syn match cobolIndCont     '-'     contained containedin=cobolIndicator
 
-syn keyword cobolIndDebug    D     contained containedin=cobolIndicator
-syn match   cobolIndDebug  '^D '   contained containedin=cobolFormatFree
+" syn match cobolIndComment  '^[*/]' contained containedin=cobolFormatFree
+" syn match   cobolIndDebug  '^D '   contained containedin=cobolFormatFree
+" syn match cobolIndPreProc  '^\$'   contained containedin=cobolFormatFree
+" syn match cobolIndCont     '-'     contained containedin=cobolFormatFree
 
-syn match cobolIndPreProc  '\$'    contained containedin=cobolIndicator
-syn match cobolIndPreProc  '^\$'   contained containedin=cobolFormatFree
-
-syn match cobolIndCont     '-'     contained containedin=cobolIndicator
-syn match cobolIndCont     '-'     contained containedin=cobolFormatFree
-
-
-syn match cobolBad     '[^ */D$-]' contained containedin=cobolIndicator
+" syn match cobolBad     '[^ */D$-]' contained containedin=cobolIndicator
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                       "Indicated"                        │
 " ╰──────────────────────────────────────────────────────────╯
 
-syn match cobolComment  '[*/].*$'     contained containedin=cobolIndicator
-syn match cobolComment  '^\s*[*/].*$' contained containedin=cobolFormatFree
+syn match cobolPreProc '\$.*$' contained
 
 syn match cobolInlineComment '\*>.*'
-syn cluster cobolCode add=cobolInlineComment
 
-syn match cobolPreProc '\$.*$' contained containedin=cobolIndicator
-syn match cobolPreProc '^\s*\$.*$'   contained containedin=cobolFormatFree
+syn match cobolComment  '[*/].*$' contained containedin=cobolIndicator
 
+" syn match cobolComment  '^\s*[*/].*$' contained containedin=cobolFormatFree
+" syn match cobolPreProc '^\s*\$.*$'   contained containedin=cobolFormatFree
 " syn match cobolDebugLine  '\v(%7cD\s*)@<=.*$' contains=ALLBUT,cobolBad
 " syn match cobolDebugLine  '^\s*D .*$'  contains=ALL contained containedin=cobolFormatFree
 
@@ -81,6 +76,20 @@ syn keyword cobolParaNameIdDiv  contained  PROGRAM-ID AUTHOR INSTALLATION SOURCE
 " syn keyword cobolParaNameSec    contained  SPECIAL-NAMES FILE-CONTROL I-O-CONTROL
 
 syn cluster cobolCode add=cobolParaNameIdDiv
+
+
+" ╭──────────────────────────────────────────────────────────╮
+" │                       Documentação                       │
+" ╰──────────────────────────────────────────────────────────╯
+
+" @anotations
+syn match cobolDocsAnnotation '@[ES]\d' contained containedin=cobolComment
+hi def link cobolDocsAnnotation Special
+
+" variable
+syn match cobolDocsVariable '\v%(\@[ES]\d+:\s*)@<=[A-Za-z0-9-]+' contained containedin=cobolComment
+hi def link cobolDocsVariable @identifier.cobol
+
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                     Strings, numbers                     │
@@ -197,19 +206,13 @@ syn cluster cobolCode add=cobolReserved
       \ add=cobolSorting
       " \ add=cobolCalls
 
-let b:cobol_syntax_missing_keywords = [ "CONTAINS" ]
-
-" ~ {{{2
-
+" let b:cobol_syntax_missing_keywords = [ "CONTAINS" ]
 " syn match cobolBadFree '\v^\s*\d{6}(\w\k*\.)@!' contained containedin=cobolFormatFree
-
-" if b:cobol_legacy_code
-" syn match cobolBad '^\s\{,6}'
-" endif
 
 syn match cobolTodo		'TODO' contained containedin=.*Comment
 
 syn match cobolSeqNum '.'    contained containedin=cobolSeqNumArea
+
 
 " ╭──────────────────────────────────────────────────────────╮
 " │                        HIGHLIGHTS                        │
@@ -221,10 +224,10 @@ hi def link cobolComment        Comment
 hi def link cobolInlineComment  cobolComment
 hi def link cobolTodo           Todo
 
-hi def link cobolIndicator      SpecialChar
-hi def link cobolIndPreProc     cobolIndicator
-hi def link cobolIndDebug       cobolIndicator
-hi def link cobolIndCont        cobolIndicator
+" hi def link cobolIndicator      SpecialChar
+" hi def link cobolIndPreProc     cobolIndicator
+" hi def link cobolIndDebug       cobolIndicator
+" hi def link cobolIndCont        cobolIndicator
 
 hi def link cobolDebugLine      Debug
 hi def link cobolPreProc        PreProc
@@ -249,7 +252,7 @@ hi def link cobolFunction       Function
 " hi def link cobolSectionName    Keyword
 hi def link cobolParaNameIdDiv  @paragraph.cobol
 " hi def link cobolParaNameSec    Keyword
-hi def link cobolBad            Error
+" hi def link cobolBad            Error
 
 hi def link cobolUnder7         Comment
 hi def link cobolOver80         Comment
@@ -264,3 +267,6 @@ hi def link cobolBoolOperator   Operator
 hi def link cobolArithmetic     Operator
 
 hi def link cobolReserved       Statement
+
+
+hi def link cobolFuncDef   Boolean

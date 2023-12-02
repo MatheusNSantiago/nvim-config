@@ -4,22 +4,14 @@
 ( _ paragraph_header: (_) @paragraph )
 ; ╾───────────────────────────────────────────────────────────────────────────────────╼
 
-(comment) @comment
-
-
 ; ╾───────────────────────────────────────────────────────────────────────────────────╼
-(entry_name (WORD) @identifier
+((WORD) @identifier
   (#not-any-of? @identifier
-    "FILLER"
-   ))
-(qualified_word (WORD) @identifier
-  (#not-any-of? @identifier
-   "TRUE" "FALSE"
-   ))
+   "FILLER" "TRUE" "FALSE" "RUN" "RETURN-CODE"))
 
-( (WORD) @constant
+((WORD) @constant
   (#match? @constant "^CTE-.*"))
-( (WORD) @boolean
+((WORD) @boolean
   (#match? @boolean "^CND-.*"))
 ; ╾───────────────────────────────────────────────────────────────────────────────────╼
 
