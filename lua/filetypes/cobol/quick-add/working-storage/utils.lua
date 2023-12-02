@@ -3,7 +3,7 @@ local cobol_utils = require('filetypes.cobol.utils')
 local M = {}
 local ts = vim.treesitter
 
----@param category "GUARDAS" | "CONTADORES" | "INDICADORES" | "BOOKS" | "CONSTANTES"
+---@param category "GUARDAS" | "CONTADORES" | "INDICADORES" | "BOOKS" | "CONSTANTES" | "PROGRAMAS"
 ---@return number | nil
 function M.get_last_line_for_category(category)
   local pattern = M.insert_after_every_char(category, '%s*')
