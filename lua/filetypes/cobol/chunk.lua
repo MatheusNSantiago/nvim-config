@@ -117,7 +117,7 @@ function M.get_current_chunk_info()
 
     if (node_start ~= node_end) and M.is_chunk(node_type) then
       local chunk_type = node_type:match('_(%w+)$')
-      local end_offset = M._calculate_node_end_offset(chunk_type, node_end)
+      local end_offset = M._calculate_node_end_offset(node_end)
 
       local chunk = {
         type = chunk_type,
@@ -137,12 +137,8 @@ end
 
 --- Por algum motivo, quando tem comentário no final do node, ele esquece de
 --- contar com o offset do último comentário (=1).
-function M._calculate_node_end_offset(chunk_type, node_end)
-  -- Hack: Paragrafos por algum motivo não contam com o C($) depois da última instrução.
-  -- Precisamos fackear o C($) pra saber a natureza da proxima instrução
-  if chunk_type == 'paragraph' then return 1 end
-
-  local line = vim.fn.getline(node_end)
+function M._calculate_node_end_offset(node_end)
+  local line = vim.fn.getline(node_end + 1)
   if U.is_comment(line) then return 1 end
 
   return 0
