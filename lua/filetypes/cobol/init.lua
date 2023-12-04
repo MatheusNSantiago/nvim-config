@@ -5,23 +5,8 @@ local chunk = require('filetypes.cobol.chunk')
 ---@diagnostic disable-next-line: missing-fields
 local M = {}
 
-local capitalize_code = function()
-  local lines = vim.fn.getline(1, '$')
-  local new_lines = {}
-  for _, line in ipairs(lines) do
-    local is_comment = U.is_comment(line)
-    local is_copybook = line:match([[^%s*[cC][oO][pP][yY]%s+['"].+['"]%.]])
-
-    local do_nothing = is_comment or is_copybook
-
-    table.insert(new_lines, (do_nothing and line) or line:upper())
-  end
-
-  vim.api.nvim_buf_set_lines(0, 0, -1, false, new_lines)
-end
-
 M.picker = {
-  keymap = '<leader><leader>o',
+  keymap = '<C-S-p>',
   title = 'Cobol Commands',
   actions = require('filetypes.cobol.picker-actions'),
 }
@@ -34,7 +19,7 @@ end
 M.mappings = {
   {
     'n',
-    '<leader>aa',
+    '<leader>o',
     function() require('cobol-outline').open() end,
   },
   { { 'n', 'x' }, 'w',          require('filetypes.cobol.motions').to_start_of_next_word },
@@ -45,7 +30,6 @@ M.mappings = {
   { 'n',          '<leader>r',  require('filetypes.cobol.code-runner').run },
   { 'n',          '<leader>cl', function() require('comment-box').line(5) end },
   { { 'n', 'v' }, '<leader>cb', function() require('comment-box').lbox(4) end },
-  -- { { 'n', 'v' }, '<leader>cb', function() comment_box.cbox() end },
   { 'i',          '<CR>',       require('filetypes.cobol.indent').new_indentedline_below },
   { 'n',          'o',          require('filetypes.cobol.indent').new_indentedline_below },
 }
@@ -75,7 +59,20 @@ M.autocommands = {
     desc = 'Capitalizar código depois de salvar',
     event = 'BufWritePost',
     pattern = '*.cbl',
-    command = capitalize_code,
+    command = function()
+      local lines = vim.fn.getline(1, '$')
+      local new_lines = {}
+      for _, line in ipairs(lines) do
+        local is_comment = U.is_comment(line)
+        local is_copybook = line:match([[^%s*[cC][oO][pP][yY]%s+['"].+['"]%.]])
+
+        local do_nothing = is_comment or is_copybook
+
+        table.insert(new_lines, (do_nothing and line) or line:upper())
+      end
+
+      vim.api.nvim_buf_set_lines(0, 0, -1, false, new_lines)
+    end,
   },
 }
 
