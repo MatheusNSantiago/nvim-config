@@ -5,6 +5,7 @@ function M.setup()
     'folke/todo-comments.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' },
     config = M.config,
+    event = "BufReadPost",
     keys = { { '<leader>st', ':TodoTelescope<CR>', desc = '[S]earch [T]odos' } },
   }
 end
