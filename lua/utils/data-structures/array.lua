@@ -41,14 +41,10 @@ function Array:map(f)
   return self
 end
 
----@param predicate fun(e: any, idx?: number): boolean
+---@param predicate fun(e: any): boolean
 function Array:filter(predicate)
-  local new_arr = Array:initialize()
-
-  self:foreach(function(e)
-    if predicate(e) then new_arr:push(e) end
-  end)
-  return new_arr
+  local new_arr = vim.tbl_filter(predicate, self)
+  return Array(new_arr)
 end
 
 function Array:push(v)
