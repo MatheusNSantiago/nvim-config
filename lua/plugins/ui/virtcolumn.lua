@@ -116,31 +116,34 @@ function M.refresh(args)
   -- Avoid unnecessary refreshing as much as possible
   local winscrolled_timer
   local textchanged_timer
-  ---@type string
   local event = args.event or ''
+
   if event == 'WinScrolled' then
     if winscrolled_timer and winscrolled_timer:is_active() then
       winscrolled_timer:stop()
       winscrolled_timer:close()
     end
     winscrolled_timer = vim.defer_fn(M._refresh, 100)
-  elseif event:match('TextChanged') then
+    return
+  end
+
+  if event:match('TextChanged') then
     if textchanged_timer and textchanged_timer:is_active() then
       textchanged_timer:stop()
       textchanged_timer:close()
     end
+
     local lines_count = vim.fn.line('$')
-    local delay
-    if lines_count ~= vim.b.virtcolumn_lines_count then
-      vim.b['virtcolumn_lines_count'] = lines_count
-      delay = 15
-    else
-      delay = 150
-    end
+
+    local has_lines_changed = lines_count ~= vim.b.virtcolumn_lines_count
+    if has_lines_changed then vim.b['virtcolumn_lines_count'] = lines_count end
+
+    local delay = has_lines_changed and 15 or 150
     textchanged_timer = vim.defer_fn(M._refresh, delay)
-  else
-    M._refresh()
+    return
   end
+
+  M._refresh()
 end
 
 return M
