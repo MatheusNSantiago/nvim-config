@@ -26,8 +26,7 @@ function M.export_file()
     lines[lnum] = U.uncomment_line(line)
   end)
 
-  vim.fn.setreg('+', lines)
-  print('Arquivo exportado para o clipboard')
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
 end
 
 --  ╾───────────────────────────────────────────────────────────────────────────────────╼
