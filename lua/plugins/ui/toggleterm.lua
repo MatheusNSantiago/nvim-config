@@ -71,7 +71,7 @@ function M.config()
     hide_numbers = true, -- hide the number column in toggleterm buffers
     shade_filetypes = {},
     shade_terminals = false,
-    shading_factor = '0',  -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+    shading_factor = '0',    -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
     start_in_insert = false,
     insert_mappings = false, -- whether or not the open mapping applies in insert mode
     persist_size = false,
@@ -91,10 +91,10 @@ function M.config()
     on_close = function(t)
       -- local lualine_ok, lualine = pcall(require, "lualine")
       -- lualine.hide({ unhide = true })
-    end,                    -- function to run when the terminal closes
+    end,                      -- function to run when the terminal closes
     direction = 'horizontal', --'horizontal', -- 'vertical' | 'horizontal' | 'window' | 'float',
-    close_on_exit = true,   -- close the terminal window when the process exits
-    shell = vim.o.shell,    -- change the default shell
+    close_on_exit = true,     -- close the terminal window when the process exits
+    shell = vim.o.shell,      -- change the default shell
     -- This field is only relevant if direction is set to 'float'
     float_opts = {
       -- The border key is *almost* the same as 'nvim_open_win'
@@ -135,8 +135,8 @@ function M.toggle_lazygit()
     hidden = true,
     direction = 'float',
     float_opts = {
-      width = 10000, -- math.floor(vim.o.columns * 0.65),
-      height = 10000, -- math.floor(vim.o.lines * 0.70),
+      width = 10000,   -- math.floor(vim.o.columns * 0.65),
+      height = 10000,  -- math.floor(vim.o.lines * 0.70),
       border = 'none', --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
       winblend = 0,
       highlights = { border = 'Normal', background = 'Normal' },
@@ -163,6 +163,19 @@ function M.should_show_cursorline(buf)
       and vim.wo.winhighlight == ''
       and vim.bo[buf].filetype ~= ''
       and not vim.tbl_contains(cursorline_exclude, vim.bo[buf].filetype)
+end
+
+function M.get_terminal(name)
+  local terminal
+  local buffers = vim.api.nvim_list_bufs()
+  for _, buf in ipairs(buffers) do
+    local buf_name = vim.api.nvim_buf_get_name(buf)
+    if buf_name:find("toggleterm#") then
+      local _, t = require("toggleterm.terminal").identify(buf_name)
+      terminal = t
+    end
+  end
+  return assert(terminal, "Não achou um terminal ativo")
 end
 
 return M
