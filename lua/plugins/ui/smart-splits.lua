@@ -13,20 +13,20 @@ function M.keys()
   if not is_installed then return end
 
   local is_wsl = utils.is_os_running_on_wsl()
-  local keymap_cursor_right = is_wsl and '<C-M-A>' or '<C-w>l'
-
   return {
     -- resizing splits
-    { '<C-S-A-i>', smart_splits.resize_up, desc = 'smart-splits: resize up' }, -- (autokey = <C-S-A-l>)
-    { '<C-S-A-k>', smart_splits.resize_down, desc = 'smart-splits: resize down' },
-    { '<C-S-A-j>', smart_splits.resize_left, desc = 'smart-splits: resize left' },
-    { '<C-S-A-ç>', smart_splits.resize_right, desc = 'smart-splits: resize right' },
+    { is_wsl and '<S-A-i>' or '<C-S-A-i>', smart_splits.resize_up, desc = 'smart-splits: resize up' }, -- (autokey = <C-S-A-l>)
+    { is_wsl and '<S-A-k>' or '<C-S-A-k>', smart_splits.resize_down, desc = 'smart-splits: resize down' },
+    { is_wsl and '<S-A-j>' or '<C-S-A-j>', smart_splits.resize_left, desc = 'smart-splits: resize left' },
+    { is_wsl and '<S-A-ç>' or '<C-S-A-ç>', smart_splits.resize_right, desc = 'smart-splits: resize right' },
 
     -- moving between splits
     { '<C-l>', smart_splits.move_cursor_up, desc = 'smart-splits: move cursor up' },
     { '<C-k>', smart_splits.move_cursor_down, desc = 'smart-splits: move cursor down' },
     { '<C-j>', smart_splits.move_cursor_left, desc = 'smart-splits: move cursor left' },
-    { keymap_cursor_right, smart_splits.move_cursor_right, desc = 'smart-splits: move cursor right' }, -- (auto key = <C-ç>)
+    { is_wsl and '<C-M-A>' or '<C-w>l', smart_splits.move_cursor_right, desc = 'smart-splits: move cursor right' }, -- (auto key = <C-ç>)
+
+    -- Swapping splits
     { '<leader>J', smart_splits.swap_buf_left, desc = 'smart-splits: swap buffer left' },
     { '<leader>Ç', smart_splits.swap_buf_right, desc = 'smart-splits: swap buffer right' },
     { '<leader>L', smart_splits.swap_buf_up, desc = 'smart-splits: swap buffer up' },
