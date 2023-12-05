@@ -1,18 +1,26 @@
 local M = {}
 
-local find_copybook_dir = function()
-  local file_path = vim.fn.expand('%:p')
-  local parent_dir = vim.fn.fnamemodify(file_path, ':h')
-  local copybook_dir = vim.fn.glob(parent_dir .. '/**/copy-books')
+local function get_copybook_dir()
+  local path = vim.fn.expand('%:p')
+  while path ~= '/' do
+    local parent_dir_path = vim.fn.fnamemodify(path, ':h')
+    local parent_dir_files = Array(vim.fn.readdir(parent_dir_path))
 
-  return copybook_dir
+    if parent_dir_files:contains('copybook') then --
+      return parent_dir_path .. '/copybook'
+    end
+
+    path = parent_dir_path
+  end
+
+  return path
 end
 
 M.run = function()
-  local copybook_dir = find_copybook_dir() or ''
+  local copybook_dir = get_copybook_dir() or ''
 
   local file_path = vim.fn.expand('%:p')
-  local COMPILE = ("cobc -I %s -xO %s"):format(copybook_dir, file_path)
+  local COMPILE = ("cobc -I %s -xO %s && clear"):format(copybook_dir, file_path)
 
   local filename_without_extension = vim.fn.expand('%:t:r')
   local RUN = './' .. filename_without_extension
