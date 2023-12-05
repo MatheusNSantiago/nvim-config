@@ -17,6 +17,7 @@ local function get_copybook_dir()
 end
 
 M.run = function()
+  local term_name = "cobol-output"
   local copybook_dir = get_copybook_dir() or ''
 
   local file_path = vim.fn.expand('%:p')
@@ -28,7 +29,16 @@ M.run = function()
 
   local final_cmd = COMPILE .. ' && ' .. RUN .. ' && ' .. REMOVE
   vim.cmd('w')
-  vim.cmd(("TermExec cmd='%s'"):format(final_cmd))
+  vim.cmd(("TermExec cmd='%s' name='%s'"):format(final_cmd, term_name))
+
+  -- Tirar o barbecue (breadcrumbs) do terminal
+  vim.schedule(function()
+    local prev_window = vim.api.nvim_get_current_win()
+    local t = require("plugins.ui.toggleterm").get_terminal(term_name)
+    vim.api.nvim_set_current_win(t.window) -- vá para
+    vim.api.nvim_set_current_win(prev_window)
+    utils.api.feedkeys("<ESC>")
+  end)
 end
 
 return M
