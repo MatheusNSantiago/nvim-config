@@ -35,7 +35,7 @@ function M.config()
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
 
   local cobol_parser_path = '~/Documents/Programming/cobol/tree-sitter-cobol/'
-  if utils.is_os_running_on_wsl() then cobol_parser_path = 'https://github.com/MatheusNSantiago/ts_cobol.git' end
+  if utils.is_os_running_on_wsl() then cobol_parser_path = '~/cobol/ts_cobol' end
 
   parser_config.cobol = {
     install_info = {
