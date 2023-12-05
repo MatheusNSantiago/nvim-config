@@ -9,23 +9,23 @@ function M.setup()
     config = M.config,
     keys = {
       { '<c-space>', desc = 'Increment selection' },
-      { '<bs>',      desc = 'Decrement selection',                    mode = 'x' },
+      { '<bs>', desc = 'Decrement selection', mode = 'x' },
       -- Text Objects
-      { 'af',        desc = 'Around Function',                        mode = 'x' },
-      { 'if',        desc = 'Inner Function',                         mode = 'x' },
-      { 'ac',        desc = 'Around Class',                           mode = 'x' },
-      { 'ic',        desc = 'Inner Class',                            mode = 'x' },
-      { 'aB',        desc = 'Around Block',                           mode = 'x' },
-      { 'iB',        desc = 'Inner Block',                            mode = 'x' },
+      { 'af', desc = 'Around Function', mode = 'x' },
+      { 'if', desc = 'Inner Function', mode = 'x' },
+      { 'ac', desc = 'Around Class', mode = 'x' },
+      { 'ic', desc = 'Inner Class', mode = 'x' },
+      { 'aB', desc = 'Around Block', mode = 'x' },
+      { 'iB', desc = 'Inner Block', mode = 'x' },
       -- Moving between Text Objects
-      { ']f',        desc = 'Mover para o início da próxima função',  mode = { 'n', 'x' } },
-      { ']c',        desc = 'Mover para o início da próxima classe',  mode = { 'n', 'x' } },
-      { '[f',        desc = 'Mover para o início da função anterior', mode = { 'n', 'x' } },
-      { '[c',        desc = 'Mover para o início da classe anterior', mode = { 'n', 'x' } },
-      { ']F',        desc = 'Mover para o final da próxima função',   mode = { 'n', 'x' } },
-      { ']C',        desc = 'Mover para o final da próxima classe',   mode = { 'n', 'x' } },
-      { '[F',        desc = 'Mover para o final da função anterior',  mode = { 'n', 'x' } },
-      { '[C',        desc = 'Mover para o final da classe anterior',  mode = { 'n', 'x' } },
+      { ']f', desc = 'Mover para o início da próxima função', mode = { 'n', 'x' } },
+      { ']c', desc = 'Mover para o início da próxima classe', mode = { 'n', 'x' } },
+      { '[f', desc = 'Mover para o início da função anterior', mode = { 'n', 'x' } },
+      { '[c', desc = 'Mover para o início da classe anterior', mode = { 'n', 'x' } },
+      { ']F', desc = 'Mover para o final da próxima função', mode = { 'n', 'x' } },
+      { ']C', desc = 'Mover para o final da próxima classe', mode = { 'n', 'x' } },
+      { '[F', desc = 'Mover para o final da função anterior', mode = { 'n', 'x' } },
+      { '[C', desc = 'Mover para o final da classe anterior', mode = { 'n', 'x' } },
     },
   }
 end
@@ -105,20 +105,6 @@ function M.config()
       -- Instead of true it can also be a list of languages
       additional_vim_regex_highlighting = { 'cobol' },
     },
-    context_commentstring = {
-      enable = true,
-      enable_autocmd = false,
-      config = {
-        -- Languages that have a single comment style
-        typescript = '// %s',
-        css = '/* %s */',
-        scss = '/* %s */',
-        html = '<!-- %s -->',
-        svelte = '<!-- %s -->',
-        vue = '<!-- %s -->',
-        json = '',
-      },
-    },
     textobjects = {
       select = {
         enable = true,
@@ -160,6 +146,20 @@ function M.config()
     matchup = { enable = true, disable_virtual_text = true, disable = { 'python' } },
     endwise = { enable = true }, -- Automatically add end to blocks
   })
+
+
+  require('ts_context_commentstring').setup {
+    enable_autocmd = false,
+    languages = { -- Languages that have a single comment style
+      typescript = '// %s',
+      css = '/* %s */',
+      scss = '/* %s */',
+      html = '<!-- %s -->',
+      svelte = '<!-- %s -->',
+      vue = '<!-- %s -->',
+      json = '',
+    },
+  }
 end
 
 return M
