@@ -195,7 +195,7 @@ local plugins = Array({
 if not is_wsl then
   plugins:extend({
     { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/',    config = true },
-    { dir = '~/Documents/Programming/nvim-plugins/CobolOutline/', config = true },
+    { dir = '~/Documents/Programming/nvim-plugins/cobol-outline/', config = true },
   })
 end
 
