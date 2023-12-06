@@ -110,6 +110,11 @@ function Array:extend(arr)
   return self
 end
 
+function Array:last()
+  local size = self:size()
+  return self[size]
+end
+
 ---@alias Array.constructor fun(...): Array
 ---@type Array|Array.constructor
 local _Array = Array
