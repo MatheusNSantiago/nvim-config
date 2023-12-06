@@ -22,13 +22,14 @@ function M.setup_highlights()
   end
 end
 
-function M.refresh()
-  M.clear()
-  M.render()
+function M.refresh(bufnr, pos)
+  bufnr = bufnr or 0
+  M.clear(bufnr)
+  M.render(bufnr, pos)
 end
 
-function M.render()
-  local chunk_info = M.get_current_chunk_info()
+function M.render(bufnr, pos)
+  local chunk_info = M.get_current_chunk_info(bufnr, pos)
   if not chunk_info then return end
 
   local text_hl = M._pick_hl(chunk_info.type)
@@ -66,7 +67,7 @@ function M.render()
 
     row_opts.virt_text = { { beg_virt_text, text_hl } }
     row_opts.virt_text_win_col = math.max(start_col - offset, 0)
-    vim.api.nvim_buf_set_extmark(0, M.NS, beg_row - 1, 0, row_opts)
+    vim.api.nvim_buf_set_extmark(bufnr, M.NS, beg_row - 1, 0, row_opts)
   end
 
   -- render end_row
@@ -83,7 +84,7 @@ function M.render()
 
     row_opts.virt_text = { { end_virt_text, text_hl } }
     row_opts.virt_text_win_col = math.max(start_col - offset, 0)
-    vim.api.nvim_buf_set_extmark(0, M.NS, end_row - 1, 0, row_opts)
+    vim.api.nvim_buf_set_extmark(bufnr, M.NS, end_row - 1, 0, row_opts)
   end
 
   -- render middle section
@@ -93,12 +94,12 @@ function M.render()
     local space_tab = (' '):rep(M.shiftwidth)
     local line_val = vim.fn.getline(i):gsub('\t', space_tab)
     if #line_val <= start_col or vim.fn.indent(i) > start_col then
-      if M._col_in_screen(start_col) then vim.api.nvim_buf_set_extmark(0, M.NS, i - 1, 0, row_opts) end
+      if M._col_in_screen(start_col) then vim.api.nvim_buf_set_extmark(bufnr, M.NS, i - 1, 0, row_opts) end
     end
   end
 end
 
-function M.clear() vim.api.nvim_buf_clear_namespace(0, M.NS, 0, -1) end
+function M.clear(bufnr) vim.api.nvim_buf_clear_namespace(bufnr, M.NS, 0, -1) end
 
 ---@param col number the column number
 ---@return boolean
@@ -107,8 +108,14 @@ function M._col_in_screen(col)
   return col >= leftcol
 end
 
-function M.get_current_chunk_info()
-  local cursor_node = ts.get_node()
+function M.get_current_chunk_info(bufnr, pos)
+  local cursor_node
+
+  if pos then
+    cursor_node = ts.get_node({ bufnr = bufnr, pos = pos })
+  else
+    cursor_node = ts.get_node()
+  end
 
   -- Sobe a AST até achar um chunk node
   while cursor_node do
