@@ -51,11 +51,7 @@ M.autocommands = {
     desc = 'mostrar aqueles indicadores iguais ao do HLChunk',
     event = { 'CursorMovedI', 'CursorMoved' },
     pattern = '*.cbl',
-    command = function(args)
-      utils.throttle(function()
-        chunk.refresh(args.buf)
-      end, 70)
-    end,
+    command = utils.throttle(function(args) chunk.refresh(args.buf) end, 70),
   },
   -- {
   --   desc = 'Capitalizar código depois de salvar',
