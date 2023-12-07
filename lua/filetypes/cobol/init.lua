@@ -1,4 +1,3 @@
-local U = require('filetypes.cobol.utils')
 local chunk = require('filetypes.cobol.chunk')
 local outline = require('cobol-outline')
 
@@ -51,7 +50,7 @@ M.autocommands = {
     desc = 'mostrar aqueles indicadores iguais ao do HLChunk',
     event = { 'CursorMovedI', 'CursorMoved' },
     pattern = '*.cbl',
-    command = utils.throttle(function(args) chunk.refresh(args.buf) end, 70),
+    command = utils.throttle(chunk.refresh, 70),
   },
   -- {
   --   desc = 'Capitalizar código depois de salvar',
