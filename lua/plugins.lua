@@ -169,10 +169,11 @@ local plugins = Array({
   setup('dev.package-info'),
   setup('dev.typescript'),
 
-  { 'MatheusNSantiago/mychatgpt',         config = true, enabled = is_wsl },
-  { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },                -- snippets
-  { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
-  { 'vimjas/vim-python-pep8-indent',      ft = 'python' },              -- Conserta o indent do python
+  { 'MatheusNSantiago/mychatgpt', config = true, enabled = is_wsl },
+  { dir = '~/cobol/cobol-outline/',     config = true, enabled = is_wsl },
+  { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },                                                                        -- snippets
+  { 'akinsho/pubspec-assist.nvim',   config = true, ft = 'yaml' },                                                              -- add/update dart dependencies
+  { 'vimjas/vim-python-pep8-indent', ft = 'python' },                                                                           -- Conserta o indent do python
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
@@ -194,7 +195,7 @@ local plugins = Array({
 
 if not is_wsl then
   plugins:extend({
-    { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/',    config = true },
+    { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/',     config = true },
     { dir = '~/Documents/Programming/nvim-plugins/cobol-outline/', config = true },
   })
 end

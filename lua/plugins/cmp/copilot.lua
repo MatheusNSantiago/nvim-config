@@ -1,8 +1,6 @@
 local M = {}
 
 function M.setup()
-	if utils.is_os_running_on_wsl() then return end
-
 	require('copilot_cmp').setup({
 		formatters = {
 			label = require('copilot_cmp.format').format_label_text,
