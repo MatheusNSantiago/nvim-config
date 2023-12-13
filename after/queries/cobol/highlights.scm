@@ -7,7 +7,7 @@
 ; ╾───────────────────────────────────────────────────────────────────────────────────╼
 ((WORD) @identifier
   (#not-any-of? @identifier
-   "FILLER" "TRUE" "FALSE" "RUN" "RETURN-CODE"))
+   "FILLER" "TRUE" "FALSE" "RUN" "RETURN-CODE" "WHEN" "DISPLAY" "OTHER"))
 
 ((WORD) @constant
   (#match? @constant "^CTE-.*"))
