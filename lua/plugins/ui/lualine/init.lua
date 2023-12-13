@@ -10,6 +10,7 @@ end
 
 function M.config()
   local icons = require('utils.icons')
+  local statusline = require('plugins.ui.lualine.statusline')
   local lualine = require('lualine')
   local c = require('utils.colors')
 
@@ -29,16 +30,12 @@ function M.config()
       winbar = 100,   -- arises that lualine needs to refresh itself before this time
     },
     disabled_filetypes = {
-      -- statusline = { "NvimTree", "toggleterm" },
-      -- winbar = { "help", "startify", "packer", "neogitstatus", "Trouble", "Outline" },
+      statusline = { 'NvimTree', 'toggleterm' },
+      winbar = { 'help', 'startify', 'packer', 'neogitstatus', 'Trouble', 'Outline' },
     },
-    sections = require('plugins.ui.lualine.statusline'),
-    -- inactive_sections = require("plugins.ui.lualine.statusline").sections,
+    sections = statusline.sections,
+    inactive_sections = statusline.inactive_sections,
     winbar = {},
-    inactive_sections = {
-      lualine_x = {},
-      lualine_c = { { '%=' }, { 'filename' } },
-    },
     extensions = {
       {
         filetypes = { 'toggleterm' },

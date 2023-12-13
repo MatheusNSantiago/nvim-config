@@ -1,4 +1,5 @@
 local icons = require('utils.icons')
+local M = {}
 local c = vim.tbl_extend('force', require('utils.colors'), {
   normal = '#7e9cd8',
   insert = '#98bb6c',
@@ -69,7 +70,7 @@ end
 local function left_separator() return '' end
 local function right_separator() return '' end
 
-return {
+M.sections = {
   lualine_a = {
     { 'mode', color = { fg = c.dark_bg, gui = 'bold' } },
     {
@@ -183,3 +184,18 @@ return {
     },
   },
 }
+
+M.inactive_sections = {
+  lualine_x = {},
+  lualine_c = {
+    { '%=' },
+    {
+      'filename',
+      cond = conditions.buffer_not_empty,
+      file_status = false,
+      path = 1,
+    },
+  },
+}
+
+return M
