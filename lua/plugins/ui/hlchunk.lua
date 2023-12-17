@@ -16,6 +16,7 @@ function M.config()
       notify = true, -- notify if some situation(like disable chunk mod double time)
       exclude_filetypes = {
         aerial = true,
+        html = true,
         dashboard = true,
         cobol = true,
       },
