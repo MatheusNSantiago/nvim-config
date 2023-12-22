@@ -96,29 +96,32 @@ local config = {
   end,
 }
 
+-- jdtls.start_or_attach(config)
+
 jdtls.start_or_attach(config)
+jdtls_dap.setup_dap_main_class_configs()
 
 utils.api.augroup('Java LSP AutoCommands', {
   event = 'FileType',
   pattern = 'java',
   command = function()
-    -- jdtls.start_or_attach(config)
-    -- jdtls_dap.setup_dap_main_class_configs()
+    jdtls.start_or_attach(config)
+    jdtls_dap.setup_dap_main_class_configs()
   end,
 }, {
   event = 'LspAttach',
   pattern = '*.java',
   desc = 'Carrega as configs da main class no LspAttach, garantindo que o LSP esteja completamente attachado',
   command = function(args)
-    -- local client = vim.lsp.get_client_by_id(args.data.client_id)
-    -- if client.name ~= 'jdtls' then return end
-    --
-    -- jdtls_dap.setup_dap_main_class_configs()
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client.name ~= 'jdtls' then return end
+
+    jdtls_dap.setup_dap_main_class_configs()
   end,
 }, {
   event = 'BufWritePost',
   pattern = '*.java',
   command = function()
-    -- local _, _ = pcall(vim.lsp.codelens.refresh)
+    local _, _ = pcall(vim.lsp.codelens.refresh)
   end,
 })

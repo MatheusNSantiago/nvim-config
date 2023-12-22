@@ -168,6 +168,7 @@ local plugins = Array({
   setup('dev.flutter-tools'),
   setup('dev.package-info'),
   setup('dev.typescript'),
+  { 'mfussenegger/nvim-jdtls',            ft = 'java' },
 
   { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
   { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
