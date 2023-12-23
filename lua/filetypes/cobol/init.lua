@@ -8,7 +8,7 @@ local M = {}
 M.picker = {
   keymap = '<leader><leader>o',
   title = 'Cobol Commands',
-  actions = require('filetypes.cobol.picker-actions'),
+  actions = require('cobol-quick-add.picker-actions'),
 }
 
 M.on_buf_enter = function()
@@ -19,11 +19,11 @@ end
 
 M.mappings = {
   { 'n',          '<leader>o',  outline.open },
-  { { 'n', 'x' }, 'w',          require('filetypes.cobol.motions').to_start_of_next_word },
-  { { 'n', 'x' }, 'e',          require('filetypes.cobol.motions').to_end_of_word },
-  { { 'n', 'x' }, 'b',          require('filetypes.cobol.motions').start_of_previous_word },
-  { 'n',          '<leader>ap', require('filetypes.cobol.quick-add').add_pic_under_cursor },
-  { 'n',          '<leader>as', require('filetypes.cobol.quick-add').add_section },
+  -- { { 'n', 'x' }, 'w',          require('filetypes.cobol.motions').to_start_of_next_word },
+  -- { { 'n', 'x' }, 'e',          require('filetypes.cobol.motions').to_end_of_word },
+  -- { { 'n', 'x' }, 'b',          require('filetypes.cobol.motions').start_of_previous_word },
+  { 'n',          '<leader>ap', require('cobol-quick-add').add.pic_under_cursor },
+  { 'n',          '<leader>as', require('cobol-quick-add').add_section },
   { 'n',          '<leader>r',  require('filetypes.cobol.code-runner').run },
   { 'n',          '<leader>cl', function() require('comment-box').line(5) end },
   { { 'n', 'v' }, '<leader>cb', function() require('comment-box').lbox(4) end },
@@ -48,7 +48,7 @@ M.autocommands = {
   },
   {
     desc = 'mostrar aqueles indicadores iguais ao do HLChunk',
-    event = { 'CursorMovedI', 'CursorMoved' },
+    event = { 'CursorMovedI', 'CursorMoved', 'BufEnter' },
     pattern = '*.cbl',
     command = utils.throttle(chunk.refresh, 70),
   },
