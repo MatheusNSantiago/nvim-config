@@ -199,8 +199,9 @@ if is_wsl then
   })
 else
   plugins:extend({
-    { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/',     config = true },
-    { dir = '~/Documents/Programming/nvim-plugins/cobol-outline/', config = true },
+    { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/',      config = true },
+    { dir = '~/Documents/Programming/nvim-plugins/cobol-outline/',  config = true },
+    { dir = '~/Documents/Programming/nvim-plugins/cobol-quick-add/' },
   })
 end
 
