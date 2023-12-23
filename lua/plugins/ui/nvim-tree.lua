@@ -190,7 +190,7 @@ M.config = function()
     end,
     renderer = {
       add_trailing = false,
-      group_empty = true, -- folders that only contain a single folder into one node in the file tree
+      group_empty = false, -- folders that only contain a single folder into one node in the file tree
       highlight_git = true,
       highlight_opened_files = 'none',
       root_folder_modifier = ':~',
