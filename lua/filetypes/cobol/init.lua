@@ -1,4 +1,6 @@
 local chunk = require('filetypes.cobol.chunk')
+local complete_statement = require('filetypes.cobol.complete-statement')
+local indent = require('filetypes.cobol.indent')
 local outline = require('cobol-outline')
 
 ---@type FiletypeSettings
@@ -18,6 +20,7 @@ M.on_buf_enter = function()
 end
 
 M.mappings = {
+  { 'n',          'gr',         require('filetypes.cobol.rename').rename },
   { 'n',          '<leader>o',  outline.open },
   { 'n',          '<leader>ss', outline.search_section },
   -- { { 'n', 'x' }, 'w',          require('filetypes.cobol.motions').to_start_of_next_word },
@@ -28,8 +31,15 @@ M.mappings = {
   { 'n',          '<leader>r',  require('filetypes.cobol.code-runner').run },
   { 'n',          '<leader>cl', function() require('comment-box').line(5) end },
   { { 'n', 'v' }, '<leader>cb', function() require('comment-box').lbox(4) end },
-  { 'i',          '<CR>',       require('filetypes.cobol.indent').new_indentedline_below },
-  { 'n',          'o',          require('filetypes.cobol.indent').new_indentedline_below },
+  { 'n',          'o',          indent.new_indentedline_below },
+  {
+    'i',
+    '<CR>',
+    function()
+      indent.new_indentedline_below()
+      -- if complete_statement.is_valid() then complete_statement.complete() end
+    end,
+  },
 }
 
 M.plugins = require('filetypes.cobol.plugins')
