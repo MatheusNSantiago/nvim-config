@@ -37,7 +37,7 @@ M.mappings = {
     '<CR>',
     function()
       indent.new_indentedline_below()
-      -- if complete_statement.is_valid() then complete_statement.complete() end
+      complete_statement.complete()
     end,
   },
 }
