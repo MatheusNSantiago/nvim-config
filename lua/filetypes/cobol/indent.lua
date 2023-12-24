@@ -51,7 +51,8 @@ local function is_cursor_on_division(division)
   end
 end
 
-local function indent(size)
+local function indent(size, delay)
+  delay = delay or 20
   vim.defer_fn(function()
     local line = fn.getline('.')
     local line_number = fn.line('.')
@@ -61,7 +62,7 @@ local function indent(size)
 
     fn.setline(line_number, indented_line)
     fn.cursor({ line_number, col + size })
-  end, 20)
+  end, delay)
 end
 
 local function is_first_relevant_line_after(lnum, pattern)
@@ -121,5 +122,7 @@ function M.new_indentedline_below()
   -- -- na primeira coluna válida
   -- if line_is_comment then return indent(1) end
 end
+
+M.indent = indent
 
 return M
