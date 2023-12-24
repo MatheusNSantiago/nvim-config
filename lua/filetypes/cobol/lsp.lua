@@ -23,6 +23,7 @@ end
 
 local get_clients = vim.lsp.get_clients or vim.lsp.get_active_clients
 
+---@param handler fun(err: table, result: table, ctx: table)
 local request = function(bufnr, method, params, handler)
   local clients = get_clients({ bufnr = bufnr, name = 'cobol_ls' })
   local _, client = next(clients)
@@ -55,6 +56,36 @@ M.tree_provider = function(callback)
     callback(tree)
   end)
 end
+
+---@class Reference
+---@field line number
+---@field start_char number
+---@field end_char number
+
+---Get the references of the symbol under the cursor.
+---@param callback fun(references: Reference[])
+M.references_provider = function(callback, bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  local params = vim.lsp.util.make_position_params()
+  params.context = { includeDeclaration = true }
+
+  request(bufnr, 'textDocument/references', params, function(_, result, _)
+    local references = {}
+    if not result then return end
+    for _, v in ipairs(result) do
+      if v.range then
+        local line = v.range.start.line
+        local start_char = v.range.start.character
+        local end_char = v.range['end'].character
+
+        table.insert(references, { line = line, start_char = start_char, end_char = end_char })
+      end
+    end
+    return callback(references)
+  end)
+end
+
+--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 
 M._lsp_str_to_num = vim.tbl_add_reverse_lookup({
   File = 1,
