@@ -50,6 +50,41 @@ M.handlers = {
 	end,
 }
 
-M.on_attach = lsp.common_on_attach
+M.on_attach = function(client, bufnr)
+	local keymap = utils.api.keymap
+
+	local caps = client.server_capabilities
+
+	-- Enable completion triggered by <C-X><C-O>
+	if caps.completionProvider then vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc' end
+
+	-- Use LSP as the handler for formatexpr.
+	if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
+
+	-- setup navic (breadcrumbs) e outros simbolos
+	require('lsp.utils').setup_document_symbols(client, bufnr)
+
+	-- Diagnostic jump
+	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
+	keymap('n', ']e', ':Lspsaga diagnostic_jump_next<CR>')
+
+	-- Diagnostic jump with filters such as only jumping to an error
+	keymap('n', '[E', ":lua require('lspsaga.diagnostic').goto_prev({ severity = 1 })<CR>")
+	keymap('n', ']E', ":lua require('lspsaga.diagnostic').goto_next({ severity = 1 })<CR>")
+
+	keymap('n', '<leader>sd', ':Telescope diagnostics<CR>', { desc = '[S]earch [D]iagnostics' })
+	keymap('n', '<leader>sR', ':Telescope lsp_references<CR>', { desc = '[S]earch [R]eferences' })
+	keymap('n', '<leader>si', ':Telescope lsp_implementations<CR>', { desc = '[S]earch [I]mplementations' })
+
+	keymap('n', 'gr', ':Lspsaga rename<CR>')
+	keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
+	keymap('n', 'gf', ':Lspsaga finder<CR>')
+
+	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
+	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')           -- Abre a definição em um novo buffer
+	keymap('n', 'gV', ':vsplit<CR><C-w>w<C-w>L:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
+	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')                   -- Code action
+	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')                 -- Show line diagnostics
+end
 
 return M

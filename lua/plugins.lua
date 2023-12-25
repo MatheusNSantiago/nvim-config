@@ -51,7 +51,6 @@ local plugins = Array({
   setup('ui.rainbow-delimiters'),     -- rainbow parentheses
   setup('ui.trouble'),                -- pretty diagnostics, refs, quickfix
   setup('ui.virtcolumn'),             -- ColorColumn como um |
-  -- setup('ui.pretty-hover'),
   setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
 
   'sitiom/nvim-numbertoggle',         -- automatic relative/absolute line numbers
@@ -199,9 +198,10 @@ if is_wsl then
   })
 else
   plugins:extend({
-    { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/',      config = true },
-    { dir = '~/dev/cobol/plugins/cobol-outline/',  config = true },
+    { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/', config = true },
+    { dir = '~/dev/cobol/plugins/cobol-outline/',              config = true },
     { dir = '~/dev/cobol/plugins/cobol-quick-add/' },
+    { dir = '~/dev/cobol/plugins/cobol-hover/',                config = true },
   })
 end
 
