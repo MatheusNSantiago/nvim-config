@@ -2,7 +2,7 @@ local lsp = require('lsp')
 
 local M = {
 	name = 'cobol_ls',
-	filetypes = { 'cobol' },
+	filetypes = { 'cobol', 'copybook' },
 	capabilities = lsp.client_capabilities(),
 	root_dir = lsp.utils.find_root_dir,
 }
