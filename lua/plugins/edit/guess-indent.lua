@@ -13,6 +13,7 @@ function M.config()
     override_editorconfig = false, -- Set to true to override settings set by .editorconfig
     filetype_exclude = {         -- A list of filetypes for which the auto command gets disabled
       'cobol',
+      'copybook',
       'netrw',
       'tutor',
     },
