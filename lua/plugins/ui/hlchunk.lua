@@ -19,6 +19,7 @@ function M.config()
         html = true,
         dashboard = true,
         cobol = true,
+        copybook = true,
       },
       support_filetypes = {
         '*.py',
