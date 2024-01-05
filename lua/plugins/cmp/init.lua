@@ -85,7 +85,7 @@ function M.config()
     sorting = {
       priority_weight = 2,
       comparators = {
-        (utils.is_os_running_on_wsl() and require('copilot_cmp.comparators').prioritize) or nil,
+        require('copilot_cmp.comparators').prioritize or nil,
         require('plugins.cmp.utils.comparators').prioritizeVariables,
         require('cmp-under-comparator').under,
         cmp.config.compare.score,

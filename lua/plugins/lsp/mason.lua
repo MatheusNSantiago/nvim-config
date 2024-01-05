@@ -5,7 +5,6 @@ function M.setup()
 	return {
 		'williamboman/mason.nvim',
 		build = ':MasonUpdate', -- updates registry contents
-		enabled = not utils.is_os_running_on_wsl(),
 		config = M.config,
 	}
 end
@@ -33,6 +32,7 @@ function M.config()
 			'ruff',             -- python linter
 			'debugpy',          -- python debugger
 			'black',            -- python formatter
+			'stylua', -- Lua formatter
 			'yamlfmt',          -- yaml formatter
 			'prettierd',        -- javascript formatter
 			'cpplint',          -- c/c++ linter

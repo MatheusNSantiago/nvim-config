@@ -147,7 +147,7 @@ function M.setup()
 	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
 
 	--- No WSL o mason não funfa, então precisamos setar os LSPs aqui
-	if utils.is_os_running_on_wsl() then M.setup_language_servers() end
+	-- if utils.is_os_running_on_wsl() then M.setup_language_servers() end
 end
 
 M.setup_language_servers = function()
