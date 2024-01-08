@@ -69,7 +69,7 @@ local plugins = Array({
   setup('navigation.tabout'),                                                            -- tabout
   setup('navigation.marks'),                                                             -- marks
   setup('navigation.nvim-navbuddy'),                                                     -- outline
-  setup('navigation.readline'),                                                          -- Readline motions and deletions (igual do terminal)
+  -- setup('navigation.readline'),                                                          -- Readline motions and deletions (igual do terminal)
   setup('navigation.leap'),                                                              -- sneap + easymotion
   setup('navigation.flit'),                                                              -- Repeat jump by pressing f, F, t, T again
   setup('navigation.vim-matchup'),                                                       -- highlight, navigate, and operate on %
@@ -193,7 +193,7 @@ local plugins = Array({
 
 if is_wsl then
   plugins:extend({
-    { dir = '~/cobol/cobol-outline/', config = true },
+    { dir = '~/dev/cobol/cobol-bundle/', config = true, branch = "feature/add-program" },
     { 'MatheusNSantiago/mychatgpt',   config = true },
   })
 else
