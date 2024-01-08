@@ -12,10 +12,7 @@ M.cmd = function(dispatchers)
 	-- local lsp_path = '~/Documents/Programming/nvim-plugins/CobolLSP/extension/server/native/server-linux'
 	local lsp_path = '~/dev/cobol/plugins/server-linux'
 
-	if is_wsl then
-		lsp_path =
-		'~/.vscode-server/extensions/broadcommfd.cobol-language-support-2.0.3-linux-x64/server/native/server-linux'
-	end
+	if is_wsl then lsp_path = '~/dev/cobol/server-linux' end
 
 	local params =
 	[[Dline.separator=\r\n Dlogback.statusListenerClass=ch.qos.logback.core.status.NopStatusListener DserverType=NATIVE]]
