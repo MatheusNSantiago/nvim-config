@@ -15,22 +15,26 @@ function M.keys()
   local is_wsl = utils.is_os_running_on_wsl()
   return {
     -- resizing splits
-    { is_wsl and '<S-A-i>' or '<C-S-A-i>', smart_splits.resize_up,         desc = 'smart-splits: resize up' }, -- (autokey = <C-S-A-l>)
-    { is_wsl and '<S-A-k>' or '<C-S-A-k>', smart_splits.resize_down,       desc = 'smart-splits: resize down' },
-    { is_wsl and '<S-A-j>' or '<C-S-A-j>', smart_splits.resize_left,       desc = 'smart-splits: resize left' },
-    { is_wsl and '<S-A-ç>' or '<C-S-A-ç>', smart_splits.resize_right,      desc = 'smart-splits: resize right' },
+    { is_wsl and '<S-A-i>' or '<C-S-A-i>', smart_splits.resize_up,        desc = 'smart-splits: resize up' }, -- (autokey = <C-S-A-l>)
+    { is_wsl and '<S-A-k>' or '<C-S-A-k>', smart_splits.resize_down,      desc = 'smart-splits: resize down' },
+    { is_wsl and '<S-A-j>' or '<C-S-A-j>', smart_splits.resize_left,      desc = 'smart-splits: resize left' },
+    { is_wsl and '<S-A-ç>' or '<C-S-A-ç>', smart_splits.resize_right,     desc = 'smart-splits: resize right' },
 
     -- moving between splits
-    { '<C-l>',                             smart_splits.move_cursor_up,    desc = 'smart-splits: move cursor up' },
-    { '<C-k>',                             smart_splits.move_cursor_down,  desc = 'smart-splits: move cursor down' },
-    { '<C-j>',                             smart_splits.move_cursor_left,  desc = 'smart-splits: move cursor left' },
-    { '<C-ç>',                             smart_splits.move_cursor_right, desc = 'smart-splits: move cursor right' },
+    { '<C-l>',                             smart_splits.move_cursor_up,   desc = 'smart-splits: move cursor up' },
+    { '<C-k>',                             smart_splits.move_cursor_down, desc = 'smart-splits: move cursor down' },
+    { '<C-j>',                             smart_splits.move_cursor_left, desc = 'smart-splits: move cursor left' },
+    {
+      is_wsl and '<C-A-a>' or '<C-ç>',
+      smart_splits.move_cursor_right,
+      desc = 'smart-splits: move cursor right',
+    },
 
     -- Swapping splits
-    { '<leader>J',                         smart_splits.swap_buf_left,     desc = 'smart-splits: swap buffer left' },
-    { '<leader>Ç',                         smart_splits.swap_buf_right,    desc = 'smart-splits: swap buffer right' },
-    { '<leader>L',                         smart_splits.swap_buf_up,       desc = 'smart-splits: swap buffer up' },
-    { '<leader>K',                         smart_splits.swap_buf_down,     desc = 'smart-splits: swap buffer down' },
+    { '<leader>J', smart_splits.swap_buf_left,  desc = 'smart-splits: swap buffer left' },
+    { '<leader>Ç', smart_splits.swap_buf_right, desc = 'smart-splits: swap buffer right' },
+    { '<leader>L', smart_splits.swap_buf_up,    desc = 'smart-splits: swap buffer up' },
+    { '<leader>K', smart_splits.swap_buf_down,  desc = 'smart-splits: swap buffer down' },
   }
 end
 
