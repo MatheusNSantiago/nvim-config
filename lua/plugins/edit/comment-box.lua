@@ -4,6 +4,7 @@ function M.setup()
   return {
     'LudoPinelli/comment-box.nvim',
     config = M.config,
+    commit = 'dd1a48f8d06',
     keys = M.keys,
   }
 end
