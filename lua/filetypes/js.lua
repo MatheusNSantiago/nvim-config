@@ -8,7 +8,7 @@ return {
     },
   },
   mappings = {
-    { 'n', '<leader>r', ":TermExec cmd='tree-sitter generate && tree-sitter parse examples/foo.cbl'<CR>" },
+    { 'n', '<leader>r', ":TermExec cmd='tree-sitter generate && clear'<CR>" },
     {
       'n',
       'gd',
