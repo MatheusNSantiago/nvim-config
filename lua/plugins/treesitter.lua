@@ -61,8 +61,8 @@ function M.config()
     auto_install = true,
     autotag = { enable = true },
     refactor = {
-      highlight_definitions = { enable = true },
-      highlight_current_scope = { enable = false },
+      highlight_definitions = { enable = true, disable = { 'cobol' } },
+      highlight_current_scope = { enable = true, disable = { 'cobol' } },
     },
     incremental_selection = {
       enable = true,
@@ -96,6 +96,7 @@ function M.config()
     textobjects = {
       select = {
         enable = true,
+        disable = { 'cobol' },
         -- Automatically jump forward to textobj, similar to targets.vim
         lookahead = true,
         keymaps = {
@@ -111,6 +112,7 @@ function M.config()
       },
       move = {
         enable = true,
+        disable = { 'cobol' },
         set_jumps = true, -- whether to set jumps in the jumplist
         goto_next_start = {
           [']f'] = '@function.outer',
@@ -131,7 +133,7 @@ function M.config()
       },
       swap = { enable = false, swap_next = {} },
     },
-    matchup = { enable = true, disable_virtual_text = true, disable = { 'python' } },
+    matchup = { enable = true, disable_virtual_text = true, disable = { 'python', 'cobol' } },
     endwise = { enable = true }, -- Automatically add end to blocks
   })
 
