@@ -15,10 +15,10 @@ function M.keys()
   local is_wsl = utils.is_os_running_on_wsl()
   return {
     -- resizing splits
-    { is_wsl and '<S-A-i>' or '<C-S-A-i>', smart_splits.resize_up,        desc = 'smart-splits: resize up' }, -- (autokey = <C-S-A-l>)
-    { is_wsl and '<S-A-k>' or '<C-S-A-k>', smart_splits.resize_down,      desc = 'smart-splits: resize down' },
-    { is_wsl and '<S-A-j>' or '<C-S-A-j>', smart_splits.resize_left,      desc = 'smart-splits: resize left' },
-    { is_wsl and '<S-A-ç>' or '<C-S-A-ç>', smart_splits.resize_right,     desc = 'smart-splits: resize right' },
+    { is_wsl and '<C-S-A-Up>' or '<C-S-A-i>', smart_splits.resize_up,        desc = 'smart-splits: resize up' }, -- (autokey = <C-S-A-l>)
+    { is_wsl and '<C-S-A-Down>' or '<C-S-A-k>', smart_splits.resize_down,      desc = 'smart-splits: resize down' },
+    { is_wsl and '<C-S-A-Left>' or '<C-S-A-j>', smart_splits.resize_left,      desc = 'smart-splits: resize left' },
+    { is_wsl and '<C-S-A-Right>' or '<C-S-A-ç>', smart_splits.resize_right,     desc = 'smart-splits: resize right' },
 
     -- moving between splits
     { '<C-l>',                             smart_splits.move_cursor_up,   desc = 'smart-splits: move cursor up' },
