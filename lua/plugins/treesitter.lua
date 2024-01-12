@@ -134,7 +134,7 @@ function M.config()
       swap = { enable = false, swap_next = {} },
     },
     matchup = { enable = true, disable_virtual_text = true, disable = { 'python', 'cobol' } },
-    endwise = { enable = true }, -- Automatically add end to blocks
+    endwise = { enable = true, disable = { 'cobol' } }, -- Automatically add end to blocks
   })
 
   require('ts_context_commentstring').setup({
