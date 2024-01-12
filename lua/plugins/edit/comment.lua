@@ -4,7 +4,7 @@ function M.setup()
     'numToStr/Comment.nvim',
     dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
     config = M.config,
-    keys = { { 'gc', mode = { 'n', 'v' } }, { 'gcc', mode = { 'n', 'v' } }, { 'gbc', mode = { 'n', 'v' } } },
+    keys = { { 'gc', mode = { 'v' } }, { 'gcc', mode = { 'n' } }, { 'gbc', mode = { 'n', 'v' } } },
   }
 end
 
