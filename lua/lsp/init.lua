@@ -3,7 +3,6 @@ local keymap = utils.api.keymap
 
 M.servers = {
 	'angularls',
-	-- 'jdtls',
 	'bashls',
 	'cssls',
 	'yamlls',
@@ -145,30 +144,6 @@ function M.setup()
 
 	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float)
 	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
-
-	--- No WSL o mason não funfa, então precisamos setar os LSPs aqui
-	-- if utils.is_os_running_on_wsl() then M.setup_language_servers() end
-end
-
-M.setup_language_servers = function()
-	local lsp_status_ok, lspconfig = pcall(require, 'lspconfig')
-	if not lsp_status_ok then return end
-
-	local neodev_ok, neodev = pcall(require, 'neodev') -- nvim-dap-ui type checking/docs/autocompletion
-	if neodev_ok then
-		neodev.setup({
-			library = { plugins = { 'nvim-dap-ui' }, types = true },
-		}) -- Atenção: setup neodev BEFORE lspconfig
-	end
-
-	for _, server in ipairs(M.servers) do
-		local config = M.get_configs_for(server)
-
-		local is_server_on_external_plugin = vim.tbl_contains({ 'dart_ls', 'tsserver' }, server)
-		if not is_server_on_external_plugin then
-			lspconfig[server].setup(config) --
-		end
-	end
 end
 
 M.utils = require('lsp.utils')
