@@ -1,7 +1,7 @@
 local M = {}
+local hls = {}
 -- https://github.com/numToStr/Sakura.nvim/commit/392a5d5a2e6097b816314b38d727e641a5bde7c9
 -- https://github.com/LunarVim/onedarker.nvim/blob/master/lua/onedarker/theme.lua
-local hls = {}
 
 hls.syntax = {
 	Comment = { fg = c.comments },
@@ -513,5 +513,6 @@ function M.get_plugin_highlights()
 end
 
 function M.get_all_highlights() return vim.tbl_extend('force', M.get_base_highlights(), M.get_plugin_highlights()) end
+utils.api.command('Reloadhl', function() utils.set_hls(M.get_all_highlights()) end)
 
 return M
