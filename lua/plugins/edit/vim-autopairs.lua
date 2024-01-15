@@ -15,12 +15,14 @@ function M.config()
 		desc = 'make autopairs and completion work together',
 		event = 'BufEnter',
 		pattern = '*',
-		command = function()
-			local ft = vim.bo.filetype
-			if vim.tbl_contains(exclude_filetypes, ft) then return end
-
+		command = function(arg)
 			local cmp_status_ok, cmp = pcall(require, 'cmp')
-			if cmp_status_ok then cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done()) end
+			if cmp_status_ok then --
+				cmp.event:on('confirm_done', function()
+					if vim.tbl_contains(exclude_filetypes, vim.bo.filetype) then return end
+					require('nvim-autopairs.completion.cmp').on_confirm_done()
+				end)
+			end
 		end,
 	})
 
