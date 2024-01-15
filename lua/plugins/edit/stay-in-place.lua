@@ -4,6 +4,7 @@ function M.setup()
 	return {
 		'gbprod/stay-in-place.nvim',
 		config = M.config,
+		ft = {'cobol'},
 		keys = M.keys,
 	}
 end

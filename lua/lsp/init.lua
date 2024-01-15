@@ -2,7 +2,6 @@ local M = {}
 local keymap = utils.api.keymap
 
 M.servers = {
-	'angularls',
 	'bashls',
 	'cssls',
 	'yamlls',

@@ -8,7 +8,8 @@ return {
     },
   },
   mappings = {
-    { 'n', '<leader>r', ":TermExec cmd='tree-sitter generate && clear'<CR>" },
+    { 'n', '<leader>r', ":TermExec cmd='clear && bun run dev'<CR>" },
+    -- { 'n', '<leader>r', ":TermExec cmd='tree-sitter generate && clear'<CR>" },
     {
       'n',
       'gd',
