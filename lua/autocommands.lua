@@ -44,4 +44,13 @@ augroup('my_autocommands_augroup', {
 
 		if can_save then cmd('silent! write ++p') end
 	end,
+}, {
+	desc = 'conserta keymaps/colorschemes que bugam de vez em quando',
+	event = 'BufWritePost',
+	pattern = '*.{lua,js,ts,py,c,cbl,cpy}',
+	command = function()
+		utils.api.bulk_delete_keymaps({
+			['n'] = { '<C-D>', '<C-U>', 'p' },
+		})
+	end,
 })
