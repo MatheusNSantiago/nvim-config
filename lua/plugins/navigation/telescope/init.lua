@@ -18,7 +18,7 @@ function M.keys()
 	local mappings = {
 		-- Builtin
 		{ '<leader>sg',  b.live_grep,                 desc = '[S]earch by [G]rep' },
-		{ '<leader>s/',  b.current_buffer_fuzzy_find, desc = 'Search in file' },
+		{ '<leader>sb',  b.current_buffer_fuzzy_find, desc = '[S]earch [B]uffer' },
 		{ '<leader>sk',  b.keymaps,                   desc = '[S]earch [K]eymaps' },
 		{ '<leader>sof', b.oldfiles,                  desc = '[S]earch [O]ld [F]iles' },
 		{ '<leader>sh',  b.help_tags,                 desc = '[S]earch [H]elp' },
@@ -29,7 +29,6 @@ function M.keys()
 			mode = 'x',
 			desc = '[S]earch [W]ord',
 		},
-		{ '<leader>ss',  b.treesitter,              desc = '[S]earch [S]ymbols' },
 		-- Extension
 		{
 			'<leader>sf',
