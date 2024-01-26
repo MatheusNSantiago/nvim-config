@@ -176,7 +176,7 @@ local plugins = Array({
   --  │                           Git                            │
   --  ╰──────────────────────────────────────────────────────────╯
 
-  setup('git.vim-fugitive'), -- base git plugin
+  -- setup('git.vim-fugitive'), -- base git plugin
   setup('git.gitsigns'),    -- gutter signs
   setup('git.diffview'),
 
