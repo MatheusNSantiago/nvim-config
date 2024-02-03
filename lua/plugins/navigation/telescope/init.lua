@@ -96,6 +96,7 @@ function M.config()
 		'.idea',
 		'android',
 		'build/',
+		'out/',
 		'ios',
 		'linux',
 		'macos',
