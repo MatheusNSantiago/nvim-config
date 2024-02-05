@@ -151,42 +151,43 @@ M.config = function()
       },
     },
     on_attach = function(bufnr)
-      local function opts(desc)
-        return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+      local keymap = function(key, action, desc)
+        local opts = { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        vim.keymap.set('n', key, action, opts)
       end
-      vim.keymap.set('n', 'o', api.node.open.no_window_picker, opts('Open: No Window Picker'))
-      vim.keymap.set('n', 't', swap_then_open_tab, opts('swap_then_open_tab'))
-      vim.keymap.set('n', 'ç', expand, opts('expand'))
-      vim.keymap.set('n', 'j', api.node.navigate.parent_close, opts('Close Directory'))
-      vim.keymap.set('n', 'J', collapse_all, opts('Collapse'))
-      vim.keymap.set('n', 'ga', git_add, opts('git_add'))
-      vim.keymap.set('n', 'T', open_tab_silent, opts('open_tab_silent'))
-      vim.keymap.set('n', '<C-v>', api.node.open.vertical, opts('Open: Vertical Split'))
-      vim.keymap.set('n', '<C-x>', api.node.open.horizontal, opts('Open: Horizontal Split'))
-      vim.keymap.set('n', 'P', api.node.navigate.parent, opts('Parent Directory'))
-      vim.keymap.set('n', '<Tab>', api.node.open.preview, opts('Open Preview'))
-      vim.keymap.set('n', 'L', api.node.navigate.sibling.first, opts('First Sibling'))
-      vim.keymap.set('n', 'K', api.node.navigate.sibling.last, opts('Last Sibling'))
-      vim.keymap.set('n', 'H', api.tree.toggle_hidden_filter, opts('Toggle Dotfiles'))
-      vim.keymap.set('n', 'R', api.tree.reload, opts('Refresh'))
-      vim.keymap.set('n', 'a', api.fs.create, opts('Create'))
-      vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
-      vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
-      vim.keymap.set('n', 'x', api.fs.cut, opts('Cut'))
-      vim.keymap.set('n', 'c', api.fs.copy.node, opts('Copy'))
-      vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
-      vim.keymap.set('n', 'y', api.fs.copy.filename, opts('Copy Name'))
-      vim.keymap.set('n', 'Y', api.fs.copy.relative_path, opts('Copy Relative Path'))
-      vim.keymap.set('n', 'gy', api.fs.copy.absolute_path, opts('Copy Absolute Path'))
-      vim.keymap.set('n', '[c', api.node.navigate.git.prev, opts('Prev Git'))
-      vim.keymap.set('n', ']c', api.node.navigate.git.next, opts('Next Git'))
-      vim.keymap.set('n', 'q', api.tree.close, opts('Close'))
-      vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
-      vim.keymap.set('n', 'v', function()
+
+      keymap('o', api.node.open.no_window_picker, 'Open No Window Picker')
+      keymap('t', swap_then_open_tab, 'swap_then_open_tab')
+      keymap('ç', expand, 'expand')
+      keymap('j', api.node.navigate.parent_close, 'Close Directory')
+      keymap('J', collapse_all, 'Collapse')
+      keymap('ga', git_add, 'git_add')
+      keymap('T', open_tab_silent, 'open_tab_silent')
+      keymap('<C-v>', api.node.open.vertical, 'Open Vertical Split')
+      keymap('<C-x>', api.node.open.horizontal, 'Open Horizontal Split')
+      keymap('P', api.node.navigate.parent, 'Parent Directory')
+      keymap('<Tab>', api.node.open.preview, 'Open Preview')
+      keymap('L', api.node.navigate.sibling.first, 'First Sibling')
+      keymap('K', api.node.navigate.sibling.last, 'Last Sibling')
+      keymap('H', api.tree.toggle_hidden_filter, 'Toggle Dotfiles')
+      keymap('R', api.tree.reload, 'Refresh')
+      keymap('a', api.fs.create, 'Create')
+      keymap('d', api.fs.remove, 'Delete')
+      keymap('r', api.fs.rename, 'Rename')
+      keymap('x', api.fs.cut, 'Cut')
+      keymap('c', api.fs.copy.node, 'Copy')
+      keymap('p', api.fs.paste, 'Paste')
+      keymap('y', api.fs.copy.filename, 'Copy Name')
+      keymap('Y', api.fs.copy.relative_path, 'Copy Relative Path')
+      keymap('gy', api.fs.copy.absolute_path, 'Copy Absolute Path')
+      keymap('[c', api.node.navigate.git.prev, 'Prev Git')
+      keymap(']c', api.node.navigate.git.next, 'Next Git')
+      keymap('q', api.tree.close, 'Close')
+      keymap('?', api.tree.toggle_help, 'Help')
+      keymap('v', function()
         api.node.open.vertical()
         vim.cmd('wincmd L') -- move o buffer pra extrema esquerda
-      end, opts('Open: Vertical Split'))
-      vim.keymap.set('n', 'h', api.node.open.horizontal, opts('Open: Horizontal Split'))
+      end, 'Open: Vertical Split')
     end,
     renderer = {
       add_trailing = false,
@@ -281,7 +282,8 @@ M.highlights = {
   -- NvimTreeGitNew = { fg = "None" },
   -- NvimTreeGitIgnored = { fg = "None" },
   -- NvimTreeOpenedFile = { fg = c.primary, bold = true },
-  NvimTreeCursorLine = { fg = c.secondary, bg = c.bg_highlight, bold = true },
+  NvimTreeCursorLine = { fg = c.secondary },
+  -- NvimTreeCursorLine = { fg = c.secondary, bg = c.bg_highlight, bold = true },
   -- NvimTreeGitDeleted = { fg = colors.red },
   -- NvimTreeSpecialFile = { fg = colors.yellow, bold = true },
   -- NvimTree
