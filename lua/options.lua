@@ -33,6 +33,7 @@ opt.cmdheight = 1 -- Give more space for displaying messages
 opt.number = true
 opt.relativenumber = true
 opt.scrolloff = 6
+opt.splitkeep = "screen"
 
 -- Highlights
 opt.cursorline = true

@@ -9,17 +9,23 @@ function M.setup()
 end
 
 function M.config()
-  local rainbow_delimiters = require('rainbow-delimiters')
-
-  vim.g.rainbow_delimiters = {
-    strategy = {
-      [''] = rainbow_delimiters.strategy['global'], -- default
-    },
+  require('rainbow-delimiters.setup').setup({
+    ---Query names by file type
     query = {
-      [''] = 'rainbow-delimiters', -- default
-      lua = 'rainbow-blocks',   -- Matches keyword delimiters like like `function` and `end`, in addition to parentheses
+      [''] = 'rainbow-delimiters',
+      javascript = 'rainbow-delimiters-react',
     },
+    ---Highlight strategies by file type
+    strategy = {
+      [''] = require('rainbow-delimiters.strategy.global'),
+    },
+    priority = {
+      [''] = 110,
+    },
+    -- Highlight groups in order of display
     highlight = {
+      -- The colours are intentionally not in the usual order to make
+      -- the contrast between them stronger
       'RainbowDelimiterYellow',
       'RainbowDelimiterRed',
       'RainbowDelimiterOrange',
@@ -28,8 +34,7 @@ function M.config()
       'RainbowDelimiterViolet',
       'RainbowDelimiterCyan',
     },
-    -- blacklist = { 'c', 'cpp' },
-  }
+  })
 end
 
 return M
