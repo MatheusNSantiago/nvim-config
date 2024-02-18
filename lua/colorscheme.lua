@@ -513,6 +513,5 @@ function M.get_plugin_highlights()
 end
 
 function M.get_all_highlights() return vim.tbl_extend('force', M.get_base_highlights(), M.get_plugin_highlights()) end
-utils.api.command('Reloadhl', function() utils.set_hls(M.get_all_highlights()) end)
 
 return M

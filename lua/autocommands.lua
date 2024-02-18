@@ -13,10 +13,10 @@ augroup('my_autocommands_augroup', {
 		utils.set_hls(hls)
 	end,
 }, {
-	desc = 'Mover para a última posição quando abrir um buffer',
+	desc = 'Mover para a última posição editada quando abrir um buffer',
 	pattern = '*',
 	event = 'BufReadPost',
-	command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]],
+  command = 'silent! normal! g`"zv'
 }, {
 	desc = 'Limpar trailing spaces antes de salvar',
 	event = 'BufWritePre',
@@ -52,5 +52,7 @@ augroup('my_autocommands_augroup', {
 		utils.api.bulk_delete_keymaps({
 			['n'] = { '<C-D>', '<C-U>', 'p' },
 		})
+
+		require("keymappings")
 	end,
 })
