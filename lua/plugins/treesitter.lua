@@ -33,6 +33,8 @@ end
 function M.config()
   local ts = require('nvim-treesitter.configs')
 
+  local disable = { 'cobol', 'foo' }
+
   ts.setup({
     ensure_installed = {
       'vim',
@@ -61,8 +63,8 @@ function M.config()
     auto_install = true,
     autotag = { enable = true },
     refactor = {
-      highlight_definitions = { enable = true, disable = { 'cobol' } },
-      highlight_current_scope = { enable = true, disable = { 'cobol' } },
+      highlight_definitions = { enable = true, disable = disable },
+      highlight_current_scope = { enable = true, disable = disable },
     },
     incremental_selection = {
       enable = true,
@@ -91,12 +93,12 @@ function M.config()
       -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
       -- Using this option may slow down your editor, and you may see some duplicate highlights.
       -- Instead of true it can also be a list of languages
-      additional_vim_regex_highlighting = { 'cobol' },
+      additional_vim_regex_highlighting = disable,
     },
     textobjects = {
       select = {
         enable = true,
-        disable = { 'cobol' },
+        disable = disable,
         -- Automatically jump forward to textobj, similar to targets.vim
         lookahead = true,
         keymaps = {
@@ -112,7 +114,7 @@ function M.config()
       },
       move = {
         enable = true,
-        disable = { 'cobol' },
+        disable = disable,
         set_jumps = true, -- whether to set jumps in the jumplist
         goto_next_start = {
           [']f'] = '@function.outer',
@@ -133,8 +135,8 @@ function M.config()
       },
       swap = { enable = false, swap_next = {} },
     },
-    matchup = { enable = true, disable_virtual_text = true, disable = { 'python', 'cobol' } },
-    endwise = { enable = true, disable = { 'cobol' } }, -- Automatically add end to blocks
+    matchup = { enable = true, disable_virtual_text = true, disable = { 'python', 'cobol', 'foo' } },
+    endwise = { enable = true, disable = disable }, -- Automatically add end to blocks
   })
 
   require('ts_context_commentstring').setup({
