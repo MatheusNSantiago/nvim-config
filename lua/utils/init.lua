@@ -1,7 +1,6 @@
 local fn = vim.fn
 local M = {}
 
---Return all tables flattened into one
 function M.flatten(tbl)
     local result = {}
     for _, sub_table in pairs(tbl) do
@@ -24,7 +23,6 @@ function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name
 
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
 
----@param content  any
 function M.log(content)
     if Array.is_array(content) or Set.is_set(content) then content = content:to_table() end
     local txt = ''
@@ -55,9 +53,6 @@ function M.log(content)
     vim.api.nvim_echo({ { txt } }, false, {})
 end
 
----Determine if a value of any type is empty
----@param item any
----@return boolean?
 function M.falsy(item)
     if not item then return true end
     local item_type = type(item)

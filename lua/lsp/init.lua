@@ -26,7 +26,7 @@ M.client_capabilities = function()
 		require('cmp_nvim_lsp').default_capabilities(),
 		{
 			textDocument = {
-				foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }, -- Enable folding.
+				foldingRange = { dynamicRegistration = true, lineFoldingOnly = true },
 			},
 		}
 	)
@@ -100,6 +100,8 @@ end
 
 function M.setup()
 	require('lspconfig.ui.windows').default_options.border = 'single'
+	vim.lsp.set_log_level('off')
+
 	local diagnostics = utils.icons.diagnostics
 
 	-- Define Signs

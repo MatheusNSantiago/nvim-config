@@ -7,8 +7,7 @@ function M.setup()
       'nvim-treesitter/nvim-treesitter', -- optional
       'nvim-tree/nvim-web-devicons',  -- optional
     },
-    event = "LspAttach",
-    -- commit = '4f075452c466df263e69ae142f6659dcf9324bf6',
+    event = 'LspAttach',
     config = M.config,
   }
 end
@@ -20,13 +19,17 @@ function M.config()
       scroll_up = '<C-u>',
     },
     request_timeout = 3000,
+    beacon = {
+      enable = false,
+      frequency = 7,
+    },
     ui = {
       title = true,
       -- Border type can be single, double, rounded, solid, shadow.
       border = 'single',
       winblend = 0,
       expand = '',
-      collapse = '',
+      collapse = ' ',
       code_action = '💡',
       incoming = ' ',
       outgoing = ' ',
@@ -88,21 +91,20 @@ function M.config()
     },
     finder = {
       max_height = 0.5,
-      force_max_height = false,
-      default = "ref+imp",
+      default = 'ref',
+      layout = 'float',
       keys = {
-        shuttle = { '<C-j>', 'p' },
-        edit = { 'o', '<CR>' },
+        shuttle = '[w',
+        toggle_or_open = { 'o', '<CR>' },
         vsplit = 'v',
         split = 'h',
         tabnew = 't',
-        tabe = 'r',
-        quit = { 'q', '<ESC>' },
-        close_in_preview = '<ESC>',
+        close = { '<C-c>k' },
+        -- quit = { 'q', '<ESC>' },
       },
     },
     implement = {
-      enable = true,
+      enable = false,
       sign = true,
       virtual_text = true,
       priority = 100,
