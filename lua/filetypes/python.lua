@@ -9,6 +9,8 @@ return {
     keymap = '<leader><leader>o',
     title = 'Python Commands',
     actions = {
+
+      { name = 'Ativar venv',          handler = 'source .venv/bin/activate.fish' },
       {
         name = 'Iniciar Projeto',
         handler = function()

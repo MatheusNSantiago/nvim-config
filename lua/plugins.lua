@@ -177,7 +177,7 @@ local plugins = Array({
   --  ╰──────────────────────────────────────────────────────────╯
 
   -- setup('git.vim-fugitive'), -- base git plugin
-  setup('git.gitsigns'),    -- gutter signs
+  setup('git.gitsigns'), -- gutter signs
   setup('git.diffview'),
 
   --  ╭──────────────────────────────────────────────────────────╮
@@ -190,16 +190,20 @@ local plugins = Array({
   { 'theHamsta/nvim-dap-virtual-text', lazy = true },
 })
 
+vim.filetype.add({ extension = { ['foo'] = 'foo' } })
+
 if is_wsl then
   plugins:extend({
     { dir = '~/dev/cobol/cobol-bundle/', config = true },
-    { 'MatheusNSantiago/mychatgpt',   config = true },
+    { 'MatheusNSantiago/mychatgpt',      config = true },
   })
 else
   plugins:extend({
     { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/', config = true },
-    { dir = '~/dev/cobol/plugins/cobol-bundle/',              config = true },
+    { dir = '~/dev/cobol/plugins/cobol-bundle/',               ft = { 'cobol', 'copybook' }, config = true },
+    { dir = '~/dev/cobol/plugins/cobol-foo/',                  ft = { 'foo' } },
   })
 end
+
 
 require('lazy').setup(plugins)
