@@ -53,6 +53,8 @@ function M.log(content)
     vim.api.nvim_echo({ { txt } }, false, {})
 end
 
+function M.get_current_dir() return debug.getinfo(1, 'S').source:sub(2):match('(.*/)') end
+
 function M.falsy(item)
     if not item then return true end
     local item_type = type(item)
