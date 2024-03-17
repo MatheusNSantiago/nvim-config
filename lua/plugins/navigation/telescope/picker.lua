@@ -89,7 +89,10 @@ function M.normalize_action(action)
 			end
 		else -- Não é um comando do nvim
 			-- Então é um comando do terminal (abrir no toggleterm)
-			action.handler = function() vim.cmd("TermExec cmd='" .. handler .. "'") end
+			action.handler = function()
+				vim.cmd("TermExec cmd='" .. handler .. "'")
+				vim.defer_fn(function() vim.cmd('stopinsert') end, 100)
+			end
 		end
 	else
 	end
