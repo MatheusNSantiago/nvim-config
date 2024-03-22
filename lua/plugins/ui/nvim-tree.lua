@@ -278,6 +278,15 @@ M.config = function()
 end
 
 M.highlights = {
+  --  ╾───────────────────────────────────────────────────────────────────────────────────╼
+  --- Algum mongól fez um PR que fazia um lint na ortografia dos nomes dos arquivos
+  ---@see https://github.com/nvim-tree/nvim-tree.lua/wiki/FAQ#why-do-i-see-spelling-highlights
+
+  NvimTreeExecFile = {},
+  -- NvimTreeSymlink = { bold = true, fg = '#ffff60' },
+  -- NvimTreeSpecialFile = { bold = true, underline = true },
+  -- NvimTreeImageFile = { bold = true, fg = '#ff80ff' },
+  --  ╾───────────────────────────────────────────────────────────────────────────────────╼
   -- NvimTreeGitDirty = { fg = "None" },
   -- NvimTreeGitNew = { fg = "None" },
   -- NvimTreeGitIgnored = { fg = "None" },
