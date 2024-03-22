@@ -26,9 +26,9 @@ function M.config()
 			--  │                          Python                          │
 			--  ╰──────────────────────────────────────────────────────────╯
 			b.formatting.black,
-			b.diagnostics.ruff.with({
-				extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') },
-			}), -- Fast Linter
+			-- b.diagnostics.ruff.with({
+			-- 	extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') },
+			-- }), -- Fast Linter
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          JS/TS                           │
 			--  ╰──────────────────────────────────────────────────────────╯
@@ -50,7 +50,7 @@ function M.config()
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          Outros                          │
 			--  ╰──────────────────────────────────────────────────────────╯
-			b.formatting.fixjson,  -- json
+			-- b.formatting.fixjson,  -- json
 			b.formatting.yamlfmt,  -- yaml
 			b.formatting.fish_indent, -- fish
 			b.diagnostics.fish,    -- fish

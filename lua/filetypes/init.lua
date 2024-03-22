@@ -8,7 +8,7 @@ utils.ft_helpers.filetype_settings({
   ['c'] = require('filetypes.c'),
   ['cobol'] = cobol_bundle.cobol_config,
   ['copybook'] = cobol_bundle.copybook_config,
-  ['foo'] = require("foo"),
+  ['foo'] = require("cobol-foo"),
 })
 
 create_picker('<leader><leader>u', 'Utilities', {
