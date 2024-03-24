@@ -43,7 +43,7 @@ local plugins = Array({
   setup('ui.noice'),                  -- messages, cmdline and popupmenu
   setup('ui.barbecue'),               -- breadcrumbs
   setup('ui.nvim-notify'),            -- messages, cmdline and popupmenu
-  setup('ui.ccc'),                    -- Color picker and highlighter #FFF
+  setup('ui.highlight-colors'),       -- highlighter #FFF
   setup('ui.smart-splits'),           -- split pane management
   setup('ui.vim-scrollbar'),          -- scrollbar
   setup('ui.todo-comments'),          -- highlight TODO, FIXME, etc...
@@ -151,13 +151,13 @@ local plugins = Array({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('treesitter'),
-  { 'nvim-treesitter/nvim-treesitter-textobjects', commit = '8673926' }, -- Additional text objects via treesitter
+  { 'nvim-treesitter/nvim-treesitter-textobjects' },             -- Additional text objects via treesitter. Se der ruim, commit = '8673926'
   { 'RRethy/nvim-treesitter-textsubjects',         lazy = true },
-  { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true },       -- conserta comments para jsx,
+  { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- conserta comments para jsx,
   { 'fladson/vim-kitty',                           ft = { 'kitty', 'conf' } }, -- syntax highlighting for kitty
 
-  'windwp/nvim-ts-autotag',                                             -- tag completion
-  'RRethy/nvim-treesitter-endwise',                                     -- Coloca o end no final de func e if
+  'windwp/nvim-ts-autotag',                                      -- tag completion
+  'RRethy/nvim-treesitter-endwise',                              -- Coloca o end no final de func e if
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                       Development                        │
@@ -190,8 +190,6 @@ local plugins = Array({
   { 'theHamsta/nvim-dap-virtual-text', lazy = true },
 })
 
-vim.filetype.add({ extension = { ['foo'] = 'foo' } })
-
 if is_wsl then
   plugins:extend({
     { dir = '~/dev/cobol/cobol-bundle/', config = true },
@@ -204,6 +202,5 @@ else
     { dir = '~/dev/cobol/plugins/cobol-foo/',                  ft = { 'foo' } },
   })
 end
-
 
 require('lazy').setup(plugins)
