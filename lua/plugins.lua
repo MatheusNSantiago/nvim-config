@@ -26,7 +26,8 @@ local plugins = Array({
   --  │                          Base                            │
   --  ╰──────────────────────────────────────────────────────────╯
 
-  { 'nvim-lua/plenary.nvim',                     lazy = true }, -- Common utilities
+  { 'nvim-lua/plenary.nvim', lazy = true }, -- Common utilities
+  { 'nvim-neotest/nvim-nio', lazy = true }, -- async
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                        Interface                         │
@@ -109,18 +110,18 @@ local plugins = Array({
   setup('lsp.null-ls'), -- Diagnostics/Formating/Code Actions
 
   setup('lsp.mason'),
-  { 'neovim/nvim-lspconfig',             lazy = true }, -- LSP
-  { 'williamboman/mason-lspconfig.nvim', lazy = true }, -- integrar mason com lspconfig
-  { 'jay-babu/mason-null-ls.nvim',       lazy = true }, -- deixa mais fácil usar mason + null-ls
+  { 'neovim/nvim-lspconfig' },            -- LSP
+  { 'williamboman/mason-lspconfig.nvim' }, -- integrar mason com lspconfig
+  { 'jay-babu/mason-null-ls.nvim' },      -- deixa mais fácil usar mason + null-ls
 
-  setup('lsp.lsp_signature'),                          -- mostra a function signature enquanto digita
-  setup('lsp.lspsaga'),                                -- LSP UIs
-  setup('lsp.illuminate'),                             -- higlight a palavra em cima do cursor
-  setup('lsp.lsp-colors'),                             -- agrupa os erros do LSP por cor
-  setup('lsp.symbol-usage'),                           -- mostra quantas referências e definições a função tem
+  setup('lsp.lsp_signature'),             -- mostra a function signature enquanto digita
+  setup('lsp.lspsaga'),                   -- LSP UIs
+  setup('lsp.illuminate'),                -- higlight a palavra em cima do cursor
+  setup('lsp.lsp-colors'),                -- agrupa os erros do LSP por cor
+  setup('lsp.symbol-usage'),              -- mostra quantas referências e definições a função tem
 
-  { 'b0o/schemastore.nvim', lazy = true },             -- schemas para json
-  { 'folke/neodev.nvim',    lazy = true },             -- docs for nvim Lua API
+  { 'b0o/schemastore.nvim', lazy = true }, -- schemas para json
+  { 'folke/neodev.nvim',    opts = {} },  -- docs for nvim Lua API
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                         Snippets                         │

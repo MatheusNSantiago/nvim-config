@@ -15,6 +15,7 @@ function M.config()
 	local mason_lspconfig = require('mason-lspconfig')
 	local lsp = require('lsp')
 	local mason_null_ls = require('mason-null-ls')
+	local neodev = require('neodev')
 
 	mason.setup({
 		ui = {
@@ -32,7 +33,7 @@ function M.config()
 			'ruff',             -- python linter
 			'debugpy',          -- python debugger
 			'black',            -- python formatter
-			'stylua', -- Lua formatter
+			'stylua',           -- Lua formatter
 			'yamlfmt',          -- yaml formatter
 			'prettierd',        -- javascript formatter
 			'cpplint',          -- c/c++ linter
@@ -42,33 +43,25 @@ function M.config()
 		automatic_setup = true, -- Recommended, but optional
 	})
 
+	local custom_lsps = { 'tsserver', 'dart_ls', 'cobol_ls' }
 	local lsp_list = vim.tbl_filter(function(server)
-		local custom_lsps = { 'tsserver', 'dart_ls', 'cobol_ls' }
 		local is_custom_lsp = vim.tbl_contains(custom_lsps, server)
 		return not is_custom_lsp
 	end, lsp.servers)
 
+	neodev.setup({}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+
 	mason_lspconfig.setup({
 		ensure_installed = lsp_list,
-		automatic_installation = true,
+		automatic_installation = { exclude = custom_lsps },
 	})
-
-	local neodev_ok, neodev = pcall(require, 'neodev')
-	if neodev_ok then
-		neodev.setup({
-			-- type checking, documentation and autocompletion for nvim-dap-ui
-			library = { plugins = { 'nvim-dap-ui' }, types = true },
-		}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-	end
 
 	local setup_lsp = function(server)
 		local config = lsp.get_configs_for(server)
 		lspconfig[server].setup(config)
 	end
+	mason_lspconfig.setup_handlers({ function(server_name) setup_lsp(server_name) end })
 
-	for _, server in ipairs(lsp_list) do
-		setup_lsp(server)
-	end
 	setup_lsp('cobol_ls')
 
 	require('lspconfig.ui.windows').default_options.border = 'single'
