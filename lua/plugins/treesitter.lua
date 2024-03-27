@@ -98,7 +98,7 @@ function M.config()
     textobjects = {
       select = {
         enable = true,
-        disable = disable,
+        disable = { 'cobol', 'javascript' },
         -- Automatically jump forward to textobj, similar to targets.vim
         lookahead = true,
         keymaps = {
