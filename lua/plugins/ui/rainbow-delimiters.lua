@@ -1,9 +1,10 @@
-local M = {}
 
+local M = {}
 function M.setup()
   return {
     'HiPhish/rainbow-delimiters.nvim',
     event = 'BufRead',
+    enable = false,
     config = M.config,
   }
 end
