@@ -7,19 +7,19 @@ M.handlers = {
     ),
 }
 
-M.settings = {
-    pyright = { autoImportCompletion = true },
-    python = {
-        analysis = {
-            autoSearchPaths = true,
-            diagnosticMode = 'openFilesOnly',
-            useLibraryCodeForTypes = true,
-            completeFunctionParens = true,
-            typeCheckingMode = 'off',
-        },
-    },
-}
-
+-- M.settings = {
+--     pyright = { autoImportCompletion = true },
+--     python = {
+--         analysis = {
+--             autoSearchPaths = true,
+--             diagnosticMode = 'openFilesOnly',
+--             useLibraryCodeForTypes = true,
+--             completeFunctionParens = true,
+--             typeCheckingMode = 'off',
+--         },
+--     },
+-- }
+--
 M.on_attach = function(client, bufnr)
     require('lsp').common_on_attach(client, bufnr)
 end

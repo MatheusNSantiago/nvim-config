@@ -1,6 +1,7 @@
 ---@diagnostic disable: missing-fields
 
-local cobol_bundle = require('cobol-bundle')
+local ok, cobol_bundle = pcall(require,'cobol-bundle')
+if not ok then cobol_bundle = {} end
 
 utils.ft_helpers.filetype_settings({
   ['python'] = require('filetypes.python'),

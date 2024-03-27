@@ -1,6 +1,7 @@
 local lsp = require('lsp')
 
 local M = {
+	-- cmd = { '/home/wsl/dev/cobol/server-linux', '--stdio' },
 	name = 'cobol_ls',
 	filetypes = { 'cobol', 'copybook' },
 	capabilities = lsp.client_capabilities(),
@@ -76,10 +77,20 @@ M.on_attach = function(client, bufnr)
 	keymap('n', 'gf', ':Lspsaga finder<CR>')
 
 	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
-	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')           -- Abre a definição em um novo buffer
-	keymap('n', 'gV', ':vsplit<CR><C-w>w<C-w>L:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
-	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')                   -- Code action
-	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')                 -- Show line diagnostics
+	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer
+	-- Abre a definição em um novo buffer na vertical
+	keymap('n', 'gV', function()
+		vim.cmd('vsplit')
+
+		vim.cmd('wincmd w')
+		vim.cmd('wincmd L')
+		vim.cmd('Lspsaga goto_definition')
+
+		vim.cmd('vertical resize ' .. 127)
+	end)
+
+	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')  -- Code action
+	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>') -- Show line diagnostics
 end
 
 return M
