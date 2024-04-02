@@ -80,6 +80,8 @@ function M.config()
 			virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
 			delay = 1000,
 			ignore_whitespace = false,
+		-- virt_text_priority = 100,
+
 		},
 		current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
 		sign_priority = 6,
@@ -94,7 +96,6 @@ function M.config()
 			row = 0,
 			col = 1,
 		},
-		yadm = { enable = false },
 		on_attach = on_attach,
 	})
 end
