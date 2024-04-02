@@ -61,7 +61,6 @@ local plugins = Array({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('navigation.telescope'),
-  { 'nvim-telescope/telescope-fzf-native.nvim',  build = 'make',                          lazy = true }, -- melhora a performance
   { 'nvim-telescope/telescope-media-files.nvim', lazy = true },                          -- mostra arquivos de mídia
   { 'danielfalk/smart-open.nvim',                dependencies = { 'kkharji/sqlite.lua' }, lazy = true }, --  melhora o ranking do find files
   { 'debugloop/telescope-undo.nvim',             lazy = true },                          -- undo true
