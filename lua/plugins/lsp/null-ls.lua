@@ -3,7 +3,6 @@ local M = {}
 function M.setup()
 	return {
 		'nvimtools/none-ls.nvim',
-		-- 'jose-elias-alvarez/null-ls.nvim',
 		config = M.config,
 	}
 end
@@ -29,6 +28,7 @@ function M.config()
 			-- b.diagnostics.ruff.with({
 			-- 	extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') },
 			-- }), -- Fast Linter
+			b.formatting.alejandra, -- nix
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          JS/TS                           │
 			--  ╰──────────────────────────────────────────────────────────╯
