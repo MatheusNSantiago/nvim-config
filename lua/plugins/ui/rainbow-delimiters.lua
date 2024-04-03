@@ -4,7 +4,7 @@ function M.setup()
   return {
     'HiPhish/rainbow-delimiters.nvim',
     event = 'BufRead',
-    enable = false,
+    enabled = false,
     config = M.config,
   }
 end
