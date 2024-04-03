@@ -5,7 +5,9 @@ function M.setup()
     'L3MON4D3/LuaSnip',
     config = M.config,
     event = 'InsertEnter',
-    run = 'make install_jsregexp',
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+	  build = "make install_jsregexp",
     dependencies = {
       'friendly-snippets', -- Set of preconfigured snippets for different languages.
     },
