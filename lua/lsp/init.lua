@@ -35,7 +35,8 @@ end
 ---Sets up LSP keymaps and autocommands for the given buffer.
 ---@param client lsp.Client
 ---@param bufnr integer
-function M.common_on_attach(client, bufnr)
+---@param disable_navic? boolean
+function M.common_on_attach(client, bufnr, disable_navic)
 	local caps = client.server_capabilities
 
 	-- Enable completion triggered by <C-X><C-O>
@@ -44,12 +45,14 @@ function M.common_on_attach(client, bufnr)
 	-- Use LSP as the handler for formatexpr.
 	if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
 
-	-- setup navic (breadcrumbs) e outros simbolos
-	require('lsp.utils').setup_document_symbols(client, bufnr)
+	if not disable_navic then
+		-- setup navic (breadcrumbs) e outros simbolos
+		require('lsp.utils').setup_document_symbols(client, bufnr)
 
-	-- Setup nav buddy
-	local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
-	if navbuddy_ok then navbuddy.attach(client, bufnr) end
+		-- Setup nav buddy
+		local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
+		if navbuddy_ok then navbuddy.attach(client, bufnr) end
+	end
 
 	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
 	-- keymap('n', 'K', require('plugins.ui.pretty-hover.init').hover)
