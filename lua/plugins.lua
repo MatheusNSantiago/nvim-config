@@ -165,7 +165,7 @@ local plugins = Array({
 
   setup('dev.flutter-tools'),
   setup('dev.package-info'),
-  setup('dev.typescript'),
+  setup('dev.typescript-tools'),
   { 'mfussenegger/nvim-jdtls',            ft = 'java' },
 
   { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
@@ -197,7 +197,7 @@ if is_wsl then
   })
 else
   plugins:extend({
-    { dir = '~/Documents/Programming/nvim-plugins/MyChatGPT/', config = true },
+    { dir = '~/Documents/Programming/nvim-plugins/mychatgpt/', config = true },
     { dir = '~/dev/cobol/plugins/cobol-bundle/',               ft = { 'cobol', 'copybook' }, config = true },
     { dir = '~/dev/cobol/plugins/cobol-foo/',                  ft = { 'foo' } },
   })

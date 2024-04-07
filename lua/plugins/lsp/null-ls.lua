@@ -37,7 +37,7 @@ function M.config()
 			-- b.formatting.rustywind, -- tailwind (reorganiza classes)
 			-- b.diagnostics.eslint_d, -- js/ts
 			-- b.diagnostics.xo,
-			require('typescript.extensions.null-ls.code-actions'),
+			-- require('typescript.extensions.null-ls.code-actions'),
 
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                            C                             │
