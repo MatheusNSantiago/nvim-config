@@ -1,5 +1,9 @@
 local keymap = utils.api.keymap
 
+
+keymap("n", "<leader>it", ":InspectTree<CR><c-w>w:vertical resize 60<CR>")
+keymap("n", "<leader>tsu", ":TSUpdate foo<CR>")
+
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Geral                           │
 --  ╰──────────────────────────────────────────────────────────╯

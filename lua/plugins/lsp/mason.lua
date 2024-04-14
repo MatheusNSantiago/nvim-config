@@ -18,6 +18,10 @@ function M.config()
 	local neodev = require('neodev')
 
 	mason.setup({
+		registries = {
+			'github:nvim-java/mason-registry',
+			'github:mason-org/mason-registry',
+		},
 		ui = {
 			border = 'rounded',
 			icons = {
@@ -50,6 +54,12 @@ function M.config()
 	end, lsp.servers)
 
 	neodev.setup({}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+	require('java').setup({
+		java_test = { enable = true },
+		java_debug_adapter = { enable = false },
+		jdk = { auto_install = true },
+		notifications = { dap = false },
+	})
 
 	mason_lspconfig.setup({
 		ensure_installed = lsp_list,

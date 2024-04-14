@@ -47,9 +47,9 @@ function M.config()
 	vim.fn.sign_define('DapStopped', dap_breakpoint.stopped)
 	vim.fn.sign_define('DapBreakpointRejected', dap_breakpoint.rejected)
 
-	require('plugins.debug.ui').setup()
+	-- require('plugins.debug.ui').setup()
+	-- require('plugins.debug.virtual-text').setup()
 	require('plugins.debug.dap-python').setup()
-	require('plugins.debug.virtual-text').setup()
 end
 
 M.highlights = {

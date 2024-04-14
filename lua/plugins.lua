@@ -16,18 +16,12 @@ end
 local is_wsl = utils.is_os_running_on_wsl()
 
 local plugins = Array({
-  {
-    'dstein64/vim-startuptime',
-    cmd = 'StartupTime',
-    init = function() vim.g.startuptime_tries = 80 end,
-  },
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                          Base                            │
   --  ╰──────────────────────────────────────────────────────────╯
 
   { 'nvim-lua/plenary.nvim', lazy = true }, -- Common utilities
-  { 'nvim-neotest/nvim-nio', lazy = true }, -- async
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                        Interface                         │
@@ -166,7 +160,7 @@ local plugins = Array({
   setup('dev.flutter-tools'),
   setup('dev.package-info'),
   setup('dev.typescript-tools'),
-  { 'mfussenegger/nvim-jdtls',            ft = 'java' },
+  setup('dev.java'),
 
   { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
   { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
