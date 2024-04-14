@@ -54,6 +54,7 @@ function M.keys()
   keymap('t', '<A-v>', open('vertical'))
   return {
     { '<leader>lg', M.toggle_lazygit,   desc = 'toggleterm: toggle lazygit' },
+    { '<leader>ld', M.toggle_lazydocker,   desc = 'toggleterm: toggle lazydocker' },
     { '<A-f>',      open('float'),      mode = { 'i', 'n', 'x' },           desc = 'toggleterm: floating terminal' },
     { '<A-i>',      open('horizontal'), mode = { 'i', 'n', 'x' },           desc = 'toggleterm: horizontal terminal' },
     { '<A-v>',      open('vertical'),   mode = { 'i', 'n', 'x' },           desc = 'toggleterm: vertical terminal' },
@@ -133,6 +134,34 @@ function M.toggle_lazygit()
   local lazygit = Terminal:new({
     cmd = 'lazygit',
     dir = 'git_dir',
+    close_on_exit = true,
+    hidden = true,
+    direction = 'float',
+    float_opts = {
+      width = 10000, -- math.floor(vim.o.columns * 0.65),
+      height = 10000, -- math.floor(vim.o.lines * 0.70),
+      border = 'none', --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
+      winblend = 0,
+      highlights = { border = 'Normal', background = 'Normal' },
+    },
+    -- function to run on opening the terminal
+    on_open = function(term) vim.cmd('startinsert!') end,
+    -- function to run on closing the terminal
+    on_close = function(_)
+      vim.cmd('startinsert!')
+      vim.schedule(function() vim.cmd('edit') end)
+    end,
+  })
+
+  return lazygit:toggle()
+end
+
+function M.toggle_lazydocker()
+  local Terminal = require('toggleterm.terminal').Terminal
+
+  local lazygit = Terminal:new({
+    cmd = 'lazydocker',
+    dir = '.',
     close_on_exit = true,
     hidden = true,
     direction = 'float',
