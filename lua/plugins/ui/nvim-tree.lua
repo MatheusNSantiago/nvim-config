@@ -102,6 +102,8 @@ M.config = function()
 
   local git_add = function()
     local node = lib.get_node_at_cursor()
+    if not node then return end
+
     local gs = node.git_status.file
 
     -- If the file is untracked, unstaged or partially staged, we stage it
@@ -118,6 +120,8 @@ M.config = function()
     api.node.open.tab(node)
     vim.cmd.tabprev()
   end
+
+  local is_java = vim.fn.glob(vim.fn.getcwd() .. '/pom.xml') ~= ''
 
   local icons = require('utils.icons')
 
@@ -191,7 +195,7 @@ M.config = function()
     end,
     renderer = {
       add_trailing = false,
-      group_empty = false, -- folders that only contain a single folder into one node in the file tree
+      group_empty = is_java, -- folders that only contain a single folder into one node in the file tree
       highlight_git = true,
       highlight_opened_files = 'none',
       root_folder_modifier = ':~',
