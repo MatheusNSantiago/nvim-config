@@ -55,16 +55,17 @@ function M.config()
         opts = { skip = true },
         filter = {
           any = {
-            { event = 'msg_show', find = 'written' },
-            { event = 'msg_show', find = '%d+ lines, %d+ bytes' },
-            { event = 'msg_show', kind = 'search_count' },
-            { event = 'msg_show', find = '%d+L, %d+B' },
-            { event = 'msg_show', find = '^Hunk %d+ of %d' },
-            { event = 'msg_show', find = '%d+ change' },
-            { event = 'msg_show', find = '%d+ line' },
-            { event = 'msg_show', find = '%d+ more line' },
-            { event = 'notify',   find = 'No information available' },
-            { event = 'msg_show', find = 'textDocument/foldingRange' }, -- erro no yaml
+            { event = 'msg_show',               find = 'written' },
+            { event = 'msg_show',               find = '%d+ lines, %d+ bytes' },
+            { event = 'msg_show',               kind = 'search_count' },
+            { event = 'msg_show',               find = '%d+L, %d+B' },
+            { event = 'msg_show',               find = '^Hunk %d+ of %d' },
+            { event = 'msg_show',               find = '%d+ change' },
+            { event = 'msg_show',               find = '%d+ line' },
+            { event = 'msg_show',               find = '%d+ more line' },
+            { event = 'notify',                 find = 'No information available' },
+            { event = 'msg_show',               find = 'textDocument/foldingRange' },                            -- erro no yaml
+            { event = { 'msg_show', 'notify' }, find = 'No delegateCommandHandler for vscode.java.resolveMainClass' }, -- erro no yaml
           },
         },
       },
