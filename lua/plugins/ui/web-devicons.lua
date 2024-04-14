@@ -803,13 +803,13 @@ function M.config()
         name = 'Material',
       },
       ['md'] = {
-        icon = '',
+        icon = '',
         color = '#42a5f5',
         cterm_color = '75',
         name = 'Md',
       },
       ['mdx'] = {
-        icon = '',
+        icon = '',
         color = '#519aba',
         cterm_color = '67',
         name = 'Mdx',
@@ -1325,7 +1325,7 @@ function M.config()
         name = 'Xls',
       },
       ['xml'] = {
-        icon = '謹',
+        icon = '󰗀 ',
         color = '#e37933',
         cterm_color = '173',
         name = 'Xml',
@@ -1392,7 +1392,7 @@ function M.config()
         name = 'Svgrrc',
       },
       ['rar'] = {
-        icon = '遲',
+        icon = ' ',
         color = '#afb42b',
         cterm_color = '142',
         name = 'Rar',

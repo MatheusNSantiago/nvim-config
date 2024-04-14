@@ -21,7 +21,7 @@ local plugins = Array({
   --  │                          Base                            │
   --  ╰──────────────────────────────────────────────────────────╯
 
-  { 'nvim-lua/plenary.nvim', lazy = true }, -- Common utilities
+  { 'nvim-lua/plenary.nvim',                     lazy = true }, -- Common utilities
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                        Interface                         │
@@ -162,9 +162,9 @@ local plugins = Array({
   setup('dev.typescript-tools'),
   setup('dev.java'),
 
-  { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
-  { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
-  { 'vimjas/vim-python-pep8-indent',      ft = 'python' },      -- Conserta o indent do python
+  { 'Nash0x7E2/awesome-flutter-snippets',     ft = 'dart' },              -- snippets
+  { 'akinsho/pubspec-assist.nvim',            config = true,            ft = 'yaml' }, -- add/update dart dependencies
+  { 'vimjas/vim-python-pep8-indent',          ft = 'python' },            -- Conserta o indent do python
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
