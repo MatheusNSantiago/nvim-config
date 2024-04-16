@@ -53,7 +53,11 @@ function M.config()
 		return not is_custom_lsp
 	end, lsp.servers)
 
-	neodev.setup({}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+	neodev.setup({
+		  library = { plugins = { "neotest" }, types = true },
+
+
+	}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
 	require('java').setup({
 		java_test = { enable = true },
 		java_debug_adapter = { enable = false },
