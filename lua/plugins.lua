@@ -90,9 +90,10 @@ local plugins = Array({
   setup('edit.guess-indent'),       -- automatically detect the indentation settings
   setup('edit.refactoring'),
   setup('edit.icon-picker'),
-  setup('edit.mini-ai'),
-
+  setup('edit.mini-ai'),                             -- text objects novos
   setup('edit.nvim-surround'),                       -- cs"'
+  setup('edit.treesj'),                              -- slipt/join em blocks
+
   { 'tpope/vim-repeat',         event = 'VeryLazy' }, -- deixa o vim-surrond usar o '.'
   { 'AndrewRadev/undoquit.vim', event = 'BufLeave' }, -- restaurar tabs fechadas
 
@@ -161,10 +162,11 @@ local plugins = Array({
   setup('dev.package-info'),
   setup('dev.typescript-tools'),
   setup('dev.java'),
+  setup('dev.neotest'),
 
-  { 'Nash0x7E2/awesome-flutter-snippets',     ft = 'dart' },              -- snippets
-  { 'akinsho/pubspec-assist.nvim',            config = true,            ft = 'yaml' }, -- add/update dart dependencies
-  { 'vimjas/vim-python-pep8-indent',          ft = 'python' },            -- Conserta o indent do python
+  { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
+  { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
+  { 'vimjas/vim-python-pep8-indent',      ft = 'python' },      -- Conserta o indent do python
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
