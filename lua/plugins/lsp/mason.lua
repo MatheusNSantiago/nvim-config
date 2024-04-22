@@ -34,7 +34,6 @@ function M.config()
 
 	mason_null_ls.setup({
 		ensure_installed = {
-			'ruff',             -- python linter
 			'debugpy',          -- python debugger
 			'black',            -- python formatter
 			'stylua',           -- Lua formatter
@@ -53,17 +52,15 @@ function M.config()
 		return not is_custom_lsp
 	end, lsp.servers)
 
-	neodev.setup({
-		  library = { plugins = { "neotest" }, types = true },
-
-
-	}) -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-	require('java').setup({
-		java_test = { enable = true },
-		java_debug_adapter = { enable = false },
-		jdk = { auto_install = true },
-		notifications = { dap = false },
-	})
+	neodev.setup({ library = { plugins = { "neotest" }, types = true }})
+	if not utils.is_os_running_on_wsl() then
+		require('java').setup({
+			java_test = { enable = true },
+			java_debug_adapter = { enable = false },
+			jdk = { auto_install = true },
+			notifications = { dap = false },
+		})
+	end
 
 	mason_lspconfig.setup({
 		ensure_installed = lsp_list,

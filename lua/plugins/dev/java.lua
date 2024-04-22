@@ -4,6 +4,7 @@ function M.setup()
   return {
     'nvim-java/nvim-java',
     ft = { 'java' },
+    enabled = not utils.is_os_running_on_wsl(),
     dependencies = {
       'nvim-java/lua-async-await',
       'nvim-java/nvim-java-core',

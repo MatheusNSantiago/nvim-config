@@ -9,7 +9,6 @@ M.servers = {
 	'html',
 	'jsonls',
 	'lua_ls',
-	'jdtls',
 	'cobol_ls',
 	'dart_ls',
 	'pyright',
