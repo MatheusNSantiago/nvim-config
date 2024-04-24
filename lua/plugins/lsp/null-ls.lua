@@ -28,7 +28,9 @@ function M.config()
 			-- b.diagnostics.ruff.with({
 			-- 	extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') },
 			-- }), -- Fast Linter
-			b.formatting.alejandra, -- nix
+			b.formatting.isort,
+			b.formatting.black,
+
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          JS/TS                           │
 			--  ╰──────────────────────────────────────────────────────────╯
@@ -50,6 +52,7 @@ function M.config()
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          Outros                          │
 			--  ╰──────────────────────────────────────────────────────────╯
+			b.formatting.alejandra, -- nix
 			-- b.formatting.fixjson,  -- json
 			b.formatting.yamlfmt,  -- yaml
 			b.formatting.fish_indent, -- fish

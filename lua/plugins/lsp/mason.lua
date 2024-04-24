@@ -36,6 +36,7 @@ function M.config()
 		ensure_installed = {
 			'debugpy',          -- python debugger
 			'black',            -- python formatter
+			'isort',            -- python formatter (imports)
 			'stylua',           -- Lua formatter
 			'yamlfmt',          -- yaml formatter
 			'prettierd',        -- javascript formatter
@@ -71,7 +72,12 @@ function M.config()
 		local config = lsp.get_configs_for(server)
 		lspconfig[server].setup(config)
 	end
-	mason_lspconfig.setup_handlers({ function(server_name) setup_lsp(server_name) end })
+
+	mason_lspconfig.setup_handlers({
+		function(server_name)
+			setup_lsp(server_name) --
+		end,
+	})
 
 	setup_lsp('cobol_ls')
 

@@ -1,27 +1,26 @@
+local util = require('lspconfig.util')
 local M = {}
 
-M.handlers = {
-    ['textDocument/publishDiagnostics'] = vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics,
-        { virtual_text = false }
-    ),
-}
+M.root_dir = util.root_pattern(
+  'pyproject.toml',
+  'requirements.txt',
+  '.venv',
+  '.git',
+  'setup.py',
+  'setup.cfg',
+  'pyrightconfig.json'
+)
 
--- M.settings = {
---     pyright = { autoImportCompletion = true },
---     python = {
---         analysis = {
---             autoSearchPaths = true,
---             diagnosticMode = 'openFilesOnly',
---             useLibraryCodeForTypes = true,
---             completeFunctionParens = true,
---             typeCheckingMode = 'off',
---         },
---     },
--- }
---
-M.on_attach = function(client, bufnr)
-    require('lsp').common_on_attach(client, bufnr)
-end
+M.settings = {
+  pyright = { autoImportCompletion = true },
+  python = {
+    analysis = {
+      autoSearchPaths = true,
+      diagnosticMode = 'openFilesOnly',
+      useLibraryCodeForTypes = true,
+      typeCheckingMode = 'off',
+    },
+  },
+}
 
 return M
