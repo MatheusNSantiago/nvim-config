@@ -12,7 +12,7 @@ M.servers = {
 	'cobol_ls',
 	'dart_ls',
 	'pyright',
-	'typescript-tools',
+	'tsserver',
 	'tailwindcss',
 	'clangd',
 }

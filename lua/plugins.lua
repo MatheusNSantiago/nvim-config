@@ -158,15 +158,22 @@ local plugins = Array({
   --  │                       Development                        │
   --  ╰──────────────────────────────────────────────────────────╯
 
-  setup('dev.flutter-tools'),
-  setup('dev.package-info'),
-  setup('dev.typescript-tools'),
-  setup('dev.java'),
-  setup('dev.neotest'),
+  setup('dev.neotest'), -- testes
 
+  -- Flutter
+  setup('dev.flutter-tools'),                                   -- lsp/snippets/
   { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
-  { 'akinsho/pubspec-assist.nvim',        config = true, ft = 'yaml' }, -- add/update dart dependencies
-  { 'vimjas/vim-python-pep8-indent',      ft = 'python' },      -- Conserta o indent do python
+  { 'akinsho/pubspec-assist.nvim',        ft = 'yaml', config = true }, -- add/update dart dependencies
+
+  -- JS/TS
+  setup('dev.package-info'),
+
+  -- Java
+  setup('dev.java'),
+
+  -- Python
+  setup('dev.venv-selector'),
+  { 'vimjas/vim-python-pep8-indent',   ft = 'python' }, -- Conserta o indent do python
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
