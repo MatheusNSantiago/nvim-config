@@ -16,7 +16,7 @@ augroup('my_autocommands_augroup', {
 	desc = 'Mover para a última posição editada quando abrir um buffer',
 	pattern = '*',
 	event = 'BufReadPost',
-  command = 'silent! normal! g`"zv'
+	command = 'silent! normal! g`"zv',
 }, {
 	desc = 'Limpar trailing spaces antes de salvar',
 	event = 'BufWritePre',
@@ -41,7 +41,6 @@ augroup('my_autocommands_augroup', {
 				and not utils.falsy(vim.bo.filetype)
 				and vim.bo.modifiable
 				and not vim.tbl_contains(save_excluded, vim.bo.filetype)
-
 		if can_save then cmd('silent! write ++p') end
 	end,
 }, {
@@ -53,6 +52,6 @@ augroup('my_autocommands_augroup', {
 			['n'] = { '<C-D>', '<C-U>', 'p' },
 		})
 
-		require("keymappings")
+		require('keymappings')
 	end,
 })

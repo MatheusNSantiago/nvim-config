@@ -66,6 +66,7 @@ local plugins = Array({
   setup('navigation.leap'),                                                              -- sneap + easymotion
   setup('navigation.flit'),                                                              -- Repeat jump by pressing f, F, t, T again
   setup('navigation.vim-matchup'),                                                       -- highlight, navigate, and operate on %
+  setup('navigation.auto-indent'),                                                       -- tab pro indent do bloco
 
   'itchyny/vim-highlighturl',                                                            -- highlight URLs
 
