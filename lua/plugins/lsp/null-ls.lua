@@ -35,6 +35,7 @@ function M.config()
 			--  │                          JS/TS                           │
 			--  ╰──────────────────────────────────────────────────────────╯
 			b.formatting.prettierd,
+			b.formatting.rustywind,
 			-- b.code_actions.eslint_d,
 			-- b.formatting.rustywind, -- tailwind (reorganiza classes)
 			-- b.diagnostics.eslint_d, -- js/ts

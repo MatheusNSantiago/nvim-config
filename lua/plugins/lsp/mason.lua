@@ -34,6 +34,7 @@ function M.config()
 
 	mason_null_ls.setup({
 		ensure_installed = {
+			'rustywind',        -- tailwind formatter
 			'debugpy',          -- python debugger
 			'black',            -- python formatter
 			'isort',            -- python formatter (imports)
@@ -53,7 +54,7 @@ function M.config()
 		return not is_custom_lsp
 	end, lsp.servers)
 
-	neodev.setup({ library = { plugins = { "neotest" }, types = true }})
+	neodev.setup({ library = { plugins = { 'neotest' }, types = true } })
 	if not utils.is_os_running_on_wsl() then
 		require('java').setup({
 			java_test = { enable = true },
