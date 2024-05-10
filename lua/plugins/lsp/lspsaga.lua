@@ -40,7 +40,6 @@ function M.config()
       max_width = 0.6,
       max_height = 0.8,
       open_link = 'gx',
-      open_cmd = '!chrome',
     },
     definition = {
       width = 0.6,
