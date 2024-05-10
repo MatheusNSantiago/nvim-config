@@ -151,6 +151,7 @@ local plugins = Array({
   { 'RRethy/nvim-treesitter-textsubjects',         lazy = true },
   { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- conserta comments para jsx,
   { 'fladson/vim-kitty',                           ft = { 'kitty', 'conf' } }, -- syntax highlighting for kitty
+  { 'delphinus/vim-firestore' },                                 -- syntax highlighting firestore rules
 
   'windwp/nvim-ts-autotag',                                      -- tag completion
   'RRethy/nvim-treesitter-endwise',                              -- Coloca o end no final de func e if
@@ -174,7 +175,9 @@ local plugins = Array({
 
   -- Python
   setup('dev.venv-selector'),
-  { 'vimjas/vim-python-pep8-indent',   ft = 'python' }, -- Conserta o indent do python
+  { 'vimjas/vim-python-pep8-indent',   ft = 'python' }, -- Conserta o indent
+
+  -- Outras Parada
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
