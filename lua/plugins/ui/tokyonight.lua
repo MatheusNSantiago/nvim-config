@@ -15,7 +15,7 @@ function M.config()
 
 	tokyonight.setup({
 		style = 'night',   -- night | storm | moon
-		transparent = true, -- Enable this to disable setting the background color
+		-- transparent = true, -- Enable this to disable setting the background color
 		terminal_colors = false, -- Configure the colors used when opening a `:terminal` in Neovim
 		styles = {
 			-- Style to be applied to different syntax groups
@@ -25,8 +25,8 @@ function M.config()
 			functions = 'bold',
 			variables = 'NONE',
 			-- Background styles. Can be "dark", "transparent" or "normal"
-			sidebars = 'transparent', -- style for sidebars, see below
-			floats = 'transparent', -- style for floating windows
+			-- sidebars = 'transparent', -- style for sidebars, see below
+			-- floats = 'transparent', -- style for floating windows
 		},
 		-- on_highlights = function(hl, _)
 		-- 	for group, colors in pairs(require('colorscheme').get_all_highlights()) do
