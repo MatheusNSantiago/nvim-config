@@ -61,6 +61,7 @@
   "nvim-java": { "branch": "main", "commit": "0ac2e2f5d8a4dc72b2fd249424534cd94d2c7a78" },
   "nvim-java-core": { "branch": "main", "commit": "0d4474c6f73ec75252b8fe1324e8abe830464de6" },
   "nvim-java-dap": { "branch": "main", "commit": "55c90c5d2414f6e66f843f38e111bee284d71e61" },
+  "nvim-java-refactor": { "branch": "main", "commit": "7b841d53ed0ba55857debd0e32ce069b2c17e745" },
   "nvim-java-test": { "branch": "main", "commit": "a3fe70c48936e1c143ed366e127e9c3db4791716" },
   "nvim-lspconfig": { "branch": "master", "commit": "a3d9395455f2b2e3b50a0b0f37b8b4c23683f44a" },
   "nvim-navbuddy": { "branch": "master", "commit": "f34237e8a41ebc6e2716af2ebf49854d8c5289c8" },

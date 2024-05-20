@@ -2,18 +2,18 @@ local M = {}
 local keymap = utils.api.keymap
 
 M.servers = {
-	'bashls',
 	'cssls',
+	'html',
+	'tsserver',
+	'tailwindcss',
+	'jsonls',
 	'yamlls',
 	'dockerls',
-	'html',
-	'jsonls',
 	'lua_ls',
+	'bashls',
 	'cobol_ls',
 	'dart_ls',
 	'pyright',
-	'tsserver',
-	'tailwindcss',
 	'clangd',
 }
 
