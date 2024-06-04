@@ -1,5 +1,4 @@
 local api, fn = vim.api, vim.fn
-local ffi = require('ffi')
 
 local M = {
   NS = api.nvim_create_namespace('virtcolumn'),
@@ -31,15 +30,13 @@ function M.setup()
   })
 end
 
-ffi.cdef('int curwin_col_off(void);')
-function M.curwin_col_off() return ffi.C.curwin_col_off() end
+-- local ffi = require('ffi')
+-- ffi.cdef('int curwin_col_off(void);')
+-- function M.curwin_col_off() return ffi.C.curwin_col_off() end
 
----@param cc string
----@return number[]
 function M.parse_items(cc)
   local textwidth = vim.o.textwidth
 
-  ---@type number[]
   local items = {}
   for _, c in ipairs(vim.split(cc, ',')) do
     local item
@@ -73,7 +70,8 @@ function M._refresh()
   vim.b['virtcolumn_items'] = virt_column_items
   vim.w['virtcolumn_items'] = virt_column_items
 
-  local win_width = api.nvim_win_get_width(0) - M.curwin_col_off()
+  -- local win_width = api.nvim_win_get_width(0) - M.curwin_col_off()
+  local win_width = api.nvim_win_get_width(0)
   virt_column_items = vim.tbl_filter(function(item) return win_width > item end, virt_column_items)
 
   if #virt_column_items == 0 then

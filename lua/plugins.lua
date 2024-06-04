@@ -40,7 +40,7 @@ local plugins = Array({
   setup('ui.nvim-notify'),            -- messages, cmdline and popupmenu
   setup('ui.highlight-colors'),       -- highlighter #FFF
   setup('ui.smart-splits'),           -- split pane management
-  setup('ui.vim-scrollbar'),          -- scrollbar
+  -- setup('ui.vim-scrollbar'),          -- scrollbar
   setup('ui.todo-comments'),          -- highlight TODO, FIXME, etc...
   setup('ui.hlsearch'),               -- auto remove search highlight and rehighlight
   setup('ui.rainbow-delimiters'),     -- rainbow parentheses
