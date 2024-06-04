@@ -52,7 +52,7 @@ function M.config()
       },
       {
         name = 'copilot',
-        priority = 1000,
+        priority = 900,
         keyword_length = 0,
         group_index = 1,
       },
