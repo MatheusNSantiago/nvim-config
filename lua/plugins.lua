@@ -68,7 +68,7 @@ local plugins = Array({
   setup('navigation.vim-matchup'),                                                       -- highlight, navigate, and operate on %
   setup('navigation.auto-indent'),                                                       -- tab pro indent do bloco
 
-  'itchyny/vim-highlighturl',                                                            -- highlight URLs
+  { 'itchyny/vim-highlighturl' },                                                        -- highlight URLs
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                          Edição                          │
@@ -94,6 +94,7 @@ local plugins = Array({
   setup('edit.mini-ai'),                             -- text objects novos
   setup('edit.nvim-surround'),                       -- cs"'
   setup('edit.treesj'),                              -- slipt/join em blocks
+  setup('edit.grug-far'),                            -- [F]ind [A]nd [R]eplace
 
   { 'tpope/vim-repeat',         event = 'VeryLazy' }, -- deixa o vim-surrond usar o '.'
   { 'AndrewRadev/undoquit.vim', event = 'BufLeave' }, -- restaurar tabs fechadas
@@ -147,14 +148,14 @@ local plugins = Array({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('treesitter'),
-  setup(''),                                      -- tag completion
+  { 'windwp/nvim-ts-autotag' },                                  -- tag completion
   { 'nvim-treesitter/nvim-treesitter-textobjects' },             -- Additional text objects via treesitter. Se der ruim, commit = '8673926'
   { 'RRethy/nvim-treesitter-textsubjects',         lazy = true },
   { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- conserta comments para jsx,
   { 'fladson/vim-kitty',                           ft = { 'kitty', 'conf' } }, -- syntax highlighting for kitty
   { 'delphinus/vim-firestore' },                                 -- syntax highlighting firestore rules
 
-  { 'RRethy/nvim-treesitter-endwise' },                              -- Coloca o end no final de func e if
+  { 'RRethy/nvim-treesitter-endwise' },                          -- Coloca o end no final de func e if
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                       Development                        │
