@@ -147,14 +147,14 @@ local plugins = Array({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('treesitter'),
+  setup(''),                                      -- tag completion
   { 'nvim-treesitter/nvim-treesitter-textobjects' },             -- Additional text objects via treesitter. Se der ruim, commit = '8673926'
   { 'RRethy/nvim-treesitter-textsubjects',         lazy = true },
   { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- conserta comments para jsx,
   { 'fladson/vim-kitty',                           ft = { 'kitty', 'conf' } }, -- syntax highlighting for kitty
   { 'delphinus/vim-firestore' },                                 -- syntax highlighting firestore rules
 
-  'windwp/nvim-ts-autotag',                                      -- tag completion
-  'RRethy/nvim-treesitter-endwise',                              -- Coloca o end no final de func e if
+  { 'RRethy/nvim-treesitter-endwise' },                              -- Coloca o end no final de func e if
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                       Development                        │
@@ -178,6 +178,7 @@ local plugins = Array({
   { 'vimjas/vim-python-pep8-indent',   ft = 'python' }, -- Conserta o indent
 
   -- Outras Parada
+  setup('dev.markdown'),
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
