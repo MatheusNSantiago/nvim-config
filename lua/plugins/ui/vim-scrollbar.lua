@@ -17,6 +17,7 @@ function M.config()
 	require('scrollbar').setup({
 		show = true,
 		set_highlights = true,
+		hide_if_all_visible = true, -- Hides everything if all lines are visible
 		handle = {
 			text = ' ',
 			blend = 30,              -- Integer between 0 and 100. 0 for fully opaque and 100 to full transparent. Defaults to 30.
@@ -27,13 +28,14 @@ function M.config()
 		},
 		marks = {
 			Cursor = {
-				text = '•',
+				text = ' ',
 				priority = 0,
 				gui = nil,
 				color = nil,
 				cterm = nil,
-				color_nr = nil, -- cterm
-				highlight = 'Normal',
+				color_nr = nil,         -- cterm
+				highlight = 'CursorColumn', -- highlight = 'Normal',
+				hide_if_all_visible = true, -- Hides handle if all lines are visible
 			},
 			Search = {
 				text = { '-' },
