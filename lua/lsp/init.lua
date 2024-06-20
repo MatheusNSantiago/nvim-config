@@ -33,11 +33,11 @@ M.client_capabilities = function()
 end
 
 ---Sets up LSP keymaps and autocommands for the given buffer.
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr integer
----@param disable_navic? boolean
-function M.common_on_attach(client, bufnr, disable_navic)
+function M.common_on_attach(client, bufnr)
 	local caps = client.server_capabilities
+	if not caps then return end
 
 	-- Enable completion triggered by <C-X><C-O>
 	if caps.completionProvider then vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc' end
@@ -45,7 +45,10 @@ function M.common_on_attach(client, bufnr, disable_navic)
 	-- Use LSP as the handler for formatexpr.
 	if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
 
-	if not disable_navic then
+	local navic_blacklist = { 'jdtls' }
+	local is_on_navic_blacklist = vim.tbl_contains(navic_blacklist, client.name)
+
+	if not is_on_navic_blacklist then
 		-- setup navic (breadcrumbs) e outros simbolos
 		require('lsp.utils').setup_document_symbols(client, bufnr)
 
