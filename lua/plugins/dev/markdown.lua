@@ -12,7 +12,7 @@ end
 function M.config()
   require('render-markdown').setup({
     -- Whether Markdown should be rendered by default or not
-    start_enabled = true,
+    start_enabled = false,
     -- Whether LaTeX should be rendered, mainly used for health check
     latex_enabled = true,
     -- Maximum file size (in MB) that this plugin will attempt to render

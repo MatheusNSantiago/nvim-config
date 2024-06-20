@@ -79,6 +79,7 @@ hls.treesitter = {
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                           Misc                           │
 	--  ╰──────────────────────────────────────────────────────────╯
+	['@conceal'] = { fg = c.transparent, bg = c.transparent }, -- [@]annotation
 	-- @comment (Comment)                          ; line and block comments
 	-- @error                                      ; syntax/parser errors
 	-- @none                                       ; completely disable the highlight
@@ -91,8 +92,7 @@ hls.treesitter = {
 	-- ["@punctuation.delimiter"] = { fg = theme.syn.punct },
 	-- @punctuation.bracket                        ; brackets (e.g. `()` / `{}` / `[]`)
 	-- ["@punctuation.bracket"] = { fg = theme.syn.punct },
-	-- @punctuation.special                        ; special symbols (e.g. `{}` in string interpolation)
-	['@punctuation.special'] = { link = 'Operator' },
+	['@punctuation.special'] = { link = 'Operator' }, -- special symbols (e.g. `{}` in string interpolation)
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                         Literals                         │
 	--  ╰──────────────────────────────────────────────────────────╯
@@ -313,7 +313,7 @@ hls.editor = {
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                           foo                            │
 	--  ╰──────────────────────────────────────────────────────────╯
-	-- -- ColorColumn = { bg = c.red, fg = c.transparent },
+	-- ColorColumn = { bg = c.red, fg = c.transparent },
 	-- -- ColorColumn	Used for the columns set with 'colorcolumn'.
 	-- -- Conceal		Placeholder characters substituted for concealed text (see 'conceallevel').
 	-- Conceal = { fg = theme.ui.special, bold = true },
