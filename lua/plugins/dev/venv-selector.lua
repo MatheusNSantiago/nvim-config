@@ -21,6 +21,7 @@ function M.setup()
       'mfussenegger/nvim-dap-python',
     },
     ft = 'python',
+    branch = 'regexp', -- This is the regexp branch, use this for the new version
     config = M.config,
   }
 end
