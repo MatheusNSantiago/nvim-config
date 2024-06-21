@@ -3,10 +3,20 @@ local M = {}
 function M.setup()
 	return {
 		'nvim-telescope/telescope.nvim',
-		cmd = 'Telescope',
 		config = M.config,
-		lazy = true,
 		keys = M.keys,
+		dependencies = {
+			'nvim-telescope/telescope-media-files.nvim', -- mostra arquivos de mídia
+			'debugloop/telescope-undo.nvim',          -- undo true
+			'danielfalk/smart-open.nvim',
+			'kkharji/sqlite.lua',
+			{
+				'nvim-telescope/telescope-fzf-native.nvim',
+				-- no wsl faz um `make ~/.local/share/nvim/lazy/telescope-fzf-native.nvim`
+				build = 'make',
+			},
+			'nvim-telescope/telescope-fzy-native.nvim',
+		},
 	}
 end
 
@@ -32,8 +42,8 @@ function M.keys()
 		-- Extension
 		{
 			'<leader>sf',
-		-- 	function() e.smart_open.smart_open({ cwd_only = true }) end,
-		b.find_files,
+			function() e.smart_open.smart_open({ cwd_only = true }) end,
+			-- b.find_files,
 			desc = '[S]earch [F]iles',
 		},
 		{ '<leader>smf', e.media_files.media_files, desc = '[S]earch [M]edia [F]iles' },
@@ -183,10 +193,10 @@ function M.config()
 		qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
 	})
 
-	--telescope.load_extension('fzf')
+	telescope.load_extension('fzf')
 	telescope.load_extension('undo')
 	telescope.load_extension('media_files')
-	--telescope.load_extension('smart_open')
+	telescope.load_extension('smart_open')
 	telescope.load_extension('neoclip')
 end
 

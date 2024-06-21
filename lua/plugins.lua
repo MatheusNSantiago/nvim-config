@@ -21,7 +21,7 @@ local plugins = Array({
   --  │                          Base                            │
   --  ╰──────────────────────────────────────────────────────────╯
 
-  { 'nvim-lua/plenary.nvim',                     lazy = true }, -- Common utilities
+  { 'nvim-lua/plenary.nvim',   lazy = true }, -- Common utilities
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                        Interface                         │
@@ -55,20 +55,16 @@ local plugins = Array({
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('navigation.telescope'),
-  { 'nvim-telescope/telescope-media-files.nvim', lazy = true },                          -- mostra arquivos de mídia
-  { 'danielfalk/smart-open.nvim',                dependencies = { 'kkharji/sqlite.lua' }, lazy = true }, --  melhora o ranking do find files
-  { 'debugloop/telescope-undo.nvim',             lazy = true },                          -- undo true
+  setup('navigation.hop'),          -- tipo o easymotion
+  setup('navigation.tabout'),       -- tabout
+  setup('navigation.marks'),        -- marks
+  setup('navigation.nvim-navbuddy'), -- outline
+  setup('navigation.leap'),         -- sneap + easymotion
+  setup('navigation.flit'),         -- Repeat jump by pressing f, F, t, T again
+  setup('navigation.vim-matchup'),  -- highlight, navigate, and operate on %
+  setup('navigation.auto-indent'),  -- tab pro indent do bloco
 
-  setup('navigation.hop'),                                                               -- tipo o easymotion
-  setup('navigation.tabout'),                                                            -- tabout
-  setup('navigation.marks'),                                                             -- marks
-  setup('navigation.nvim-navbuddy'),                                                     -- outline
-  setup('navigation.leap'),                                                              -- sneap + easymotion
-  setup('navigation.flit'),                                                              -- Repeat jump by pressing f, F, t, T again
-  setup('navigation.vim-matchup'),                                                       -- highlight, navigate, and operate on %
-  setup('navigation.auto-indent'),                                                       -- tab pro indent do bloco
-
-  { 'itchyny/vim-highlighturl' },                                                        -- highlight URLs
+  { 'itchyny/vim-highlighturl' },   -- highlight URLs
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                          Edição                          │
@@ -201,7 +197,7 @@ local plugins = Array({
 
 if is_wsl then
   plugins:extend({
-    { dir = '~/dev/cobol/cobol-bundle/', config = true },
+      -- { dir = '~/dev/cobol/cobol-bundle/', config = true, lazy = true },
     { 'MatheusNSantiago/mychatgpt',      config = true },
   })
 else
