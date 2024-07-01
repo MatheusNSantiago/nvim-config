@@ -151,7 +151,7 @@ function M.config()
 			},
 			undo = {
 				use_delta = true,
-				diff_context_lines = vim.o.scrolloff,
+				vim_diff_opts = { ctxlen = 6 },
 				entry_format = '#$ID, $STAT, $TIME',
 				side_by_side = true,
 				layout_strategy = 'vertical',
