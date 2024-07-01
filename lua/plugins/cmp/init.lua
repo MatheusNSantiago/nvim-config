@@ -148,7 +148,7 @@ function M.config()
     }, { { name = 'buffer' } }),
   })
 
-  require('plugins.cmp.copilot').setup()
+  -- require('plugins.cmp.copilot').setup()
   require('plugins.cmp.cmdline').setup()
 end
 
