@@ -197,7 +197,7 @@ local plugins = Array({
 
 if is_wsl then
   plugins:extend({
-      -- { dir = '~/dev/cobol/cobol-bundle/', config = true, lazy = true },
+      { dir = '~/dev/cobol/cobol-bundle/', config = true },
     { 'MatheusNSantiago/mychatgpt',      config = true },
   })
 else

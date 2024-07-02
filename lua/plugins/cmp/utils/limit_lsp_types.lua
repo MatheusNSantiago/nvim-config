@@ -2,12 +2,8 @@
 return function(entry, ctx)
 	local deu_certo, res = utils.pcall(function()
 		local kind = require('cmp.types.lsp').CompletionItemKind[entry:get_kind()]
-		local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
-
-		local lnum = vim.fn.line('.')
-		local prev_line = vim.fn.getline(lnum - 1)
-
-		local cur_line = utils.get_current_line_with_cursor()
+		local prev_line = vim.fn.getline(ctx.cursor.line)
+		local cur_line = ctx.cursor_before_line .. '█' .. ctx.cursor_after_line
 
 		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 
@@ -29,12 +25,13 @@ return function(entry, ctx)
 			end
 		end
 
+
 		if
 				line_matches_patterns({
 					':%s*█', -- { foo: █ }
 					'.*%.%w*█', -- <object>.█ <- metodos/atributos
 					[[['"]%w*█]], -- 'foo█' ou "foo█"
-					'%(%w*█%w*%)', -- (foo█)
+					'%(%w*%.?█%w*%)', -- (foo█) ou (foo.█)
 					'{%s*█', -- {█'
 					'{.+,%s*█.*}?', -- {foo: bar, █ } | {foo: bar, █, baz: qux}
 					'(.+,%s*█.*)?', -- (foo: bar, █ ) | (foo: bar, █, baz: qux)
@@ -43,7 +40,7 @@ return function(entry, ctx)
 			return (kind ~= 'Snippet')
 		end
 
-		if filetype == 'python' then
+		if ctx.filetype == 'python' then
 			if cur_line:match(':█$') then return false end -- def function():█
 			if
 					line_matches_patterns({
