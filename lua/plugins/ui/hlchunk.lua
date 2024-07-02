@@ -49,7 +49,7 @@ function M.config()
       delay = 0,
     },
     indent = {
-      enable = true,
+      enable = not utils.is_os_running_on_wsl(),
       use_treesitter = false,
       chars = { '│', '¦', '┆', '┊' },
       style = { '#3b4261' },
