@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
     return {
         'ggandor/leap.nvim',
+		commit = 'c507733b04af71aefe6f025e9f5b53cc5560f757',
         config = M.config,
     }
 end
