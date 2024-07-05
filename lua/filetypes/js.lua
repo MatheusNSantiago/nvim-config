@@ -4,7 +4,8 @@ return {
     keymap = '<leader><leader>o',
     title = 'JS/TS',
     actions = {
-      { name = 'npm run dev', handler = 'npm run start' },
+      { name = 'npm run dev',        handler = 'npm run start' },
+      { name = 'Iniciar LiveServer', handler = ':LiveServerStart<CR>' },
     },
   },
   mappings = {
