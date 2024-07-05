@@ -47,7 +47,7 @@ function M.config()
       {
         name = 'nvim_lsp',
         priority = 1000,
-        entry_filter = require('plugins.cmp.utils.limit_lsp_types'),
+        entry_filter = require('plugins.cmp.lsp_type_limiter'),
         group_index = 1,
       },
       {
@@ -86,11 +86,11 @@ function M.config()
       priority_weight = 2,
       comparators = {
         require('copilot_cmp.comparators').prioritize or nil,
-        require('plugins.cmp.utils.comparators').prioritizeVariables,
-        require('cmp-under-comparator').under,
-        cmp.config.compare.score,
-        cmp.config.compare.exact,
         cmp.config.compare.offset,
+        cmp.config.compare.exact,
+        cmp.config.compare.score,
+        require('plugins.cmp.comparators').nerf_dunder_python,
+        require('plugins.cmp.comparators').buff_variables,
         cmp.config.compare.kind,
         cmp.config.compare.sort_text,
         cmp.config.compare.order,
@@ -115,7 +115,7 @@ function M.config()
             end
           end
 
-          vim_item = require('plugins.cmp.utils.custom_formats').format_tailwind(entry, vim_item) -- for tailwind css autocomplete
+          vim_item = require('plugins.cmp.custom_formats').format_tailwind(entry, vim_item) -- for tailwind css autocomplete
 
           return vim_item
         end,

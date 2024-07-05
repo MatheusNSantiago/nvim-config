@@ -134,7 +134,6 @@ local plugins = Array({
   { 'hrsh7th/cmp-nvim-lua',                  lazy = true },          -- nvim-cmp source for Neovim Lua API.
   { 'davidsierradz/cmp-conventionalcommits', lazy = true },          -- autocomplete conventional commits
   { 'saadparwaiz1/cmp_luasnip',              lazy = true },          -- completion engine
-  { 'lukas-reineke/cmp-under-comparator',    lazy = true },          -- better sort completion items that start with one or more underlines
   { 'onsails/lspkind.nvim',                  lazy = true },          -- Auto completions gui tipo do vscode
   { 'zbirenbaum/copilot.lua',                lazy = true },          -- Copilot
   { 'zbirenbaum/copilot-cmp',                build = ':Copilot auth', lazy = true }, -- completion do copilot
