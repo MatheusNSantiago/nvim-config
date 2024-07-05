@@ -89,7 +89,8 @@ local plugins = Array({
   setup('edit.mini-ai'),                             -- text objects novos
   setup('edit.nvim-surround'),                       -- cs"'
   setup('edit.treesj'),                              -- slipt/join em blocks
-  setup('edit.grug-far'),                            -- [F]ind [A]nd [R]eplace
+  setup('edit.grug-far'),                            -- [F]ind [A]nd [R]eplace global igual vscode
+  setup('edit.rip-substitute'),                      -- find and replace no buffer
 
   { 'tpope/vim-repeat',         event = 'VeryLazy' }, -- deixa o vim-surrond usar o '.'
   { 'AndrewRadev/undoquit.vim', event = 'BufLeave' }, -- restaurar tabs fechadas
