@@ -1,6 +1,13 @@
 local M = {}
 
 function M.setup()
+  utils.api.augroup('markdown', {
+    desc = 'Inicia o renderizador de Markdown apenas em arquivos. Não em hovers',
+    pattern = '*.md',
+    event = 'BufEnter',
+    command = "RenderMarkdownToggle"
+  })
+
   return {
     'MeanderingProgrammer/markdown.nvim',
     config = M.config,
