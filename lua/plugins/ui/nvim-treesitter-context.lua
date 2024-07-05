@@ -1,9 +1,15 @@
 local M = {}
 
 function M.setup()
+  utils.api.augroup('treesitter-context', {
+    desc = 'Desativa o plugin ao abrir um arquivo markdown.',
+    event = { 'BufEnter' },
+    pattern = { '*.md' },
+    command = 'TSContextDisable',
+  })
+
   return {
     'nvim-treesitter/nvim-treesitter-context',
-    event = "VeryLazy",
     config = M.config,
   }
 end
