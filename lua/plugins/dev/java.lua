@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
   return {
     'nvim-java/nvim-java',
+    config = M.config,
     ft = { 'java' },
     enabled = not utils.is_wsl(),
     dependencies = {
@@ -16,6 +17,15 @@ function M.setup()
       'neovim/nvim-lspconfig',
     },
   }
+end
+
+function M.config()
+  require('java').setup({
+    java_test = { enable = true },
+    java_debug_adapter = { enable = false },
+    jdk = { auto_install = true },
+    notifications = { dap = false },
+  })
 end
 
 return M

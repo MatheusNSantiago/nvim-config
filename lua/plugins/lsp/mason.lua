@@ -55,14 +55,6 @@ function M.config()
 	end, lsp.servers)
 
 	neodev.setup({ library = { plugins = { 'neotest' }, types = true } })
-	if not utils.is_wsl() then
-		require('java').setup({
-			java_test = { enable = true },
-			java_debug_adapter = { enable = false },
-			jdk = { auto_install = true },
-			notifications = { dap = false },
-		})
-	end
 
 	mason_lspconfig.setup({
 		ensure_installed = lsp_list,
