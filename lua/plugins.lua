@@ -164,8 +164,14 @@ local plugins = Array({
   { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
   { 'akinsho/pubspec-assist.nvim',        ft = 'yaml', config = true }, -- add/update dart dependencies
 
-  -- JS/TS
-  setup('dev.package-info'),
+  -- Web Dev
+  setup('dev.package-info'), -- Mostra quais são as versões atuais dos packages
+  {                         -- Live server. Igual do vscode
+    'barrett-ruth/live-server.nvim',
+    cmd = { 'LiveServerStart', 'LiveServerStop' },
+    opts = { args = { '--port=7000', '--browser=google-chrome-stable' } },
+    build = 'sudo npm add -g live-server',
+  },
 
   -- Java
   setup('dev.java'),
@@ -197,7 +203,7 @@ local plugins = Array({
 
 if is_wsl then
   plugins:extend({
-      { dir = '~/dev/cobol/cobol-bundle/', config = true },
+    { dir = '~/dev/cobol/cobol-bundle/', config = true },
     { 'MatheusNSantiago/mychatgpt',      config = true },
   })
 else

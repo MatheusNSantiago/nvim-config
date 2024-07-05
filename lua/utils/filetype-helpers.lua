@@ -28,7 +28,7 @@ function M.ftplugin_conf(configs)
 end
 
 ---@class FiletypeSettings
----@field opt? vim.opt
+---@field opt? vim.Option
 ---@field mappings {[1]: string | string[], [2]: string, [3]: string|function, [string]: any }[]
 ---@field plugins? {[string]: fun(module: table)}
 ---@field on_buf_enter? fun(args: AutocmdArgs)
