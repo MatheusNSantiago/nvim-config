@@ -12,7 +12,7 @@ function M.keys()
   local is_installed, smart_splits = pcall(require, 'smart-splits')
   if not is_installed then return end
 
-  local is_wsl = utils.is_os_running_on_wsl()
+  local is_wsl = utils.is_wsl()
   return {
     -- resizing splits
     { is_wsl and '<C-S-A-Up>' or '<C-S-A-i>', smart_splits.resize_up,        desc = 'smart-splits: resize up' }, -- (autokey = <C-S-A-l>)

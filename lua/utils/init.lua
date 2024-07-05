@@ -128,7 +128,7 @@ end
 
 ---Checks if the operating system is running on Windows Subsystem for Linux (WSL).
 ---@return boolean: True if running on WSL, false otherwise.
-function M.is_os_running_on_wsl() return fn.system('grep microsoft /proc/version'):len() > 0 end
+function M.is_wsl() return fn.system('grep microsoft /proc/version'):len() > 0 end
 
 function M.get_visual_selection()
     local ESC_FEEDKEY = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)

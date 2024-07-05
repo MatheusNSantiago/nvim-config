@@ -4,7 +4,7 @@ function M.setup()
   return {
     'nvim-java/nvim-java',
     ft = { 'java' },
-    enabled = not utils.is_os_running_on_wsl(),
+    enabled = not utils.is_wsl(),
     dependencies = {
       'nvim-java/nvim-java-refactor',
       'nvim-java/lua-async-await',

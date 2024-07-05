@@ -7,7 +7,7 @@ local M = {
 }
 
 M.cmd = function(dispatchers)
-	local is_wsl = utils.is_os_running_on_wsl()
+	local is_wsl = utils.is_wsl()
 	local lsp_path = '~/dev/cobol/plugins/server-linux'
 
 	if is_wsl then lsp_path = '~/dev/cobol/server-linux' end

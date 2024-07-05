@@ -13,7 +13,6 @@ local function setup(file, dependencies)
     return _setup or {}
   end
 end
-local is_wsl = utils.is_os_running_on_wsl()
 
 local plugins = Array({
 
@@ -201,7 +200,7 @@ local plugins = Array({
   { 'theHamsta/nvim-dap-virtual-text', lazy = true },
 })
 
-if is_wsl then
+if utils.is_wsl() then
   plugins:extend({
     { dir = '~/dev/cobol/cobol-bundle/', config = true },
     { 'MatheusNSantiago/mychatgpt',      config = true },
