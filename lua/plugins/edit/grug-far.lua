@@ -4,7 +4,7 @@ function M.setup()
   return {
     'MagicDuck/grug-far.nvim',
     config = M.config,
-    keys = { { '<leader>far', ':GrugFar<CR>', desc = 'grug-far: [F]ind [A]nd [R]eplace' } },
+    keys = { { '<leader><leader>sr', ':GrugFar<CR>', desc = 'grug-far: [S]earch and [R]eplace' } },
   }
 end
 
