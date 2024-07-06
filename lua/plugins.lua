@@ -186,7 +186,7 @@ local plugins = Array({
 
   -- Markdown
   setup('dev.render-markdown'),
-  { 'bullets-vim/bullets.vim',       ft = 'markdown' },
+  { 'bullets-vim/bullets.vim',       ft = 'markdown' }, -- cria bullet lists automaticamente
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
