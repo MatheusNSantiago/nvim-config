@@ -20,7 +20,8 @@ return function()
     elseif neogen.jumpable() then
       neogen.jump_next()
     else
-      fallback()
+      vim.cmd('lua tabhula_handler(0)') -- proca o tabout do plugin 'navigation/tabout'
+      -- fallback() -- Tab normal
     end
   end
 

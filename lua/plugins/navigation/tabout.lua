@@ -2,40 +2,38 @@ local M = {}
 
 function M.setup()
 	return {
-		"lilibyte/tabhula.nvim",
+		'lilibyte/tabhula.nvim',
+		event = 'InsertEnter',
 		config = M.config,
 	}
 end
 
 function M.config()
-	local foo = function(line)
-		return 1
-	end
-
-	require("tabhula").setup({
-		tabkey = "<Tab>",
-		backward_tabkey = "<S-Tab>",
-		evil_tabkey = "",
-		evil_backward_tabkey = "",
+	local doit = function(_) return 1 end
+	require('tabhula').setup({
+		tabkey = '<Tab>',
+		backward_tabkey = '<S-Tab>',
+		evil_tabkey = '',
+		evil_backward_tabkey = '',
 		completion = nil,
 		range = nil,
 		forward_characters = {
-			[")"] = foo,
-			["("] = foo,
+			[')'] = doit,
+			['('] = doit,
 			--
-			["]"] = foo,
-			["["] = foo,
+			[']'] = doit,
+			['['] = doit,
 			--
-			["}"] = foo,
-			["{"] = foo,
+			['}'] = doit,
+			['{'] = doit,
 			--
-			[","] = foo,
-			["."] = foo,
-			[";"] = foo,
+			[','] = doit,
+			['.'] = doit,
+			[';'] = doit,
 			--
-			['"'] = foo,
-			["'"] = foo,
-			["`"] = foo,
+			['"'] = doit,
+			["'"] = doit,
+			['`'] = doit,
 			-- hula past { only if line ends with { character (ignoring whitespace)
 			-- 	["{"] = function(line) return line:match("^(.*){(%s*)$") ~= nil end,
 			-- -- hula past > only if line is a C-style header inclusion
@@ -45,22 +43,22 @@ function M.config()
 			-- 	[";"] = function(line) return line:match("(.*);(%s*)$") ~= nil end,
 		},
 		backward_characters = {
-			[")"] = foo,
-			["("] = foo,
+			[')'] = doit,
+			['('] = doit,
 			--
-			["]"] = foo,
-			["["] = foo,
+			[']'] = doit,
+			['['] = doit,
 			--
-			["}"] = foo,
-			["{"] = foo,
+			['}'] = doit,
+			['{'] = doit,
 			--
-			[","] = foo,
-			["."] = foo,
-			[";"] = foo,
+			[','] = doit,
+			['.'] = doit,
+			[';'] = doit,
 			--
-			['"'] = foo,
-			["'"] = foo,
-			["`"] = foo,
+			['"'] = doit,
+			["'"] = doit,
+			['`'] = doit,
 		},
 	})
 end
