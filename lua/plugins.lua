@@ -156,14 +156,19 @@ local plugins = Array({
   --  │                       Development                        │
   --  ╰──────────────────────────────────────────────────────────╯
 
-  setup('dev.neotest'), -- testes
+  -- testes
+  setup('dev.neotest'),
+
+  -- Git
+  setup('dev.gitsigns'), -- gutter signs
+  setup('dev.diffview'),
 
   -- Flutter
   setup('dev.flutter-tools'),                                   -- lsp/snippets/
   { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
   { 'akinsho/pubspec-assist.nvim',        ft = 'yaml', config = true }, -- add/update dart dependencies
 
-  -- Web Dev
+  -- Javascript
   setup('dev.package-info'), -- Mostra quais são as versões atuais dos packages
   {                         -- Live server. Igual do vscode
     'barrett-ruth/live-server.nvim',
@@ -177,18 +182,15 @@ local plugins = Array({
 
   -- Python
   setup('dev.venv-selector'),
-  { 'vimjas/vim-python-pep8-indent',   ft = 'python' }, -- Conserta o indent
+  { 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
 
-  -- Outras Parada
-  setup('dev.markdown'),
+  -- Markdown
+  setup('dev.render-markdown'),
+  { 'bullets-vim/bullets.vim',       ft = 'markdown' },
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                           Git                            │
   --  ╰──────────────────────────────────────────────────────────╯
-
-  -- setup('git.vim-fugitive'), -- base git plugin
-  setup('git.gitsigns'), -- gutter signs
-  setup('git.diffview'),
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                          Debug                           │
