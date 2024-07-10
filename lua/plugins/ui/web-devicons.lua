@@ -646,6 +646,12 @@ function M.config()
         cterm_color = '140',
         name = 'Hs',
       },
+      ['http'] = {
+        icon = '󰖟',
+        color = '#e34c26',
+        cterm_color = '166',
+        name = 'Htm',
+      },
       ['htm'] = {
         icon = '',
         color = '#e34c26',
