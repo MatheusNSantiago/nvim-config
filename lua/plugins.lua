@@ -39,7 +39,7 @@ local plugins = Array({
   setup('ui.nvim-notify'),            -- messages, cmdline and popupmenu
   setup('ui.highlight-colors'),       -- highlighter #FFF
   setup('ui.smart-splits'),           -- split pane management
-  -- setup('ui.vim-scrollbar'),          -- scrollbar
+  setup('ui.vim-scrollbar'),          -- scrollbar
   setup('ui.todo-comments'),          -- highlight TODO, FIXME, etc...
   setup('ui.hlsearch'),               -- auto remove search highlight and rehighlight
   setup('ui.rainbow-delimiters'),     -- rainbow parentheses
@@ -158,6 +158,7 @@ local plugins = Array({
 
   -- testes
   setup('dev.neotest'),
+  setup('dev.kulala'), -- REST-Client
 
   -- Git
   setup('dev.gitsigns'), -- gutter signs
@@ -210,7 +211,7 @@ if utils.is_wsl() then
 else
   plugins:extend({
     { dir = '~/Documents/Programming/nvim-plugins/mychatgpt/', config = true },
-    { dir = '~/dev/cobol/plugins/cobol-bundle/',               ft = { 'cobol', 'copybook' }, config = true },
+    { dir = '~/dev/cobol/plugins/cobol-bundle/',                config = true},
     { dir = '~/dev/cobol/plugins/cobol-foo/',                  ft = { 'foo' } },
   })
 end
