@@ -1,4 +1,4 @@
----@diagnostic disable: param-type-mismatch
+
 local M = {}
 
 M.setup = function()
@@ -295,7 +295,7 @@ M.highlights = {
   -- NvimTreeGitNew = { fg = "None" },
   -- NvimTreeGitIgnored = { fg = "None" },
   -- NvimTreeOpenedFile = { fg = c.primary, bold = true },
-  NvimTreeCursorLine = { fg = c.secondary },
+  -- NvimTreeCursorLine = { fg = c.secondary },
   -- NvimTreeCursorLine = { fg = c.secondary, bg = c.bg_highlight, bold = true },
   -- NvimTreeGitDeleted = { fg = colors.red },
   -- NvimTreeSpecialFile = { fg = colors.yellow, bold = true },
