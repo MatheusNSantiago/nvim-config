@@ -87,7 +87,6 @@ M.sections = {
       padding = { right = 0, left = 0 },
       cond = conditions.has_git,
     },
-    { 'FugitiveHead', icon = icons.git.Branch },
     {
       'diff',
       symbols = {
@@ -102,6 +101,7 @@ M.sections = {
       },
       cond = conditions.hide_in_width,
     },
+    { 'FugitiveHead', icon = icons.git.Branch },
     {
       'macro-recording',
       fmt = show_macro_recording,
@@ -144,8 +144,9 @@ M.sections = {
       -- Lsp server name .
       function()
         local msg = 'No LSP'
-        local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-        local clients = vim.lsp.get_active_clients()
+        local buf = vim.api.nvim_get_current_buf()
+        local buf_ft = vim.bo[buf].ft
+        local clients = vim.lsp.get_clients()
         if next(clients) == nil then return msg end
 
         local servers = require('lsp').servers
@@ -156,7 +157,7 @@ M.sections = {
         )
 
         for _, client in ipairs(clients) do
-          local filetypes = client.config.filetypes
+          local filetypes = client.config["filetypes"]
           local client_acceps_filetype = vim.tbl_contains(filetypes, buf_ft)
 
           if filetypes and client_acceps_filetype then

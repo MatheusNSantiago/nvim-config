@@ -163,6 +163,7 @@ local plugins = Array({
   -- Git
   setup('dev.gitsigns'), -- gutter signs
   setup('dev.diffview'),
+  { 'tpope/vim-fugitive' },
 
   -- Flutter
   setup('dev.flutter-tools'),                                   -- lsp/snippets/
@@ -190,10 +191,6 @@ local plugins = Array({
   { 'bullets-vim/bullets.vim',       ft = 'markdown' }, -- cria bullet lists automaticamente
 
   --  ╭──────────────────────────────────────────────────────────╮
-  --  │                           Git                            │
-  --  ╰──────────────────────────────────────────────────────────╯
-
-  --  ╭──────────────────────────────────────────────────────────╮
   --  │                          Debug                           │
   --  ╰──────────────────────────────────────────────────────────╯
 
@@ -211,7 +208,7 @@ if utils.is_wsl() then
 else
   plugins:extend({
     { dir = '~/Documents/Programming/nvim-plugins/mychatgpt/', config = true },
-    { dir = '~/dev/cobol/plugins/cobol-bundle/',                config = true},
+    { dir = '~/dev/cobol/plugins/cobol-bundle/',               config = true },
     { dir = '~/dev/cobol/plugins/cobol-foo/',                  ft = { 'foo' } },
   })
 end

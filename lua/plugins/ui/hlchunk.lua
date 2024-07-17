@@ -41,7 +41,7 @@ function M.config()
         left_bottom = '╰',
         right_arrow = '─', -- '>',
       },
-      textobject = 'ac',
+      textobject = 'ic',
       max_file_size = 1024 * 1024, -- 1MB
       error_sign = true,
       -- animation related
