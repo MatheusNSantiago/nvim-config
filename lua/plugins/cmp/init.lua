@@ -91,6 +91,7 @@ function M.config()
         cmp.config.compare.score,
         require('plugins.cmp.comparators').nerf_dunder_python,
         require('plugins.cmp.comparators').buff_variables,
+        require('plugins.cmp.comparators').buff_properties,
         cmp.config.compare.kind,
         cmp.config.compare.sort_text,
         cmp.config.compare.order,

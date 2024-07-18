@@ -10,6 +10,12 @@ local function pattern_score(text, pattern)
 	return _end or 0
 end
 
+local function buff(kind, entry1, entry2)
+	local kind1, kind2 = get_kind(entry1), get_kind(entry2)
+	if (kind1 == kind) and not (kind2 == kind) then return true end
+	if (kind2 == kind) and not (kind1 == kind) then return false end
+end
+
 function M.buff_variables(entry1, entry2)
 	local kind1, kind2 = get_kind(entry1), get_kind(entry2)
 
@@ -20,6 +26,10 @@ function M.buff_variables(entry1, entry2)
 			return false --
 		end
 	end
+end
+
+M.buff_properties = function(entry1, entry2)
+	return buff('Field', entry1, entry2) --
 end
 
 M.nerf_dunder_python = function(entry1, entry2)
