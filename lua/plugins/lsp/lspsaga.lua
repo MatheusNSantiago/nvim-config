@@ -3,12 +3,12 @@ local M = {}
 function M.setup()
   return {
     'glepnir/lspsaga.nvim',
+    event = 'LspAttach',
+    config = M.config,
     dependencies = {
       'nvim-treesitter/nvim-treesitter', -- optional
       'nvim-tree/nvim-web-devicons',  -- optional
     },
-    event = 'LspAttach',
-    config = M.config,
   }
 end
 
@@ -98,8 +98,8 @@ function M.config()
         vsplit = 'v',
         split = 'h',
         tabnew = 't',
-        close = { '<C-c>k' },
-        -- quit = { 'q', '<ESC>' },
+        -- close = { '<C-c>k' },
+        quit = { 'q', '<ESC>' },
       },
     },
     implement = {

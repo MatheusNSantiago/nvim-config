@@ -5,7 +5,8 @@ function M.setup()
     desc = 'Inicia o renderizador de Markdown apenas em arquivos. Não em hovers',
     pattern = '*.md',
     event = 'BufEnter',
-    command = "RenderMarkdownToggle"
+    command = "RenderMarkdownToggle",
+    once = true
   })
 
   return {
@@ -19,7 +20,7 @@ end
 function M.config()
   require('render-markdown').setup({
     -- Whether Markdown should be rendered by default or not
-    start_enabled = false,
+    start_enabled = true,
     -- Whether LaTeX should be rendered, mainly used for health check
     latex_enabled = true,
     -- Maximum file size (in MB) that this plugin will attempt to render
