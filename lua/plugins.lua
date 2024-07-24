@@ -74,8 +74,8 @@ local plugins = Array({
   setup('edit.comment'),       -- "gcc" to comment visual regions/lines
   setup('edit.comment-box'),   -- comment box
   setup('edit.prettier'),
-  setup('edit.nvim-ufo'),      -- folding
-  -- setup('edit.template-string'),    -- muda pra template-string automaticamente
+  setup('edit.nvim-ufo'),     -- folding
+  setup('edit.template-string'),    -- muda pra template-string automaticamente
 
   setup('edit.vim-visual-multi'),    -- multicursor
   setup('edit.neogen'),              -- documentation generation
@@ -161,7 +161,7 @@ local plugins = Array({
   setup('dev.kulala'), -- REST-Client
 
   -- Git
-  setup('dev.gitsigns'), -- gutter signs
+  -- setup('dev.gitsigns'), -- gutter signs
   setup('dev.diffview'),
   { 'tpope/vim-fugitive' },
 

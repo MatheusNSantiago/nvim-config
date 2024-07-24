@@ -16,7 +16,7 @@ function M.keymap(mode, remap, command, opts)
 
 	if opts then options = vim.tbl_extend('force', options, opts) end
 
-	if type(mode) == 'table' and vim.tbl_contains(mode, 'i') then
+	if type(mode) == 'table' and type(command) == 'string' and vim.tbl_contains(mode, 'i') then
 		vim.keymap.set(mode, remap, '<ESC>' .. tostring(command), options)
 	else
 		if command == nil then return end

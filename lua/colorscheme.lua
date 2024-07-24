@@ -512,6 +512,8 @@ function M.get_plugin_highlights()
 	return all_hls
 end
 
-function M.get_all_highlights() return vim.tbl_extend('force', M.get_base_highlights(), M.get_plugin_highlights()) end
+function M.get_all_highlights()
+	return vim.tbl_extend('force', M.get_base_highlights(), M.get_plugin_highlights()) --
+end
 
 return M
