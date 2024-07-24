@@ -26,20 +26,39 @@ function M.keys()
 
 	local b, e = require('telescope.builtin'), telescope.extensions
 	local mappings = {
-		-- Builtin
-		{ '<leader>sg',  b.live_grep,                 desc = '[S]earch by [G]rep' },
-		{ '<leader>sb',  b.current_buffer_fuzzy_find, desc = '[S]earch [B]uffer' },
-		{ '<leader>sk',  b.keymaps,                   desc = '[S]earch [K]eymaps' },
-		{ '<leader>sof', b.oldfiles,                  desc = '[S]earch [O]ld [F]iles' },
-		{ '<leader>sh',  b.help_tags,                 desc = '[S]earch [H]elp' },
-		{ '<leader>sw',  b.grep_string,               desc = '[S]earch [W]ord' },
+		--  ╭──────────────────────────────────────────────────────────╮
+		--  │                         Builtin                          │
+		--  ╰──────────────────────────────────────────────────────────╯
+		{ '<leader>sg', b.live_grep,                 desc = '[S]earch by [G]rep' },
+
+		-- Procurar palavra (buffer)
+		{ '<leader>sb', b.current_buffer_fuzzy_find, desc = '[S]earch [B]uffer' },
+		{
+			'<leader>sb',
+			function()
+				local selection = utils.get_visual_selection()
+				b.current_buffer_fuzzy_find()
+				vim.schedule(function() utils.api.feedkeys('i' .. selection) end)
+			end,
+			mode = 'x',
+			desc = '[S]earch [B]uffer',
+		},
+
+		-- Procurar palavra (global)
+		{ '<leader>sw',  b.grep_string, desc = '[S]earch [W]ord' },
 		{
 			'<leader>sw',
 			function() return b.grep_string({ search = '"' .. utils.get_visual_selection() .. '"' }) end,
 			mode = 'x',
 			desc = '[S]earch [W]ord',
 		},
-		-- Extension
+
+		{ '<leader>sk',  b.keymaps,     desc = '[S]earch [K]eymaps' },
+		{ '<leader>sof', b.oldfiles,    desc = '[S]earch [O]ld [F]iles' },
+		{ '<leader>sh',  b.help_tags,   desc = '[S]earch [H]elp' },
+		--  ╭──────────────────────────────────────────────────────────╮
+		--  │                        Extension                         │
+		--  ╰──────────────────────────────────────────────────────────╯
 		{
 			'<leader>sf',
 			function() e.smart_open.smart_open({ cwd_only = true }) end,
