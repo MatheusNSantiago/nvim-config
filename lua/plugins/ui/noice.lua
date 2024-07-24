@@ -36,12 +36,12 @@ function M.config()
     messages = {
       -- NOTE- If you enable messages, then the cmdline is enabled automatically.
       -- This is a current Neovim limitation.
-      enabled = true,           -- enables the Noice messages UI
-      view = 'notify',          -- default view for messages
-      view_error = 'notify',    -- view for errors
-      view_warn = 'notify',     -- view for warnings
+      enabled = true,         -- enables the Noice messages UI
+      view = 'notify',        -- default view for messages
+      view_error = 'notify',  -- view for errors
+      view_warn = 'notify',   -- view for warnings
       view_history = 'messages', -- view for :messages
-      view_search = 'virtualtext', -- view for search count messages. Set to `false` to disable
+      view_search = false,    -- 'virtualtext' -- view for search count messages. Set to `false` to disable
     },
     popupmenu = {
       enabled = true, -- enables the Noice popupmenu UI
@@ -130,11 +130,11 @@ function M.config()
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
       override = {
         -- override the default lsp markdown formatter with Noice
-        ['vim.lsp.util.convert_input_to_markdown_lines'] = false,
+        ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
         -- override the lsp markdown formatter with Noice
-        ['vim.lsp.util.stylize_markdown'] = false,
+        ['vim.lsp.util.stylize_markdown'] = true,
         -- override cmp documentation with Noice (needs the other options to work)
-        ['cmp.entry.get_documentation'] = false,
+        ['cmp.entry.get_documentation'] = true,
       },
       hover = {
         enabled = false,
@@ -209,55 +209,56 @@ function M.config()
         opts = { skip = true },
         filter = {
           any = {
-            { event = 'msg_show',               find = 'written' },
-            { event = 'msg_show',               find = '%d+ lines, %d+ bytes' },
-            { event = 'msg_show',               kind = 'search_count' },
-            { event = 'msg_show',               find = '%d+L, %d+B' },
-            { event = 'msg_show',               find = '^Hunk %d+ of %d' },
-            { event = 'msg_show',               find = '%d+ change' },
-            { event = 'msg_show',               find = '%d+ line' },
-            { event = 'msg_show',               find = '%d+ more line' },
-            { event = 'notify',                 find = 'No information available' },
-            { event = 'msg_show',               find = 'textDocument/foldingRange' },                            -- erro no yaml
-            { event = { 'msg_show', 'notify' }, find = 'No delegateCommandHandler for vscode.java.resolveMainClass' }, -- erro no yaml
+            -- ao salvar mudança
+            { event = 'msg_show', find = '%d+L, %d+B written' },
+            -- { event = 'msg_show',               find = '%d+ lines, %d+ bytes' },
+            -- { event = 'msg_show',               kind = 'search_count' },
+            -- { event = 'msg_show',               find = '^Hunk %d+ of %d' },
+            -- { event = 'msg_show',               find = '%d+ change' },
+            -- { event = 'msg_show',               find = '%d+ line' },
+            -- { event = 'msg_show',               find = '%d+ more line' },
+            -- Ao dar hover em algo que não tem informação suficiente
+            { event = 'notify',   find = 'No information available' },
+            -- { event = 'msg_show',               find = 'textDocument/foldingRange' },                            -- erro no yaml
+            -- { event = { 'msg_show', 'notify' }, find = 'No delegateCommandHandler for vscode.java.resolveMainClass' }, -- erro no yaml
           },
         },
       },
       -- Warnings
-      {
-        view = 'notify',
-        filter = {
-          any = {
-            { warning = true },
-            { event = 'msg_show', find = '^Warn' },
-            { event = 'msg_show', find = '^W%d+:' },
-            { event = 'msg_show', find = '^No hunks$' },
-          },
-        },
-        opts = { title = 'Warning', level = vim.log.levels.WARN, merge = false, replace = false },
-      },
+      -- {
+      --   view = 'notify',
+      --   filter = {
+      --     any = {
+      --       { warning = true },
+      --       { event = 'msg_show', find = '^Warn' },
+      --       { event = 'msg_show', find = '^W%d+:' },
+      --       { event = 'msg_show', find = '^No hunks$' },
+      --     },
+      --   },
+      --   opts = { title = 'Warning', level = vim.log.levels.WARN, merge = false, replace = false },
+      -- },
       -- Erros
-      {
-        view = 'notify',
-        opts = { title = 'Error', level = vim.log.levels.ERROR, merge = true, replace = false },
-        filter = {
-          any = {
-            { error = true },
-            { event = 'msg_show', find = '^Error' },
-            { event = 'msg_show', find = '^E%d+:' },
-          },
-        },
-      },
+      -- {
+      --   view = 'notify',
+      --   opts = { title = 'Error', level = vim.log.levels.ERROR, merge = true, replace = false },
+      --   filter = {
+      --     any = {
+      --       { error = true },
+      --       { event = 'msg_show', find = '^Error' },
+      --       { event = 'msg_show', find = '^E%d+:' },
+      --     },
+      --   },
+      -- },
       -- minimise pattern not found messages
-      {
-        view = 'mini',
-        filter = {
-          any = {
-            { event = 'msg_show', find = '^E486:' },
-            { event = 'notify',   max_height = 1 },
-          },
-        },
-      },
+      -- {
+      --   view = 'mini',
+      --   filter = {
+      --     any = {
+      --       { event = 'msg_show', find = '^E486:' },
+      --       { event = 'notify',   max_height = 1 },
+      --     },
+      --   },
+      -- },
     },         --- @see section on routes
     ---@type table<string, NoiceFilter>
     status = {}, --- @see section on statusline components
