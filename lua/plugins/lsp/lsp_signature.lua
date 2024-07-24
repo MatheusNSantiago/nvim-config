@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local M = {}
 
 function M.setup()
@@ -8,7 +9,9 @@ function M.setup()
 end
 
 function M.config()
-  require('lsp_signature').setup({
+  local lsp_signature = require('lsp_signature')
+
+  lsp_signature.setup({
     bind = true,                            -- This is mandatory, otherwise border config won't get registered.
     max_height = 12,                        -- max height of signature floating_window
     max_width = 80,                         -- max_width of signature floating_window, line will be wrapped if exceed max_width. the value need >= 40
@@ -65,11 +68,37 @@ function M.config()
     keymaps = {}, -- relate to move_cursor_key; the keymaps inside floating window
     -- e.g. keymaps = { 'j', '<C-o>j' } this map j to <C-o>j in floating window
     -- <M-d> and <M-u> are default keymaps to move cursor up and down
-    debug = false,                                            -- set to true to enable debug logging
-    log_path = vim.fn.stdpath('cache') .. '/lsp_signature.log', -- log dir when debug is on
+    debug = false, -- set to true to enable debug logging
+    -- log_path = vim.fn.stdpath('cache') .. '/lsp_signature.log', -- log dir when debug is on
     -- default is  ~/.cache/nvim/lsp_signature.log
-    verbose = false,                                          -- show debug line number
+    verbose = false, -- show debug line number
   })
+end
+
+M.toggleAutoSignature = function()
+  _LSP_SIG_CFG.toggle_key_flip_floatwin_setting = true
+  local status = require('lsp_signature').toggle_float_win()
+  _LSP_SIG_CFG.toggle_key_flip_floatwin_setting = false
+  return status
+end
+
+M.getAutoSignatureStatus = function()
+  return require('lsp_signature').toggle_float_win() --
+end
+
+M.disableAutoSignature = function()
+  local status = M.getAutoSignatureStatus()
+  _LSP_SIG_CFG.winnr = nil
+  if status == true then M.toggleAutoSignature() end
+end
+
+M.enableAutoSignature = function()
+  local status = M.getAutoSignatureStatus()
+  if status == false then M.toggleAutoSignature() end
+end
+
+M.isFloatWinActive = function()
+  return (_LSP_SIG_CFG.winnr and _LSP_SIG_CFG.winnr > 0 and vim.api.nvim_win_is_valid(_LSP_SIG_CFG.winnr)) == true
 end
 
 M.highlights = {
