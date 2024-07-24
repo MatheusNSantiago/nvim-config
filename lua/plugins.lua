@@ -26,25 +26,25 @@ local plugins = Array({
   --  │                        Interface                         │
   --  ╰──────────────────────────────────────────────────────────╯
 
-  setup('ui.tokyonight'),              -- Tema
-  setup('ui.web-devicons'),            -- icones
-  setup('ui.nvim-tree'),               -- File Explorer
-  setup('ui.lualine'),                 -- Status Line
-  setup('ui.hlchunk'),                 -- indentação/context
-  setup('ui.toggleterm'),              -- Terminal
-  setup('ui.bufferline'),              -- Tabs/buffers
-  setup('ui.dressing'),                -- selection e input
-  setup('ui.noice'),                   -- messages, cmdline and popupmenu
-  setup('ui.barbecue'),                -- breadcrumbs
-  setup('ui.nvim-notify'),             -- messages, cmdline and popupmenu
-  setup('ui.highlight-colors'),        -- highlighter #FFF
-  setup('ui.smart-splits'),            -- split pane management
-  setup('ui.vim-scrollbar'),           -- scrollbar
-  setup('ui.todo-comments'),           -- highlight TODO, FIXME, etc...
-  setup('ui.hlsearch'),                -- auto remove search highlight and rehighlight
-  setup('ui.rainbow-delimiters'),      -- rainbow parentheses
-  setup('ui.trouble'),                 -- pretty diagnostics, refs, quickfix
-  setup('ui.virtcolumn'),              -- ColorColumn como um |
+  setup('ui.tokyonight'),             -- Tema
+  setup('ui.web-devicons'),           -- icones
+  setup('ui.nvim-tree'),              -- File Explorer
+  setup('ui.lualine'),                -- Status Line
+  setup('ui.hlchunk'),                -- indentação/context
+  setup('ui.toggleterm'),             -- Terminal
+  setup('ui.bufferline'),             -- Tabs/buffers
+  setup('ui.dressing'),               -- selection e input
+  setup('ui.noice'),                  -- messages, cmdline and popupmenu
+  setup('ui.barbecue'),               -- breadcrumbs
+  setup('ui.nvim-notify'),            -- messages, cmdline and popupmenu
+  setup('ui.highlight-colors'),       -- highlighter #FFF
+  setup('ui.smart-splits'),           -- split pane management
+  setup('ui.vim-scrollbar'),          -- scrollbar
+  setup('ui.todo-comments'),          -- highlight TODO, FIXME, etc...
+  setup('ui.hlsearch'),               -- auto remove search highlight and rehighlight
+  setup('ui.rainbow-delimiters'),     -- rainbow parentheses
+  -- setup('ui.trouble'),                -- pretty diagnostics, refs, quickfix
+  setup('ui.virtcolumn'),             -- ColorColumn como um |
   setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
 
   'sitiom/nvim-numbertoggle',          -- automatic relative/absolute line numbers
