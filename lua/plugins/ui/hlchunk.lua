@@ -13,7 +13,7 @@ function M.config()
     chunk = {
       enable = true,
       style = { { fg = '#806d9c' }, { fg = '#c21f30' } }, -- style = { { fg = '#806d9c' } },
-      notify = true,
+      notify = false,
       priority = 15,
       exclude_filetypes = {
         aerial = true,

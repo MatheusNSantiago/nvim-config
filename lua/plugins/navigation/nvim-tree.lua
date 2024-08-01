@@ -217,9 +217,9 @@ M.config = function()
     --   exclude = false,
     -- },
     update_focused_file = {
-      enable = false,
+      enable = true,
       update_root = {
-        enable = false, -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
+        enable = true, -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
         ignore_list = {},
       },
       exclude = false,

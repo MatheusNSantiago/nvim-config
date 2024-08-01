@@ -6,6 +6,7 @@ utils.ft_helpers.filetype_settings({
   [{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = require('filetypes.js'),
   ['c'] = require('filetypes.c'),
   ['java'] = require('filetypes.java'),
+  ['markdown'] = require('filetypes.markdown'),
 --  ╾───────────────────────────────────────────────────────────────────────────────────╼
   ['cobol'] = safe_require('cobol-bundle').cobol_config,
   ['copybook'] = safe_require('cobol-bundle').copybook_config,

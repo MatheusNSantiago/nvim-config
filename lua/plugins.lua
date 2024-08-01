@@ -186,12 +186,18 @@ local plugins = Array({
   setup('dev.venv-selector'),
   { 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
 
+  -- Markdown
+  {
+    'iamcco/markdown-preview.nvim',
+    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    build = 'cd app && npm install',
+    init = function() vim.g.mkdp_filetypes = { 'markdown' } end,
+    ft = { 'markdown' },
+  },
+
   -- Rust
   { 'rust-lang/rust.vim',            ft = 'rust' },
-  {
-    'mrcjkb/rustaceanvim',
-    lazy = false, -- This plugin is already lazy
-  },
+  { 'mrcjkb/rustaceanvim',           lazy = false }, -- This plugin is already lazy
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                          Debug                           │
