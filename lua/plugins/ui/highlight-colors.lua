@@ -17,10 +17,10 @@ function M.config()
     virtual_symbol = '■',
 
     ---Highlight named colors, e.g. 'green'
-    enable_named_colors = true,
+    enable_named_colors = false,
 
     ---Highlight tailwind colors, e.g. 'bg-blue-500'
-    enable_tailwind = false,
+    enable_tailwind = true,
 
     ---Set custom colors
     ---Label must be properly escaped with '%' to adhere to `string.gmatch`
