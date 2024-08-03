@@ -116,8 +116,6 @@ function M.config()
             end
           end
 
-          vim_item = require('plugins.cmp.custom_formats').format_tailwind(entry, vim_item) -- for tailwind css autocomplete
-
           return vim_item
         end,
       }),
