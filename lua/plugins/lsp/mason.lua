@@ -15,7 +15,6 @@ function M.config()
 	local mason_lspconfig = require('mason-lspconfig')
 	local lsp = require('lsp')
 	local mason_null_ls = require('mason-null-ls')
-	local neodev = require('neodev')
 
 	mason.setup({
 		registries = {
@@ -53,8 +52,6 @@ function M.config()
 		local is_custom_lsp = vim.tbl_contains(custom_lsps, server)
 		return not is_custom_lsp
 	end, lsp.servers)
-
-	neodev.setup({ library = { plugins = { 'neotest' }, types = true } })
 
 	mason_lspconfig.setup({
 		ensure_installed = lsp_list,

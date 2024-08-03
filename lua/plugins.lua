@@ -111,16 +111,16 @@ local plugins = Array({
   setup('lsp.illuminate'),                -- higlight a palavra em cima do cursor
   setup('lsp.lsp-colors'),                -- agrupa os erros do LSP por cor
   setup('lsp.symbol-usage'),              -- mostra quantas referências e definições a função tem
+  setup('lsp.lazydev'),                   -- Faster LuaLS setup for Neovim
 
-  { 'b0o/schemastore.nvim', lazy = true }, -- schemas para json
-  { 'folke/neodev.nvim',    opts = {} },  -- docs for nvim Lua API
+  { 'b0o/schemastore.nvim',         lazy = true }, -- schemas para json
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                         Snippets                         │
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('cmp.luasnip'),
-  { 'rafamadriz/friendly-snippets',          lazy = true },
+  { 'rafamadriz/friendly-snippets', lazy = true },
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                       Completions                        │
@@ -170,7 +170,7 @@ local plugins = Array({
   { 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
   { 'akinsho/pubspec-assist.nvim',        ft = 'yaml', config = true }, -- add/update dart dependencies
 
-  -- Javascript
+  -- Javascript/Typescript
   setup('dev.package-info'), -- Mostra quais são as versões atuais dos packages
   {                         -- Live server. Igual do vscode
     'barrett-ruth/live-server.nvim',
