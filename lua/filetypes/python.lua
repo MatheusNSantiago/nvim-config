@@ -10,7 +10,7 @@ return {
     title = 'Python Commands',
     actions = {
 
-      { name = 'Selecionar venv',          handler = ':VenvSelect<CR>' },
+      { name = 'Selecionar venv', handler = ':VenvSelect<CR>' },
       -- {
       --   name = 'Iniciar Projeto',
       --   handler = function()
@@ -24,6 +24,16 @@ return {
     },
   },
   mappings = {
-    { 'n', '<leader>r', [[:w<CR>:TermExec cmd='python "%"'<CR>]], desc = 'python: [R]un' },
+    -- { 'n', '<leader>r', [[:w<CR>:TermExec cmd='python "%"'<CR>]], desc = 'python: [R]un' },
+    {
+      'n',
+      '<leader>r',
+      function()
+        vim.cmd('w')
+        local python_executable = require('venv-selector').python()
+        exec(python_executable .. ' ' .. vim.fn.expand('%'))
+      end,
+      desc = 'python: [R]un',
+    },
   },
 }

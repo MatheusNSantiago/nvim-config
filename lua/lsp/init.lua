@@ -46,7 +46,7 @@ function M.common_on_attach(client, bufnr)
 	-- Use LSP as the handler for formatexpr.
 	if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
 
-	local navic_blacklist = { 'jdtls' }
+	local navic_blacklist = { 'jdtls', 'tailwindcss' }
 	local is_on_navic_blacklist = vim.tbl_contains(navic_blacklist, client.name)
 
 	if not is_on_navic_blacklist then

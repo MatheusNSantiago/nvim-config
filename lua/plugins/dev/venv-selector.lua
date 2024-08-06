@@ -19,6 +19,7 @@ function M.setup()
       'neovim/nvim-lspconfig',
       'nvim-telescope/telescope.nvim',
     },
+    lazy = false,
     ft = 'python',
     branch = 'regexp', -- This is the regexp branch, use this for the new version
     config = M.config,
@@ -28,8 +29,8 @@ end
 function M.config()
   require('venv-selector').setup({
     -- search = false,
-    -- auto_refresh = true,
-    -- poetry_path = vim.env.HOME .. '/.cache/pypoetry/virtualenvs',
+    auto_refresh = true,
+    poetry_path = vim.env.HOME .. '/.cache/pypoetry/virtualenvs',
     -- notify_user_on_activate = false,
   })
 end
