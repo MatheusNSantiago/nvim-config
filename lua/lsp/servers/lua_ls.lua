@@ -10,15 +10,6 @@ M.settings = {
 		},
 		runtime = { version = 'LuaJIT' },
 		telemetry = { enable = false },
-
-		-- workspace = {
-		-- 	checkThirdParty = true,
-		-- 	-- make the language server aware of runtime files
-		-- 	library = {
-		-- 		[vim.fn.expand('$VIMRUNTIME/lua')] = true,
-		-- 		[vim.fn.stdpath('config') .. '/lua'] = true,
-		-- 	},
-		-- },
 	},
 }
 
