@@ -184,7 +184,7 @@ local plugins = Array({
 
   -- Python
   setup('dev.venv-selector'),
-  { 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
+  { 'vimjas/vim-python-pep8-indent',   ft = 'python' }, -- Conserta o indent
 
   -- Markdown
   {
@@ -196,8 +196,7 @@ local plugins = Array({
   },
 
   -- Rust
-  { 'rust-lang/rust.vim',            ft = 'rust' },
-  { 'mrcjkb/rustaceanvim',           lazy = false }, -- This plugin is already lazy
+  setup('dev.rust'),
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                          Debug                           │
@@ -212,7 +211,7 @@ local plugins = Array({
 if utils.is_wsl() then
   plugins:extend({
     { dir = '~/dev/cobol/cobol-bundle/', ft = { 'cobol', 'copybook' }, config = true },
-    { 'MatheusNSantiago/mychatgpt',      config = true },
+    { dir = '~/dev/cobol/mychatgpt/',    config = true },
   })
 else
   plugins:extend({

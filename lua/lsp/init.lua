@@ -15,7 +15,7 @@ M.servers = {
 	'dart_ls',
 	'pyright',
 	'clangd',
-	'rust_analyzer', -- inicializado pelo rustacean
+	'rust-analyzer', -- inicializado pelo rust acean
 }
 
 ---editor's capabilities + some overrides.

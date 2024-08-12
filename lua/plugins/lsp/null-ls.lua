@@ -11,7 +11,7 @@ function M.config()
 	local null_ls = require('null-ls')
 	local b = null_ls.builtins
 
-	-- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+	-- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md
 	null_ls.setup({
 		sources = {
 			--  ╭──────────────────────────────────────────────────────────╮
@@ -42,22 +42,12 @@ function M.config()
 			-- b.diagnostics.xo,
 			-- require('typescript.extensions.null-ls.code-actions'),
 
-			--  ╭──────────────────────────────────────────────────────────╮
-			--  │                            C                             │
-			--  ╰──────────────────────────────────────────────────────────╯
-			b.formatting.clang_format,
-			--  ╭──────────────────────────────────────────────────────────╮
-			--  │                           Dart                           │
-			--  ╰──────────────────────────────────────────────────────────╯
-			b.formatting.dart_format,
-			--  ╭──────────────────────────────────────────────────────────╮
-			--  │                          Outros                          │
-			--  ╰──────────────────────────────────────────────────────────╯
-			b.formatting.alejandra, -- nix
-			-- b.formatting.fixjson,  -- json
-			b.formatting.yamlfmt,  -- yaml
+			--  ╾─────────────────────────────────────────────────────────╼
+			b.formatting.clang_format, -- C/C++
+			b.formatting.dart_format, -- Dart
+			b.formatting.yamlfmt,   -- yaml
 			b.formatting.fish_indent, -- fish
-			b.diagnostics.fish,    -- fish
+			b.diagnostics.fish,     -- fish
 		},
 		on_attach = function(client, bufnr)
 			if client.supports_method('textDocument/formatting') then

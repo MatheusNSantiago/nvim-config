@@ -47,7 +47,7 @@ function M.config()
 		automatic_setup = true, -- Recommended, but optional
 	})
 
-	local custom_lsps = { 'typescript-tools', 'dart_ls', 'cobol_ls' }
+	local custom_lsps = { 'dart_ls', 'cobol_ls', 'rust-analyzer' }
 	local lsp_list = vim.tbl_filter(function(server)
 		local is_custom_lsp = vim.tbl_contains(custom_lsps, server)
 		return not is_custom_lsp
