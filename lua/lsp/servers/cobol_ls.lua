@@ -3,7 +3,7 @@ local lsp = require('lsp')
 local M = {
 	filetypes = { 'cobol', 'copybook' },
 	capabilities = lsp.client_capabilities(),
-	root_dir = lsp.utils.find_root_dir,
+	root_dir = require('lsp.utils').find_root_dir,
 }
 
 M.cmd = function(dispatchers)

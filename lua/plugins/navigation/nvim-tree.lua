@@ -4,7 +4,6 @@ M.setup = function()
   return {
     'nvim-tree/nvim-tree.lua',
     config = M.config,
-    lazy = false,
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     keys = M.keys,
   }
@@ -31,33 +30,28 @@ M.config = function()
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
 
-  utils.api.augroup(
-    'nvim-tree',
-    {
-      desc = 'Abre nvim-tree ao entrar no neovim',
-      event = 'VimEnter',
-      command = M._open_on_startup,
-    },
-    -- {
-    --   desc = 'fecha a tab/neovim quando nvim-tree é a última janela',
-    --   event = { 'BufEnter', 'QuitPre' },
-    --   command = M._tab_win_closed,
-    --   nested = true,
-    -- },
-    {
-      desc = 'salva a width do nvim-tree para poder restaurar depois',
-      event = 'WinResized',
-      command = function()
-        local filetree_winnr = view.get_winnr()
-        if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
-          vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
-        end
-      end,
-    }
-  )
+  utils.api.augroup('nvim-tree', {
+    desc = 'Abre nvim-tree ao entrar no neovim',
+    event = 'VimEnter',
+    command = M._open_on_startup,
+  }, {
+    desc = 'fecha a tab/neovim quando nvim-tree é a última janela',
+    event = { 'BufEnter', 'QuitPre' },
+    command = M._tab_win_closed,
+    nested = true,
+  }, {
+    desc = 'salva a width do nvim-tree para poder restaurar depois',
+    event = 'WinResized',
+    command = function()
+      local filetree_winnr = view.get_winnr()
+      if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
+        vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
+      end
+    end,
+  })
 
   -- Automatically open file upon creation
-  -- api.events.subscribe(api.events.Event.FileCreated, function(file) vim.cmd('edit ' .. file.fname) end)
+  api.events.subscribe(api.events.Event.FileCreated, function(file) vim.cmd('edit ' .. file.fname) end)
 
   -- restaura o último tamanho da janela ao abrir o nvim-tree
   api.events.subscribe(api.events.Event.TreeOpen, function()
@@ -208,14 +202,6 @@ M.config = function()
     },
     -- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
     hijack_directories = { enable = false, auto_open = true },
-    -- update_focused_file = {
-    --   enable = true,
-    --   update_root = {
-    --     enable = true, -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
-    --     ignore_list = { 'gitcommit' },
-    --   },
-    --   exclude = false,
-    -- },
     update_focused_file = {
       enable = true,
       update_root = {
@@ -226,10 +212,8 @@ M.config = function()
     },
     -- configuration options for the system open command (`s` in the tree by default)
     system_open = {
-      -- the command to run this, leaving nil should work in most cases
-      cmd = '',
-      -- the command arguments as a list
-      args = {},
+      cmd = '', -- the command to run this, leaving nil should work in most cases
+      args = {}, -- the command arguments as a list
     },
     -- filters = {
     --   dotfiles = false,
@@ -240,12 +224,11 @@ M.config = function()
     -- },
     filters = {
       enable = true,
-      git_ignored = true,
+      git_ignored = false,
       dotfiles = false,
       git_clean = false,
       no_buffer = false,
-      no_bookmark = false,
-      custom = {},
+      custom = {'node_modules'},
       exclude = {},
     },
     -- git = { enable = true, ignore = false, timeout = 500 },
@@ -295,10 +278,7 @@ M.config = function()
       number = false,
       relativenumber = false,
     },
-    trash = {
-      cmd = 'trash',
-      require_confirm = true,
-    },
+    trash = { cmd = 'trash', require_confirm = true },
     ui = {
       confirm = { remove = true, trash = true, default_yes = false },
     },
@@ -343,33 +323,33 @@ function M._open_on_startup(data)
   utils.api.feedkeys('M')
 end
 
--- function M._tab_win_closed(args)
---   local tree = require('nvim-tree.api').tree
---
---   -- Nothing to do if tree is not opened
---   if not tree.is_visible() then return end
---
---   -- How many focusable windows do we have? (excluding e.g. incline status window)
---   local winCount = 0
---   for _, winId in ipairs(vim.api.nvim_list_wins()) do
---     if vim.api.nvim_win_get_config(winId).focusable then winCount = winCount + 1 end
---   end
---
---   -- We want to quit and only one window besides tree is left
---   if args.event == 'QuitPre' and winCount == 2 then vim.api.nvim_cmd({ cmd = 'qall' }, {}) end
---
---   -- :bd was probably issued an only tree window is left
---   -- Behave as if tree was closed (see `:h :bd`)
---   if args.event == 'BufEnter' and winCount == 1 then
---     -- Required to avoid "Vim:E444: Cannot close last window"
---     vim.defer_fn(function()
---       -- close nvim-tree: will go to the last buffer used before closing
---       tree.toggle({ find_file = true, focus = true })
---       -- re-open nivm-tree
---       tree.toggle({ find_file = true, focus = false })
---     end, 10)
---   end
--- end
+function M._tab_win_closed(args)
+  local tree = require('nvim-tree.api').tree
+
+  -- Nothing to do if tree is not opened
+  if not tree.is_visible() then return end
+
+  -- How many focusable windows do we have? (excluding e.g. incline status window)
+  local winCount = 0
+  for _, winId in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(winId).focusable then winCount = winCount + 1 end
+  end
+
+  -- We want to quit and only one window besides tree is left
+  if args.event == 'QuitPre' and winCount == 2 then vim.api.nvim_cmd({ cmd = 'qall' }, {}) end
+
+  -- :bd was probably issued an only tree window is left
+  -- Behave as if tree was closed (see `:h :bd`)
+  if args.event == 'BufEnter' and winCount == 1 then
+    -- Required to avoid "Vim:E444: Cannot close last window"
+    vim.defer_fn(function()
+      -- close nvim-tree: will go to the last buffer used before closing
+      tree.toggle({ find_file = true, focus = true })
+      -- re-open nivm-tree
+      tree.toggle({ find_file = true, focus = false })
+    end, 10)
+  end
+end
 
 function M._custom_commands()
   local lib = require('nvim-tree.lib')
@@ -387,8 +367,7 @@ function M._custom_commands()
       require('nvim-tree.actions.tree-modifiers.collapse-all').fn() --
     end,
 
-    expand = function()
-      -- open as vsplit on current node
+    expand = function() -- open as vsplit on current node
       local node = lib.get_node_at_cursor()
       if node == nil then return end
 
