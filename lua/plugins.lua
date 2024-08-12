@@ -1,5 +1,6 @@
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+---@diagnostic disable-next-line: undefined-field
+if not vim.uv.fs_stat(lazypath) then
   local repo = 'https://github.com/folke/lazy.nvim.git'
   vim.fn.system({ 'git', 'clone', '--filter=blob:none', repo, '--branch=stable', lazypath })
 end
@@ -42,9 +43,9 @@ local plugins = Array({
   setup('ui.todo-comments'),          -- highlight TODO, FIXME, etc...
   setup('ui.hlsearch'),               -- auto remove search highlight and rehighlight
   setup('ui.rainbow-delimiters'),     -- rainbow parentheses
-  -- setup('ui.trouble'),                -- pretty diagnostics, refs, quickfix
   setup('ui.virtcolumn'),             -- ColorColumn como um |
   setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
+  setup('ui.sentiment'),              -- dá highlight no outro parentesis
 
   'sitiom/nvim-numbertoggle',         -- automatic relative/absolute line numbers
 
@@ -60,7 +61,6 @@ local plugins = Array({
   setup('navigation.nvim-navbuddy'), -- outline
   setup('navigation.leap'),         -- sneap + easymotion
   setup('navigation.flit'),         -- Repeat jump by pressing f, F, t, T again
-  setup('navigation.vim-matchup'),  -- highlight, navigate, and operate on %
   setup('navigation.auto-indent'),  -- tab pro indent do bloco
 
   { 'itchyny/vim-highlighturl' },   -- highlight URLs
@@ -107,7 +107,8 @@ local plugins = Array({
   { 'jay-babu/mason-null-ls.nvim' },      -- deixa mais fácil usar mason + null-ls
 
   setup('lsp.lsp_signature'),             -- mostra a function signature enquanto digita
-  setup('lsp.lspsaga'),                   -- LSP UIs
+  -- setup('lsp.lspsaga'),                   -- LSP UIs
+  setup('lsp.glance'),                    -- References
   setup('lsp.illuminate'),                -- higlight a palavra em cima do cursor
   setup('lsp.lsp-colors'),                -- agrupa os erros do LSP por cor
   setup('lsp.symbol-usage'),              -- mostra quantas referências e definições a função tem
@@ -187,6 +188,7 @@ local plugins = Array({
   { 'vimjas/vim-python-pep8-indent',   ft = 'python' }, -- Conserta o indent
 
   -- Markdown
+  setup('dev.markview'),
   {
     'iamcco/markdown-preview.nvim',
     cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
