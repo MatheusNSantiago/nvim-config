@@ -149,7 +149,7 @@ function M.toggle_lazygit()
     -- function to run on closing the terminal
     on_close = function(_)
       vim.cmd('startinsert!')
-      vim.schedule(function() vim.cmd('edit') end)
+      -- vim.schedule(function() vim.cmd('edit') end)
     end,
   })
 
