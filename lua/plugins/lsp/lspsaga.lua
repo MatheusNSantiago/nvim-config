@@ -64,11 +64,16 @@ function M.config()
       color_mode = true,
     },
     rename = {
-      quit = '<C-c>',
-      exec = '<CR>',
-      mark = 'x',
-      confirm = '<CR>',
-      in_select = true,
+      in_select = true,      -- Whether the name is selected when the float opens in some situation, just like want to change one or less characters, in_select is not so useful. You can tell the Lspsaga to start in normal mode using an extra argument like :Lspsaga lsp_rename mode=n
+      auto_save = false,     -- Auto save file when the rename is done
+      project_max_width = 0.5, -- Width for the project_replace float window
+      project_max_height = 0.5, -- Height for the project_replace float window
+      keys = {
+        quit = 'q',
+        exec = '<CR>',
+        confirm = '<CR>',
+        select = 'x',
+      },
     },
     lightbulb = {
       enable = false,
@@ -89,9 +94,11 @@ function M.config()
       },
     },
     finder = {
-      max_height = 0.5,
-      default = 'ref',
-      layout = 'float',
+      max_height = 0.5, -- max_height of the finder window (float layout)
+      left_width = 0.3, -- Width of the left finder window (float layout)
+      right_width = 0.3, -- Width of the right finder window (float layout)
+      default = 'ref', -- Default search results shown, ref for “references” and imp for “implementation”
+      layout = 'float', -- available value is normal and float normal will use the normal layout window priority is lower than command layout
       keys = {
         shuttle = '[w',
         toggle_or_open = { 'o', '<CR>' },

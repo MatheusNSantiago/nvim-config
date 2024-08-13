@@ -59,7 +59,7 @@ function M.common_on_attach(client, bufnr)
 	end
 
 	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
-	-- keymap('n', 'K', require('plugins.ui.pretty-hover.init').hover)
+	-- keymap('n', 'K', vim.lsp.buf.hover)
 
 	-- Diagnostic jump
 	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
@@ -70,36 +70,29 @@ function M.common_on_attach(client, bufnr)
 	keymap('n', ']E', ":lua require('lspsaga.diagnostic').goto_next({ severity = 1 })<CR>")
 
 	keymap('n', '<leader>sd', ':Telescope diagnostics<CR>', { desc = '[S]earch [D]iagnostics' })
-	keymap('n', '<leader>sR', ':Telescope lsp_references<CR>', { desc = '[S]earch [R]eferences' })
-	keymap('n', '<leader>si', ':Telescope lsp_implementations<CR>', { desc = '[S]earch [I]mplementations' })
+	keymap('n', 'gf', ':Telescope lsp_references<CR>', { desc = '[S]earch [R]eferences' })
 
+	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', 'gr', ':Lspsaga rename<CR>')
-	keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
-	keymap('n', 'gf', ':Lspsaga finder<CR>')
-
-	-- keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
-	-- keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')           -- Abre a definição em um novo buffer
-	-- keymap('n', 'gV', ':vsplit<CR><C-w>w<C-w>L:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
-	local function go_to_definition()
-		vim.lsp.buf.definition({
-			on_list = function(options)
-				vim.fn.setqflist({}, ' ', options)
-				vim.cmd.cfirst()
-			end,
-		})
-	end
-	keymap('n', 'gd', go_to_definition)
-	keymap('n', 'gD', function()
-		vim.cmd('tab split')
-		go_to_definition()
-	end, { desc = 'Abre a definição em um novo buffer' })
-
-	keymap('n', 'gV', function()
-		vim.cmd('vsplit')
-		vim.cmd('wincmd L')
-		go_to_definition()
-	end, { desc = 'Abre a definição em um novo buffer na vertical' })
-
+	keymap('n', 'gp', ":lua require('goto-preview').goto_preview_definition()<CR>")
+	-- keymap('n', 'gr', vim.lsp.buf.rename)
+	-- keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
+	-- keymap('n', 'gf', ':Lspsaga finder<CR>')
+	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
+	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
+	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')           -- Abre a definição em um novo buffer
+	keymap('n', 'gV', ':vsplit<CR><C-w>L:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
+	-- keymap('n', 'gd', M.go_to_definition)
+	-- keymap('n', 'gD', function()
+	-- 	vim.cmd('tab split')
+	-- 	M.go_to_definition()
+	-- end, { desc = 'Abre a definição em um novo buffer' })
+	-- keymap('n', 'gV', function()
+	-- 	vim.cmd('vsplit')
+	-- 	vim.cmd('wincmd L')
+	-- 	M.go_to_definition()
+	-- end, { desc = 'Abre a definição em um novo buffer na vertical' })
+	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')  -- Code action
 	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>') -- Show line diagnostics
 end
@@ -175,6 +168,13 @@ function M.setup()
 	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
 end
 
-M.utils = require('lsp.utils')
+M.go_to_definition = function()
+	vim.lsp.buf.definition({
+		on_list = function(options)
+			vim.fn.setqflist({}, ' ', options)
+			vim.cmd.cfirst()
+		end,
+	})
+end
 
 return M
