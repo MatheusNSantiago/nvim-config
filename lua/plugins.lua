@@ -107,8 +107,10 @@ local plugins = Array({
   { 'jay-babu/mason-null-ls.nvim' },      -- deixa mais fácil usar mason + null-ls
 
   setup('lsp.lsp_signature'),             -- mostra a function signature enquanto digita
-  -- setup('lsp.lspsaga'),                   -- LSP UIs
-  setup('lsp.glance'),                    -- References
+  setup('lsp.lspsaga'),                   -- LSP UIs
+  setup('lsp.glance'),                    -- peek definitions
+  setup('lsp.goto-preview'),
+
   setup('lsp.illuminate'),                -- higlight a palavra em cima do cursor
   setup('lsp.lsp-colors'),                -- agrupa os erros do LSP por cor
   setup('lsp.symbol-usage'),              -- mostra quantas referências e definições a função tem
