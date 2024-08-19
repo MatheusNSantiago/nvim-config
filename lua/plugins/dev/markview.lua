@@ -10,17 +10,23 @@ end
 
 function M.config()
   require('markview').setup({
-    modes = { 'n', 'no', 'c' }, -- Change these modes
-    -- to what you need
+    modes = { 'n', 'i', 'no', 'c' },
+    hybrid_modes = { 'i' },
+    list_items = {
+      enable = true,
+      shift_width = 2,
+      indent_size = 2,
 
-    hybrid_modes = { 'n' }, -- Uses this feature on
-    -- normal mode
-
+      marker_minus = {},
+      marker_plus = {},
+      marker_star = {},
+      marker_dot = {},
+    },
     -- This is nice to have
     callbacks = {
       on_enable = function(_, win)
         vim.wo[win].conceallevel = 2
-        vim.wo[win].concealcursor = 'c'
+        vim.wo[win].concealcursor = 'nc'
       end,
     },
   })
