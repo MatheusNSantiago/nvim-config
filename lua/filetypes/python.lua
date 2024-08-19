@@ -24,13 +24,26 @@ return {
     },
   },
   mappings = {
-    -- { 'n', '<leader>r', [[:w<CR>:TermExec cmd='python "%"'<CR>]], desc = 'python: [R]un' },
     {
       'n',
       '<leader>r',
       function()
         vim.cmd('w')
-        local python_executable = require('venv-selector').python()
+
+        local python_executable
+
+        local is_poetry_project = vim.fn.glob(vim.fn.getcwd() .. '/pyproject.toml') ~= ''
+        if is_poetry_project then
+          python_executable = require('venv-selector').python()
+
+          if python_executable == nil then
+            utils.error('Usa :VenvSelect e selecione o poetry environment')
+            return
+          end
+        else
+          python_executable = 'python'
+        end
+
         exec(python_executable .. ' ' .. vim.fn.expand('%'))
       end,
       desc = 'python: [R]un',
