@@ -111,19 +111,20 @@ local plugins = Array({
   setup('lsp.glance'),                    -- peek definitions
   setup('lsp.goto-preview'),
 
-  setup('lsp.illuminate'),                -- higlight a palavra em cima do cursor
-  setup('lsp.lsp-colors'),                -- agrupa os erros do LSP por cor
-  setup('lsp.symbol-usage'),              -- mostra quantas referências e definições a função tem
-  setup('lsp.lazydev'),                   -- Faster LuaLS setup for Neovim
+  setup('lsp.illuminate'),                               -- higlight a palavra em cima do cursor
+  setup('lsp.lsp-colors'),                               -- agrupa os erros do LSP por cor
+  setup('lsp.symbol-usage'),                             -- mostra quantas referências e definições a função tem
+  setup('lsp.lazydev'),                                  -- Faster LuaLS setup for Neovim
 
-  { 'b0o/schemastore.nvim',         lazy = true }, -- schemas para json
+  { 'antosha417/nvim-lsp-file-operations', lazy = true }, -- proca lsp em file ops. setup vai ser feito ao abrir o nvim-tree
+  { 'b0o/schemastore.nvim',                lazy = true }, -- schemas para json
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                         Snippets                         │
   --  ╰──────────────────────────────────────────────────────────╯
 
   setup('cmp.luasnip'),
-  { 'rafamadriz/friendly-snippets', lazy = true },
+  { 'rafamadriz/friendly-snippets',          lazy = true },
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                       Completions                        │
@@ -187,18 +188,11 @@ local plugins = Array({
 
   -- Python
   setup('dev.venv-selector'),
-  { 'vimjas/vim-python-pep8-indent',   ft = 'python' }, -- Conserta o indent
+  { 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
 
   -- Markdown
   setup('dev.markview'),
-  {
-    'iamcco/markdown-preview.nvim',
-    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
-    build = 'cd app && npm install',
-    init = function() vim.g.mkdp_filetypes = { 'markdown' } end,
-    ft = { 'markdown' },
-  },
-
+  { 'bullets-vim/bullets.vim' }, -- bullet list automático
   -- Rust
   setup('dev.rust'),
 

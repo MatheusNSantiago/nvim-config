@@ -10,16 +10,13 @@ M.setup = function()
 end
 
 function M.keys()
-  local tree_ok, api = pcall(require, 'nvim-tree.api')
-  if not tree_ok then return {} end
+  -- local tree_ok, _ = pcall(require, 'nvim-tree.api')
+  -- if not tree_ok then return {} end
 
-  return {
-    {
-      '<A-e>',
-      function() api.tree.toggle({ focus = false, find_file = true }) end,
-      desc = 'navbuddy: open pannel',
-    },
-  }
+  -- setup operações de arquivos p/ mandar pro LSP (e.g. mover/renomear)
+  require('lsp-file-operations').setup()
+
+  return { { '<A-e>', M.focusOrToggle, desc = 'navbuddy: open pannel' } }
 end
 
 M.config = function()
@@ -30,25 +27,30 @@ M.config = function()
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
 
-  utils.api.augroup('nvim-tree', {
-    desc = 'Abre nvim-tree ao entrar no neovim',
-    event = 'VimEnter',
-    command = M._open_on_startup,
-  }, {
-    desc = 'fecha a tab/neovim quando nvim-tree é a última janela',
-    event = { 'BufEnter', 'QuitPre' },
-    command = M._tab_win_closed,
-    nested = true,
-  }, {
-    desc = 'salva a width do nvim-tree para poder restaurar depois',
-    event = 'WinResized',
-    command = function()
-      local filetree_winnr = view.get_winnr()
-      if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
-        vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
-      end
-    end,
-  })
+  utils.api.augroup(
+    'nvim-tree',
+    {
+      desc = 'Abre nvim-tree ao entrar no neovim',
+      event = 'VimEnter',
+      command = M._open_on_startup,
+    },
+    {
+      desc = 'Fecha nvim tree se ele for o último buffer',
+      event = { 'WinClosed' },
+      command = M._auto_close,
+      nested = true,
+    },
+    {
+      desc = 'salva a width do nvim-tree para poder restaurar depois',
+      event = 'WinResized',
+      command = function()
+        local filetree_winnr = view.get_winnr()
+        if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
+          vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
+        end
+      end,
+    }
+  )
 
   -- Automatically open file upon creation
   api.events.subscribe(api.events.Event.FileCreated, function(file) vim.cmd('edit ' .. file.fname) end)
@@ -140,7 +142,6 @@ M.config = function()
       root_folder_modifier = ':~',
       indent_markers = { enable = false },
       root_folder_label = ':~:s?$?/..?',
-
       full_name = false,
       indent_width = 2,
       special_files = { 'Cargo.toml', 'Makefile', 'README.md', 'readme.md' },
@@ -228,7 +229,7 @@ M.config = function()
       dotfiles = false,
       git_clean = false,
       no_buffer = false,
-      custom = {'node_modules'},
+      custom = { 'node_modules' },
       exclude = {},
     },
     -- git = { enable = true, ignore = false, timeout = 500 },
@@ -323,7 +324,42 @@ function M._open_on_startup(data)
   utils.api.feedkeys('M')
 end
 
-function M._tab_win_closed(args)
+---@see https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close#rwblokzijl
+function M._auto_close()
+  local function tab_win_closed(winnr)
+    local api = require('nvim-tree.api')
+    local tabnr = vim.api.nvim_win_get_tabpage(winnr)
+    local bufnr = vim.api.nvim_win_get_buf(winnr)
+    local buf_info = vim.fn.getbufinfo(bufnr)[1]
+    local tab_wins = vim.tbl_filter(function(w) return w ~= winnr end, vim.api.nvim_tabpage_list_wins(tabnr))
+    local tab_bufs = vim.tbl_map(vim.api.nvim_win_get_buf, tab_wins)
+    if buf_info.name:match('.*NvimTree_%d*$') then -- close buffer was nvim tree
+      -- Close all nvim tree on :q
+      if not vim.tbl_isempty(tab_bufs) then      -- and was not the last window (not closed automatically by code below)
+        api.tree.close()
+      end
+    else                                                -- else closed buffer was normal buffer
+      if #tab_bufs == 1 then                            -- if there is only 1 buffer left in the tab
+        local last_buf_info = vim.fn.getbufinfo(tab_bufs[1])[1]
+        if last_buf_info.name:match('.*NvimTree_%d*$') then -- and that buffer is nvim tree
+          vim.schedule(function()
+            if #vim.api.nvim_list_wins() == 1 then      -- if its the last buffer in vim
+              vim.cmd('quit')                           -- then close all of vim
+            else                                        -- else there are more tabs open
+              vim.api.nvim_win_close(tab_wins[1], true) -- then close only the tab
+            end
+          end)
+        end
+      end
+    end
+  end
+
+  local winnr = tonumber(vim.fn.expand('<amatch>'))
+  ---@diagnostic disable-next-line: param-type-mismatch
+  vim.schedule_wrap(tab_win_closed(winnr))
+end
+
+function M._win_closed(args)
   local tree = require('nvim-tree.api').tree
 
   -- Nothing to do if tree is not opened
@@ -395,6 +431,17 @@ function M._custom_commands()
       vim.cmd.tabprev()
     end,
   }
+end
+
+function M.focusOrToggle()
+  local nvimTree = require('nvim-tree.api')
+  local currentBuf = vim.api.nvim_get_current_buf()
+  local currentBufFt = vim.api.nvim_get_option_value('filetype', { buf = currentBuf })
+  if currentBufFt == 'NvimTree' then
+    nvimTree.tree.toggle()
+  else
+    nvimTree.tree.focus()
+  end
 end
 
 return M

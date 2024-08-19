@@ -4,9 +4,7 @@ function M.setup()
   return {
     'rmagatti/goto-preview',
     config = M.config,
-    keys = {
-      { 'gp', desc = 'goto-preview: peek definition' },
-    },
+    lazy = true,
   }
 end
 

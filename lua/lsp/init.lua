@@ -60,7 +60,6 @@ function M.common_on_attach(client, bufnr)
 	end
 
 	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
-	-- keymap('n', 'K', vim.lsp.buf.hover)
 
 	-- Diagnostic jump
 	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
@@ -76,23 +75,11 @@ function M.common_on_attach(client, bufnr)
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', 'gr', ':Lspsaga rename<CR>')
 	keymap('n', 'gp', ":lua require('goto-preview').goto_preview_definition()<CR>")
-	-- keymap('n', 'gr', vim.lsp.buf.rename)
-	-- keymap('n', 'gp', ':Lspsaga peek_definition<CR>')
 	-- keymap('n', 'gf', ':Lspsaga finder<CR>')
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
 	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')           -- Abre a definição em um novo buffer
 	keymap('n', 'gV', ':vsplit<CR><C-w>L:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
-	-- keymap('n', 'gd', M.go_to_definition)
-	-- keymap('n', 'gD', function()
-	-- 	vim.cmd('tab split')
-	-- 	M.go_to_definition()
-	-- end, { desc = 'Abre a definição em um novo buffer' })
-	-- keymap('n', 'gV', function()
-	-- 	vim.cmd('vsplit')
-	-- 	vim.cmd('wincmd L')
-	-- 	M.go_to_definition()
-	-- end, { desc = 'Abre a definição em um novo buffer na vertical' })
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')  -- Code action
 	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>') -- Show line diagnostics
