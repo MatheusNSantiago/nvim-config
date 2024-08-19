@@ -4,6 +4,7 @@ local keymap = utils.api.keymap
 M.servers = {
 	'cssls',
 	'html',
+	'angularls',
 	'tsserver',
 	'tailwindcss',
 	'jsonls',
@@ -46,10 +47,10 @@ function M.common_on_attach(client, bufnr)
 	-- Use LSP as the handler for formatexpr.
 	if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
 
-	local navic_blacklist = { 'jdtls', 'tailwindcss' }
-	local is_on_navic_blacklist = vim.tbl_contains(navic_blacklist, client.name)
-
-	if not is_on_navic_blacklist then
+	-- local navic_blacklist = { 'jdtls', 'tailwindcss' }
+	-- local is_on_navic_blacklist = vim.tbl_contains(navic_blacklist, client.name)
+	-- if not is_on_navic_blacklist then
+	if caps.documentSymbolProvider then
 		-- setup navic (breadcrumbs) e outros simbolos
 		require('lsp.utils').setup_document_symbols(client, bufnr)
 
