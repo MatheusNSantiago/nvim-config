@@ -62,6 +62,7 @@ local plugins = Array({
   setup('navigation.leap'),         -- sneap + easymotion
   setup('navigation.flit'),         -- Repeat jump by pressing f, F, t, T again
   setup('navigation.auto-indent'),  -- tab pro indent do bloco
+  setup('navigation.arrow'),
 
   { 'itchyny/vim-highlighturl' },   -- highlight URLs
 
@@ -191,7 +192,7 @@ local plugins = Array({
   { 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
 
   -- Markdown
-  setup('dev.markview'),
+  -- setup('dev.markview'),
   { 'bullets-vim/bullets.vim' }, -- bullet list automático
   -- Rust
   setup('dev.rust'),
