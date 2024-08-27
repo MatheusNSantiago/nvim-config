@@ -5,52 +5,38 @@ M.setup = function()
     'nvim-tree/nvim-tree.lua',
     config = M.config,
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    keys = M.keys,
   }
-end
-
-function M.keys()
-  -- local tree_ok, _ = pcall(require, 'nvim-tree.api')
-  -- if not tree_ok then return {} end
-
-  -- setup operações de arquivos p/ mandar pro LSP (e.g. mover/renomear)
-  require('lsp-file-operations').setup()
-
-  return { { '<A-e>', M.focusOrToggle, desc = 'navbuddy: open pannel' } }
 end
 
 M.config = function()
   local api = require('nvim-tree.api')
   local view = require('nvim-tree.view')
 
+  utils.api.keymap('n', '<A-e>', M.focusOrToggle, { desc = 'nvim-tree: open explorer' })
+
   -- disable netrw at the very start of your init.lua
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
 
-  utils.api.augroup(
-    'nvim-tree',
-    {
-      desc = 'Abre nvim-tree ao entrar no neovim',
-      event = 'VimEnter',
-      command = M._open_on_startup,
-    },
-    {
-      desc = 'Fecha nvim tree se ele for o último buffer',
-      event = { 'WinClosed' },
-      command = M._auto_close,
-      nested = true,
-    },
-    {
-      desc = 'salva a width do nvim-tree para poder restaurar depois',
-      event = 'WinResized',
-      command = function()
-        local filetree_winnr = view.get_winnr()
-        if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
-          vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
-        end
-      end,
-    }
-  )
+  utils.api.augroup('nvim-tree', {
+    desc = 'Abre nvim-tree ao entrar no neovim',
+    event = 'VimEnter',
+    command = M._open_on_startup,
+  }, {
+    desc = 'Fecha nvim tree se ele for o último buffer',
+    event = { 'WinClosed' },
+    command = M._auto_close,
+    nested = true,
+  }, {
+    desc = 'salva a width do nvim-tree para poder restaurar depois',
+    event = 'WinResized',
+    command = function()
+      local filetree_winnr = view.get_winnr()
+      if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
+        vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
+      end
+    end,
+  })
 
   -- Automatically open file upon creation
   api.events.subscribe(api.events.Event.FileCreated, function(file) vim.cmd('edit ' .. file.fname) end)
@@ -68,7 +54,7 @@ M.config = function()
       sync = { open = true, close = true, ignore = { 'gitcommit' } },
     },
     disable_netrw = false,                    -- disables netrw completely
-    hijack_netrw = false,                     -- hijack netrw window on startup
+    hijack_netrw = true,                      -- hijack netrw window on startup
     hijack_cursor = false,                    -- hijack the cursor in the tree to put it at the start of the filename
     hijack_unnamed_buffer_when_opening = false, -- opens in place of the unnamed buffer if it's empty
     open_on_tab = false,                      -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
@@ -213,16 +199,9 @@ M.config = function()
     },
     -- configuration options for the system open command (`s` in the tree by default)
     system_open = {
-      cmd = '', -- the command to run this, leaving nil should work in most cases
+      cmd = nil, -- the command to run this, leaving nil should work in most cases
       args = {}, -- the command arguments as a list
     },
-    -- filters = {
-    --   dotfiles = false,
-    --   git_clean = false,
-    --   no_buffer = false,
-    --   custom = { '\\.cache', '.null-ls.*', '__pycache__' },
-    --   exclude = {},
-    -- },
     filters = {
       enable = true,
       git_ignored = false,
