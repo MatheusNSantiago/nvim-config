@@ -37,7 +37,7 @@ function M.config()
 			delete_buf = 'dM', -- Deletes all marks in current buffer.
 			next = 'm]',     -- Goes to next mark in buffer.
 			prev = 'm[',     -- Goes to previous mark in buffer.
-			preview = 'm:',  -- Previews mark (will wait for user input). press <cr> to just preview the next mark.
+			preview = 'mp',  -- Previews mark (will wait for user input). press <cr> to just preview the next mark.
 		},
 	})
 end
