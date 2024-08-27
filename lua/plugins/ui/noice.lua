@@ -218,6 +218,7 @@ function M.config()
             -- { event = 'msg_show',               find = '%d+ more line' },
             -- Ao dar hover em algo que não tem informação suficiente
             { event = 'notify',   find = 'No information available' },
+            { event = 'msg_show',   find = 'press letter mark to preview, or press <esc> to quit' }, -- mensagem do marks.nvim para preview
             -- { event = 'msg_show',               find = 'textDocument/foldingRange' },                            -- erro no yaml
             -- { event = { 'msg_show', 'notify' }, find = 'No delegateCommandHandler for vscode.java.resolveMainClass' }, -- erro no yaml
           },
