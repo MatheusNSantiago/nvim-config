@@ -9,6 +9,7 @@ function M.setup()
     config = M.config,
   }
 end
+
 function M.config()
   require('noice').setup({
     cmdline = {
@@ -213,7 +214,7 @@ function M.config()
             -- { event = 'msg_show',               find = '%d+ lines, %d+ bytes' },
             -- { event = 'msg_show',               kind = 'search_count' },
             -- { event = 'msg_show',               find = '^Hunk %d+ of %d' },
-            -- { event = 'msg_show',               find = '%d+ change' },
+            { event = 'msg_show', find = '%d+ changes?' }, -- undo/redo notifications
             -- { event = 'msg_show',               find = '%d+ line' },
             -- { event = 'msg_show',               find = '%d+ more line' },
             -- Ao dar hover em algo que não tem informação suficiente
