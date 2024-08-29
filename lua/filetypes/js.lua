@@ -4,6 +4,14 @@ return {
     keymap = '<leader><leader>o',
     title = 'JS/TS',
     actions = {
+      {
+        name = 'Iniciar Projeto BB',
+        handler = function()
+          vim.cmd("TermExec cmd='nvm use 16; npm run start'")
+          vim.cmd("2TermExec cmd='cd ./..; gaw-rev' name='fooBAR'")
+          vim.defer_fn(function() vim.cmd('stopinsert') end, 100)
+        end,
+      },
       { name = 'npm run dev',        handler = 'npm run start' },
       { name = 'Iniciar LiveServer', handler = ':LiveServerStart<CR>' },
     },
