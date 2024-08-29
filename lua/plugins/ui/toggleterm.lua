@@ -4,6 +4,7 @@ local keymap = utils.api.keymap
 function M.setup()
   return {
     'akinsho/toggleterm.nvim',
+    version = "*",
     cmd = { 'ToggleTerm', 'TermExec', 'TermOpen' },
     config = M.config,
     keys = M.keys,

@@ -61,6 +61,7 @@ end
 --- Normaliza o handler de uma ação
 --- * Se for um comando do nvim, seta o handler para executar o comando
 --- * Se for um comando do terminal, seta o handler para executar o comando no toggleterm
+--- * Se for um comando via função, seta o handler para executar ela
 function M.normalize_action(action)
 	local handler = action.handler
 
@@ -94,7 +95,6 @@ function M.normalize_action(action)
 				vim.defer_fn(function() vim.cmd('stopinsert') end, 100)
 			end
 		end
-	else
 	end
 end
 
