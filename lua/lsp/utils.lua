@@ -1,24 +1,13 @@
 local M = {}
 
-function M.setup_document_symbols(client, bufnr)
-	vim.g.navic_silence = false -- can be set to true to suppress error
-	local symbols_supported = client.supports_method('textDocument/documentSymbol')
-	if not symbols_supported then
-		utils.warn('skipping setup for document_symbols, method not supported by ' .. client.name)
-		return
-	end
-	local status_ok, navic = pcall(require, 'nvim-navic')
-	if status_ok then navic.attach(client, bufnr) end
-end
-
 function M.is_client_active(name)
-	local clients = Array(vim.lsp.get_active_clients())
+	local clients = Array(vim.lsp.get_clients())
 	return clients:find_first(function(client) return client.name == name end)
 end
 
 function M.get_active_clients_by_ft(filetype)
 	local matches = {}
-	local clients = vim.lsp.get_active_clients()
+	local clients = vim.lsp.get_clients()
 	for _, client in pairs(clients) do
 		local supported_filetypes = client.config.filetypes or {}
 		if client.name ~= 'null-ls' and vim.tbl_contains(supported_filetypes, filetype) then

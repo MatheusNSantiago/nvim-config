@@ -56,9 +56,6 @@ M.on_attach = function(client, bufnr)
 	-- Use LSP as the handler for formatexpr.
 	if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
 
-	-- setup navic (breadcrumbs) e outros simbolos
-	require('lsp.utils').setup_document_symbols(client, bufnr)
-
 	-- Diagnostic jump
 	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
 	keymap('n', ']e', ':Lspsaga diagnostic_jump_next<CR>')
