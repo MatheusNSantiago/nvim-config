@@ -3,8 +3,15 @@ local M = {}
 ---@type FiletypeSettings
 M.settings = {
   mappings = {
-    { 'n', '<leader>r', M.run_program },
+    { 'n', '<leader>r', function() M.run_program() end },
   },
+  on_buf_enter = function(arg)
+    local config = {
+      cmd = { vim.fn.expand('~/.local/share/nvim/mason/bin/jdtls') },
+      root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
+    }
+    require('jdtls').start_or_attach(config)
+  end,
 }
 
 M.run_program = function()

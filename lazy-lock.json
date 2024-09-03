@@ -63,7 +63,7 @@
   "nvim-dap-virtual-text": { "branch": "master", "commit": "484995d573c0f0563f6a66ebdd6c67b649489615" },
   "nvim-highlight-colors": { "branch": "main", "commit": "a411550ef85cae467b889ba7d1a96bd78332d90e" },
   "nvim-hlslens": { "branch": "main", "commit": "1db56afda3e85791a14b096e483dfda699dd9163" },
-  "nvim-java": { "branch": "main", "commit": "b3174e41ab51867123d8663eced53b33f1548522" },
+  "nvim-jdtls": { "branch": "master", "commit": "99e4b2081de1d9162666cc7b563cbeb01c26b66b" },
   "nvim-lsp-file-operations": { "branch": "master", "commit": "92a673de7ecaa157dd230d0128def10beb56d103" },
   "nvim-lspconfig": { "branch": "master", "commit": "2a6f00ff66e276ab3289be8bb9f844f7ab385848" },
   "nvim-navbuddy": { "branch": "master", "commit": "f22bac988f2dd073601d75ba39ea5636ab6e38cb" },

@@ -133,21 +133,21 @@ function M.config()
     -- it is recommended to use <localleader> though as that is more vim-ish
     -- see https://learnvimscriptthehardway.stevelosh.com/chapters/11.html#local-leader
     keymaps = {
-      replace = { n = '<localleader>r' },
-      qflist = { n = '<localleader>q' },
-      syncLocations = { n = '<localleader>s' },
-      syncLine = { n = '<localleader>l' },
-      close = { n = '<localleader>c' },
-      historyOpen = { n = '<localleader>t' },
-      historyAdd = { n = '<localleader>a' },
-      refresh = { n = '<localleader>f' },
-      openLocation = { n = '<localleader>o' },
+      replace = { n = '<leader>r' },
+      qflist = { n = '<leader>q' },
+      syncLocations = { n = '<leader>s' },
+      syncLine = { n = '<leader>l' },
+      close = { n = '<leader>c' },
+      historyOpen = { n = '<leader>t' },
+      historyAdd = { n = '<leader>a' },
+      refresh = { n = '<leader>f' },
+      openLocation = { n = '<leader>o' },
       gotoLocation = { n = '<enter>' },
       pickHistoryEntry = { n = '<enter>' },
-      abort = { n = '<localleader>b' },
+      abort = { n = '<leader>b' },
       help = { n = 'g?' },
-      toggleShowCommand = { n = '<localleader>p' },
-      swapEngine = { n = '<localleader>e' },
+      toggleShowCommand = { n = '<leader>p' },
+      swapEngine = { n = '<leader>e' },
     },
 
     -- separator between inputs and results, default depends on nerdfont
