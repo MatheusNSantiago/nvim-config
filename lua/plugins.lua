@@ -64,7 +64,7 @@ local plugins = Array({
   setup('navigation.auto-indent'),  -- tab pro indent do bloco
   setup('navigation.arrow'),
 
-  { 'itchyny/vim-highlighturl' },   -- highlight URLs
+  { 'itchyny/vim-highlighturl' }, -- highlight URLs
 
   --  ╭──────────────────────────────────────────────────────────╮
   --  │                          Edição                          │
@@ -192,7 +192,6 @@ local plugins = Array({
   { 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
 
   -- Markdown
-  -- setup('dev.markview'),
   { 'bullets-vim/bullets.vim' }, -- bullet list automático
   -- Rust
   setup('dev.rust'),
