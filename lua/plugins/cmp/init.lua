@@ -47,7 +47,7 @@ function M.config()
       {
         name = 'nvim_lsp',
         priority = 1000,
-        entry_filter = require('plugins.cmp.lsp_type_limiter'),
+        entry_filter = require('plugins.cmp.lsp-type-limiter'),
         group_index = 1,
       },
       {
