@@ -16,7 +16,7 @@ function M.config()
 		evil_tabkey = '',
 		evil_backward_tabkey = '',
 		completion = nil,
-		range = nil,
+		range = 0,
 		forward_characters = {
 			[')'] = doit,
 			['('] = doit,
