@@ -4,13 +4,25 @@ return function()
   local types = require('cmp.types.cmp')
   local neogen = require('neogen')
 
+  ---@param direction "forward"|"backward"
+  local function tabout_or_fallback(direction, fallback)
+    local direction_flag = direction == 'forward' and 0 or 1
+
+    local col_before = vim.api.nvim_win_get_cursor(0)[2]
+    vim.cmd(string.format('lua tabhula_handler(%s)', direction_flag))
+    local col_after = vim.api.nvim_win_get_cursor(0)[2]
+
+    local has_cursor_moved = col_before ~= col_after
+    if not has_cursor_moved then fallback() end
+  end
+
   local function shift_tab(fallback)
     if luasnip.jumpable(-1) then
       luasnip.jump(-1)
     elseif neogen.jumpable(-1) then
       neogen.jump_prev()
     else
-      fallback()
+      tabout_or_fallback('backward', fallback)
     end
   end
 
@@ -20,8 +32,7 @@ return function()
     elseif neogen.jumpable() then
       neogen.jump_next()
     else
-      vim.cmd('lua tabhula_handler(0)') -- proca o tabout do plugin 'navigation/tabout'
-      -- fallback() -- Tab normal
+      tabout_or_fallback('forward', fallback)
     end
   end
 
