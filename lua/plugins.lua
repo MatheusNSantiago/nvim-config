@@ -117,7 +117,6 @@ local plugins = Array({
   setup('lsp.symbol-usage'),                             -- mostra quantas referências e definições a função tem
   setup('lsp.lazydev'),                                  -- Faster LuaLS setup for Neovim
 
-  { 'antosha417/nvim-lsp-file-operations', lazy = true }, -- proca lsp em file ops. setup vai ser feito ao abrir o nvim-tree
   { 'b0o/schemastore.nvim',                lazy = true }, -- schemas para json
 
   --  ╭──────────────────────────────────────────────────────────╮

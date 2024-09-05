@@ -215,11 +215,11 @@ M.ui = {
 }
 
 M.diagnostics = {
-	Error = ' ', -- 
-	Hint = ' ', -- 
-	Information = '󰋽 ', -- 
-	Question = ' ', -- 
-	Warning = ' ', -- 
+	Error = ' ',
+	Hint = ' ',
+	Information = '󰋽 ',
+	Question = ' ',
+	Warning = ' ',
 
 	ErrorFilled = ' ',
 	HintFilled = ' ',
@@ -253,9 +253,8 @@ M.git = {
 
 M.lspkind = {
 	Copilot = '',
-	TabNine = '', -- '', 	Nvim_lsp = "[LSP]", -- M.ui.Paragraph,
 	Luasnip = '[SNP]', -- M.ui.Snippet,
-	Buffer = '[BUF]', -- M.ui.Buffer,
+	Buffer = '[BUF]',  -- M.ui.Buffer,
 	Nvim_lua = '[LUA]', -- M.ui.Bomb,
 	Nvim_lsp_signature_help = '[SIG]',
 	Calc = M.ui.Calculator,
