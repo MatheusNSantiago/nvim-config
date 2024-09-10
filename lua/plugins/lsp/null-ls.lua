@@ -1,10 +1,10 @@
 local M = {}
 
 function M.setup()
-	return {
-		'nvimtools/none-ls.nvim',
-		config = M.config,
-	}
+	-- return {
+	-- 	'nvimtools/none-ls.nvim',
+	-- 	config = M.config,
+	-- }
 end
 
 function M.config()
@@ -24,7 +24,6 @@ function M.config()
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                          Python                          │
 			--  ╰──────────────────────────────────────────────────────────╯
-			b.formatting.black,
 			-- b.diagnostics.ruff.with({
 			-- 	extra_args = { '--config', vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml') },
 			-- }), -- Fast Linter
@@ -49,16 +48,16 @@ function M.config()
 			b.formatting.fish_indent, -- fish
 			b.diagnostics.fish,     -- fish
 		},
-		on_attach = function(client, bufnr)
-			if client.supports_method('textDocument/formatting') then
-				vim.keymap.set(
-					'n',
-					'<Leader>ff',
-					function() vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf(), timeout_ms = 3000 }) end,
-					{ buffer = bufnr, desc = '[lsp] format' }
-				)
-			end
-		end,
+		-- on_attach = function(client, bufnr)
+		-- 	if client.supports_method('textDocument/formatting') then
+		-- 		vim.keymap.set(
+		-- 			'n',
+		-- 			'<Leader>ff',
+		-- 			function() vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf(), timeout_ms = 3000 }) end,
+		-- 			{ buffer = bufnr, desc = '[lsp] format' }
+		-- 		)
+		-- 	end
+		-- end,
 	})
 end
 

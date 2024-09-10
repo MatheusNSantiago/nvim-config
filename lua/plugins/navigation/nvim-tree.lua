@@ -208,7 +208,7 @@ M.config = function()
       dotfiles = false,
       git_clean = false,
       no_buffer = false,
-      custom = { 'node_modules' },
+      custom = { 'node_modules', "__pycache__" },
       exclude = {},
     },
     -- git = { enable = true, ignore = false, timeout = 500 },

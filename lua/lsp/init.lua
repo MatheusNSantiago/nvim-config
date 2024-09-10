@@ -5,7 +5,12 @@ M.servers = {
 	'cssls',
 	'html',
 	'angularls',
+	--TODO: Apagar quando o issue (procura "HACK" no mason.lua) for resolvido
 	'tsserver',
+	'ts_ls',
+	--
+	'jdtls',
+	--
 	'tailwindcss',
 	'jsonls',
 	'yamlls',
@@ -72,11 +77,11 @@ function M.common_on_attach(client, bufnr)
 	-- keymap('n', 'gf', ':Lspsaga finder<CR>')
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
-	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')           -- Abre a definição em um novo buffer
+	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')     -- Abre a definição em um novo buffer
 	keymap('n', 'gV', ':vsplit<CR><C-w>L:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
-	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')  -- Code action
-	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>') -- Show line diagnostics
+	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')             -- Code action
+	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')           -- Show line diagnostics
 end
 
 function M.get_commom_configs()
@@ -148,15 +153,6 @@ function M.setup()
 
 	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float)
 	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
-end
-
-M.go_to_definition = function()
-	vim.lsp.buf.definition({
-		on_list = function(options)
-			vim.fn.setqflist({}, ' ', options)
-			vim.cmd.cfirst()
-		end,
-	})
 end
 
 return M
