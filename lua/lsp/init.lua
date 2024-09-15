@@ -5,12 +5,8 @@ M.servers = {
 	'cssls',
 	'html',
 	'angularls',
-	--TODO: Apagar quando o issue (procura "HACK" no mason.lua) for resolvido
-	'tsserver',
 	'ts_ls',
-	--
 	'jdtls',
-	--
 	'tailwindcss',
 	'jsonls',
 	'yamlls',
