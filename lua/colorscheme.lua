@@ -37,7 +37,7 @@ hls.lsp = {
 	-- ["@lsp.type.function"] = { link = "Function" },
 	['@lsp.type.interface'] = { link = 'Structure' }, -- interfaces
 	-- ["@lsp.type.macro"] = { link = "Macro" },
-	['@lsp.type.method'] = { link = '@method' },      -- Function
+	['@lsp.type.method'] = { link = '@method' }, -- Function
 	['@lsp.type.namespace'] = { link = '@namespace' }, -- Structure
 	['@lsp.type.parameter'] = { link = '@parameter' }, -- Identifier
 	-- ["@lsp.type.property"] = { link = "Identifier" },
@@ -46,7 +46,7 @@ hls.lsp = {
 	['@lsp.type.type'] = { link = 'TypeDef' },
 	['@lsp.type.typeParameter'] = { link = 'TypeDef' },
 	['@lsp.type.variable'] = { link = 'Identifier' }, -- Identifier
-	['@lsp.type.comment'] = { fg = 'none' },         -- Comment
+	['@lsp.type.comment'] = { fg = 'none' }, -- Comment
 	['@lsp.type.selfParameter'] = { link = '@variable.builtin' },
 	-- ["@lsp.type.builtinConstant"] = { link = "@constant.builtin" },
 	['@lsp.type.builtinConstant'] = { link = '@constant.builtin' },
@@ -124,7 +124,7 @@ hls.treesitter = {
 	-- ["@constructor.lua"] = { fg = theme.syn.keyword },
 	['@constructor'] = { fg = c.purple }, -- interfaces
 	-- @parameter (Identifier)                     ; parameters of a function
-	['@parameter'] = { fg = c.cyan },    -- interfaces
+	['@parameter'] = { fg = c.cyan }, -- interfaces
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                    Keywords (Keyword)                    │
 	--  ╰──────────────────────────────────────────────────────────╯
@@ -222,6 +222,7 @@ hls.treesitter = {
 
 hls.ts = {
 	['@type.typescript'] = { link = 'TypeDef' },
+	['@punctuation.delimiter.jsdoc'] = { link = 'Comment' },
 	['@type.tsx'] = { link = 'TypeDef' },
 }
 
