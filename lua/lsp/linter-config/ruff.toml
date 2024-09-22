@@ -2,9 +2,11 @@
 select = ["E", "F"]
 
 # Never enforce:
-# `E501` (line length violations).
-# `E741` (Do not use variables named 'I', 'O', or 'l').
-ignore = [ "E501", "E741" ]
+ignore = [
+    "E501", #`E501` (line length violations).
+    "E741", # (Do not use variables named 'I', 'O', or 'l').
+    "E731", # rewrite lambda as def
+]
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
