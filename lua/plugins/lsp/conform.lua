@@ -2,16 +2,14 @@ local M = {}
 
 function M.setup()
 	return {
-		"stevearc/conform.nvim",
-		event = { "BufWritePre" },
-		cmd = { "ConformInfo" },
+		'stevearc/conform.nvim',
+		event = { 'BufWritePre' },
+		cmd = { 'ConformInfo' },
 		keys = {
 			{
-				"<leader>ff",
-				function()
-					require("conform").format({ async = true })
-				end,
-				desc = "Format buffer",
+				'<leader>ff',
+				function() require('conform').format({ async = true }) end,
+				desc = 'Format buffer',
 			},
 		},
 		config = M.config,
@@ -19,26 +17,26 @@ function M.setup()
 end
 
 function M.config()
-	local conform = require("conform")
+	local conform = require('conform')
 	conform.setup({
 
 		formatters_by_ft = {
-			lua = { "stylua" },
-			c = { "clang-format" },
-			dart = { "dart_format" },
-			yamlfmt = { "yamlfmt" },
-			fish = { "fish_indent" },
-			javascript = { "prettierd", "rusty" },
-			typescript = { "prettierd", "rusty" },
+			lua = { 'stylua' },
+			c = { 'clang-format' },
+			dart = { 'dart_format' },
+			yamlfmt = { 'yamlfmt' },
+			fish = { 'fish_indent' },
+			javascript = { 'prettierd', 'rusty' },
+			typescript = { 'prettierd', 'rusty' },
 			python = function(bufnr)
-				if conform.get_formatter_info("ruff_format", bufnr).available then
-					return { "ruff_format" }
+				if conform.get_formatter_info('ruff_format', bufnr).available then
+					return { 'ruff_format' }
 				else
-					return { "isort", "black" }
+					return { 'isort', 'black' }
 				end
 			end,
 		},
-		default_format_opts = { lsp_format = "fallback" },
+		default_format_opts = { lsp_format = 'fallback' },
 		-- Set the log level. Use `:ConformInfo` to see the location of the log file.
 		log_level = vim.log.levels.ERROR,
 		-- Conform will notify you when a formatter errors
@@ -50,8 +48,8 @@ function M.config()
 		formatters = {
 			stylua = {
 				append_args = {
-					"--config-path",
-					vim.fn.expand("~/.config/nvim/lua/lsp/linter-config/stylua.toml"),
+					'--config-path',
+					vim.fn.expand('~/.config/nvim/lua/lsp/linter-config/stylua.toml'),
 				},
 			},
 		},

@@ -10,21 +10,18 @@ end
 
 function M.config()
 	local lint = require('lint')
-
-	utils.api.augroup('nvim-lint-augroup', {
-		event = { 'BufWritePost', 'InsertLeave' },
-		command = function() lint.try_lint() end,
-	})
+	local configs = vim.g.vim_dir .. '/lua/lsp/linter-config/'
 
 	lint.linters_by_ft = {
-		fish = { 'fish' },
 		python = { 'ruff' },
 	}
 
-	lint.linters.ruff.args = {
-		'--config',
-		vim.fn.expand(vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml'),
-	}
+	vim.list_extend(lint.linters.ruff.args, { '--config', configs .. '/ruff.toml' })
+
+	utils.api.augroup('nvim-lint-augroup', {
+		event = { 'BufEnter', 'LspAttach', 'BufReadPost', 'BufWritePost', 'InsertLeave' },
+		command = function() lint.try_lint() end,
+	})
 end
 
 return M
