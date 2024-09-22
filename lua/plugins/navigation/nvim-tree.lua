@@ -384,8 +384,7 @@ function M._custom_commands()
 			local node = lib.get_node_at_cursor()
 			if node == nil then return end
 
-			local is_dir = node.has_children
-			if is_dir and node.open then
+			if node.open then
 				lib.expand_or_collapse(node)
 			else
 				local parent = node.parent
