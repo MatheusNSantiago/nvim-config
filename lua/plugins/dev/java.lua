@@ -4,8 +4,8 @@ function M.setup()
 	return {
 		'nvim-java/nvim-java',
 		config = M.config,
-		ft = { 'java' },
-		enabled = not utils.is_wsl(),
+		-- ft = { 'java' },
+		-- enabled = not utils.is_wsl(),
 		dependencies = {
 			'nvim-java/nvim-java-refactor',
 			'nvim-java/lua-async-await',
@@ -21,7 +21,7 @@ end
 
 function M.config()
 	require('java').setup({
-		java_test = { enable = true },
+		java_test = { enable = false },
 		java_debug_adapter = { enable = false },
 		spring_boot_tools = { enable = true },
 		jdk = { auto_install = true }, -- install jdk using mason.nvim

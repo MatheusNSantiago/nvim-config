@@ -7,8 +7,8 @@ return {
       {
         name = 'Iniciar Projeto BB',
         handler = function()
-          vim.cmd("TermExec cmd='nvm use 16; npm run start'")
-          vim.cmd("2TermExec cmd='cd ./..; gaw-rev' name='fooBAR'")
+          vim.cmd("TermExec cmd='nvm use v12.11.1; npm run start'")
+          vim.cmd("2TermExec cmd='cd ./..; gaw-rev'")
           vim.defer_fn(function() vim.cmd('stopinsert') end, 100)
         end,
       },
