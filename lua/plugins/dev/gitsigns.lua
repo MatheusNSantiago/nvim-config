@@ -2,7 +2,7 @@ local M = {}
 function M.setup()
 	return {
 		'lewis6991/gitsigns.nvim',
-		event =  {"BufReadPre", "BufNewFile" },
+		event = { 'BufReadPre', 'BufNewFile' },
 		config = M.config,
 	}
 end
@@ -53,8 +53,7 @@ function M.config()
 			virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
 			delay = 1000,
 			ignore_whitespace = false,
-		-- virt_text_priority = 100,
-
+			-- virt_text_priority = 100,
 		},
 		current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
 		sign_priority = 6,

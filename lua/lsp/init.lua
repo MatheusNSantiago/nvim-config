@@ -73,11 +73,11 @@ function M.common_on_attach(client, bufnr)
 	-- keymap('n', 'gf', ':Lspsaga finder<CR>')
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
-	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>')     -- Abre a definição em um novo buffer
+	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer
 	keymap('n', 'gV', ':vsplit<CR><C-w>L:Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer na vertical
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
-	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')             -- Code action
-	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>')           -- Show line diagnostics
+	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>') -- Code action
+	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>') -- Show line diagnostics
 end
 
 function M.get_commom_configs()
@@ -102,53 +102,37 @@ function M.get_configs_for(server_name)
 end
 
 function M.setup()
-	require('lspconfig.ui.windows').default_options.border = 'single'
-	vim.lsp.set_log_level('off')
+	-- vim.lsp.set_log_level('off')
+	require('lspconfig.ui.windows').default_options.border = 'single' -- coloca borda no :LspInfo
 
-	local diagnostics = utils.icons.diagnostics
+	-- Setup handlers
+	require('lsp.handlers').setup()
 
-	-- Define Signs
+	-- Definir icones dos diagnósticos
+	local icons = utils.icons.diagnostics
 	local signs = {
-		{ name = 'DiagnosticSignError', text = diagnostics.Error },
-		{ name = 'DiagnosticSignWarn',  text = diagnostics.Warning },
-		{ name = 'DiagnosticSignHint',  text = diagnostics.Hint },
-		{ name = 'DiagnosticSignInfo',  text = diagnostics.Information },
+		{ name = 'DiagnosticSignError', text = icons.Error },
+		{ name = 'DiagnosticSignWarn', text = icons.Warning },
+		{ name = 'DiagnosticSignHint', text = icons.Hint },
+		{ name = 'DiagnosticSignInfo', text = icons.Information },
 	}
-
 	for _, sign in ipairs(signs) do
 		vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
 	end
 
-	-- Diagnostic configuration
+	-- Diagnosticos
 	vim.diagnostic.config({
-		virtual_text = true,
-		-- virtual_text = { spacing = 4, prefix = "●" },
-		-- virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
+		virtual_text = {
+			spacing = 4,
+			prefix = '●',
+			source = false,
+		},
 		signs = { active = signs },
 		underline = true,
 		update_in_insert = false,
 		severity_sort = true,
-		float = {
-			focusable = true,
-			style = 'minimal',
-			border = 'rounded',
-			-- source = 'always',
-			source = 'if_many',
-			header = '',
-			prefix = '',
-			format = function(d)
-				-- local code = d.code or (d.user_data and d.user_data.lsp.code)
-				-- if code then return string.format('%s [%s]', d.message, code):gsub('1. ', '') end
-				return d.message
-			end,
-		},
 	})
 
-	-- define handlers
-	local float = { focusable = true, style = 'minimal', border = 'rounded' }
-
-	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float)
-	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
 end
 
 return M

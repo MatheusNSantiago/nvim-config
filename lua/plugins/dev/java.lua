@@ -6,6 +6,7 @@ function M.setup()
 		config = M.config,
 		-- ft = { 'java' },
 		-- enabled = not utils.is_wsl(),
+		enabled = false,
 		dependencies = {
 			'nvim-java/nvim-java-refactor',
 			'nvim-java/lua-async-await',
