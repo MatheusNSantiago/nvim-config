@@ -5,8 +5,7 @@ M.setup = function()
 	M.setup_lsp_handlers()
 end
 
-
-M.setup_lsp_handlers = function ()
+M.setup_lsp_handlers = function()
 	local float = { focusable = true, style = 'minimal', border = 'rounded' }
 
 	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float)
@@ -31,12 +30,13 @@ M.setup_virtual_text_handler = function()
 			local worst_diagnostics = vim.tbl_values(most_severe)
 
 			-- pass the filtered diagnostics (with the custom namespace) to the original handler
-			handler.show(ns, bufnr, worst_diagnostics, opts)
+			pcall(function()
+				handler.show(ns, bufnr, worst_diagnostics, opts) --
+			end)
 		end,
 
 		hide = function(_, bufnr) handler.hide(ns, bufnr) end,
 	}
-
 end
 
 ---@param diagnostics vim.Diagnostic[]
