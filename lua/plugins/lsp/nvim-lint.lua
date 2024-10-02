@@ -19,7 +19,7 @@ function M.config()
 	vim.list_extend(lint.linters.ruff.args, { '--config', configs .. '/ruff.toml' })
 
 	utils.api.augroup('nvim-lint-augroup', {
-		event = { 'BufEnter', 'LspAttach', 'BufReadPost', 'BufWritePost', 'InsertLeave' },
+		event = { 'BufEnter', 'LspAttach', 'BufReadPost', 'BufWritePost', 'InsertLeave', 'CursorHold' },
 		command = function() lint.try_lint() end,
 	})
 end
