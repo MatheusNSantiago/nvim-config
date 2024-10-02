@@ -8,19 +8,19 @@ function M.setup()
 		config = M.config,
 		lazy = true,
 		keys = {
-			{ '<leader>rf', mode = 'x', desc = 'refactoring: extract to function' },
-			{ '<leader>rv', mode = 'x', desc = 'refactoring: extract to variable' },
+			{ 'rf', mode = 'x', desc = 'refactoring: extract to function' },
+			{ 'rv', mode = 'x', desc = 'refactoring: extract to variable' },
 			{ '<leader>rp', mode = 'n', desc = 'refactoring: print variable' },
 			{ '<leader>rc', mode = 'n', desc = 'refactoring: clean prints' },
-		}
+		},
 	}
 end
 
 function M.config()
 	local refactoring = require('refactoring')
 
-	keymap('x', '<leader>rf', ':Refactor extract <CR>', { desc = 'refactoring: extract to function' })
-	keymap('x', '<leader>rv', ':Refactor extract_var <CR>', { desc = 'refactoring: extract to variable' })
+	keymap('x', 'rf', ':Refactor extract <CR>', { desc = 'refactoring: extract to function' })
+	keymap('x', 'rv', ':Refactor extract_var <CR>', { desc = 'refactoring: extract to variable' })
 	keymap('n', '<leader>rp', refactoring.debug.print_var, { desc = 'refactoring: print variable' })
 	keymap('n', '<leader>rc', refactoring.debug.cleanup, { desc = 'refactoring: clean prints' })
 
