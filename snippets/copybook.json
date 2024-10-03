@@ -1,0 +1,25 @@
+{
+  "Template IIB": {
+    "prefix": "iib",
+    "body": [
+      "      *----------------------------------------------------------------*",
+      "      * ${TM_FILENAME_BASE} - BOOK DA SUBROTINA ${TM_FILENAME_BASE}",
+      "      *----------------------------------------------------------------*",
+      "      * VRS001 - $CURRENT_DATE/$CURRENT_MONTH/$CURRENT_YEAR - F7023235 - IMPLANTAÇAO.",
+      "      *----------------------------------------------------------------*",
+      "      *",
+      "      * 1. Objetivo",
+      "      *",
+      "      *    Listar detalhes de contas com cheque especial",
+      "      *",
+      "      * 2. Parametros",
+      "      *",
+      "       01  ${TM_FILENAME_BASE}-RQSC.",
+      "           03 FILLER         PIC X(1).",
+      "      *",
+      "       01  ${TM_FILENAME_BASE}-RPST.",
+      "           03 FILLER         PIC X(1).",
+      "      *"
+    ]
+  }
+}

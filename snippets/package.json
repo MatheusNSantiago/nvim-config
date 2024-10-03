@@ -8,6 +8,10 @@
             {
                 "language": "cobol",
                 "path": "./cobol.json"
+            },
+            {
+                "language": "copybook",
+                "path": "./copybook.json"
             }
         ]
     }
