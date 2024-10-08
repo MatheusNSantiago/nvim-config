@@ -1,7 +1,7 @@
 local keymap = utils.api.keymap
 
 keymap('n', '<leader>it', ':InspectTree<CR>:vertical resize 50<CR><c-w>w')
-keymap('n', '<leader>tsu', ':TSUpdate foo<CR>')
+keymap('n', '<leader>tsu', ':TSUpdate copybook<CR>')
 
 --  ╭──────────────────────────────────────────────────────────╮
 --  │                          Geral                           │
