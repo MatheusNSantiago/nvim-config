@@ -66,7 +66,6 @@ M.on_attach = function(client, bufnr)
 
 	keymap('n', '<leader>sd', ':Telescope diagnostics<CR>', { desc = '[S]earch [D]iagnostics' })
 	keymap('n', '<leader>sR', ':Telescope lsp_references<CR>', { desc = '[S]earch [R]eferences' })
-	keymap('n', '<leader>si', ':Telescope lsp_implementations<CR>', { desc = '[S]earch [I]mplementations' })
 
 	keymap('n', 'gr', ':Lspsaga rename<CR>')
 	keymap('n', 'gf', ':Lspsaga finder<CR>')
