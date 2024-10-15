@@ -155,6 +155,7 @@ local plugins = Array({
 	{ 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- conserta comments para jsx,
 	{ 'fladson/vim-kitty', ft = { 'kitty', 'conf' } }, -- syntax highlighting for kitty
 	{ 'delphinus/vim-firestore' }, -- syntax highlighting firestore rules
+	{ 'davidmh/mdx.nvim', config = true }, -- syntax highlighting mdx
 
 	{ 'RRethy/nvim-treesitter-endwise' }, -- Coloca o end no final de func e if
 
