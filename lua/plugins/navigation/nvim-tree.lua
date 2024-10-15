@@ -385,10 +385,11 @@ function M._custom_commands()
 			if node == nil then return end
 
 			if node.open then
-				lib.expand_or_collapse(node)
+				node:expand_or_collapse()
 			else
 				local parent = node.parent
-				lib.expand_or_collapse(parent)
+				if not parent then return end
+				parent:expand_or_collapse()
 				U.focus_node_or_parent(parent)
 			end
 		end,
@@ -396,7 +397,7 @@ function M._custom_commands()
 			local node = lib.get_node_at_cursor()
 			if node == nil then return end
 
-			if node.nodes ~= nil then lib.expand_or_collapse(node) end
+			if node.nodes ~= nil then node:expand_or_collapse() end
 		end,
 
 		git_add = function()
