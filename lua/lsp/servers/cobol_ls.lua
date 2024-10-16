@@ -1,4 +1,5 @@
 local lsp = require('lsp')
+local keymap = utils.api.keymap
 
 local M = {
 	filetypes = { 'cobol', 'copybook' },
@@ -13,7 +14,7 @@ M.cmd = function(dispatchers)
 	if is_wsl then lsp_path = '~/dev/cobol/server-linux' end
 
 	local params =
-	[[Dline.separator=\r\n Dlogback.statusListenerClass=ch.qos.logback.core.status.NopStatusListener DserverType=NATIVE]]
+		[[Dline.separator=\r\n Dlogback.statusListenerClass=ch.qos.logback.core.status.NopStatusListener DserverType=NATIVE]]
 
 	vim.cmd(('silent !%s %s &'):format(lsp_path, params))
 
@@ -46,32 +47,8 @@ M.handlers = {
 }
 
 M.on_attach = function(client, bufnr)
-	local keymap = utils.api.keymap
+	lsp.common_on_attach(client, bufnr)
 
-	local caps = client.server_capabilities
-
-	-- Enable completion triggered by <C-X><C-O>
-	if caps.completionProvider then vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc' end
-
-	-- Use LSP as the handler for formatexpr.
-	if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
-
-	-- Diagnostic jump
-	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
-	keymap('n', ']e', ':Lspsaga diagnostic_jump_next<CR>')
-
-	-- Diagnostic jump with filters such as only jumping to an error
-	keymap('n', '[E', ":lua require('lspsaga.diagnostic').goto_prev({ severity = 1 })<CR>")
-	keymap('n', ']E', ":lua require('lspsaga.diagnostic').goto_next({ severity = 1 })<CR>")
-
-	keymap('n', '<leader>sd', ':Telescope diagnostics<CR>', { desc = '[S]earch [D]iagnostics' })
-	keymap('n', '<leader>sR', ':Telescope lsp_references<CR>', { desc = '[S]earch [R]eferences' })
-
-	keymap('n', 'gr', ':Lspsaga rename<CR>')
-	keymap('n', 'gf', ':Lspsaga finder<CR>')
-
-	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
-	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer
 	-- Abre a definição em um novo buffer na vertical
 	keymap('n', 'gV', function()
 		vim.cmd('vsplit')
@@ -82,9 +59,6 @@ M.on_attach = function(client, bufnr)
 
 		vim.cmd('vertical resize ' .. 127)
 	end)
-
-	keymap('n', '<leader>ca', ':Lspsaga code_action<CR>')  -- Code action
-	keymap('n', 'gl', ':Lspsaga show_line_diagnostics<CR>') -- Show line diagnostics
 end
 
 return M
