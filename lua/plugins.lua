@@ -83,7 +83,6 @@ local plugins = Array({
 	setup('edit.vim-textobj-comment'), -- comment text objects
 	setup('edit.mini-move'), -- Move lines and selections
 	setup('edit.nvim-neoclip'), -- clipboard manager
-	setup('edit.leap-spooky'), -- operar em text objects a distância
 	setup('edit.guess-indent'), -- automatically detect the indentation settings
 	setup('edit.refactoring'),
 	setup('edit.icon-picker'),
