@@ -28,6 +28,9 @@ function M.config()
 			fish = { 'fish_indent' },
 			javascript = { 'prettierd', 'rusty' },
 			typescript = { 'prettierd', 'rusty' },
+			javascriptreact = { 'prettierd' },
+			typescriptreact = { 'prettierd' },
+			html = { 'prettierd' },
 			python = function(bufnr)
 				if conform.get_formatter_info('ruff_format', bufnr).available then
 					return { 'ruff_format' }

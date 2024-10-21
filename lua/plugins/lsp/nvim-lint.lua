@@ -14,6 +14,11 @@ function M.config()
 
 	lint.linters_by_ft = {
 		python = { 'ruff' },
+		javascript = { 'eslint_d' },
+		typescript = { 'eslint_d' },
+		javascriptreact = { 'eslint_d' },
+		typescriptreact = { 'eslint_d' },
+		html = { 'eslint_d' },
 	}
 
 	vim.list_extend(lint.linters.ruff.args, { '--config', configs .. '/ruff.toml' })
