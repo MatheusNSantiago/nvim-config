@@ -1,19 +1,20 @@
 local M = {}
 
 M.setup = function()
-	M.setup_virtual_text_handler()
+	-- M.setup_virtual_text_handler()
 	M.setup_lsp_handlers()
 end
 
 M.setup_lsp_handlers = function()
-	-- local float = { focusable = true, style = 'minimal', border = 'rounded' }
+	local float = { focusable = true, style = 'minimal', border = 'rounded' }
 
-	-- vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float)
-	-- vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
+	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float)
+	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
 end
 
 ---@source https://github.com/lucasvianav/nvim/blob/8f763b85e2da9ebd4656bf732cbdd7410cc0e4e4/lua/v/settings/handlers.lua#L18-L48_
 M.setup_virtual_text_handler = function()
+
 	local ns = vim.api.nvim_create_namespace('virtual_text_diagnostics')
 	local handler = vim.diagnostic.handlers.virtual_text
 
