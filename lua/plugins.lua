@@ -99,9 +99,9 @@ local plugins = Array({
 	--  │                           LSP                            │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	-- setup('lsp.null-ls'), -- Diagnostics/Formating/Code Actions
 	setup('lsp.conform'), -- Formatter
 	setup('lsp.nvim-lint'), -- Linter
+	-- setup("lsp.better-diagnostic-virtual-text"),
 
 	setup('lsp.mason'),
 	{ 'neovim/nvim-lspconfig' }, -- LSP
