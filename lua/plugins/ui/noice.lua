@@ -130,14 +130,14 @@ function M.config()
 			-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
 			override = {
 				-- override the default lsp markdown formatter with Noice
-				['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+				['vim.lsp.util.convert_input_to_markdown_lines'] = false,
 				-- override the lsp markdown formatter with Noice
-				['vim.lsp.util.stylize_markdown'] = true,
+				['vim.lsp.util.stylize_markdown'] = false,
 				-- override cmp documentation with Noice (needs the other options to work)
-				['cmp.entry.get_documentation'] = true,
+				['cmp.entry.get_documentation'] = false,
 			},
 			hover = {
-				enabled = true,
+				enabled = false,
 				silent = false, -- set to true to not show a message if hover is not available
 				view = nil, -- when nil, use defaults from documentation
 				---@type NoiceViewOptions
@@ -162,22 +162,22 @@ function M.config()
 				opts = {},
 			},
 			-- defaults for hover and signature help
-			documentation = {
-				view = 'hover',
-				---@type NoiceViewOptions
-				opts = {
-					lang = 'markdown',
-					replace = true,
-					render = 'plain',
-					format = { '{message}' },
-					win_options = { concealcursor = 'n', conceallevel = 3 },
-				},
-			},
+			-- documentation = {
+			-- 	view = 'hover',
+			-- 	---@type NoiceViewOptions
+			-- 	opts = {
+			-- 		lang = 'markdown',
+			-- 		replace = true,
+			-- 		render = 'plain',
+			-- 		format = { '{message}' },
+			-- 		win_options = { concealcursor = 'n', conceallevel = 3 },
+			-- 	},
+			-- },
 		},
 		markdown = {
 			hover = {
-				['|(%S-)|'] = vim.cmd.help, -- vim help links
-				['%[.-%]%((%S-)%)'] = require('noice.util').open, -- markdown links
+				-- ['|(%S-)|'] = vim.cmd.help, -- vim help links
+				-- ['%[.-%]%((%S-)%)'] = require('noice.util').open, -- markdown links
 			},
 			highlights = {
 				['|%S-|'] = '@text.reference',
