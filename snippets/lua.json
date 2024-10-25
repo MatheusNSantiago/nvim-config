@@ -5,7 +5,7 @@
             "local M = {}",
             "",
             "function M.setup()",
-            "\treturn {",
+            "\treturn { ---@type LazyPluginSpec",
             "\t\t\"${1:foo/bar.nvim}\",",
             "\t\tconfig = M.config,",
             "\t}",
