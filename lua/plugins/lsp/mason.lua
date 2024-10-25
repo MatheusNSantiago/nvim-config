@@ -30,7 +30,7 @@ function M.config()
 		},
 	})
 
-	local custom_lsps = { 'dart_ls', 'cobol_ls', 'rust-analyzer' }
+	local custom_lsps = { 'dart_ls', 'rust-analyzer' }
 	local lsp_list = vim.tbl_filter(function(server)
 		local is_custom_lsp = vim.tbl_contains(custom_lsps, server)
 		return not is_custom_lsp
@@ -38,7 +38,7 @@ function M.config()
 
 	mason_lspconfig.setup({
 		ensure_installed = lsp_list,
-		automatic_installation = false,
+		automatic_installation = true,
 	})
 
 	local setup_lsp = function(server)
@@ -51,8 +51,6 @@ function M.config()
 			setup_lsp(server_name) --
 		end,
 	})
-
-	setup_lsp('cobol_ls')
 
 	require('lspconfig.ui.windows').default_options.border = 'single'
 end
