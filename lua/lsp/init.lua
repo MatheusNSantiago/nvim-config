@@ -8,6 +8,7 @@ M.servers = {
 	'ts_ls',
 	'jdtls',
 	'tailwindcss',
+
 	'jsonls',
 	'yamlls',
 	'dockerls',
@@ -123,11 +124,12 @@ function M.setup()
 
 	-- Diagnosticos
 	vim.diagnostic.config({
-		virtual_text = {
-			spacing = 4,
-			prefix = '●',
-			source = false,
-		},
+		virtual_text = false,
+		-- virtual_text = {
+		-- 	spacing = 4,
+		-- 	prefix = '●',
+		-- 	source = false,
+		-- },
 		signs = { active = signs },
 		underline = true,
 		update_in_insert = false,

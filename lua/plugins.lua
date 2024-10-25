@@ -101,7 +101,7 @@ local plugins = Array({
 
 	setup('lsp.conform'), -- Formatter
 	setup('lsp.nvim-lint'), -- Linter
-	-- setup("lsp.better-diagnostic-virtual-text"),
+	setup("lsp.better-diagnostic-virtual-text"),
 
 	setup('lsp.mason'),
 	{ 'neovim/nvim-lspconfig' }, -- LSP
@@ -131,17 +131,19 @@ local plugins = Array({
 	--  │                       Completions                        │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	setup('cmp'),
-	{ 'hrsh7th/cmp-nvim-lsp', lazy = true }, -- nvim-cmp source for neovim's built-in LSP
-	{ 'hrsh7th/cmp-path', lazy = true }, -- nvim-cmp source for filesystem paths.
-	{ 'hrsh7th/cmp-cmdline', event = 'CmdlineEnter' }, -- nvim-cmp source for vim's cmdline.
-	{ 'hrsh7th/cmp-buffer', lazy = true }, -- nvim-cmp source for buffer words
-	{ 'hrsh7th/cmp-nvim-lua', lazy = true }, -- nvim-cmp source for Neovim Lua API.
-	{ 'davidsierradz/cmp-conventionalcommits', lazy = true }, -- autocomplete conventional commits
-	{ 'saadparwaiz1/cmp_luasnip', lazy = true }, -- completion engine
-	{ 'onsails/lspkind.nvim', lazy = true }, -- Auto completions gui tipo do vscode
-	{ 'zbirenbaum/copilot.lua', lazy = true }, -- Copilot
-	{ 'zbirenbaum/copilot-cmp', build = ':Copilot auth', lazy = true }, -- completion do copilot
+	setup('cmp', {
+		{ 'hrsh7th/cmp-nvim-lsp' }, -- nvim-cmp source for neovim's built-in LSP
+		{ 'hrsh7th/cmp-path' }, -- nvim-cmp source for filesystem paths.
+		{ 'hrsh7th/cmp-cmdline', event = 'CmdlineEnter' }, -- nvim-cmp source for vim's cmdline.
+		{ 'hrsh7th/cmp-buffer' }, -- nvim-cmp source for buffer words
+		{ 'hrsh7th/cmp-nvim-lua' }, -- nvim-cmp source for Neovim Lua API.
+		{ 'davidsierradz/cmp-conventionalcommits' }, -- autocomplete conventional commits
+		{ 'saadparwaiz1/cmp_luasnip' }, -- completion engine
+		{ 'onsails/lspkind.nvim' }, -- Auto completions gui tipo do vscode
+		-- { 'zbirenbaum/copilot.lua', lazy = true }, -- Copilot
+		-- { 'zbirenbaum/copilot-cmp', build = ':Copilot auth', lazy = true }, -- completion do copilot
+	}),
+	{ 'Jezda1337/nvim-html-css', config = function() require('html-css'):setup() end },
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                        Treesitter                        │
@@ -157,7 +159,6 @@ local plugins = Array({
 	{ 'davidmh/mdx.nvim', config = true }, -- syntax highlighting mdx
 
 	{ 'RRethy/nvim-treesitter-endwise' }, -- Coloca o end no final de func e if
-
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                       Development                        │
 	--  ╰──────────────────────────────────────────────────────────╯
