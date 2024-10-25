@@ -1,5 +1,6 @@
 local M = {}
 
+---@see https://github.com/mfussenegger/nvim-lint
 function M.setup()
 	return {
 		'mfussenegger/nvim-lint',
@@ -12,16 +13,17 @@ function M.config()
 	local lint = require('lint')
 	local configs = vim.g.vim_dir .. '/lua/lsp/linter-config/'
 
-	local ft = lint.linters_by_ft
+	lint.linters_by_ft = {
+		python = { 'ruff' },
+		javascript = { 'eslint_d' },
+		typescript = { 'eslint_d' },
+		javascriptreact = { 'eslint_d' },
+		typescriptreact = { 'eslint_d' },
+		html = { 'eslint_d' },
+		json = { 'jsonlint' },
+	}
 
-	ft.python = { 'ruff' }
 	vim.list_extend(lint.linters.ruff.args, { '--config', configs .. '/ruff.toml' })
-
-	ft.javascript = { 'eslint_d' }
-	ft.typescript = { 'eslint_d' }
-	ft.javascriptreact = { 'eslint_d' }
-	ft.typescriptreact = { 'eslint_d' }
-	ft.html = { 'eslint_d' }
 
 	---@see https://github.com/mfussenegger/nvim-lint/issues/462#issuecomment-2288048568
 	lint.linters.eslint_d = require('lint.util').wrap(lint.linters.eslint_d, function(diagnostic)
@@ -30,7 +32,6 @@ function M.config()
 		return diagnostic
 	end)
 
-	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	utils.api.augroup('nvim-lint-augroup', {
 		event = { 'BufEnter', 'LspAttach', 'BufReadPost', 'BufWritePost', 'InsertLeave', 'CursorHold' },
 		command = function() lint.try_lint() end,
