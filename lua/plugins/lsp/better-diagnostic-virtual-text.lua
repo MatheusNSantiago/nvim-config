@@ -3,10 +3,10 @@ local M = {}
 function M.setup()
 	return { ---@type LazyPluginSpec
 		'sontungexpt/better-diagnostic-virtual-text',
+		enabled = false,
 		config = M.config,
 	}
 end
-
 
 function M.config()
 	require('better-diagnostic-virtual-text.api').format_line_chunks = M.format_line_chunks
@@ -145,38 +145,32 @@ function M.format_line_chunks(
 	return chunks
 end
 
-
 --- Generates a string of spaces of the specified length.
 --- @param num integer The total number of spaces to generate.
 --- @return string: A string consisting of `num` spaces.
 M._space = function(num)
 	if num < 1 then
-		return ""
+		return ''
 	elseif num < 160 then
-		return string.rep(" ", num)
+		return string.rep(' ', num)
 	end
 
 	if num % 2 == 0 then
 		-- 2, 4, 6, 8, 10, 12, 14, 16
 		local presets =
-			{ "  ", "    ", "      ", "        ", "          ", "            ", "              ", "                " }
+			{ '  ', '    ', '      ', '        ', '          ', '            ', '              ', '                ' }
 		for i = 16, 4, -2 do
-			if num % i == 0 then
-				return string.rep(presets[i / 2], num / i)
-			end
+			if num % i == 0 then return string.rep(presets[i / 2], num / i) end
 		end
 		return string.rep(presets[1], num / 2)
 	end
 
 	-- 1, 3, 5, 7, 9, 11, 13, 15
-	local presets = { " ", "   ", "     ", "       ", "         ", "           ", "             ", "               " }
+	local presets = { ' ', '   ', '     ', '       ', '         ', '           ', '             ', '               ' }
 	for i = 15, 3, -2 do
-		if num % i == 0 then
-			return string.rep(presets[(i + 1) / 2], num / i)
-		end
+		if num % i == 0 then return string.rep(presets[(i + 1) / 2], num / i) end
 	end
 	return string.rep(presets[1], num)
 end
-
 
 return M

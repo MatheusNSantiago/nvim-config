@@ -101,7 +101,7 @@ local plugins = Array({
 
 	setup('lsp.conform'), -- Formatter
 	setup('lsp.nvim-lint'), -- Linter
-	setup("lsp.better-diagnostic-virtual-text"),
+	setup('lsp.better-diagnostic-virtual-text'),
 
 	setup('lsp.mason'),
 	{ 'neovim/nvim-lspconfig' }, -- LSP
