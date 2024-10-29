@@ -111,7 +111,9 @@ local plugins = Array({
 	setup('lsp.lsp_signature'), -- mostra a function signature enquanto digita
 	setup('lsp.lspsaga'), -- LSP UIs
 	setup('lsp.glance'), -- peek definitions
-	setup('lsp.goto-preview'),
+	setup('lsp.goto-preview'), -- gp
+	setup('lsp.pretty-hover'), -- LSP UIs
+
 
 	setup('lsp.illuminate'), -- higlight a palavra em cima do cursor
 	setup('lsp.lsp-colors'), -- agrupa os erros do LSP por cor

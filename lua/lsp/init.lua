@@ -56,7 +56,8 @@ function M.common_on_attach(client, bufnr)
 	end
 
 	-- keymap('n', 'K', vim.lsp.buf.hover)
-	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
+	keymap('n', 'K', ':lua require("pretty_hover").hover()<CR>')
+
 
 	-- Diagnostic jump
 	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
@@ -124,12 +125,12 @@ function M.setup()
 
 	-- Diagnosticos
 	vim.diagnostic.config({
-		virtual_text = false,
-		-- virtual_text = {
-		-- 	spacing = 4,
-		-- 	prefix = '●',
-		-- 	source = false,
-		-- },
+		-- virtual_text = false,
+		virtual_text = {
+			spacing = 4,
+			prefix = '●',
+			source = false,
+		},
 		signs = { active = signs },
 		underline = true,
 		update_in_insert = false,
