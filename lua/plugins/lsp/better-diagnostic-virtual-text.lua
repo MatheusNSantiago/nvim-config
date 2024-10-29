@@ -5,7 +5,6 @@ function M.setup()
 		'sontungexpt/better-diagnostic-virtual-text',
 		enabled = false,
 		config = M.config,
-		enabled = false,
 	}
 end
 
