@@ -10,8 +10,8 @@ function M.setup()
 
 	return {
 		'nvim-treesitter/nvim-treesitter-context',
-		enabled = false,
 		config = M.config,
+		enabled = false,
 	}
 end
 
