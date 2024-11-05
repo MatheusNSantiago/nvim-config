@@ -4,17 +4,9 @@ function M.setup()
 	return {
 		'kevinhwang91/nvim-ufo',
 		config = M.config,
-		event = 'LspAttach',
+		-- event = 'LspAttach',
 		dependencies = { 'kevinhwang91/promise-async' },
 	}
-end
-
-function M.setup_keymaps()
-	local is_installed, ufo = pcall(require, 'ufo')
-  if not is_installed then return end
-
-	utils.api.keymap('n', 'zR', ufo.openAllFolds, { desc = 'Open all folds' })
-	utils.api.keymap('n', 'zM', ufo.closeAllFolds, { desc = 'Close all folds' })
 end
 
 function M.config()
@@ -22,6 +14,8 @@ function M.config()
 	-- ╭──────────────────────────────────────────────────────────╮
 	-- │ Custom handler function                                  │
 	-- ╰──────────────────────────────────────────────────────────╯
+	utils.api.keymap('n', 'zR', ufo.openAllFolds, { desc = 'Open all folds' })
+	utils.api.keymap('n', 'zM', ufo.closeAllFolds, { desc = 'Close all folds' })
 
 	local handler = function(virt_text, start_line, end_line, width, truncate)
 		local new_virt_text = {}
