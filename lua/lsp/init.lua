@@ -43,21 +43,12 @@ function M.common_on_attach(client, bufnr)
 	local caps = client.server_capabilities
 	if not caps then return end
 
-	-- Enable completion triggered by <C-X><C-O>
-	if caps.completionProvider then vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc' end
-
-	-- Use LSP as the handler for formatexpr.
-	if caps.documentFormattingProvider then vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()' end
-
-	if caps.documentSymbolProvider then
-		-- Setup nav buddy
+	if caps.documentSymbolProvider then -- Setup nav buddy
 		local navbuddy_ok, navbuddy = pcall(require, 'nvim-navbuddy')
 		if navbuddy_ok then navbuddy.attach(client, bufnr) end
 	end
 
-	-- keymap('n', 'K', vim.lsp.buf.hover)
-	keymap('n', 'K', ':lua require("pretty_hover").hover()<CR>')
-
+	keymap('n', 'K', vim.lsp.buf.hover)
 
 	-- Diagnostic jump
 	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
@@ -85,7 +76,7 @@ end
 
 function M.get_commom_configs()
 	return {
-		on_attach = M.common_on_attach,
+		on_attach = function(client, bufnr) M.common_on_attach(client, bufnr) end,
 		capabilities = M.client_capabilities(),
 		flags = { debounce_text_changes = 150 },
 	}
