@@ -106,13 +106,11 @@ local plugins = Array({
 	setup('lsp.mason'),
 	{ 'neovim/nvim-lspconfig' }, -- LSP
 	{ 'williamboman/mason-lspconfig.nvim' }, -- integrar mason com lspconfig
-	{ 'jay-babu/mason-null-ls.nvim' }, -- deixa mais fácil usar mason + null-ls
 
 	setup('lsp.lsp_signature'), -- mostra a function signature enquanto digita
 	setup('lsp.lspsaga'), -- LSP UIs
 	setup('lsp.glance'), -- peek definitions
 	setup('lsp.goto-preview'), -- gp
-	setup('lsp.pretty-hover'), -- LSP UIs
 
 
 	setup('lsp.illuminate'), -- higlight a palavra em cima do cursor
