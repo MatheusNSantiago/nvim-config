@@ -3,7 +3,6 @@ local M = {}
 function M.setup()
 	return {
 		'glepnir/lspsaga.nvim',
-		event = 'LspAttach',
 		config = M.config,
 		dependencies = {
 			'nvim-treesitter/nvim-treesitter', -- optional
