@@ -126,15 +126,6 @@ function M.get_hl_by_name(name)
 	return hl
 end
 
----@param tbl table<string, string[]>
-function M.bulk_delete_keymaps(tbl)
-	for mode, keys in pairs(tbl) do
-		for _, key in ipairs(keys) do
-			pcall(function() vim.keymap.del(mode, key) end)
-		end
-	end
-end
-
 function M.require(package)
 	local ok, pkg = pcall(require, package)
 	if not ok then return {} end

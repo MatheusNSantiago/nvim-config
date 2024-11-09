@@ -273,6 +273,9 @@ hls.html = {
 	htmlLink = { fg = c.orange, underline = true },
 }
 
+hls.markdown = {
+	["@markup.raw.block.markdown"] = { link = '@speel' },
+}
 hls.python = {
 	['@punctuation.special.python'] = { link = 'Operator' },
 }
