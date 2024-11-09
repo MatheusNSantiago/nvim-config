@@ -21,7 +21,7 @@ local plugins = Array({
 	--  │                          Base                            │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	{ 'nvim-lua/plenary.nvim', lazy = true }, -- Common utilities
+	{ 'nvim-lua/plenary.nvim' }, -- Common utilities
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                        Interface                         │
@@ -111,7 +111,6 @@ local plugins = Array({
 	setup('lsp.lspsaga'), -- LSP UIs
 	setup('lsp.glance'), -- peek definitions
 	setup('lsp.goto-preview'), -- gp
-
 
 	setup('lsp.illuminate'), -- higlight a palavra em cima do cursor
 	setup('lsp.lsp-colors'), -- agrupa os erros do LSP por cor
@@ -206,6 +205,11 @@ local plugins = Array({
 	{ 'rcarriga/nvim-dap-ui', lazy = true },
 	{ 'mfussenegger/nvim-dap-python', lazy = true },
 	{ 'theHamsta/nvim-dap-virtual-text', lazy = true },
+
+	--  ╭──────────────────────────────────────────────────────────╮
+	--  │                         Other                            │
+	--  ╰──────────────────────────────────────────────────────────╯
+	setup("other.bigfile"),
 })
 
 if utils.is_wsl() then
