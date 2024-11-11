@@ -8,7 +8,6 @@ M.quote = {
 
 M.get_cusor_node = vim.treesitter.get_node or require('nvim-treesitter.ts_utils').get_node_at_cursor
 
---- NOTE: this doesn't detect the last redo
 function M.is_undo_or_redo()
 	local tree = vim.fn.undotree()
 
