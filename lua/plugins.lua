@@ -197,6 +197,8 @@ local plugins = Array({
 	-- Rust
 	setup('dev.rust'),
 
+	setup('dev.avante'), -- IA
+
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Debug                           │
 	--  ╰──────────────────────────────────────────────────────────╯
@@ -219,7 +221,7 @@ if utils.is_wsl() then
 	})
 else
 	plugins:extend({
-		{ dir = '~/Documents/Programming/nvim-plugins/mychatgpt/', config = true },
+		-- { dir = '~/Documents/Programming/nvim-plugins/mychatgpt/', config = true },
 		{ dir = '~/dev/cobol/plugins/cobol-bundle/', config = true },
 		{ dir = '~/dev/cobol/plugins/cobol-foo/', ft = { 'foo' } },
 	})

@@ -27,6 +27,7 @@ opt.lbr = true -- ligar o linebreak
 opt.tw = 500 -- linebreak on 500 characters
 opt.wrap = true -- wrap lines
 
+
 -- UI Stuff
 opt.signcolumn = "yes" -- Add a column on the left. Useful for linting
 opt.cmdheight = 1 -- Give more space for displaying messages
@@ -34,6 +35,7 @@ opt.number = true
 opt.relativenumber = true
 opt.scrolloff = 6
 opt.splitkeep = "screen"
+opt.laststatus = 3
 
 -- Highlights
 opt.cursorline = true
