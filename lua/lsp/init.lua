@@ -48,7 +48,8 @@ function M.common_on_attach(client, bufnr)
 		if navbuddy_ok then navbuddy.attach(client, bufnr) end
 	end
 
-	keymap('n', 'K', vim.lsp.buf.hover)
+	-- keymap('n', 'K', vim.lsp.buf.hover)
+	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
 
 	-- Diagnostic jump
 	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
