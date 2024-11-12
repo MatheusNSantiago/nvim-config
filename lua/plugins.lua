@@ -211,17 +211,15 @@ local plugins = Array({
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                         Other                            │
 	--  ╰──────────────────────────────────────────────────────────╯
-	setup("other.bigfile"),
+	setup('other.bigfile'),
 })
 
 if utils.is_wsl() then
 	plugins:extend({
 		{ dir = '~/dev/cobol/cobol-bundle/', ft = { 'cobol', 'copybook' }, config = true },
-		{ dir = '~/dev/cobol/mychatgpt/', config = true },
 	})
 else
 	plugins:extend({
-		-- { dir = '~/Documents/Programming/nvim-plugins/mychatgpt/', config = true },
 		{ dir = '~/dev/cobol/plugins/cobol-bundle/', config = true },
 		{ dir = '~/dev/cobol/plugins/cobol-foo/', ft = { 'foo' } },
 	})
