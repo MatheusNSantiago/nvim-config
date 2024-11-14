@@ -12,6 +12,17 @@ function M.setup()
 end
 
 function M.config()
+	utils.api.augroup('lspsaga-fix', {
+		desc = 'Conserta keymaps no lspsaga rename',
+		event = 'Filetype',
+		pattern = 'sagarename',
+		command = function(args)
+			vim.schedule(function() --
+				vim.api.nvim_buf_del_keymap(args.buf, 'i', 'q')
+			end)
+		end,
+	})
+
 	require('lspsaga').setup({
 		scroll_preview = {
 			scroll_down = '<C-d>',
