@@ -9,7 +9,7 @@ local M = {}
 ---@param mode string|table Uma string representando o modo para o qual o mapeamento deve ser criado (por exemplo, "n", "i", "v", "x", etc.). Alternativamente, pode ser passado uma tabela contendo várias strings de modo para criar o mapeamento para vários modos.
 ---@param remap string A sequência de teclas a ser mapeada.
 ---@param command string | fun() A sequência de comandos ou a função que será executada quando o mapeamento for acionado
----@param opts table? Uma tabela de opções adicionais a serem passadas para a função `vim.keymap.set`. defaults `{ noremap = true, silent = true }`
+---@param opts vim.keymap.set.Opts? Uma tabela de opções adicionais a serem passadas para a função `vim.keymap.set`. defaults `{ noremap = true, silent = true }`
 function M.keymap(mode, remap, command, opts)
 	local options = { noremap = true, silent = true }
 

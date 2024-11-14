@@ -2,21 +2,21 @@ local fn = vim.fn
 local M = {}
 
 function M.flatten(tbl)
-    local result = {}
-    for _, sub_table in pairs(tbl) do
-        if type(sub_table) == 'table' then
-            for k, v in pairs(sub_table) do
-                result[k] = v
-            end
-        end
-    end
-    return result
+	local result = {}
+	for _, sub_table in pairs(tbl) do
+		if type(sub_table) == 'table' then
+			for k, v in pairs(sub_table) do
+				result[k] = v
+			end
+		end
+	end
+	return result
 end
 
 function M.set_hls(highlights, ns)
-    for group, hl in pairs(highlights) do
-        vim.api.nvim_set_hl(ns or 0, group, hl)
-    end
+	for group, hl in pairs(highlights) do
+		vim.api.nvim_set_hl(ns or 0, group, hl)
+	end
 end
 
 function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name }) end
@@ -24,45 +24,45 @@ function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
 
 function M.log(content)
-    if Array.is_array(content) then content = content:to_table() end
-    local txt = ''
-    local function recursive_log(obj, cnt)
-        cnt = cnt or 0
-        if type(obj) == 'table' then
-            txt = txt .. '\n' .. string.rep('\t', cnt) .. '{\n'
-            cnt = cnt + 1
+	if Array.is_array(content) then content = content:to_table() end
+	local txt = ''
+	local function recursive_log(obj, cnt)
+		cnt = cnt or 0
+		if type(obj) == 'table' then
+			txt = txt .. '\n' .. string.rep('\t', cnt) .. '{\n'
+			cnt = cnt + 1
 
-            for k, v in pairs(obj) do
-                if type(k) == 'string' then txt = txt .. string.rep('\t', cnt) .. '["' .. k .. '"]' .. ' = ' end
-                if type(k) == 'number' then txt = txt .. string.rep('\t', cnt) .. '[' .. k .. ']' .. ' = ' end
+			for k, v in pairs(obj) do
+				if type(k) == 'string' then txt = txt .. string.rep('\t', cnt) .. '["' .. k .. '"]' .. ' = ' end
+				if type(k) == 'number' then txt = txt .. string.rep('\t', cnt) .. '[' .. k .. ']' .. ' = ' end
 
-                recursive_log(v, cnt)
-                txt = txt .. ',\n'
-            end
+				recursive_log(v, cnt)
+				txt = txt .. ',\n'
+			end
 
-            cnt = cnt - 1
-            txt = txt .. string.rep('\t', cnt) .. '}'
-        elseif type(obj) == 'string' then
-            txt = txt .. string.format('%q', obj)
-        else
-            txt = txt .. tostring(obj)
-        end
-    end
-    recursive_log(content)
+			cnt = cnt - 1
+			txt = txt .. string.rep('\t', cnt) .. '}'
+		elseif type(obj) == 'string' then
+			txt = txt .. string.format('%q', obj)
+		else
+			txt = txt .. tostring(obj)
+		end
+	end
+	recursive_log(content)
 
-    vim.api.nvim_echo({ { txt } }, false, {})
+	vim.notify(txt)
 end
 
 function M.get_current_dir() return debug.getinfo(1, 'S').source:sub(2):match('(.*/)') end
 
 function M.falsy(item)
-    if not item then return true end
-    local item_type = type(item)
-    if item_type == 'boolean' then return not item end
-    if item_type == 'string' then return item == '' end
-    if item_type == 'number' then return item <= 0 end
-    if item_type == 'table' then return vim.tbl_isempty(item) end
-    return item ~= nil
+	if not item then return true end
+	local item_type = type(item)
+	if item_type == 'boolean' then return not item end
+	if item_type == 'string' then return item == '' end
+	if item_type == 'number' then return item <= 0 end
+	if item_type == 'table' then return vim.tbl_isempty(item) end
+	return item ~= nil
 end
 
 ---Convert a list or map of items into a value by iterating all it's fields and transforming
@@ -73,12 +73,12 @@ end
 ---@param accum S?
 ---@return S
 function M.fold(callback, list, accum)
-    accum = accum or {}
-    for k, v in pairs(list) do
-        accum = callback(accum, v, k)
-        assert(accum ~= nil, 'The accumulator must be returned on each iteration')
-    end
-    return accum
+	accum = accum or {}
+	for k, v in pairs(list) do
+		accum = callback(accum, v, k)
+		assert(accum ~= nil, 'The accumulator must be returned on each iteration')
+	end
+	return accum
 end
 
 ---@generic T
@@ -86,10 +86,10 @@ end
 ---@param callback fun(item: T, key: string | number, list: T[]): T
 ---@return T[]
 function M.map(list, callback)
-    return M.fold(function(accum, v, k)
-        accum[#accum + 1] = callback(v, k, accum)
-        return accum
-    end, list, {})
+	return M.fold(function(accum, v, k)
+		accum[#accum + 1] = callback(v, k, accum)
+		return accum
+	end, list, {})
 end
 
 ---Call the given function and use `vim.notify` to notify of any errors
@@ -101,29 +101,29 @@ end
 ---@return boolean, any
 ---@overload fun(func: function, ...): boolean, any
 function M.pcall(msg, func, ...)
-    local args = { ... }
-    if type(msg) == 'function' then
-        local arg = func --[[@as any]]
-        ---@diagnostic disable-next-line: cast-local-type
-        args, func, msg = { arg, unpack(args) }, msg, nil
-    end
-    return xpcall(func, function(err)
-        msg = debug.traceback(msg and string.format('%s\n\n%s', msg, err) or err)
-        vim.schedule(function() vim.notify(msg, vim.log.levels.ERROR, { title = 'ERROR' }) end)
-    end, unpack(args))
+	local args = { ... }
+	if type(msg) == 'function' then
+		local arg = func --[[@as any]]
+		---@diagnostic disable-next-line: cast-local-type
+		args, func, msg = { arg, unpack(args) }, msg, nil
+	end
+	return xpcall(func, function(err)
+		msg = debug.traceback(msg and string.format('%s\n\n%s', msg, err) or err)
+		vim.schedule(function() vim.notify(msg, vim.log.levels.ERROR, { title = 'ERROR' }) end)
+	end, unpack(args))
 end
 
 function M.get_current_line_with_cursor()
-    local current_line = fn.getline('.')
-    local col = fn.col('.')
-    return current_line:sub(1, col) .. '█' .. current_line:sub(col + 1)
+	local current_line = fn.getline('.')
+	local col = fn.col('.')
+	return current_line:sub(1, col) .. '█' .. current_line:sub(col + 1)
 end
 
 ---@param pattern (string) The pattern to match against the current line.
 ---@return boolean: Returns true if the current line matches the pattern, false otherwise.
 function M.current_line_matches(pattern)
-    local cur_line = M.get_current_line_with_cursor()
-    return cur_line:match(pattern)
+	local cur_line = M.get_current_line_with_cursor()
+	return cur_line:match(pattern)
 end
 
 ---Checks if the operating system is running on Windows Subsystem for Linux (WSL).
@@ -131,23 +131,23 @@ end
 function M.is_wsl() return fn.system('grep microsoft /proc/version'):len() > 0 end
 
 function M.get_visual_selection()
-    local ESC_FEEDKEY = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
+	local ESC_FEEDKEY = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
 
-    vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
-    vim.api.nvim_feedkeys('gv', 'x', false)
-    vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
+	vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
+	vim.api.nvim_feedkeys('gv', 'x', false)
+	vim.api.nvim_feedkeys(ESC_FEEDKEY, 'n', true)
 
-    local _, start_line, start_col = unpack(fn.getpos("'<"))
-    local _, end_line, end_col = unpack(fn.getpos("'>"))
+	local _, start_line, start_col = unpack(fn.getpos("'<"))
+	local _, end_line, end_col = unpack(fn.getpos("'>"))
 
-    local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+	local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
 
-    -- Reduz a primeira/última linha de acordo com start_col/end_col.
-    lines[#lines] = lines[#lines]:sub(1, end_col)
-    lines[1] = lines[1]:sub(start_col)
-    local content = table.concat(lines, '\n')
+	-- Reduz a primeira/última linha de acordo com start_col/end_col.
+	lines[#lines] = lines[#lines]:sub(1, end_col)
+	lines[1] = lines[1]:sub(start_col)
+	local content = table.concat(lines, '\n')
 
-    return content
+	return content
 end
 
 ---Restringe a execução de uma função a um intervalo de tempo definido.
@@ -155,14 +155,14 @@ end
 ---@param delay number: O tempo mínimo, em milissegundos, para esperar entre as execuções da função.
 ---@return function: Uma nova função que envolve a função original com lógica de limitação.
 function M.throttle(func, delay)
-    local lastExecuted = 0
-    return function(...)
-        local now = vim.loop.now()
-        if (now - lastExecuted) >= delay then
-            func(...)
-            lastExecuted = now
-        end
-    end
+	local lastExecuted = 0
+	return function(...)
+		local now = vim.uv.now()
+		if (now - lastExecuted) >= delay then
+			func(...)
+			lastExecuted = now
+		end
+	end
 end
 
 ---@example:
@@ -174,11 +174,11 @@ end
 ---@param param any
 ---@param case_table table
 function M.switch(param, case_table)
-    local case = case_table[param]
-    if case then return case() end
+	local case = case_table[param]
+	if case then return case() end
 
-    local default = case_table['default']
-    return default and default() or nil
+	local default = case_table['default']
+	return default and default() or nil
 end
 
 M.api = require('utils.api-wrappers')
