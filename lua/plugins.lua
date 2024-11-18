@@ -142,7 +142,7 @@ local plugins = Array({
 		-- { 'zbirenbaum/copilot.lua', lazy = true }, -- Copilot
 		-- { 'zbirenbaum/copilot-cmp', build = ':Copilot auth', lazy = true }, -- completion do copilot
 	}),
-	{ 'Jezda1337/nvim-html-css', config = function() require('html-css'):setup() end },
+	{ 'Jezda1337/nvim-html-css', config = function() require('html-css'):setup() end, ft = 'html' }, -- bootstrap cmp
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                        Treesitter                        │
