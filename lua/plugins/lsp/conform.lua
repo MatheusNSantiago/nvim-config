@@ -4,7 +4,6 @@ function M.setup()
 	return {
 		'stevearc/conform.nvim',
 		event = { 'BufWritePre' },
-		cmd = { 'ConformInfo' },
 		keys = {
 			{
 				'<leader>ff',
