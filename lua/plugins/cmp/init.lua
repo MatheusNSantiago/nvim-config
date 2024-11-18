@@ -43,13 +43,13 @@ function M.config()
 				entry_filter = require('plugins.cmp.lsp-type-limiter'),
 				group_index = 1,
 			},
-			{
-				name = 'luasnip',
-				priority = 750,
-				max_item_count = 5,
-				keyword_length = 2,
-				group_index = 1,
-			},
+			-- {
+			-- 	name = 'luasnip',
+			-- 	priority = 750,
+			-- 	max_item_count = 5,
+			-- 	keyword_length = 2,
+			-- 	group_index = 1,
+			-- },
 			{
 				name = 'buffer',
 				priority = 500,
