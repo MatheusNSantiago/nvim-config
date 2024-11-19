@@ -167,7 +167,7 @@ local plugins = Array({
 	setup('dev.kulala'), -- REST-Client
 
 	-- Git
-	-- setup('dev.gitsigns'), -- gutter signs
+	setup('dev.gitsigns'), -- gutter signs
 	setup('dev.diffview'),
 	{ 'tpope/vim-fugitive' },
 
@@ -197,7 +197,7 @@ local plugins = Array({
 	-- Rust
 	setup('dev.rust'),
 
-	setup('dev.avante'), -- IA
+	setup('dev.codecompanion'), -- IA
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Debug                           │
