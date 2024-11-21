@@ -23,35 +23,35 @@ function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name
 
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
 
-function M.log(content)
-	if Array.is_array(content) then content = content:to_table() end
-	local txt = ''
-	local function recursive_log(obj, cnt)
-		cnt = cnt or 0
-		if type(obj) == 'table' then
-			txt = txt .. '\n' .. string.rep('\t', cnt) .. '{\n'
-			cnt = cnt + 1
-
-			for k, v in pairs(obj) do
-				if type(k) == 'string' then txt = txt .. string.rep('\t', cnt) .. '["' .. k .. '"]' .. ' = ' end
-				if type(k) == 'number' then txt = txt .. string.rep('\t', cnt) .. '[' .. k .. ']' .. ' = ' end
-
-				recursive_log(v, cnt)
-				txt = txt .. ',\n'
-			end
-
-			cnt = cnt - 1
-			txt = txt .. string.rep('\t', cnt) .. '}'
-		elseif type(obj) == 'string' then
-			txt = txt .. string.format('%q', obj)
-		else
-			txt = txt .. tostring(obj)
-		end
-	end
-	recursive_log(content)
-
-	vim.notify(txt)
-end
+-- function M.log(content)
+-- 	if Array.is_array(content) then content = content:to_table() end
+-- 	local txt = ''
+-- 	local function recursive_log(obj, cnt)
+-- 		cnt = cnt or 0
+-- 		if type(obj) == 'table' then
+-- 			txt = txt .. '\n' .. string.rep('\t', cnt) .. '{\n'
+-- 			cnt = cnt + 1
+--
+-- 			for k, v in pairs(obj) do
+-- 				if type(k) == 'string' then txt = txt .. string.rep('\t', cnt) .. '["' .. k .. '"]' .. ' = ' end
+-- 				if type(k) == 'number' then txt = txt .. string.rep('\t', cnt) .. '[' .. k .. ']' .. ' = ' end
+--
+-- 				recursive_log(v, cnt)
+-- 				txt = txt .. ',\n'
+-- 			end
+--
+-- 			cnt = cnt - 1
+-- 			txt = txt .. string.rep('\t', cnt) .. '}'
+-- 		elseif type(obj) == 'string' then
+-- 			txt = txt .. string.format('%q', obj)
+-- 		else
+-- 			txt = txt .. tostring(obj)
+-- 		end
+-- 	end
+-- 	recursive_log(content)
+--
+-- 	vim.notify(txt)
+-- end
 
 function M.get_current_dir() return debug.getinfo(1, 'S').source:sub(2):match('(.*/)') end
 
@@ -186,7 +186,7 @@ M.icons = require('utils.icons')
 M.ft_helpers = require('utils.filetype-helpers')
 
 _G.c = require('utils.colors')
-_G.log = M.log
+-- _G.log = M.log
 _G.Class = require('utils.class')
 _G.Array = require('utils.array')
 _G.create_picker = require('plugins.navigation.telescope.picker')
