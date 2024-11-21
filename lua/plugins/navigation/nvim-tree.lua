@@ -5,7 +5,7 @@ M.setup = function()
 		'nvim-tree/nvim-tree.lua',
 		config = M.config,
 		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		commit = '2a268f6',
+		-- commit = '2a268f6',
 	}
 end
 
@@ -19,7 +19,7 @@ M.config = function()
 	vim.g.loaded_netrw = 1
 	vim.g.loaded_netrwPlugin = 1
 
-	utils.api.augroup('nvim-tree', {
+	utils.api.augroup('nvim-tree-automation', {
 		desc = 'Abre nvim-tree ao entrar no neovim',
 		event = 'VimEnter',
 		command = M._open_on_startup,
@@ -36,6 +36,18 @@ M.config = function()
 			if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
 				vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
 			end
+		end,
+	}, {
+		event = 'User',
+		pattern = 'NvimTreeSetup',
+		command = function()
+			M._prev = M._prev or { new_name = '', old_name = '' } -- Prevents duplicate events
+			api.events.subscribe(api.events.Event.NodeRenamed, function(data)
+				if M._prev.new_name ~= data.new_name or M._prev.old_name ~= data.old_name then
+					data = data
+					Snacks.rename.on_rename_file(data.old_name, data.new_name)
+				end
+			end)
 		end,
 	})
 
@@ -368,13 +380,13 @@ function M._win_closed(args)
 end
 
 function M._custom_commands()
-	local lib = require('nvim-tree.lib')
+	local tree = require('nvim-tree.api').tree
 	local api = require('nvim-tree.api')
 	local U = require('nvim-tree.utils')
 
 	return {
 		swap_then_open_tab = function()
-			local node = lib.get_node_at_cursor()
+			local node = tree.get_node_under_cursor()
 			if node == nil then return end
 			vim.cmd('wincmd l')
 			api.node.open.tab(node)
@@ -382,7 +394,7 @@ function M._custom_commands()
 
 		collapse_all = function() require('nvim-tree.actions.tree-modifiers.collapse-all').fn() end,
 		collapse = function()
-			local node = lib.get_node_at_cursor()
+			local node = tree.get_node_under_cursor()
 			if node == nil then return end
 
 			if node.open then
@@ -395,14 +407,14 @@ function M._custom_commands()
 			end
 		end,
 		expand = function() -- open as vsplit on current node
-			local node = lib.get_node_at_cursor()
+			local node = tree.get_node_under_cursor()
 			if node == nil then return end
 
 			if node.nodes ~= nil then node:expand_or_collapse() end
 		end,
 
 		git_add = function()
-			local node = lib.get_node_at_cursor()
+			local node = tree.get_node_under_cursor()
 			if not node then return end
 
 			local gs = node.git_status.file
