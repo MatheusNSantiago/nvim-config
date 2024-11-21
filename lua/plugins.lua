@@ -36,7 +36,6 @@ local plugins = Array({
 	setup('ui.dressing'), -- selection e input
 	setup('ui.noice'), -- messages, cmdline and popupmenu
 	setup('ui.barbecue'), -- breadcrumbs
-	setup('ui.nvim-notify'), -- messages, cmdline and popupmenu
 	setup('ui.highlight-colors'), -- highlighter #FFF
 	setup('ui.smart-splits'), -- split pane management
 	setup('ui.vim-scrollbar'), -- scrollbar
@@ -44,7 +43,7 @@ local plugins = Array({
 	setup('ui.hlsearch'), -- auto remove search highlight and rehighlight
 	setup('ui.rainbow-delimiters'), -- rainbow parentheses
 	setup('ui.virtcolumn'), -- ColorColumn como um |
-	setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
+	-- setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
 	setup('ui.sentiment'), -- dá highlight no outro parentesis
 
 	'sitiom/nvim-numbertoggle', -- automatic relative/absolute line numbers
@@ -142,7 +141,7 @@ local plugins = Array({
 		-- { 'zbirenbaum/copilot.lua', lazy = true }, -- Copilot
 		-- { 'zbirenbaum/copilot-cmp', build = ':Copilot auth', lazy = true }, -- completion do copilot
 	}),
-	{ 'Jezda1337/nvim-html-css', config = function() require('html-css'):setup() end, ft = 'html' }, -- bootstrap cmp
+	{ 'Jezda1337/nvim-html-css', config = function() require('html-css'):setup() end, lazy = true }, -- bootstrap cmp
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                        Treesitter                        │
@@ -211,7 +210,7 @@ local plugins = Array({
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                         Other                            │
 	--  ╰──────────────────────────────────────────────────────────╯
-	setup('other.bigfile'),
+	setup('other.snacks'),
 })
 
 if utils.is_wsl() then
