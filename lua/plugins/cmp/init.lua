@@ -14,8 +14,10 @@ function M.config()
 	local lspkind = require('lspkind')
 	local lspkind_icons = utils.icons.lspkind
 	local luasnip = require('luasnip')
+	local web_devicons = require('nvim-web-devicons')
+	local lsp_entry_filter = require('plugins.cmp.lsp-entry-filter')
 
-	cmp.setup({
+	local default_config = {
 		snippet = {
 			expand = function(args)
 				local body = args.body
@@ -40,47 +42,35 @@ function M.config()
 			{
 				name = 'nvim_lsp',
 				priority = 1000,
-				entry_filter = require('plugins.cmp.lsp-type-limiter'),
-				group_index = 1,
+				entry_filter = lsp_entry_filter(),
+				-- group_index = 1,
 			},
-			-- {
-			-- 	name = 'luasnip',
-			-- 	priority = 750,
-			-- 	max_item_count = 5,
-			-- 	keyword_length = 2,
-			-- 	group_index = 1,
-			-- },
+			{
+				name = 'luasnip',
+				priority = 750,
+				max_item_count = 5,
+				keyword_length = 2,
+				-- group_index = 1,
+			},
 			{
 				name = 'buffer',
 				priority = 500,
 				keyword_length = 4,
 				max_item_count = 5,
-				group_index = 2,
+				-- group_index = 2,
 			},
 			{
 				name = 'path',
 				priority = 250,
-				group_index = 1,
-			},
-			{
-				name = 'html-css',
-				priority = 250,
-				option = {
-					max_count = {}, -- not ready yet
-					enable_on = { 'html' }, -- set the file types you want the plugin to work on
-					file_extensions = { 'css', 'sass', 'less' }, -- set the local filetypes from which you want to derive classes
-					style_sheets = { -- example of remote styles, only css no js for now
-						'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', -- bootstrap
-					},
-				},
+				-- group_index = 1,
 			},
 		}),
-		duplicates = {
-			buffer = 1,
-			path = 1,
-			nvim_lsp = 0,
-			luasnip = 0,
-		},
+		-- duplicates = {
+		-- 	buffer = 1,
+		-- 	path = 1,
+		-- 	nvim_lsp = 0,
+		-- 	luasnip = 0,
+		-- },
 		sorting = {
 			priority_weight = 2,
 			comparators = {
@@ -88,7 +78,6 @@ function M.config()
 				cmp.config.compare.offset,
 				cmp.config.compare.exact,
 				cmp.config.compare.score,
-				require('plugins.cmp.comparators').nerf_dunder_python,
 				require('plugins.cmp.comparators').buff_variables,
 				require('plugins.cmp.comparators').buff_properties,
 				cmp.config.compare.kind,
@@ -103,23 +92,16 @@ function M.config()
 				max_width = 50,
 				symbol_map = lspkind_icons,
 				before = function(entry, vim_item)
-					vim_item.dup = ({ nvim_lsp = 0, path = 0 })[entry.source.name] or 0
+					-- vim_item.dup = ({ nvim_lsp = 0, path = 0 })[entry.source.name] or 0
 					vim_item.kind = lspkind_icons[vim_item.kind]
 
 					if vim.tbl_contains({ 'path' }, entry.source.name) then
-						local icon, hl_group = require('nvim-web-devicons').get_icon(entry:get_completion_item().label)
+						local icon, hl_group = web_devicons.get_icon(entry:get_completion_item().label)
 						if icon then
 							vim_item.kind = icon
 							vim_item.kind_hl_group = hl_group
 							return vim_item
 						end
-					end
-
-					-- Customiza entrada para as completions de html/css
-					if entry.source.name == 'html-css' then --
-						vim_item.menu = entry.completion_item.menu -- onde está vindo (bootstrap, angular, etc)
-						vim_item.kind = lspkind_icons.Constant -- Deixa o icone igual a do tailwind
-						vim_item.kind_hl_group = 'Constant' -- Deixa a cor igual a do tailwind
 					end
 
 					return vim_item
@@ -144,16 +126,64 @@ function M.config()
 		experimental = { ghost_text = {} },
 		preselect = cmp.PreselectMode.Item,
 		view = { entries = 'custom' }, -- can be "custom", "wildmenu" or "native"
-	})
+	}
 
-	-- Set configuration for specific filetype.
-	cmp.setup.filetype('gitcommit', {
-		sources = cmp.config.sources({
+	cmp.setup(default_config)
+
+	---@param filetype string | string[]
+	---@param mod_cmp fun(cfg: cmp.ConfigSchema)
+	local setup_cmp_filetype = function(filetype, mod_cmp)
+		local config = vim.deepcopy(default_config)
+		mod_cmp(config)
+		cmp.setup.filetype(filetype, config)
+	end
+
+	setup_cmp_filetype('gitcommit', function(config) --
+		config.sources = cmp.config.sources({
 			{ name = 'conventionalcommits' },
-		}, { { name = 'buffer' } }),
-	})
+			{ name = 'buffer' },
+		})
+	end)
 
-	-- require('plugins.cmp.copilot').setup()
+	setup_cmp_filetype({ 'html', 'css', 'sass', 'less' }, function(config)
+		config.sources = cmp.config.sources({
+			{ name = 'nvim_lsp' },
+			{ name = 'luasnip' },
+			{ name = 'html-css' },
+		})
+		config.formatting.format = function(entry, vim_item)
+			vim_item = default_config.formatting.format(entry, vim_item)
+
+			-- Customiza entrada para as completions de html/css
+			if entry.source.name == 'html-css' then
+				---@diagnostic disable-next-line: undefined-field
+				vim_item.menu = entry.completion_item.menu -- onde está vindo (bootstrap, angular, etc)
+				vim_item.kind = lspkind_icons.Constant -- Deixa o icone igual a do tailwind
+				vim_item.kind_hl_group = 'Constant' -- Deixa a cor igual a do tailwind
+			end
+
+			return vim_item
+		end
+	end)
+
+	setup_cmp_filetype('python', function(config)
+		vim.list_extend(config.sorting.comparators, {
+			require('plugins.cmp.comparators').nerf_dunder_python,
+		})
+
+		local _, idx = Array(default_config.sources):find_first(function(e) return e.name == 'nvim_lsp' end)
+
+		config.sources[idx].entry_filter = lsp_entry_filter(function(ctx)
+			-- def function():█
+			if ctx.cur_line:match(':█$') then return false end
+
+			-- from X import █
+			if ctx.cur_line:match('import%s█') then return (ctx.kind ~= 'Snippet') end
+
+			return true
+		end)
+	end)
+
 	require('plugins.cmp.cmdline').setup()
 end
 
