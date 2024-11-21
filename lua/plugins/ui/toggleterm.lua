@@ -56,8 +56,8 @@ function M.config()
 	keymap('t', '<A-i>', open('horizontal'))
 	keymap('t', '<A-v>', open('vertical'))
 
-	keymap('n', '<leader>lg', M.toggle_lazygit, { desc = 'toggleterm: toggle lazygit' })
-	keymap('n', '<leader>ld', M.toggle_lazydocker, { desc = 'toggleterm: toggle lazydocker' })
+	-- keymap('n', '<leader>lg', M.toggle_lazygit, { desc = 'toggleterm: toggle lazygit' })
+	-- keymap('n', '<leader>ld', M.toggle_lazydocker, { desc = 'toggleterm: toggle lazydocker' })
 
 	keymap({ 'n', 'i', 'x' }, '<A-f>', open('float'), { desc = 'toggleterm: floating terminal' })
 	keymap({ 'n', 'i', 'x' }, '<A-i>', open('horizontal'), { desc = 'toggleterm: horizontal terminal' })
@@ -129,62 +129,6 @@ function M.config()
 	})
 end
 
-function M.toggle_lazygit()
-	local Terminal = require('toggleterm.terminal').Terminal
-
-	local lazygit = Terminal:new({
-		cmd = 'lazygit',
-		dir = 'git_dir',
-		close_on_exit = true,
-		hidden = true,
-		direction = 'float',
-		float_opts = {
-			width = 10000, -- math.floor(vim.o.columns * 0.65),
-			height = 10000, -- math.floor(vim.o.lines * 0.70),
-			border = 'none', --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
-			winblend = 0,
-			highlights = { border = 'Normal', background = 'Normal' },
-		},
-		-- function to run on opening the terminal
-		on_open = function(term) vim.cmd('startinsert!') end,
-		-- function to run on closing the terminal
-		on_close = function(_)
-			vim.cmd('startinsert!')
-			-- vim.schedule(function() vim.cmd('edit') end)
-		end,
-	})
-
-	return lazygit:toggle()
-end
-
-function M.toggle_lazydocker()
-	local Terminal = require('toggleterm.terminal').Terminal
-
-	local lazygit = Terminal:new({
-		cmd = 'lazydocker',
-		dir = '.',
-		close_on_exit = true,
-		hidden = true,
-		direction = 'float',
-		float_opts = {
-			width = 10000, -- math.floor(vim.o.columns * 0.65),
-			height = 10000, -- math.floor(vim.o.lines * 0.70),
-			border = 'none', --'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
-			winblend = 0,
-			highlights = { border = 'Normal', background = 'Normal' },
-		},
-		-- function to run on opening the terminal
-		on_open = function(term) vim.cmd('startinsert!') end,
-		-- function to run on closing the terminal
-		on_close = function(_)
-			vim.cmd('startinsert!')
-			vim.schedule(function() vim.cmd('edit') end)
-		end,
-	})
-
-	return lazygit:toggle()
-end
-
 ---@param buf number
 ---@return boolean
 function M.should_show_cursorline(buf)
@@ -195,19 +139,6 @@ function M.should_show_cursorline(buf)
 		and vim.wo.winhighlight == ''
 		and vim.bo[buf].filetype ~= ''
 		and not vim.tbl_contains(cursorline_exclude, vim.bo[buf].filetype)
-end
-
-function M.get_terminal(name)
-	local terminal
-	local buffers = vim.api.nvim_list_bufs()
-	for _, buf in ipairs(buffers) do
-		local buf_name = vim.api.nvim_buf_get_name(buf)
-		if buf_name:find('toggleterm#') then
-			local _, t = require('toggleterm.terminal').identify(buf_name)
-			terminal = t
-		end
-	end
-	return assert(terminal, 'Não achou um terminal ativo')
 end
 
 return M
