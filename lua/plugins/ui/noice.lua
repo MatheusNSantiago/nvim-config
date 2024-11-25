@@ -171,6 +171,7 @@ M.routes = { -- Skip Messages
 				{ event = 'notify', find = 'No information available' }, -- Ao dar hover em algo que não tem informação suficiente
 				{ event = 'msg_show', find = 'press letter mark to preview, or press <esc> to quit' }, -- mensagem do marks.nvim para preview
 				{ event = 'notify', find = 'ENOENT: no such file or directory' },
+				{ event = 'msg_show', find = 'process.processTicksAndRejections' },
 			},
 		},
 	},
@@ -211,32 +212,7 @@ M.routes = { -- Skip Messages
 	-- },
 }
 
-M.highlights = {
-	-- NoiceMini = { inherit = 'MsgArea', bg = { from = 'Normal' } },
-	-- NoicePopupBaseGroup = { inherit = 'NormalFloat', fg = { from = 'DiagnosticSignInfo' } },
-	-- NoicePopupWarnBaseGroup = { inherit = 'NormalFloat', fg = { from = 'Float' } },
-	-- NoicePopupInfoBaseGroup = { inherit = 'NormalFloat', fg = { from = 'Conditional' } },
-	-- NoiceCmdlinePopup = { bg = { from = 'NormalFloat' } },
-	-- NoiceCmdlinePopupBorder = { link = 'FloatBorder' },
-	-- NoiceCmdlinePopupBorderCmdline = { link = 'NoicePopupBaseGroup' },
-	-- NoiceCmdlinePopupBorderSearch = { link = 'NoicePopupWarnBaseGroup' },
-	-- NoiceCmdlinePopupBorderFilter = { link = 'NoicePopupWarnBaseGroup' },
-	-- NoiceCmdlinePopupBorderHelp = { link = 'NoicePopupInfoBaseGroup' },
-	-- NoiceCmdlinePopupBorderSubstitute = { link = 'NoicePopupWarnBaseGroup' },
-	-- NoiceCmdlinePopupBorderIncRename = { link = 'NoicePopupWarnBaseGroup' },
-	-- NoiceCmdlinePopupBorderInput = { link = 'NoicePopupBaseGroup' },
-	-- NoiceCmdlinePopupBorderLua = { link = 'NoicePopupBaseGroup' },
-	-- NoiceCmdlineIconCmdline = { link = 'NoicePopupBaseGroup' },
-	-- NoiceCmdlineIconSearch = { link = 'NoicePopupWarnBaseGroup' },
-	-- NoiceCmdlineIconFilter = { link = 'NoicePopupWarnBaseGroup' },
-	-- NoiceCmdlineIconHelp = { link = 'NoicePopupInfoBaseGroup' },
-	-- NoiceCmdlineIconIncRename = { link = 'NoicePopupWarnBaseGroup' },
-	-- NoiceCmdlineIconSubstitute = { link = 'NoicePopupWarnBaseGroup' },
-	-- NoiceCmdlineIconInput = { link = 'NoicePopupBaseGroup' },
-	-- NoiceCmdlineIconLua = { link = 'NoicePopupBaseGroup' },
-	-- NoiceConfirm = { bg = { from = 'NormalFloat' } },
-	-- NoiceConfirmBorder = { link = 'NoicePopupBaseGroup' },
-}
+M.highlights = {}
 
 M.messages = {
 	-- NOTE- If you enable messages, then the cmdline is enabled automatically.
