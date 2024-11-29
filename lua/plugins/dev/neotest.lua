@@ -14,8 +14,8 @@ function M.setup()
 		config = M.config,
 
 		keys = {
-			{ '<leader>tr', function() M.run_tests_on_file() end },
-			{ '<leader>ts', function() M.toggle_summary() end },
+			{ '<leader>tr', function() M.run_tests_on_file() end, desc = 'neotest: [T]est [R]un' },
+			{ '<leader>ts', function() M.toggle_summary() end, desc = 'neotest: [T]oggle [S]ummary' },
 		},
 	}
 end
