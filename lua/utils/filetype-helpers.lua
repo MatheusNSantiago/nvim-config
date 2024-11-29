@@ -1,3 +1,4 @@
+---@diagnostic disable: assign-type-mismatch, param-type-mismatch
 local M = {}
 
 ---@param args {[1]: string | string[], [2]: string, [3]: string|function, [string]: boolean | integer}[]
@@ -40,7 +41,6 @@ end
 ---@param map { [string[] | string ]: FiletypeSettings }
 function M.filetype_settings(map)
 	local commands = utils.map(map, function(settings, ft)
-		---@diagnostic disable-next-line: param-type-mismatch
 		local name = type(ft) == 'string' and ft or table.concat(ft, ',')
 
 		return {

@@ -157,6 +157,7 @@ local plugins = Array({
 	{ 'davidmh/mdx.nvim', config = true }, -- syntax highlighting mdx
 
 	{ 'RRethy/nvim-treesitter-endwise' }, -- Coloca o end no final de func e if
+
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                       Development                        │
 	--  ╰──────────────────────────────────────────────────────────╯
@@ -193,10 +194,12 @@ local plugins = Array({
 
 	-- Markdown
 	{ 'bullets-vim/bullets.vim' }, -- bullet list automático
+
 	-- Rust
 	setup('dev.rust'),
 
 	setup('dev.codecompanion'), -- IA
+	setup('dev.overseer'), -- Task runner
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Debug                           │
@@ -215,7 +218,7 @@ local plugins = Array({
 
 if utils.is_wsl() then
 	plugins:extend({
-		{ dir = '~/dev/cobol/cobol-bundle/', ft = { 'cobol', 'copybook' }, config = true },
+		{ dir = '~/dev/cobol/-bundle/', ft = { 'cobol', 'copybook' }, config = true },
 	})
 else
 	plugins:extend({
