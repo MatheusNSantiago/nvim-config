@@ -19,7 +19,6 @@ function M.setup()
       'neovim/nvim-lspconfig',
       'nvim-telescope/telescope.nvim',
     },
-    lazy = false,
     ft = 'python',
     branch = 'regexp', -- This is the regexp branch, use this for the new version
     config = M.config,
