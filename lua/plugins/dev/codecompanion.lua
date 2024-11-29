@@ -313,36 +313,46 @@ M.chat_keymaps = {
 		callback = 'keymaps.yank_code',
 		description = 'Yank Code',
 	},
-	next_chat = null_keymap,
-	previous_chat = null_keymap,
+	next_chat = {
+		modes = { n = ']c' },
+		index = 7,
+		callback = 'keymaps.next_chat',
+		description = 'Next Chat',
+	},
+	previous_chat = {
+		modes = { n = '[c' },
+		index = 8,
+		callback = 'keymaps.previous_chat',
+		description = 'Previous Chat',
+	},
 	next_header = {
 		modes = { n = ']]' },
-		index = 7,
+		index = 9,
 		callback = 'keymaps.next_header',
 		description = 'Next Header',
 	},
 	previous_header = {
 		modes = { n = '[[' },
-		index = 8,
+		index = 10,
 		callback = 'keymaps.previous_header',
 		description = 'Previous Header',
 	},
 	change_adapter = null_keymap,
 	fold_code = {
 		modes = { n = 'gf' },
-		index = 9,
+		index = 11,
 		callback = 'keymaps.fold_code',
 		description = 'Fold code',
 	},
 	debug = {
 		modes = { n = 'gd' },
-		index = 10,
+		index = 12,
 		callback = 'keymaps.debug',
 		description = 'View debug info',
 	},
 	system_prompt = {
 		modes = { n = 'gs' },
-		index = 11,
+		index = 13,
 		callback = 'keymaps.toggle_system_prompt',
 		description = 'Toggle the system prompt',
 	},
@@ -516,9 +526,9 @@ M.prompt_library = {
 			},
 		},
 	},
-	['Unit Tests'] = {
+	['Testes Unitários'] = {
 		strategy = 'chat',
-		description = 'Generate unit tests for the selected code',
+		description = 'Gerar testes unitários para o código selecionado',
 		opts = {
 			index = 6,
 			is_default = false,
@@ -531,17 +541,17 @@ M.prompt_library = {
 		prompts = {
 			{
 				role = 'system',
-				content = [[When generating unit tests, follow these steps:
+				content = [[Ao gerar testes unitários, siga estas etapas:
 
-1. Identify the programming language.
-2. Identify the purpose of the function or module to be tested.
-3. List the edge cases and typical use cases that should be covered in the tests and share the plan with the user.
-4. Generate unit tests using an appropriate testing framework for the identified programming language.
-5. Ensure the tests cover:
-      - Normal cases
-      - Edge cases
-      - Error handling (if applicable)
-6. Provide the generated unit tests in a clear and organized manner without additional explanations or chat.]],
+1. Identifique a linguagem de programação.
+2. Identifique o propósito da função ou módulo a ser testado.
+3. Liste os casos de borda e casos típicos que devem ser cobertos nos testes e compartilhe o plano com o usuário.
+4. Gere testes unitários usando um framework de teste apropriado para a linguagem de programação identificada.
+5. Certifique-se de que os testes cubram:
+      - Casos normais
+      - Casos de borda (edge cases)
+      - Tratamento de erros (se aplicável)
+6. Forneça os testes unitários gerados de maneira clara e organizada, sem explicações adicionais ou conversa.]],
 				opts = { visible = false },
 			},
 			{
@@ -550,7 +560,7 @@ M.prompt_library = {
 					local code = require('codecompanion.helpers.actions').get_code(context.start_line, context.end_line)
 
 					return string.format(
-						[[Please generate unit tests for this code from buffer %d:
+						[[Por favor, gere testes unitários para este código do buffer %d:
 
 ```%s
 %s
