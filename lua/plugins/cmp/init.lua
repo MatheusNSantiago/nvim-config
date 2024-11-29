@@ -167,9 +167,7 @@ function M.config()
 	end)
 
 	setup_cmp_filetype('python', function(config)
-		vim.list_extend(config.sorting.comparators, {
-			require('plugins.cmp.comparators').nerf_dunder_python,
-		})
+		table.insert(config.sorting.comparators, 2, require('plugins.cmp.comparators').nerf_dunder_python)
 
 		local _, idx = Array(default_config.sources):find_first(function(e) return e.name == 'nvim_lsp' end)
 
