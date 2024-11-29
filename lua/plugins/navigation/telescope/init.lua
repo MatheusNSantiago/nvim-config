@@ -4,11 +4,11 @@ function M.setup()
 	return {
 		'nvim-telescope/telescope.nvim',
 		config = M.config,
-		keys = M.keys,
 		dependencies = {
 			'nvim-telescope/telescope-media-files.nvim', -- mostra arquivos de mídia
-			'debugloop/telescope-undo.nvim',          -- undo true
+			'debugloop/telescope-undo.nvim', -- undo true
 			'danielfalk/smart-open.nvim',
+			'fdschmidt93/telescope-egrepify.nvim',
 			'kkharji/sqlite.lua',
 			{
 				'nvim-telescope/telescope-fzf-native.nvim',
@@ -17,62 +17,80 @@ function M.setup()
 			},
 			'nvim-telescope/telescope-fzy-native.nvim',
 		},
+		keys = {
+			--  ╭──────────────────────────────────────────────────────────╮
+			--  │                         Builtin                          │
+			--  ╰──────────────────────────────────────────────────────────╯
+			{
+				'<leader>sg',
+				function() require('telescope').extensions.egrepify.egrepify() end,
+				desc = '[S]earch by [G]rep',
+			},
+
+			-- Procurar palavra (buffer)
+			{
+				'<leader>sb',
+				function() require('telescope.builtin').current_buffer_fuzzy_find() end,
+				desc = '[S]earch [B]uffer',
+			},
+			{
+				'<leader>sb',
+				function()
+					local selection = utils.get_visual_selection()
+					require('telescope.builtin').current_buffer_fuzzy_find()
+					vim.schedule(function() utils.api.feedkeys('i' .. selection) end)
+				end,
+				mode = 'x',
+				desc = '[S]earch [B]uffer',
+			},
+
+			-- Procurar palavra (global)
+			{
+				'<leader>sw',
+				function() require('telescope.builtin').grep_string() end,
+				desc = '[S]earch [W]ord',
+			},
+			{
+				'<leader>sw',
+				function() require('telescope.builtin').grep_string({ search = '"' .. utils.get_visual_selection() .. '"' }) end,
+				mode = 'x',
+				desc = '[S]earch [W]ord',
+			},
+			{
+				'<leader>sk',
+				function() require('telescope.builtin').keymaps() end,
+				desc = '[S]earch [K]eymaps',
+			},
+			{
+				'<leader>sh',
+				function() require('telescope.builtin').help_tags() end,
+				desc = '[S]earch [H]elp',
+			},
+			--  ╭──────────────────────────────────────────────────────────╮
+			--  │                        Extension                         │
+			--  ╰──────────────────────────────────────────────────────────╯
+			{
+				'<leader>sf',
+				function() require('telescope').extensions.smart_open.smart_open({ cwd_only = true }) end,
+				desc = '[S]earch [F]iles',
+			},
+			{
+				'<leader>smf',
+				function() require('telescope').extensions.media_files.media_files() end,
+				desc = '[S]earch [M]edia [F]iles',
+			},
+			{
+				'<leader>sy',
+				function() require('telescope').extensions.neoclip.default() end,
+				desc = '[S]earch [Y]anks',
+			},
+			{
+				'<leader>su',
+				function() require('telescope').extensions.undo.undo() end,
+				desc = '[S]earch [U]ndos',
+			},
+		},
 	}
-end
-
-function M.keys()
-	local telescope_ok, telescope = pcall(require, 'telescope')
-	if not telescope_ok then return {} end
-
-	local b, e = require('telescope.builtin'), telescope.extensions
-	local mappings = {
-		--  ╭──────────────────────────────────────────────────────────╮
-		--  │                         Builtin                          │
-		--  ╰──────────────────────────────────────────────────────────╯
-		{ '<leader>sg', b.live_grep,                 desc = '[S]earch by [G]rep' },
-
-		-- Procurar palavra (buffer)
-		{ '<leader>sb', b.current_buffer_fuzzy_find, desc = '[S]earch [B]uffer' },
-		{
-			'<leader>sb',
-			function()
-				local selection = utils.get_visual_selection()
-				b.current_buffer_fuzzy_find()
-				vim.schedule(function() utils.api.feedkeys('i' .. selection) end)
-			end,
-			mode = 'x',
-			desc = '[S]earch [B]uffer',
-		},
-
-		-- Procurar palavra (global)
-		{ '<leader>sw',  b.grep_string, desc = '[S]earch [W]ord' },
-		{
-			'<leader>sw',
-			function() return b.grep_string({ search = '"' .. utils.get_visual_selection() .. '"' }) end,
-			mode = 'x',
-			desc = '[S]earch [W]ord',
-		},
-
-		{ '<leader>sk',  b.keymaps,     desc = '[S]earch [K]eymaps' },
-		{ '<leader>sof', b.oldfiles,    desc = '[S]earch [O]ld [F]iles' },
-		{ '<leader>sh',  b.help_tags,   desc = '[S]earch [H]elp' },
-		--  ╭──────────────────────────────────────────────────────────╮
-		--  │                        Extension                         │
-		--  ╰──────────────────────────────────────────────────────────╯
-		{
-			'<leader>sf',
-			function() e.smart_open.smart_open({ cwd_only = true }) end,
-			-- b.find_files,
-			desc = '[S]earch [F]iles',
-		},
-		{ '<leader>smf', e.media_files.media_files, desc = '[S]earch [M]edia [F]iles' },
-		{ '<leader>sy',  e.neoclip.default,         desc = '[S]earch [Y]anks' },
-		{ '<leader>su',  e.undo.undo,               desc = '[S]earch [U]ndos' },
-	}
-	for _, mapping in ipairs(mappings) do
-		mapping.silent = true
-	end
-	return mappings
 end
 
 function M.config()
@@ -81,9 +99,9 @@ function M.config()
 
 	-- Por algum motivo, as vezes as keys que eu botei no lazy não funcionam
 	-- Isso aqui é um workaround pra fazer as keympas funcionarem
-	for _, mapping in ipairs(M.keys()) do
-		utils.api.keymap(mapping.mode or 'n', mapping[1], mapping[2], { desc = mapping.desc })
-	end
+	-- for _, mapping in ipairs(M.keys()) do
+	-- 	utils.api.keymap(mapping.mode or 'n', mapping[1], mapping[2], { desc = mapping.desc })
+	-- end
 
 	-- Custom previewer
 	local previewers = require('telescope.previewers')
@@ -151,12 +169,32 @@ function M.config()
 				glob_pattern = vim.tbl_map(function(pattern) return '!' .. pattern end, ignore_patterns),
 			},
 		},
+		layout_config = {
+			horizontal = { preview_cutoff = 120 },
+			prompt_position = 'top',
+		},
+		file_sorter = require('telescope.sorters').get_fzy_sorter,
+		prompt_prefix = '  ',
+		color_devicons = true,
+		git_icons = {
+			added = icons.git.Add,
+			changed = icons.git.Mod,
+			copied = '>',
+			deleted = icons.git.Remove,
+			renamed = icons.git.Rename,
+			unmerged = icons.git.Unmerged,
+			untracked = icons.git.Untracked,
+		},
+		sorting_strategy = 'ascending',
+		file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+		grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
+		qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
 		extensions = {
 			fzf = {
-				fuzzy = true,               -- false will only do exact matching
+				fuzzy = true, -- false will only do exact matching
 				override_generic_sorter = true, -- override the generic sorter
 				override_file_sorter = true, -- override the file sorter
-				case_mode = 'smart_case',   -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
+				case_mode = 'smart_case', -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
 			},
 			media_files = {
 				filetypes = { 'png', 'webp', 'jpg', 'jpeg', 'pdf', 'mp4', 'webm' },
@@ -189,27 +227,13 @@ function M.config()
 					},
 				},
 			},
+			egrepify = {
+				AND = true,
+				permutations = false,
+				lnum = false,
+				mappings = {},
+			},
 		},
-		layout_config = {
-			horizontal = { preview_cutoff = 120 },
-			prompt_position = 'top',
-		},
-		file_sorter = require('telescope.sorters').get_fzy_sorter,
-		prompt_prefix = '  ',
-		color_devicons = true,
-		git_icons = {
-			added = icons.git.Add,
-			changed = icons.git.Mod,
-			copied = '>',
-			deleted = icons.git.Remove,
-			renamed = icons.git.Rename,
-			unmerged = icons.git.Unmerged,
-			untracked = icons.git.Untracked,
-		},
-		sorting_strategy = 'ascending',
-		file_previewer = require('telescope.previewers').vim_buffer_cat.new,
-		grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
-		qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
 	})
 
 	telescope.load_extension('fzf')
@@ -217,6 +241,7 @@ function M.config()
 	telescope.load_extension('media_files')
 	telescope.load_extension('smart_open')
 	telescope.load_extension('neoclip')
+	telescope.load_extension('egrepify')
 end
 
 M.highlights = {
