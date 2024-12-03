@@ -4,9 +4,6 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'olimorris/codecompanion.nvim',
 		config = M.config,
-		dependencies = {
-			{ 'MeanderingProgrammer/render-markdown.nvim', ft = { 'codecompanion' } }, -- Optional: For prettier markdown rendering
-		},
 		keys = {
 			{ '<leader>ao', ':CodeCompanionActions<CR>', mode = { 'n', 'v' }, desc = 'codecompanion: actions' },
 			{ '<leader>v', ':CodeCompanionChat Toggle<CR>', mode = { 'n' }, desc = 'codecompanion: chat' },
