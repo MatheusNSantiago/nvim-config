@@ -45,6 +45,7 @@ local plugins = Array({
 	setup('ui.virtcolumn'), -- ColorColumn como um |
 	-- setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
 	setup('ui.sentiment'), -- dá highlight no outro parentesis
+	setup('ui.tiny-inline-diagnostic'),
 
 	'sitiom/nvim-numbertoggle', -- automatic relative/absolute line numbers
 
@@ -194,7 +195,7 @@ local plugins = Array({
 
 	-- Markdown
 	{ 'bullets-vim/bullets.vim' }, -- bullet list automático
-    setup('dev.render-markdown'),
+	setup('dev.render-markdown'),
 
 	-- Rust
 	setup('dev.rust'),
@@ -217,15 +218,15 @@ local plugins = Array({
 	setup('other.snacks'),
 })
 
-if utils.is_wsl() then
-	plugins:extend({
-		{ dir = '~/dev/cobol/-bundle/', ft = { 'cobol', 'copybook' }, config = true },
-	})
-else
-	plugins:extend({
-		{ dir = '~/dev/cobol/plugins/cobol-bundle/', config = true },
-		{ dir = '~/dev/cobol/plugins/cobol-foo/', ft = { 'foo' } },
-	})
-end
+-- if utils.is_wsl() then
+-- 	plugins:extend({
+-- 		{ dir = '~/dev/cobol/-bundle/', ft = { 'cobol', 'copybook' }, config = true },
+-- 	})
+-- else
+-- 	plugins:extend({
+-- 		{ dir = '~/dev/cobol/plugins/cobol-bundle/', config = true },
+-- 		{ dir = '~/dev/cobol/plugins/cobol-foo/', ft = { 'foo' } },
+-- 	})
+-- end
 
 require('lazy').setup(plugins)

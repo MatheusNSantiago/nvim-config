@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-	M.setup_virtual_text_handler()
+	-- M.setup_virtual_text_handler()
 	M.setup_lsp_handlers()
 end
 
