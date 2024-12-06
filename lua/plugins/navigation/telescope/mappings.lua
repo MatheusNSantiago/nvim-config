@@ -42,66 +42,87 @@
 ---@brief ]]
 
 return function()
-  local actions = require('telescope.actions')
+	local actions = require('telescope.actions')
 
-  return {
-    i = {
-      ['<C-n>'] = actions.move_selection_next,
-      ['<C-k>'] = actions.move_selection_next,
-      ['<Down>'] = actions.move_selection_next,
+	---@see https://github.com/nvim-telescope/telescope.nvim/issues/1048#issuecomment-1679797700
+	local select_one_or_multi = function(prompt_bufnr)
+		local picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
+		local multi = picker:get_multi_selection()
 
-      ['<C-l>'] = actions.move_selection_previous,
-      ['<C-p>'] = actions.move_selection_previous,
-      ['<Up>'] = actions.move_selection_previous,
+		-- Se não selecionou mais de um arquivo, só abre o que tu selecionou
+		if vim.tbl_isempty(multi) then --
+			actions.select_default(prompt_bufnr)
+			return
+		end
 
-      ['<C-c>'] = actions.close,
+		actions.close(prompt_bufnr)
 
-      ['<C-t>'] = actions.select_tab,
-      ['<C-CR>'] = actions.select_tab,
-      ['<CR>'] = actions.select_default,
-      ['<C-h>'] = actions.select_horizontal,
-      ['<C-v>'] = actions.select_vertical,
+		-- Se selecionou mais de um, abre tabs para cada arquivo
+		for _, j in pairs(multi) do
+			if j.path ~= nil then --
+				vim.cmd('tabedit ' .. j.path)
+			end
+		end
+	end
 
-      ['<C-u>'] = actions.preview_scrolling_up,
-      ['<C-d>'] = actions.preview_scrolling_down,
+	return {
+		i = {
+			['<C-n>'] = actions.move_selection_next,
+			['<C-k>'] = actions.move_selection_next,
+			['<Down>'] = actions.move_selection_next,
 
-      ['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
-      ['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
+			['<C-l>'] = actions.move_selection_previous,
+			['<C-p>'] = actions.move_selection_previous,
+			['<Up>'] = actions.move_selection_previous,
 
-      -- disable c-j because we dont want to allow new lines #2123
-      ['<C-j>'] = actions.nop,
-    },
-    n = {
-      ['<C-c>'] = 'close',
+			['<C-c>'] = actions.close,
 
-      ['<ESC>'] = actions.close,
-      ['<CR>'] = actions.select_default,
-      ['h'] = actions.select_horizontal,
-      ['v'] = actions.select_vertical,
-      ['t'] = actions.select_tab,
+			['<C-t>'] = actions.select_tab,
+			['<C-CR>'] = actions.select_tab,
+			['<CR>'] = select_one_or_multi,
+			['<C-h>'] = actions.select_horizontal,
+			['<C-v>'] = actions.select_vertical,
 
-      ['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
-      ['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
+			['<C-u>'] = actions.preview_scrolling_up,
+			['<C-d>'] = actions.preview_scrolling_down,
 
-      ['k'] = actions.move_selection_next,
-      ['<C-k>'] = actions.move_selection_next,
-      ['<Down>'] = actions.move_selection_next,
+			['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
+			['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
 
-      ['l'] = actions.move_selection_previous,
-      ['<C-l>'] = actions.move_selection_previous,
-      ['<Up>'] = actions.move_selection_previous,
+			-- disable c-j because we dont want to allow new lines #2123
+			['<C-j>'] = actions.nop,
+		},
+		n = {
+			['<C-c>'] = 'close',
 
-      ['H'] = actions.move_to_top,
-      ['M'] = actions.move_to_middle,
-      ['L'] = actions.move_to_bottom,
+			['<ESC>'] = actions.close,
+			['<CR>'] = select_one_or_multi,
+			['h'] = actions.select_horizontal,
+			['v'] = actions.select_vertical,
+			['t'] = actions.select_tab,
 
-      ['gg'] = actions.move_to_top,
-      ['G'] = actions.move_to_bottom,
+			['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
+			['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
 
-      ['<C-u>'] = actions.preview_scrolling_up,
-      ['<C-d>'] = actions.preview_scrolling_down,
+			['k'] = actions.move_selection_next,
+			['<C-k>'] = actions.move_selection_next,
+			['<Down>'] = actions.move_selection_next,
 
-      ['?'] = actions.which_key,
-    },
-  }
+			['l'] = actions.move_selection_previous,
+			['<C-l>'] = actions.move_selection_previous,
+			['<Up>'] = actions.move_selection_previous,
+
+			['H'] = actions.move_to_top,
+			['M'] = actions.move_to_middle,
+			['L'] = actions.move_to_bottom,
+
+			['gg'] = actions.move_to_top,
+			['G'] = actions.move_to_bottom,
+
+			['<C-u>'] = actions.preview_scrolling_up,
+			['<C-d>'] = actions.preview_scrolling_down,
+
+			['?'] = actions.which_key,
+		},
+	}
 end
