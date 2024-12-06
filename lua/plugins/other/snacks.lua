@@ -4,7 +4,6 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'folke/snacks.nvim',
 		priority = 1000,
-		-- enabled = false,
 		lazy = false,
 		config = M.config,
 		keys = {
@@ -14,14 +13,9 @@ function M.setup()
 				function() Snacks.notifier.show_history() end,
 				desc = 'snacks: Dismiss All Notifications',
 			},
-			-- { '<leader>bd', function() Snacks.bufdelete() end, desc = 'Delete Buffer' },
 			{ '<leader>lg', function() Snacks.lazygit() end, desc = 'snacks: [L]azy[G]it' },
-			{ '<leader>gb', function() Snacks.git.blame_line() end, desc = 'Git Blame Line' },
+			{ '<leader>gb', function() Snacks.git.blame_line() end, desc = 'snacks: [G]it [B]lame Line' },
 			{ '<leader>gf', function() Snacks.lazygit.log_file() end, desc = 'snacks: [G]it [F]ile History' },
-			-- { '<c-/>', function() Snacks.terminal() end, desc = 'Toggle Terminal' },
-			-- { '<c-_>', function() Snacks.terminal() end, desc = 'which_key_ignore' },
-			-- { ']]', function() Snacks.words.jump(vim.v.count1) end, desc = 'Next Reference', mode = { 'n', 't' } },
-			-- { '[[', function() Snacks.words.jump(-vim.v.count1) end, desc = 'Prev Reference', mode = { 'n', 't' } },
 		},
 		init = function()
 			vim.api.nvim_create_autocmd('User', {
@@ -33,10 +27,6 @@ function M.setup()
 				end,
 			})
 		end,
-
-		utils.api.keymap('n', '<leader>a', function() --
-			Snacks.notifier.show_history()
-		end),
 	}
 end
 
