@@ -17,6 +17,7 @@ M.servers = {
 	'cobol_ls',
 	'dart_ls',
 	'pyright',
+	'ruff',
 	'clangd',
 	'rust-analyzer', -- inicializado pelo rustacean
 }
@@ -65,7 +66,7 @@ function M.common_on_attach(client, bufnr)
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', 'gr', ':Lspsaga rename<CR>')
 	keymap('n', 'gp', ":lua require('goto-preview').goto_preview_definition()<CR>")
-	-- keymap('n', 'gf', ':Lspsaga finder<CR>')
+	keymap('n', 'gf', ':Lspsaga finder<CR>')
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
 	keymap('n', 'gD', ':tab split | Lspsaga goto_definition<CR>') -- Abre a definição em um novo buffer
