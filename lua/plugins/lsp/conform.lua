@@ -17,6 +17,7 @@ end
 
 function M.config()
 	local conform = require('conform')
+
 	conform.setup({
 
 		formatters_by_ft = {
@@ -30,13 +31,7 @@ function M.config()
 			javascriptreact = { 'prettierd' },
 			typescriptreact = { 'prettierd' },
 			html = { 'prettierd' },
-			python = function(bufnr)
-				if conform.get_formatter_info('ruff_format', bufnr).available then
-					return { 'ruff_format' }
-				else
-					return { 'isort', 'black' }
-				end
-			end,
+			python = { 'ruff_format', 'ruff_organize_imports' },
 		},
 		default_format_opts = { lsp_format = 'fallback' },
 		-- Set the log level. Use `:ConformInfo` to see the location of the log file.
