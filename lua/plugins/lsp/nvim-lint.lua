@@ -11,10 +11,9 @@ end
 
 function M.config()
 	local lint = require('lint')
-	local configs = vim.g.vim_dir .. '/lua/lsp/linter-config/'
+	-- local configs = vim.g.vim_dir .. '/lua/lsp/linter-config/'
 
 	lint.linters_by_ft = {
-		python = { 'ruff' },
 		javascript = { 'eslint_d' },
 		typescript = { 'eslint_d' },
 		javascriptreact = { 'eslint_d' },
@@ -22,9 +21,8 @@ function M.config()
 		html = { 'eslint_d' },
 		json = { 'jsonlint' },
 	}
-
-	local add_args = function(linter, args) vim.list_extend(lint.linters[linter].args, args) end
-	add_args('ruff', { '--config', configs .. '/ruff.toml' })
+	-- local add_args = function(linter, args) vim.list_extend(lint.linters[linter].args, args) end
+	-- add_args('ruff', { '--config', configs .. '/ruff.toml' })
 
 	---@see https://github.com/mfussenegger/nvim-lint/issues/462#issuecomment-2288048568
 	lint.linters['eslint_d'] = require('lint.util').wrap(lint.linters['eslint_d'], function(diagnostic)
