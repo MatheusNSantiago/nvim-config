@@ -1,12 +1,17 @@
-# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
-select = ["E", "F"]
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
 
-# Never enforce:
-ignore = [
-    "E501", #`E501` (line length violations).
-    "E741", # (Do not use variables named 'I', 'O', or 'l').
-    "E731", # rewrite lambda as def
-]
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+#  ╭──────────────────────────────────────────────────────────╮
+#  │                          FORMAT                          │
+#  ╰──────────────────────────────────────────────────────────╯
+[format]
+quote-style = "double" # double quotes for strings.
+skip-magic-trailing-comma = false # respect magic trailing commas.
+line-ending = "auto" # automatically detect the appropriate line ending.
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
@@ -16,23 +21,84 @@ exclude = [
     ".git",
     ".git-rewrite",
     ".hg",
+    ".ipynb_checkpoints",
     ".mypy_cache",
     ".nox",
     ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
     ".pytype",
     ".ruff_cache",
     ".svn",
     ".tox",
     ".venv",
+    ".vscode",
     "__pypackages__",
     "_build",
     "buck-out",
     "build",
     "dist",
     "node_modules",
+    "site-packages",
     "venv",
 ]
 per-file-ignores = {}
 
-# Same as Black.
 line-length = 88
+indent-width = 4
+src = ["src", "tests"]
+
+#  ╭──────────────────────────────────────────────────────────╮
+#  │                           LINT                           │
+#  ╰──────────────────────────────────────────────────────────╯
+[lint]
+
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+select = ["ALL"] # ["E", "F"]
+ignore = [
+    "E501", #`E501` (line length violations).
+    "E741", # (Do not use variables named 'I', 'O', or 'l').
+    "E731", # rewrite lambda as def
+
+    # "COM812",
+    # "COM819",
+    # "D100",
+    # "D203",
+    # "D213",
+    # "D300",
+    # "E111",
+    # "E114",
+    # "E117",
+    # "ISC001",
+    # "ISC002",
+    # "Q000",
+    # "Q001",
+    # "Q002",
+    # "Q003",
+    # "W191",
+    # "T201",
+    # "D101",    # Missing docstring in public class
+    # "D102",    # Missing docstring in public method
+    # "D103",    # Missing docstring in public function
+    # "D107",    # Missing docstring in `__init__`
+    # "ANN201",  # Missing return type annotation
+    # "ANN204",  # Missing return type annotation
+    # "ANN401",
+    # "PD002",   # inplace=True
+    # "C408",    # Unnecessary dict call
+    # "E402",
+    # "UP035",
+    # "EM101",
+    # "TRY003",
+    # "G004",
+    # "TCH001",
+    # "TCH002",
+    # "PLR0913",
+    # "FIX002",  # Line contains TODO, consider resolving the issue
+    # "TD002",   # Missing author in TODO;
+    # "TD003",   # Missing issue link on the line following this TODO
+    # "S101",    # Use of `assert` detected
+]
+
+[lint.pydocstyle]
+convention = "google"
