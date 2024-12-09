@@ -41,29 +41,49 @@ indent-width = 4
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 select = ["ALL"] # ["E", "F"]
 ignore = [
-    "E501", #`E501` (line length violations).
-    "E741", # (Do not use variables named 'I', 'O', or 'l').
-    "E731", # rewrite lambda as def
+    "S",
+#  ╾───────────────────────────────────────────────────────────────────────────────────╼
+    "E501",   #`E501` (line length violations).
+    "E741",   # (Do not use variables named 'I', 'O', or 'l').
+    "E731",   # rewrite lambda as def
     "ERA001", # Found commented-out code
-    "T201", # print found
-    "ANN201",  # Missing return type annotation
-    "ANN202",  # Missing return type annotation for private function
-    "ANN204",  # Missing return type annotation for special method `__init__`
-    "RET503",  # Missing explicit `return` at the end of function able to return non-`None` value
+    "T201",   # print found
+    "B023",   # Function definition does not bind loop variable `erwin_item`
 
 #  ╾───────────────────────────────────────────────────────────────────────────────────╼
+    "ANN201", # Missing return type annotation
+    "ANN202", # Missing return type annotation for private function
+    "ANN204", # Missing return type annotation for special method `__init__`
+    "ANN205", # Missing return type annotation for staticmethod
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `f`
+    "UP007",  # Use `X | Y` for type annotations
+    "RET503", # Missing explicit `return` at the end of function able to return non-`None` value
+    "TC003",  # Move standard library import foo into a type-checking block
+#  ╾───────────────────────────────────────────────────────────────────────────────────╼
     "D100", # Missing docstring in public module 1:1:1 Ruff D100
-    "D101",    # Missing docstring in public class
-    "D102",    # Missing docstring in public method
-    "D103",    # Missing docstring in public function
-    "D107",    # Missing docstring in `__init__`
-    "D415",    # First line should end with a period, question mark, or exclamation point
+    "D101", # Missing docstring in public class
+    "D102", # Missing docstring in public method
+    "D103", # Missing docstring in public function
+    "D105", # Missing docstring in magic method
+    "D107", # Missing docstring in `__init__`
+    "D202", # No blank lines allowed after function docstring
+    "D415", # First line should end with a period, question mark, or exclamation point
 
     "INP001", # File `foo.py` is part of an implicit namespace package. Add an `__init__.py`
-    "I001", # Import block is un-sorted or un-formatted
-    "B006", # Do not use mutable data structures for argument defaults
-    "UP007", # Use `X | Y` for type annotations
-    "A002", # Function argument `input` is shadowing a Python builtin
+    "I001",   # Import block is un-sorted or un-formatted
+    "B006",   # Do not use mutable data structures for argument defaults
+    "A002",   # Function argument `input` is shadowing a Python builtin
+    "RET504", # Unnecessary assignment  before `return` statement
+    "FA100",  # Add `from __future__ import annotations` to simplify `typing.Optional`
+
+    "EM101",  # Exception must not use a string literal, assign to variable first
+    "EM102",  # Exception must not use an f-string literal, assign to variable first
+    "TRY003", # Avoid specifying long messages outside the exception class
+
+    "PTH123", # `open()` should be replaced by `Path.open()`
+    "G004",   # Logging statement uses f-string
+
+    "PLW2901", # `for` loop variable `overwritten by assignment target
     # "COM812",
     # "COM819",
     # "D203",
@@ -79,14 +99,10 @@ ignore = [
     # "Q002",
     # "Q003",
     # "W191",
-    # "ANN401",
     # "PD002",   # inplace=True
     # "C408",    # Unnecessary dict call
     # "E402",
     # "UP035",
-    # "EM101",
-    # "TRY003",
-    # "G004",
     # "TCH001",
     # "TCH002",
     # "PLR0913",
@@ -94,6 +110,7 @@ ignore = [
     # "TD002",   # Missing author in TODO;
     # "TD003",   # Missing issue link on the line following this TODO
     # "S101",    # Use of `assert` detected
+
 ]
 
 
