@@ -39,38 +39,11 @@ function M.config()
 		},
 		mapping = get_mappings(),
 		sources = cmp.config.sources({
-			{
-				name = 'nvim_lsp',
-				priority = 1000,
-				entry_filter = lsp_entry_filter(),
-				-- group_index = 1,
-			},
-			{
-				name = 'luasnip',
-				priority = 750,
-				max_item_count = 5,
-				keyword_length = 2,
-				-- group_index = 1,
-			},
-			{
-				name = 'buffer',
-				priority = 500,
-				keyword_length = 4,
-				max_item_count = 5,
-				-- group_index = 2,
-			},
-			{
-				name = 'path',
-				priority = 250,
-				-- group_index = 1,
-			},
+			{ name = 'nvim_lsp', priority = 1000, entry_filter = lsp_entry_filter() },
+			{ name = 'luasnip', priority = 750, max_item_count = 5, keyword_length = 2 },
+			{ name = 'buffer', priority = 500, keyword_length = 4, max_item_count = 5 },
+			{ name = 'path', priority = 250 },
 		}),
-		-- duplicates = {
-		-- 	buffer = 1,
-		-- 	path = 1,
-		-- 	nvim_lsp = 0,
-		-- 	luasnip = 0,
-		-- },
 		sorting = {
 			priority_weight = 2,
 			comparators = {

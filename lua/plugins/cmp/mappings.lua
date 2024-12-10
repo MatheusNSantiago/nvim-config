@@ -79,6 +79,14 @@ return function()
 	-- 	return false
 	-- end
 
+	local is_copilot_suggestion_visible = function() --
+		return require('plugins.dev.supermaven').is_suggestion_visible()
+	end
+
+	local accept_copilot_sugestion = function() --
+		return require('plugins.dev.supermaven').accept_sugestion()
+	end
+
 	return cmp.mapping.preset.insert({
 		['<C-l>'] = cmp.mapping.select_prev_item({ behavior = types.SelectBehavior.Select }),
 		['<C-p>'] = cmp.mapping.select_prev_item({ behavior = types.SelectBehavior.Select }),
@@ -99,11 +107,9 @@ return function()
 		['<Tab>'] = cmp.mapping(tab, { 'i', 's' }),
 		['<S-Tab>'] = cmp.mapping(shift_tab, { 'i', 's' }),
 		['<CR>'] = cmp.mapping(function(fallback)
-			local copilot_ok, suggestion = pcall(require, 'copilot.suggestion')
-
-			local is_copilot_suggestion_visible = copilot_ok and suggestion.is_visible()
-			if is_copilot_suggestion_visible then --
-				return suggestion.accept()
+			if is_copilot_suggestion_visible() then
+				accept_copilot_sugestion()
+				return
 			end
 
 			if cmp.visible() then

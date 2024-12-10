@@ -164,6 +164,7 @@ local plugins = Array({
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('dev.codecompanion'), -- IA
+	setup('dev.supermaven'), -- Copilot
 	setup('dev.overseer'), -- Task runner
 	setup('dev.timber'), -- Insert log statements and capture log results inline
 
@@ -198,12 +199,11 @@ local plugins = Array({
 	{ 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
 
 	-- Markdown
-	{ 'bullets-vim/bullets.vim' }, -- bullet list automático
+	{ 'bullets-vim/bullets.vim', ft = 'markdown' }, -- bullet list automático
 	setup('dev.render-markdown'),
 
 	-- Rust
 	setup('dev.rust'),
-
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Debug                           │
