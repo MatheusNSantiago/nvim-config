@@ -5,8 +5,24 @@ function M.setup()
 		'olimorris/codecompanion.nvim',
 		config = M.config,
 		keys = {
-			{ '<leader>ao', ':CodeCompanionActions<CR>', mode = { 'n', 'v' }, desc = 'codecompanion: actions' },
-			{ '<leader>v', ':CodeCompanionChat Toggle<CR>', mode = { 'n' }, desc = 'codecompanion: chat' },
+			{
+				'<leader>ao',
+				function()
+					vim.cmd('NvimTreeClose')
+					vim.cmd('CodeCompanionActions')
+				end,
+				mode = { 'n', 'v' },
+				desc = 'codecompanion: actions',
+			},
+			{
+				'<leader>v',
+				function()
+					vim.cmd('NvimTreeClose')
+					vim.cmd('CodeCompanionChat Toggle')
+				end,
+				mode = { 'n' },
+				desc = 'codecompanion: chat',
+			},
 			{ '<leader>k', M.open_quick_prompt, mode = { 'n', 'v' }, desc = 'codecompanion: quick prompt' },
 		},
 	}
@@ -22,6 +38,7 @@ function M.config()
 	})
 
 	require('codecompanion').setup({
+		language = 'Portuguese', -- Default is "English"
 		adapters = {
 			openai = function() -- remove o print da qnt de tokens utilizados
 				return require('codecompanion.adapters').extend('openai', {
