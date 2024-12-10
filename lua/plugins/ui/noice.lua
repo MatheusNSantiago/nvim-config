@@ -4,7 +4,8 @@ local M = {}
 function M.setup()
 	return {
 		'folke/noice.nvim', -- messages, cmdline and popupmenu
-		dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
+		dependencies = { 'MunifTanjim/nui.nvim' },
+		event = 'VeryLazy',
 		config = M.config,
 	}
 end
