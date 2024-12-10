@@ -163,6 +163,10 @@ local plugins = Array({
 	--  │                       Development                        │
 	--  ╰──────────────────────────────────────────────────────────╯
 
+	setup('dev.codecompanion'), -- IA
+	setup('dev.overseer'), -- Task runner
+	setup('dev.timber'), -- Insert log statements and capture log results inline
+
 	-- testes
 	setup('dev.neotest'),
 	setup('dev.kulala'), -- REST-Client
@@ -200,8 +204,6 @@ local plugins = Array({
 	-- Rust
 	setup('dev.rust'),
 
-	setup('dev.codecompanion'), -- IA
-	setup('dev.overseer'), -- Task runner
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Debug                           │
@@ -215,7 +217,8 @@ local plugins = Array({
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                         Other                            │
 	--  ╰──────────────────────────────────────────────────────────╯
-	setup('other.snacks'),
+
+	setup('other.snacks'), -- bundle de coisas uteis
 })
 
 -- if utils.is_wsl() then
