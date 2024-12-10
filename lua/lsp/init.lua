@@ -31,7 +31,7 @@ M.client_capabilities = function()
 		require('cmp_nvim_lsp').default_capabilities(),
 		{
 			textDocument = {
-				foldingRange = { dynamicRegistration = true, lineFoldingOnly = true },
+				foldingRange = { dynamicRegistration = false, lineFoldingOnly = true },
 			},
 		}
 	)
