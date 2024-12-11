@@ -164,7 +164,6 @@ local plugins = Array({
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('dev.codecompanion'), -- IA
-	setup('dev.supermaven'), -- Copilot
 	setup('dev.overseer'), -- Task runner
 	setup('dev.timber'), -- Insert log statements and capture log results inline
 

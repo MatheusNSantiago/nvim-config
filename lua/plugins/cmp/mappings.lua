@@ -80,11 +80,13 @@ return function()
 	-- end
 
 	local is_copilot_suggestion_visible = function() --
-		return require('plugins.dev.supermaven').is_suggestion_visible()
+		local copilot_ok, suggestion = pcall(require, 'copilot.suggestion')
+		return copilot_ok and suggestion.is_visible()
 	end
 
 	local accept_copilot_sugestion = function() --
-		return require('plugins.dev.supermaven').accept_sugestion()
+		local copilot_ok, suggestion = pcall(require, 'copilot.suggestion')
+		if copilot_ok then suggestion.accept() end
 	end
 
 	return cmp.mapping.preset.insert({
