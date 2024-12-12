@@ -85,7 +85,6 @@ local plugins = Array({
 	setup('edit.nvim-neoclip'), -- clipboard manager
 	setup('edit.guess-indent'), -- automatically detect the indentation settings
 	setup('edit.refactoring'),
-	setup('edit.icon-picker'),
 	setup('edit.mini-ai'), -- text objects novos
 	setup('edit.nvim-surround'), -- cs"'
 	setup('edit.treesj'), -- slipt/join em blocks
@@ -164,7 +163,6 @@ local plugins = Array({
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('dev.codecompanion'), -- IA
-	setup('dev.overseer'), -- Task runner
 	setup('dev.timber'), -- Insert log statements and capture log results inline
 
 	-- testes
