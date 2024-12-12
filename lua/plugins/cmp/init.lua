@@ -142,7 +142,7 @@ function M.config()
 	setup_cmp_filetype('python', function(config)
 		table.insert(config.sorting.comparators, 2, require('plugins.cmp.comparators').nerf_dunder_python)
 
-		local _, idx = Array(default_config.sources):find_first(function(e) return e.name == 'nvim_lsp' end)
+		local _, idx = Array(default_config.sources):find(function(e) return e.name == 'nvim_lsp' end)
 
 		config.sources[idx].entry_filter = lsp_entry_filter(function(ctx)
 			-- def function():█

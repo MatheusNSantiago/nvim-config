@@ -2,7 +2,7 @@ local M = {}
 
 function M.is_client_active(name)
 	local clients = Array(vim.lsp.get_clients())
-	return clients:find_first(function(client) return client.name == name end)
+	return clients:find(function(client) return client.name == name end)
 end
 
 function M.get_active_clients_by_ft(filetype)

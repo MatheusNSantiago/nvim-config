@@ -87,7 +87,7 @@ end
 ---@param predicate fun(entry: any): boolean The predicate to satisfy.
 ---@return any|nil: The first element that satisfies the predicate, or nil if no element is found.
 ---@return number|nil
-function Array:find_first(predicate)
+function Array:find(predicate)
 	for i, entry in ipairs(self) do
 		if predicate(entry) then return entry, i end
 	end
@@ -97,7 +97,7 @@ end
 ---@param value any: The value to search for.
 ---@return boolean: Whether the array contains the value.
 function Array:contains(value)
-	return (self:find_first(function(e) return e == value end) ~= nil)
+	return (self:find(function(e) return e == value end) ~= nil)
 end
 
 function Array:is_empty() return self:size() == 0 end
@@ -114,6 +114,18 @@ end
 function Array:last()
 	local size = self:size()
 	return self[size]
+end
+
+function Array:flatten()
+	local result = {}
+	for _, sub_table in pairs(self) do
+		if type(sub_table) == 'table' then
+			for k, v in pairs(sub_table) do
+				result[k] = v
+			end
+		end
+	end
+	return Array(result)
 end
 
 ---@alias Array.constructor fun(...): Array

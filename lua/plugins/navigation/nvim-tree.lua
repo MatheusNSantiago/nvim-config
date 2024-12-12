@@ -5,7 +5,6 @@ M.setup = function()
 		'nvim-tree/nvim-tree.lua',
 		config = M.config,
 		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		-- commit = '2a268f6',
 	}
 end
 
