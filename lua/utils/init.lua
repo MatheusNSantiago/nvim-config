@@ -23,38 +23,6 @@ function M.error(msg, name) vim.notify(msg, vim.log.levels.ERROR, { title = name
 
 function M.warn(msg, name) vim.notify(msg, vim.log.levels.WARN, { title = name }) end
 
--- function M.log(content)
--- 	if Array.is_array(content) then content = content:to_table() end
--- 	local txt = ''
--- 	local function recursive_log(obj, cnt)
--- 		cnt = cnt or 0
--- 		if type(obj) == 'table' then
--- 			txt = txt .. '\n' .. string.rep('\t', cnt) .. '{\n'
--- 			cnt = cnt + 1
---
--- 			for k, v in pairs(obj) do
--- 				if type(k) == 'string' then txt = txt .. string.rep('\t', cnt) .. '["' .. k .. '"]' .. ' = ' end
--- 				if type(k) == 'number' then txt = txt .. string.rep('\t', cnt) .. '[' .. k .. ']' .. ' = ' end
---
--- 				recursive_log(v, cnt)
--- 				txt = txt .. ',\n'
--- 			end
---
--- 			cnt = cnt - 1
--- 			txt = txt .. string.rep('\t', cnt) .. '}'
--- 		elseif type(obj) == 'string' then
--- 			txt = txt .. string.format('%q', obj)
--- 		else
--- 			txt = txt .. tostring(obj)
--- 		end
--- 	end
--- 	recursive_log(content)
---
--- 	vim.notify(txt)
--- end
-
-function M.get_current_dir() return debug.getinfo(1, 'S').source:sub(2):match('(.*/)') end
-
 function M.falsy(item)
 	if not item then return true end
 	local item_type = type(item)
@@ -157,6 +125,7 @@ end
 function M.throttle(func, delay)
 	local lastExecuted = 0
 	return function(...)
+		---@diagnostic disable-next-line: undefined-field
 		local now = vim.uv.now()
 		if (now - lastExecuted) >= delay then
 			func(...)
@@ -167,29 +136,68 @@ end
 
 ---@example:
 ---switch(a, {
----    [1] = function() print("Case 1") end,
+---    ["meu nome"] = "MATHEUS",
 ---	   [2] = function()	print("Case 2") end,
+---	   [{3, 'foo'}] = function()	print("Case 3 or foo") end,
 ---	   default = function()	print("default") end, <- pode ser omitido
 ---})
 ---@param param any
 ---@param case_table table
 function M.switch(param, case_table)
-	local case = case_table[param]
-	if case then return case() end
+	local expanded_table = {}
+	for key, value in pairs(case_table) do
+		if type(key) == 'table' then
+			for _, v in ipairs(key) do
+				expanded_table[v] = value
+			end
+		else
+			expanded_table[key] = value
+		end
+	end
 
-	local default = case_table['default']
-	return default and default() or nil
+	return expanded_table[param]
+end
+
+function M.log(content)
+	if Array.is_array(content) then content = content:to_table() end
+	local txt = ''
+	local function recursive_log(obj, cnt)
+		cnt = cnt or 0
+		if type(obj) == 'table' then
+			txt = txt .. '\n' .. string.rep('\t', cnt) .. '{\n'
+			cnt = cnt + 1
+
+			for k, v in pairs(obj) do
+				if type(k) == 'string' then txt = txt .. string.rep('\t', cnt) .. '["' .. k .. '"]' .. ' = ' end
+				if type(k) == 'number' then txt = txt .. string.rep('\t', cnt) .. '[' .. k .. ']' .. ' = ' end
+
+				recursive_log(v, cnt)
+				txt = txt .. ',\n'
+			end
+
+			cnt = cnt - 1
+			txt = txt .. string.rep('\t', cnt) .. '}'
+		elseif type(obj) == 'string' then
+			txt = txt .. string.format('%q', obj)
+		else
+			txt = txt .. tostring(obj)
+		end
+	end
+	recursive_log(content)
+
+	vim.notify(txt)
 end
 
 M.api = require('utils.api-wrappers')
 M.icons = require('utils.icons')
-M.ft_helpers = require('utils.filetype-helpers')
+M.fs = require('utils.fs')
 
 _G.c = require('utils.colors')
--- _G.log = M.log
+
 _G.Class = require('utils.class')
 _G.Array = require('utils.array')
 _G.create_picker = require('plugins.navigation.telescope.picker')
 _G.utils = M
+_G.U = M
 
 return M

@@ -126,10 +126,4 @@ function M.get_hl_by_name(name)
 	return hl
 end
 
-function M.require(package)
-	local ok, pkg = pcall(require, package)
-	if not ok then return {} end
-	return pkg
-end
-
 return M
