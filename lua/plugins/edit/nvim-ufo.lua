@@ -4,7 +4,6 @@ function M.setup()
 	return {
 		'kevinhwang91/nvim-ufo',
 		config = M.config,
-		event = 'VeryLazy',
 		dependencies = { 'kevinhwang91/promise-async' },
 	}
 end
