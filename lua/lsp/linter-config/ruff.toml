@@ -48,7 +48,8 @@ ignore = [
     "E731",   # rewrite lambda as def
     "ERA001", # Found commented-out code
     "T201",   # print found
-    "B023",   # Function definition does not bind loop variable `erwin_item`
+    "B023",   # Function definition does not bind loop variable
+    "SIM113"  # Use `enumerate()` for index variable `foo` in `for` loop
 #  ╾───────────────────────────────────────────────────────────────────────────────────╼
     "A001",   # Variable `dir` is shadowing a Python builtin
     "A002",   # Function argument `input` is shadowing a Python builtin
