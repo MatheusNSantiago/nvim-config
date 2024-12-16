@@ -138,8 +138,6 @@ local plugins = Array({
 		{ 'davidsierradz/cmp-conventionalcommits' }, -- autocomplete conventional commits
 		{ 'saadparwaiz1/cmp_luasnip' }, -- completion engine
 		{ 'onsails/lspkind.nvim' }, -- Auto completions gui tipo do vscode
-		-- { 'zbirenbaum/copilot.lua', lazy = true }, -- Copilot
-		-- { 'zbirenbaum/copilot-cmp', build = ':Copilot auth', lazy = true }, -- completion do copilot
 	}),
 	{ 'Jezda1337/nvim-html-css', config = function() require('html-css'):setup() end, lazy = true }, -- bootstrap cmp
 
