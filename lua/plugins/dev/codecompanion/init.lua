@@ -22,7 +22,7 @@ function M.config()
 	})
 
 	require('codecompanion').setup({
-		language = 'English', -- Default is "English"
+		language = 'Portuguese', -- Default is "English"
 		adapters = {
 			openai = function() -- remove o print da qnt de tokens utilizados
 				return require('codecompanion.adapters').extend('openai', {
@@ -36,12 +36,13 @@ function M.config()
 			['Testes Unitários'] = M.get_prompt('teste-unitario'),
 			['Explicar Diagnóstico do LSP'] = M.get_prompt('explicar-diagnostico-lsp'),
 			['Explicar Código'] = M.get_prompt('explicar-codigo'),
+			['Documentar'] = M.get_prompt('documentar'),
 		},
 		strategies = {
 			-- CHAT STRATEGY ----------------------------------------------------------
 			chat = {
 				adapter = 'openai',
-				roles = { llm = 'CodeCompanion', user = 'Matheus' },
+				roles = { llm = 'CodeCompanion', user = 'Eu' },
 				variables = {
 					['buffer'] = {
 						callback = 'strategies.chat.variables.buffer',
@@ -191,8 +192,7 @@ Points to note:
 						relativenumber = false,
 					},
 				},
-				intro_message = 'Welcome to CodeCompanion ✨! Press ? for options',
-
+				intro_message = '',
 				show_header_separator = true, -- Show header separators in the chat buffer? Set this to false if you're using an exteral markdown formatting plugin
 				separator = '─', -- The separator between the different messages in the chat buffer
 				render_headers = false,
@@ -203,7 +203,7 @@ Points to note:
 				start_in_insert_mode = false, -- Open the chat buffer in insert mode?
 			},
 			diff = {
-				enabled = false,
+				enabled = true,
 				close_chat_at = 240, -- Close an open chat buffer if the total columns of your display are less than...
 				layout = 'vertical', -- vertical|horizontal split for default provider
 				opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
@@ -217,7 +217,7 @@ Points to note:
 		-- GENERAL OPTIONS ----------------------------------------------------------
 		opts = {
 			log_level = 'ERROR', -- TRACE|DEBUG|ERROR|INFO
-			language = 'English', -- The language used for LLM responses
+			language = 'Portuguese', -- The language used for LLM responses
 
 			-- If this is false then any default prompt that is marked as containing code
 			-- will not be sent to the LLM. Please note that whilst I have made every
@@ -271,211 +271,188 @@ When given a task:
 	})
 end
 
-M.prompt_library = {
-	['Custom Prompt'] = {
-		strategy = 'inline',
-		description = 'Prompt the LLM from Neovim',
-		opts = {
-			index = 3,
-			is_default = true,
-			is_slash_cmd = false,
-			user_prompt = true,
-			short_name = 'prompt',
-		},
-		prompts = {
-			{
-				role = 'system',
-				content = function(context)
-					return string.format(
-						[[I want you to act as a senior %s developer. I will ask you specific questions and I want you to return raw code only (no codeblocks and no explanations). If you can't respond with code, respond with nothing]],
-						context.filetype
-					)
-				end,
-				opts = { visible = false, tag = 'system_tag' },
-			},
-		},
-	},
-	['Code workflow'] = {
-		strategy = 'workflow',
-		description = 'Use a workflow to guide an LLM in writing code',
-		opts = { index = 4, is_default = true, short_name = 'workflow' },
-		prompts = {
-			{
-				-- We can group prompts together to make a workflow
-				-- This is the first prompt in the workflow
-				{
-					role = 'system',
-					content = function(context)
-						return string.format(
-							"You carefully provide accurate, factual, thoughtful, nuanced answers, and are brilliant at reasoning. If you think there might not be a correct answer, you say so. Always spend a few sentences explaining background context, assumptions, and step-by-step thinking BEFORE you try to answer a question. Don't be verbose in your answers, but do provide details and examples where it might help the explanation. You are an expert software engineer for the %s language",
-							context.filetype
-						)
-					end,
-					opts = { visible = false },
-				},
-				{
-					role = 'user',
-					content = 'I want you to ',
-					opts = { auto_submit = false },
-				},
-			},
-			-- This is the second group of prompts
-			{
-				{
-					role = 'user',
-					content = "Great. Now let's consider your code. I'd like you to check it carefully for correctness, style, and efficiency, and give constructive criticism for how to improve it.",
-					opts = { auto_submit = false },
-				},
-			},
-			-- This is the final group of prompts
-			{
-				{
-					role = 'user',
-					content = "Thanks. Now let's revise the code based on the feedback, without additional explanations.",
-					opts = { auto_submit = false },
-				},
-			},
-		},
-	},
-	['Fix code'] = {
-		strategy = 'chat',
-		description = 'Fix the selected code',
-		opts = {
-			index = 7,
-			is_default = false,
-			is_slash_cmd = false,
-			modes = { 'v' },
-			auto_submit = true,
-			user_prompt = false,
-			stop_context_insertion = true,
-		},
-		prompts = {
-			{
-				role = 'system',
-				content = [[When asked to fix code, follow these steps:
-
-1. **Identify the Issues**: Carefully read the provided code and identify any potential issues or improvements.
-2. **Plan the Fix**: Describe the plan for fixing the code in pseudocode, detailing each step.
-3. **Implement the Fix**: Write the corrected code in a single code block.
-4. **Explain the Fix**: Briefly explain what changes were made and why.
-
-Ensure the fixed code:
-
-- Includes necessary imports.
-- Handles potential errors.
-- Follows best practices for readability and maintainability.
-- Is formatted correctly.
-
-Use Markdown formatting and include the programming language name at the start of the code block.]],
-				opts = { visible = false },
-			},
-			{
-				role = 'user',
-				content = function(context)
-					local code = require('codecompanion.helpers.actions').get_code(context.start_line, context.end_line)
-
-					return string.format(
-						[[Please fix this code from buffer %d:
-
-```%s
-%s
-```
-]],
-						context.bufnr,
-						context.filetype,
-						code
-					)
-				end,
-				opts = { contains_code = true },
-			},
-		},
-	},
-	['Buffer selection'] = {
-		strategy = 'inline',
-		description = 'Send the current buffer to the LLM as part of an inline prompt',
-		opts = {
-			index = 8,
-			modes = { 'v' },
-			-- is_default = true,
-			is_default = false,
-			is_slash_cmd = false,
-			short_name = 'buffer',
-			auto_submit = true,
-			user_prompt = true,
-			stop_context_insertion = true,
-		},
-		prompts = {
-			{
-				role = 'system',
-				content = function(context)
-					return 'I want you to act as a senior '
-						.. context.filetype
-						.. " developer. I will ask you specific questions and I want you to return raw code only (no codeblocks and no explanations). If you can't respond with code, respond with nothing."
-				end,
-				opts = {
-					visible = false,
-					tag = 'system_tag',
-				},
-			},
-			{
-				role = 'user',
-				content = function(context)
-					local buf_utils = require('codecompanion.utils.buffers')
-
-					return '```' .. context.filetype .. '\n' .. buf_utils.get_content(context.bufnr) .. '\n```\n\n'
-				end,
-				opts = { contains_code = true, visible = false },
-			},
-			{
-				role = 'user',
-				condition = function(context) return context.is_visual end,
-				content = function(context)
-					local selection = require('codecompanion.helpers.actions').get_code(context.start_line, context.end_line)
-
-					return string.format(
-						[[And this is some code that relates to my question:
-
-```%s
-%s
-```
-]],
-						context.filetype,
-						selection
-					)
-				end,
-				opts = { contains_code = true, visible = true, tag = 'visual' },
-			},
-		},
-	},
-	['Generate a Commit Message'] = {
-		strategy = 'chat',
-		description = 'Generate a commit message',
-		opts = {
-			index = 10,
-			is_default = false,
-			is_slash_cmd = true,
-			short_name = 'commit',
-			auto_submit = true,
-		},
-		prompts = {
-			{
-				role = 'user',
-				content = function()
-					return string.format(
-						[[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me:
-
-```diff
-%s
-```
-]],
-						vim.fn.system('git diff --no-ext-diff --staged')
-					)
-				end,
-				opts = { contains_code = true },
-			},
-		},
-	},
-}
+-- M.prompt_library = {
+-- 	['Code workflow'] = {
+-- 		strategy = 'workflow',
+-- 		description = 'Use a workflow to guide an LLM in writing code',
+-- 		opts = { index = 2, is_default = true, short_name = 'workflow' },
+-- 		prompts = {
+-- 			{
+-- 				-- We can group prompts together to make a workflow
+-- 				-- This is the first prompt in the workflow
+-- 				{
+-- 					role = 'system',
+-- 					content = function(context)
+-- 						return string.format(
+-- 							"You carefully provide accurate, factual, thoughtful, nuanced answers, and are brilliant at reasoning. If you think there might not be a correct answer, you say so. Always spend a few sentences explaining background context, assumptions, and step-by-step thinking BEFORE you try to answer a question. Don't be verbose in your answers, but do provide details and examples where it might help the explanation. You are an expert software engineer for the %s language",
+-- 							context.filetype
+-- 						)
+-- 					end,
+-- 					opts = { visible = false },
+-- 				},
+-- 				{
+-- 					role = 'user',
+-- 					content = 'I want you to ',
+-- 					opts = { auto_submit = false },
+-- 				},
+-- 			},
+-- 			-- This is the second group of prompts
+-- 			{
+-- 				{
+-- 					role = 'user',
+-- 					content = "Great. Now let's consider your code. I'd like you to check it carefully for correctness, style, and efficiency, and give constructive criticism for how to improve it.",
+-- 					opts = { auto_submit = false },
+-- 				},
+-- 			},
+-- 			-- This is the final group of prompts
+-- 			{
+-- 				{
+-- 					role = 'user',
+-- 					content = "Thanks. Now let's revise the code based on the feedback, without additional explanations.",
+-- 					opts = { auto_submit = false },
+-- 				},
+-- 			},
+-- 		},
+-- 	},
+-- 	['Fix code'] = {
+-- 		strategy = 'chat',
+-- 		description = 'Fix the selected code',
+-- 		opts = {
+-- 			index = 3,
+-- 			is_default = false,
+-- 			is_slash_cmd = false,
+-- 			modes = { 'v' },
+-- 			auto_submit = true,
+-- 			user_prompt = false,
+-- 			stop_context_insertion = true,
+-- 		},
+-- 		prompts = {
+-- 			{
+-- 				role = 'system',
+-- 				content = [[When asked to fix code, follow these steps:
+--
+-- 1. **Identify the Issues**: Carefully read the provided code and identify any potential issues or improvements.
+-- 2. **Plan the Fix**: Describe the plan for fixing the code in pseudocode, detailing each step.
+-- 3. **Implement the Fix**: Write the corrected code in a single code block.
+-- 4. **Explain the Fix**: Briefly explain what changes were made and why.
+--
+-- Ensure the fixed code:
+--
+-- - Includes necessary imports.
+-- - Handles potential errors.
+-- - Follows best practices for readability and maintainability.
+-- - Is formatted correctly.
+--
+-- Use Markdown formatting and include the programming language name at the start of the code block.]],
+-- 				opts = { visible = false },
+-- 			},
+-- 			{
+-- 				role = 'user',
+-- 				content = function(context)
+-- 					local code = require('codecompanion.helpers.actions').get_code(context.start_line, context.end_line)
+--
+-- 					return string.format(
+-- 						[[Please fix this code from buffer %d:
+--
+-- ```%s
+-- %s
+-- ```
+-- ]],
+-- 						context.bufnr,
+-- 						context.filetype,
+-- 						code
+-- 					)
+-- 				end,
+-- 				opts = { contains_code = true },
+-- 			},
+-- 		},
+-- 	},
+-- 	['Buffer selection'] = {
+-- 		strategy = 'inline',
+-- 		description = 'Send the current buffer to the LLM as part of an inline prompt',
+-- 		opts = {
+-- 			index = 4,
+-- 			modes = { 'v' },
+-- 			-- is_default = true,
+-- 			is_default = false,
+-- 			is_slash_cmd = false,
+-- 			short_name = 'buffer',
+-- 			auto_submit = true,
+-- 			user_prompt = true,
+-- 			stop_context_insertion = true,
+-- 		},
+-- 		prompts = {
+-- 			{
+-- 				role = 'system',
+-- 				content = function(context)
+-- 					return 'I want you to act as a senior '
+-- 						.. context.filetype
+-- 						.. " developer. I will ask you specific questions and I want you to return raw code only (no codeblocks and no explanations). If you can't respond with code, respond with nothing."
+-- 				end,
+-- 				opts = {
+-- 					visible = false,
+-- 					tag = 'system_tag',
+-- 				},
+-- 			},
+-- 			{
+-- 				role = 'user',
+-- 				content = function(context)
+-- 					local buf_utils = require('codecompanion.utils.buffers')
+--
+-- 					return '```' .. context.filetype .. '\n' .. buf_utils.get_content(context.bufnr) .. '\n```\n\n'
+-- 				end,
+-- 				opts = { contains_code = true, visible = false },
+-- 			},
+-- 			{
+-- 				role = 'user',
+-- 				condition = function(context) return context.is_visual end,
+-- 				content = function(context)
+-- 					local selection = require('codecompanion.helpers.actions').get_code(context.start_line, context.end_line)
+--
+-- 					return string.format(
+-- 						[[And this is some code that relates to my question:
+--
+-- ```%s
+-- %s
+-- ```
+-- ]],
+-- 						context.filetype,
+-- 						selection
+-- 					)
+-- 				end,
+-- 				opts = { contains_code = true, visible = true, tag = 'visual' },
+-- 			},
+-- 		},
+-- 	},
+-- 	['Generate a Commit Message'] = {
+-- 		strategy = 'chat',
+-- 		description = 'Generate a commit message',
+-- 		opts = {
+-- 			index = 5,
+-- 			is_default = false,
+-- 			is_slash_cmd = true,
+-- 			short_name = 'commit',
+-- 			auto_submit = true,
+-- 		},
+-- 		prompts = {
+-- 			{
+-- 				role = 'user',
+-- 				content = function()
+-- 					return string.format(
+-- 						[[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me:
+--
+-- ```diff
+-- %s
+-- ```
+-- ]],
+-- 						vim.fn.system('git diff --no-ext-diff --staged')
+-- 					)
+-- 				end,
+-- 				opts = { contains_code = true },
+-- 			},
+-- 		},
+-- 	},
+-- }
 
 local null_keymap = { modes = { n = 'g&' }, hide = true }
 M.chat_keymaps = {
@@ -500,14 +477,11 @@ M.chat_keymaps = {
 	close = {
 		modes = { n = 'q', i = '<C-c>' },
 		index = 3,
-		-- callback = 'keymaps.close',
-		callback = function ()
-			print("oi")
-		end,
+		callback = 'keymaps.close',
 		description = 'Close Chat',
 	},
 	stop = {
-		modes = { n = 'q' },
+		modes = { n = '<C-c>' },
 		index = 4,
 		callback = 'keymaps.stop',
 		description = 'Stop Request',
@@ -648,8 +622,7 @@ M.toggle_chat = function()
 end
 
 M.open_quick_prompt = function()
-	vim.cmd('CodeCompanion /prompt')
-	vim.schedule(function() vim.cmd('startinsert') end)
+	vim.cmd('CodeCompanion /documentar')
 end
 
 M.get_prompt = function(title) --
