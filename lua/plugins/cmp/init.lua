@@ -39,7 +39,7 @@ function M.config()
 		},
 		mapping = get_mappings(),
 		sources = cmp.config.sources({
-			{ name = 'nvim_lsp', priority = 1000, entry_filter = lsp_entry_filter() },
+			{ name = 'nvim_lsp', priority = 1000, entry_filter = lsp_entry_filter },
 			{ name = 'luasnip', priority = 750, max_item_count = 5, keyword_length = 2 },
 			{ name = 'buffer', priority = 500, keyword_length = 4, max_item_count = 5 },
 			{ name = 'path', priority = 250 },
@@ -47,7 +47,7 @@ function M.config()
 		sorting = {
 			priority_weight = 2,
 			comparators = {
-				-- require('copilot_cmp.comparators').prioritize or nil,
+				require('copilot_cmp.comparators').prioritize or nil,
 				cmp.config.compare.offset,
 				cmp.config.compare.exact,
 				cmp.config.compare.score,
@@ -144,17 +144,20 @@ function M.config()
 
 		local _, idx = Array(default_config.sources):find(function(e) return e.name == 'nvim_lsp' end)
 
-		config.sources[idx].entry_filter = lsp_entry_filter(function(ctx)
-			-- def function():█
-			if ctx.cur_line:match(':█$') then return false end
+		config.sources[idx].entry_filter = function(entry, ctx)
+			return lsp_entry_filter(entry, ctx, function(info)
+				-- def function():█
+				if info.cur_line:match(':█$') then return false end
 
-			-- from X import █
-			if ctx.cur_line:match('import%s█') then return (ctx.kind ~= 'Snippet') end
+				-- from X import █
+				if info.cur_line:match('import%s█') then return (ctx.kind ~= 'Snippet') end
 
-			return true
-		end)
+				return true
+			end)
+		end
 	end)
 
+	require('plugins.cmp.copilot').setup()
 	require('plugins.cmp.cmdline').setup()
 end
 

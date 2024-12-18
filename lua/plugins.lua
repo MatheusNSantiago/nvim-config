@@ -138,6 +138,8 @@ local plugins = Array({
 		{ 'davidsierradz/cmp-conventionalcommits' }, -- autocomplete conventional commits
 		{ 'saadparwaiz1/cmp_luasnip' }, -- completion engine
 		{ 'onsails/lspkind.nvim' }, -- Auto completions gui tipo do vscode
+		{ 'zbirenbaum/copilot.lua', lazy = true }, -- Copilot
+		{ 'zbirenbaum/copilot-cmp', build = ':Copilot auth', lazy = true }, -- completion do copilot
 	}),
 	{ 'Jezda1337/nvim-html-css', config = function() require('html-css'):setup() end, lazy = true }, -- bootstrap cmp
 
@@ -216,15 +218,15 @@ local plugins = Array({
 	setup('other.snacks'), -- bundle de coisas uteis
 })
 
--- if utils.is_wsl() then
--- 	plugins:extend({
--- 		{ dir = '~/dev/cobol/-bundle/', ft = { 'cobol', 'copybook' }, config = true },
--- 	})
--- else
--- 	plugins:extend({
--- 		{ dir = '~/dev/cobol/plugins/cobol-bundle/', config = true },
--- 		{ dir = '~/dev/cobol/plugins/cobol-foo/', ft = { 'foo' } },
--- 	})
--- end
+if utils.is_wsl() then
+	plugins:extend({
+		{ dir = '~/dev/cobol/cobol-bundle/', ft = { 'cobol', 'copybook' }, config = true },
+	})
+else
+	plugins:extend({
+		{ dir = '~/dev/cobol/cobol-bundle/', config = true },
+		{ dir = '~/dev/foo/foo-lsp/', ft = { 'foo' } },
+	})
+end
 
 require('lazy').setup(plugins)
