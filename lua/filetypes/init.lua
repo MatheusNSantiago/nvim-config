@@ -1,10 +1,13 @@
 local H = require('filetypes.ft_helpers')
 
+local fo = require('cobol-bundle').cobol_config
+
 U.api.augroup('filetype_configs', {
 	event = 'Filetype',
 	pattern = '*',
 	command = function(args)
-		local get_settings = U.switch(vim.bo.ft, {
+		local ft = vim.bo.ft
+		local get_settings = U.switch(ft, {
 			['python'] = H.lazy_require('filetypes.python'),
 			[{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = H.lazy_require('filetypes.js'),
 			['c'] = H.lazy_require('filetypes.c'),
@@ -12,8 +15,8 @@ U.api.augroup('filetype_configs', {
 			-- ['markdown'] = safe_require('filetypes.markdown'),
 			['rust'] = H.lazy_require('filetypes.rust'),
 			--  ╾───────────────────────────────────────────────────────────────────────────────────╼
-			-- ['cobol'] = H.lazy_require('cobol-bundle').cobol_config,
-			-- ['copybook'] = H.lazy_require('cobol-bundle').copybook_config,
+			['cobol'] = H.lazy_require('cobol-bundle', 'cobol_config'),
+			['copybook'] = H.lazy_require('cobol-bundle', 'copybook_config'),
 			['foo'] = H.lazy_require('cobol-foo'),
 		})
 
@@ -52,6 +55,14 @@ U.api.augroup('filetype_configs', {
 
 						U.api.keymap(m[1], m[2], m[3], opts)
 					end)
+				end,
+				autocommands = function()
+					local commands = vim.tbl_map(function(cmd)
+						cmd['once'] = true
+						return cmd
+					end, value)
+
+					U.api.augroup(ft .. '_filetype_aucommands', unpack(commands))
 				end,
 			})
 			if apply then apply() end
