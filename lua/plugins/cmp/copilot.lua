@@ -1,14 +1,6 @@
 local M = {}
 
 function M.setup()
-	require('copilot_cmp').setup({
-		formatters = {
-			label = require('copilot_cmp.format').format_label_text,
-			insert_text = require('copilot_cmp.format').remove_existing,
-			preview = require('copilot_cmp.format').deindent,
-		},
-	})
-
 	require('copilot').setup({
 		panel = {
 			enabled = false,
@@ -41,7 +33,7 @@ function M.setup()
 		},
 		filetypes = {
 			help = false,
-			['*'] = true,              -- disable for all other filetypes and ignore default `filetypes`
+			['*'] = true, -- disable for all other filetypes and ignore default `filetypes`
 		},
 		copilot_node_command = 'node', -- Node.js version must be > 16.x
 	})
