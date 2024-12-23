@@ -41,9 +41,9 @@ function M.config()
 		mapping = get_mappings(),
 		sources = cmp.config.sources({
 			{ name = 'nvim_lsp', priority = 1000, entry_filter = lsp_entry_filter },
-			{ name = 'luasnip', priority = 750, max_item_count = 5, keyword_length = 2 },
-			{ name = 'buffer', priority = 500, keyword_length = 4, max_item_count = 5 },
-			{ name = 'path', priority = 250 },
+			{ name = 'luasnip',  priority = 750,  max_item_count = 5,             keyword_length = 2 },
+			{ name = 'buffer',   priority = 500,  keyword_length = 4,             max_item_count = 5 },
+			{ name = 'path',     priority = 250 },
 		}),
 		sorting = {
 			priority_weight = 2,
@@ -132,7 +132,7 @@ function M.config()
 				---@diagnostic disable-next-line: undefined-field
 				vim_item.menu = entry.completion_item.menu -- onde está vindo (bootstrap, angular, etc)
 				vim_item.kind = lspkind_icons.Constant -- Deixa o icone igual a do tailwind
-				vim_item.kind_hl_group = 'Constant' -- Deixa a cor igual a do tailwind
+				vim_item.kind_hl_group = 'Constant'    -- Deixa a cor igual a do tailwind
 			end
 
 			return vim_item
@@ -157,7 +157,9 @@ function M.config()
 		end
 	end)
 
-	require('plugins.cmp.copilot').setup()
+	if not U.fs.is_wsl() then
+		require('plugins.cmp.copilot').setup()
+	end
 	require('plugins.cmp.cmdline').setup()
 end
 

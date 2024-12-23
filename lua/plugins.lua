@@ -103,20 +103,20 @@ local plugins = Array({
 	setup('lsp.better-diagnostic-virtual-text'),
 
 	setup('lsp.mason'),
-	{ 'neovim/nvim-lspconfig' },            -- LSP
-	{ 'williamboman/mason-lspconfig.nvim' }, -- integrar mason com lspconfig
+	{ 'neovim/nvim-lspconfig' },               -- LSP
+	{ 'williamboman/mason-lspconfig.nvim' },   -- integrar mason com lspconfig
 
-	setup('lsp.lsp_signature'),             -- mostra a function signature enquanto digita
-	setup('lsp.lspsaga'),                   -- LSP UIs
-	setup('lsp.glance'),                    -- peek definitions
-	setup('lsp.goto-preview'),              -- gp
+	setup('lsp.lsp_signature'),                -- mostra a function signature enquanto digita
+	setup('lsp.lspsaga'),                      -- LSP UIs
+	setup('lsp.glance'),                       -- peek definitions
+	setup('lsp.goto-preview'),                 -- gp
 
-	setup('lsp.illuminate'),                -- higlight a palavra em cima do cursor
-	setup('lsp.lsp-colors'),                -- agrupa os erros do LSP por cor
-	setup('lsp.symbol-usage'),              -- mostra quantas referências e definições a função tem
-	setup('lsp.lazydev'),                   -- Faster LuaLS setup for Neovim
+	setup('lsp.illuminate'),                   -- higlight a palavra em cima do cursor
+	setup('lsp.lsp-colors'),                   -- agrupa os erros do LSP por cor
+	setup('lsp.symbol-usage'),                 -- mostra quantas referências e definições a função tem
+	setup('lsp.lazydev'),                      -- Faster LuaLS setup for Neovim
 
-	{ 'b0o/schemastore.nvim',         lazy = true }, -- schemas para json
+	{ 'b0o/schemastore.nvim',    lazy = true }, -- schemas para json
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                       Completions                        │
@@ -124,15 +124,15 @@ local plugins = Array({
 
 	setup('cmp', {
 		{ 'rafamadriz/friendly-snippets' },
-		{ 'hrsh7th/cmp-nvim-lsp' }, -- nvim-cmp source for neovim's built-in LSP
-		{ 'hrsh7th/cmp-path' }, -- nvim-cmp source for filesystem paths.
-		{ 'hrsh7th/cmp-cmdline', event = 'CmdlineEnter' }, -- nvim-cmp source for vim's cmdline.
-		{ 'hrsh7th/cmp-buffer' }, -- nvim-cmp source for buffer words
-		{ 'hrsh7th/cmp-nvim-lua' }, -- nvim-cmp source for Neovim Lua API.
-		{ 'davidsierradz/cmp-conventionalcommits' }, -- autocomplete conventional commits
-		{ 'saadparwaiz1/cmp_luasnip' }, -- completion engine
-		{ 'onsails/lspkind.nvim' }, -- Auto completions gui tipo do vscode
-		{ 'zbirenbaum/copilot.lua', lazy = true }, -- Copilot
+		{ 'hrsh7th/cmp-nvim-lsp' },                                       -- nvim-cmp source for neovim's built-in LSP
+		{ 'hrsh7th/cmp-path' },                                           -- nvim-cmp source for filesystem paths.
+		{ 'hrsh7th/cmp-cmdline',                  event = 'CmdlineEnter' }, -- nvim-cmp source for vim's cmdline.
+		{ 'hrsh7th/cmp-buffer' },                                         -- nvim-cmp source for buffer words
+		{ 'hrsh7th/cmp-nvim-lua' },                                       -- nvim-cmp source for Neovim Lua API.
+		{ 'davidsierradz/cmp-conventionalcommits' },                      -- autocomplete conventional commits
+		{ 'saadparwaiz1/cmp_luasnip' },                                   -- completion engine
+		{ 'onsails/lspkind.nvim' },                                       -- Auto completions gui tipo do vscode
+		{ 'zbirenbaum/copilot.lua',               lazy = true },          -- Copilot
 	}),
 	setup('cmp.luasnip'),
 
@@ -143,15 +143,15 @@ local plugins = Array({
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('treesitter'),
-	{ 'windwp/nvim-ts-autotag',                      config = true }, -- tag completion
-	{ 'nvim-treesitter/nvim-treesitter-textobjects' },             -- Additional text objects via treesitter. Se der ruim, commit = '8673926'
+	{ 'windwp/nvim-ts-autotag',                      config = true },           -- tag completion
+	{ 'nvim-treesitter/nvim-treesitter-textobjects' },                          -- Additional text objects via treesitter. Se der ruim, commit = '8673926'
 	{ 'RRethy/nvim-treesitter-textsubjects',         lazy = true },
-	{ 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- conserta comments para jsx,
+	{ 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true },             -- conserta comments para jsx,
 	{ 'fladson/vim-kitty',                           ft = { 'kitty', 'conf' } }, -- syntax highlighting for kitty
-	{ 'delphinus/vim-firestore' },                                 -- syntax highlighting firestore rules
-	{ 'davidmh/mdx.nvim',                            config = true }, -- syntax highlighting mdx
+	{ 'delphinus/vim-firestore' },                                              -- syntax highlighting firestore rules
+	{ 'davidmh/mdx.nvim',                            config = true },           -- syntax highlighting mdx
 
-	{ 'RRethy/nvim-treesitter-endwise' },                          -- Coloca o end no final de func e if
+	{ 'RRethy/nvim-treesitter-endwise' },                                       -- Coloca o end no final de func e if
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                       Development                        │
@@ -170,8 +170,8 @@ local plugins = Array({
 	{ 'tpope/vim-fugitive' },
 
 	-- Flutter
-	setup('dev.flutter-tools'),                                   -- lsp/snippets/
-	{ 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },        -- snippets
+	setup('dev.flutter-tools'),                                          -- lsp/snippets/
+	{ 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' },               -- snippets
 	{ 'akinsho/pubspec-assist.nvim',        ft = 'yaml', config = true }, -- add/update dart dependencies
 
 	-- Javascript/Typescript
@@ -215,7 +215,12 @@ local plugins = Array({
 
 if utils.is_wsl() then
 	plugins:extend({
-		{ dir = '~/dev/cobol/cobol-bundle/', ft = { 'cobol', 'copybook' }, config = true },
+		{
+			dir = '~/dev/cobol/cobol-bundle/',
+			ft = { 'cobol', 'copybook' },
+			lazy = false,
+			config = true,
+		},
 	})
 else
 	plugins:extend({
