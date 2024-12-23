@@ -30,7 +30,7 @@ function M.config()
 		},
 	})
 
-	local custom_lsps = { 'dart_ls', 'rust-analyzer' }
+	local custom_lsps = { 'dart_ls', 'rust-analyzer', 'cobol_ls' }
 	local lsp_list = vim.tbl_filter(function(server)
 		local is_custom_lsp = vim.tbl_contains(custom_lsps, server)
 		return not is_custom_lsp
@@ -51,6 +51,7 @@ function M.config()
 			setup_lsp(server_name) --
 		end,
 	})
+	setup_lsp("cobol_ls")
 
 	require('lspconfig.ui.windows').default_options.border = 'single'
 end

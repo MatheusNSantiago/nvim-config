@@ -1,6 +1,6 @@
 local H = require('filetypes.ft_helpers')
 
-local fo = require('cobol-bundle').cobol_config
+-- local fo = require('cobol-bundle').cobol_config
 
 U.api.augroup('filetype_configs', {
 	event = 'Filetype',
@@ -57,10 +57,11 @@ U.api.augroup('filetype_configs', {
 					end)
 				end,
 				autocommands = function()
-					local commands = vim.tbl_map(function(cmd)
-						cmd['once'] = true
-						return cmd
-					end, value)
+					-- local commands = vim.tbl_map(function(cmd)
+					-- 	cmd['once'] = true
+					-- 	return cmd
+					-- end, value)
+					local commands = value
 
 					U.api.augroup(ft .. '_filetype_aucommands', unpack(commands))
 				end,
