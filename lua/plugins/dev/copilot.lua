@@ -1,22 +1,16 @@
 local M = {}
 
 function M.setup()
+	return { ---@type LazyPluginSpec
+		'zbirenbaum/copilot.lua',
+		config = M.config,
+		keys = { '<M-[>', mode = { 'n', 'i' }, desc = 'copilot: sugerir autocomplete' },
+	}
+end
+
+function M.config()
 	require('copilot').setup({
-		panel = {
-			enabled = false,
-			auto_refresh = false,
-			keymap = {
-				jump_prev = '<M-[>',
-				jump_next = '<M-]>',
-				accept = '<CR>',
-				refresh = 'gr',
-				open = '<M-CR>',
-			},
-			layout = {
-				position = 'bottom', -- | top | left | right
-				ratio = 0.4,
-			},
-		},
+		panel = { enabled = false },
 		suggestion = {
 			enabled = true,
 			auto_trigger = false,
