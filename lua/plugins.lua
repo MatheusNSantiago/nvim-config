@@ -119,17 +119,11 @@ local plugins = Array({
 	{ 'b0o/schemastore.nvim', lazy = true }, -- schemas para json
 
 	--  ╭──────────────────────────────────────────────────────────╮
-	--  │                         Snippets                         │
-	--  ╰──────────────────────────────────────────────────────────╯
-
-	setup('cmp.luasnip'),
-	{ 'rafamadriz/friendly-snippets', lazy = true },
-
-	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                       Completions                        │
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('cmp', {
+		{ 'rafamadriz/friendly-snippets' },
 		{ 'hrsh7th/cmp-nvim-lsp' }, -- nvim-cmp source for neovim's built-in LSP
 		{ 'hrsh7th/cmp-path' }, -- nvim-cmp source for filesystem paths.
 		{ 'hrsh7th/cmp-cmdline', event = 'CmdlineEnter' }, -- nvim-cmp source for vim's cmdline.
@@ -139,8 +133,9 @@ local plugins = Array({
 		{ 'saadparwaiz1/cmp_luasnip' }, -- completion engine
 		{ 'onsails/lspkind.nvim' }, -- Auto completions gui tipo do vscode
 		{ 'zbirenbaum/copilot.lua', lazy = true }, -- Copilot
-		{ 'zbirenbaum/copilot-cmp', build = ':Copilot auth', lazy = true }, -- completion do copilot
 	}),
+	setup('cmp.luasnip'),
+
 	{ 'Jezda1337/nvim-html-css', config = function() require('html-css'):setup() end, lazy = true }, -- bootstrap cmp
 
 	--  ╭──────────────────────────────────────────────────────────╮

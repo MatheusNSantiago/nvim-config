@@ -4,6 +4,7 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'rachartier/tiny-inline-diagnostic.nvim',
 		config = M.config,
+		enabled = false,
 		event = 'VeryLazy', -- Or `LspAttach`
 		priority = 1000, -- needs to be loaded in first
 	}

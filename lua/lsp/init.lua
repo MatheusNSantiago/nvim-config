@@ -31,7 +31,7 @@ M.client_capabilities = function()
 		require('cmp_nvim_lsp').default_capabilities(),
 		{
 			textDocument = {
-				foldingRange = { dynamicRegistration = false, lineFoldingOnly = true },
+				foldingRange = { dynamicRegistration = true, lineFoldingOnly = true },
 			},
 		}
 	)
@@ -118,12 +118,12 @@ function M.setup()
 
 	-- Diagnosticos
 	vim.diagnostic.config({
-		virtual_text = false,
-		-- virtual_text = {
-		-- 	spacing = 4,
-		-- 	prefix = '●',
-		-- 	source = false,
-		-- },
+		-- virtual_text = false,
+		virtual_text = {
+			spacing = 4,
+			prefix = '●',
+			source = false,
+		},
 		signs = { active = signs },
 		underline = true,
 		update_in_insert = false,
