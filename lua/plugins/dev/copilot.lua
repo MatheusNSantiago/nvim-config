@@ -4,7 +4,7 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'zbirenbaum/copilot.lua',
 		config = M.config,
-		keys = { '<M-[>', mode = { 'n', 'i' }, desc = 'copilot: sugerir autocomplete' },
+		event = 'LspAttach',
 	}
 end
 
