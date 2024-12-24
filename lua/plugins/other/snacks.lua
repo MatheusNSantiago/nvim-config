@@ -35,7 +35,7 @@ function M.config()
 		bigfile = {
 			enabled = true,
 			notify = true, -- show notification when big file detected
-			size = 300 * 1024, -- 300KB
+			size = 800 * 1024, -- 800KB
 			setup = function()
 				vim.b.minianimate_disable = true
 				vim.cmd('IlluminatePause')
