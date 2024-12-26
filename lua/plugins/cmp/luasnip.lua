@@ -7,9 +7,7 @@ function M.setup()
 		event = 'InsertEnter',
 		-- install jsregexp (optional!).
 		build = 'make install_jsregexp',
-		dependencies = {
-			'friendly-snippets', -- Set of preconfigured snippets for different languages.
-		},
+		lazy = true,
 	}
 end
 

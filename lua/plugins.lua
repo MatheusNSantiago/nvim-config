@@ -133,7 +133,7 @@ local plugins = Array({
 		-- { 'saadparwaiz1/cmp_luasnip' }, -- completion engine
 		-- { 'onsails/lspkind.nvim' }, -- Auto completions gui tipo do vscode
 	}),
-	-- setup('cmp.luasnip'),
+	setup('cmp.luasnip'),
 	-- { 'Jezda1337/nvim-html-css', config = function() require('html-css'):setup() end, lazy = true }, -- bootstrap cmp
 
 	--  ╭──────────────────────────────────────────────────────────╮

@@ -80,7 +80,7 @@ return { ---@type table<string, blink.cmp.KeymapCommand[]>
 	['<CR>'] = {
 		function(cmp)
 			if is_copilot_suggestion_visible() then return accept_copilot_sugestion() end
-			if cmp.is_visible() then return cmp.select_and_accept() end
+			-- if cmp.is_visible() then return cmp.select_and_accept() end
 		end,
 		'accept',
 		'fallback',
