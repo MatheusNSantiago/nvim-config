@@ -5,6 +5,7 @@ function M.setup()
 	return {
 		'ray-x/lsp_signature.nvim',
 		config = M.config,
+		event = 'VeryLazy',
 	}
 end
 

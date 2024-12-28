@@ -4,7 +4,7 @@ function M.setup()
 	return {
 		'AckslD/nvim-neoclip.lua',
 		config = M.config,
-		lazy = false,
+		event = 'BufReadPost',
 	}
 end
 
@@ -43,7 +43,7 @@ function M.config()
 			telescope = {
 				i = {
 					select = '<cr>',
-					paste = {},  -- '<c-p>',
+					paste = {}, -- '<c-p>',
 					paste_behind = {}, --'<c-k>',
 					replay = {}, --'<c-q>', -- replay a macro
 					delete = {}, --'<c-d>', -- delete an entry

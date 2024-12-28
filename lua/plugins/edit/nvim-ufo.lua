@@ -5,27 +5,36 @@ function M.setup()
 		'kevinhwang91/nvim-ufo',
 		config = M.config,
 		dependencies = { 'kevinhwang91/promise-async' },
+		keys = {
+			{
+				'za',
+				function()
+					vim.defer_fn(function() U.api.feedkeys('za') end, M.started and 0 or 200)
+				end,
+				desc = 'Toggle fold',
+			},
+			{ 'zA', desc = 'Toggle fold recursively' },
+			{ 'zR', function() require('ufo').openAllFolds() end, desc = 'Open all folds' },
+			{ 'zM', function() require('ufo').closeAllFolds() end, desc = 'Close all folds' },
+		},
 	}
 end
 
 function M.config()
-	local ufo = require('ufo')
-
 	vim.o.foldcolumn = '0' -- '0' is not bad
 	vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 	vim.o.foldlevelstart = 99
 	vim.o.foldenable = true
 
-	utils.api.keymap('n', 'zR', ufo.openAllFolds, { desc = 'Open all folds' })
-	utils.api.keymap('n', 'zM', ufo.closeAllFolds, { desc = 'Close all folds' })
-
-	ufo.setup({
+	require('ufo').setup({
 		open_fold_hl_timeout = 400,
 		close_fold_kinds_for_ft = { default = {} },
 		fold_virt_text_handler = M.custom_handler,
 		enable_get_fold_virt_text = false,
 		provider_selector = function(_, _, _) return { 'treesitter', 'indent' } end,
 	})
+
+	vim.schedule(function() M.started = true end)
 end
 
 M.custom_handler = function(virt_text, start_line, end_line, width, truncate)

@@ -5,6 +5,14 @@ function M.setup()
 	return {
 		'akinsho/toggleterm.nvim',
 		config = M.config,
+		keys = function()
+			local function open(direction) return "<CMD>execute v:count . 'ToggleTerm direction=" .. direction .. "'<CR>" end
+			return {
+				{ '<A-f>', open('float'), mode = { 'n', 'i', 'x', 't' }, desc = 'toggleterm: floating terminal' },
+				{ '<A-i>', open('horizontal'), mode = { 'n', 'i', 'x', 't' }, desc = 'toggleterm: horizontal terminal' },
+				{ '<A-v>', open('vertical'), mode = { 'n', 'i', 'x', 't' }, desc = 'toggleterm: vertical terminal' },
+			}
+		end,
 	}
 end
 
@@ -48,20 +56,6 @@ end
 
 function M.config()
 	M.setup_autocommands()
-
-	local function open(direction) return "<CMD>execute v:count . 'ToggleTerm direction=" .. direction .. "'<CR>" end
-
-	-- Por algum motivo, o 't' não funciona se eu colocar no keymapper do lazy, então eu coloquei aqui
-	keymap('t', '<A-f>', open('float'))
-	keymap('t', '<A-i>', open('horizontal'))
-	keymap('t', '<A-v>', open('vertical'))
-
-	-- keymap('n', '<leader>lg', M.toggle_lazygit, { desc = 'toggleterm: toggle lazygit' })
-	-- keymap('n', '<leader>ld', M.toggle_lazydocker, { desc = 'toggleterm: toggle lazydocker' })
-
-	keymap({ 'n', 'i', 'x' }, '<A-f>', open('float'), { desc = 'toggleterm: floating terminal' })
-	keymap({ 'n', 'i', 'x' }, '<A-i>', open('horizontal'), { desc = 'toggleterm: horizontal terminal' })
-	keymap({ 'n', 'i', 'x' }, '<A-v>', open('vertical'), { desc = 'toggleterm: vertical terminal' })
 
 	require('toggleterm').setup({
 		-- size can be a number or function which is passed the current terminal

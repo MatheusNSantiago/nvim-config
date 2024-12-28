@@ -11,7 +11,6 @@ function M.setup()
 			'nvim-telescope/telescope.nvim', -- Optional
 		},
 		config = M.config,
-		-- keys = M.keys,
 		keys = {
 			{ '<leader>o', function() require('nvim-navbuddy').open() end, desc = 'navbuddy: open pannel' },
 		},

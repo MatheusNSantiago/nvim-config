@@ -4,6 +4,8 @@ function M.setup()
 	return {
 		'RRethy/vim-illuminate',
 		config = M.config,
+		event = 'VeryLazy',
+		cmd = { 'IlluminatePause', 'IlluminateResume', 'IlluminateToggle' },
 	}
 end
 

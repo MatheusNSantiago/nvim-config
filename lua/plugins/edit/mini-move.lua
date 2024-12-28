@@ -4,6 +4,12 @@ function M.setup()
 	return {
 		'echasnovski/mini.move',
 		config = M.config,
+		keys = {
+			{ '<M-k>', mode = 'n', desc = 'mini.move: Move Line Down' },
+			{ '<M-l>', mode = 'n', desc = 'mini.move: Move Line Up' },
+			{ '<M-k>', mode = 'v', desc = 'mini.move: Move Selection Down' },
+			{ '<M-l>', mode = 'v', desc = 'mini.move: Move Selection Up' },
+		},
 	}
 end
 
