@@ -1,6 +1,6 @@
 local augroup, cmd, fn = utils.api.augroup, vim.cmd, vim.fn
 
-augroup('my_autocommands_augroup', {
+augroup('random_autocommands', {
 	desc = 'Não comenta nova linha automaticamente',
 	pattern = '*',
 	event = 'BufEnter',
@@ -42,5 +42,39 @@ augroup('my_autocommands_augroup', {
 			and vim.bo.modifiable
 			and not vim.tbl_contains(save_excluded, vim.bo.filetype)
 		if can_save then cmd('silent! write ++p') end
+	end,
+}, { ---@see repo https://github.com/nvimdev/hlsearch.nvim
+	event = 'BufEnter',
+	desc = 'Auto remove search highlight',
+	command = function(args)
+		local function stop_hl()
+			-- if vim.v.hlsearch ~= 0 then U.api.feedkeys('<Cmd>nohl<CR>') end
+			if vim.v.hlsearch == 0 then return end
+			local keycode = vim.api.nvim_replace_termcodes('<Cmd>nohl<CR>', true, false, true)
+			vim.api.nvim_feedkeys(keycode, 'n', false)
+		end
+
+		local function start_hl()
+			local res = fn.getreg('/')
+			if vim.v.hlsearch ~= 1 then return end
+			if res:find([[%#]], 1, true) then return stop_hl() end
+			local ok, _res = pcall(fn.search, [[\%#\zs]] .. res, 'cnW')
+			if ok and _res == 0 then return stop_hl() end
+		end
+		augroup('auto_remove_search_hl', {
+			event = 'CursorMoved',
+			desc = 'Auto hlsearch',
+			buffer = args.buf,
+			command = function() start_hl() end,
+		}, {
+			event = 'InsertEnter',
+			desc = 'Auto remove hlsearch',
+			buffer = args.buf,
+			command = function() stop_hl() end,
+		}, {
+			event = 'BufDelete',
+			buffer = args.buf,
+			command = function() pcall(vim.api.nvim_del_autocmd, 'auto_remove_search_hl') end,
+		})
 	end,
 })
