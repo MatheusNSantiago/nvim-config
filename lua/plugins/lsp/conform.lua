@@ -32,6 +32,7 @@ function M.config()
 			typescriptreact = { 'prettierd' },
 			html = { 'prettierd' },
 			python = { 'ruff_format', 'ruff_organize_imports' },
+			markdown = { 'prettierd' },
 		},
 		default_format_opts = { lsp_format = 'fallback' },
 		-- Set the log level. Use `:ConformInfo` to see the location of the log file.
