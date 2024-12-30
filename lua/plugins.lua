@@ -40,7 +40,6 @@ local plugins = Array({
 	setup('ui.vim-scrollbar'), -- scrollbar
 	setup('ui.todo-comments'), -- highlight TODO, FIXME, etc...
 	-- setup('ui.rainbow-delimiters'), -- rainbow parentheses
-	-- setup('ui.virtcolumn'), -- ColorColumn como um |
 	-- setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
 	-- setup('ui.tiny-inline-diagnostic'),
 
