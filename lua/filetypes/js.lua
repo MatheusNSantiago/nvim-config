@@ -1,4 +1,3 @@
-local H = require('filetypes.ft_helpers')
 local is_bb_project = function() return U.fs.is_wsl() and vim.fs.find('gaw-reverse-conf.json', {}) end
 
 return {
@@ -14,8 +13,8 @@ return {
 
 					local node_version = pkg['engines']['node']
 
-					H.exec(('nvm use %s; npm run start'):format(node_version))
-					H.exec('gaw-rev', 2)
+					U.exec_cmd(('nvm use %s; npm run start'):format(node_version))
+					U.exec_cmd('gaw-rev', 2)
 
 					vim.defer_fn(function() vim.cmd('wincmd k') end, 100)
 				end,

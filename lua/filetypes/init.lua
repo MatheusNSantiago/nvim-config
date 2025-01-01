@@ -1,6 +1,4 @@
-local H = require('filetypes.ft_helpers')
-
--- local fo = require('cobol-bundle').cobol_config
+local lazy_require = U.lazy_require
 
 U.api.augroup('filetype_configs', {
 	event = 'Filetype',
@@ -8,16 +6,16 @@ U.api.augroup('filetype_configs', {
 	command = function(args)
 		local ft = vim.bo.ft
 		local get_settings = U.switch(ft, {
-			['python'] = H.lazy_require('filetypes.python'),
-			[{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = H.lazy_require('filetypes.js'),
-			['c'] = H.lazy_require('filetypes.c'),
-			['java'] = H.lazy_require('filetypes.java'),
+			['python'] = lazy_require('filetypes.python'),
+			[{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = lazy_require('filetypes.js'),
+			['c'] = lazy_require('filetypes.c'),
+			['java'] = lazy_require('filetypes.java'),
 			-- ['markdown'] = safe_require('filetypes.markdown'),
-			['rust'] = H.lazy_require('filetypes.rust'),
+			['rust'] = lazy_require('filetypes.rust'),
 			--  ╾───────────────────────────────────────────────────────────────────────────────────╼
-			['cobol'] = H.lazy_require('cobol-bundle', 'cobol_config'),
-			['copybook'] = H.lazy_require('cobol-bundle', 'copybook_config'),
-			['foo'] = H.lazy_require('cobol-foo'),
+			['cobol'] = lazy_require('cobol-bundle', 'cobol_config'),
+			['copybook'] = lazy_require('cobol-bundle', 'copybook_config'),
+			['foo'] = lazy_require('cobol-foo'),
 		})
 
 		if not get_settings then return end

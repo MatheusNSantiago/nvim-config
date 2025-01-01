@@ -5,6 +5,7 @@ function M.setup()
 	return {
 		'akinsho/toggleterm.nvim',
 		config = M.config,
+		cmd = { 'TermExec' },
 		keys = function()
 			local function open(direction) return "<CMD>execute v:count . 'ToggleTerm direction=" .. direction .. "'<CR>" end
 			return {

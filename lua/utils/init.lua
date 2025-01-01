@@ -81,17 +81,27 @@ function M.pcall(msg, func, ...)
 	end, unpack(args))
 end
 
-function M.get_current_line_with_cursor()
-	local current_line = fn.getline('.')
-	local col = fn.col('.')
-	return current_line:sub(1, col) .. '█' .. current_line:sub(col + 1)
+M.lazy_require = function(package, ...)
+	local keys = { ... }
+	return function()
+		local ok, pkg = pcall(require, package)
+		if not ok then return {} end
+
+		local result = pkg
+		for _, key in ipairs(keys) do
+			result = result[key]
+			if result == nil then return {} end
+		end
+
+		return result
+	end
 end
 
----@param pattern (string) The pattern to match against the current line.
----@return boolean: Returns true if the current line matches the pattern, false otherwise.
-function M.current_line_matches(pattern)
-	local cur_line = M.get_current_line_with_cursor()
-	return cur_line:match(pattern)
+---Abre um terminal e executa um comando
+---@param cmd string
+---@param term_number? number numero do terminal
+function M.exec_cmd(cmd, term_number) --
+	vim.cmd(("%sTermExec cmd='%s'"):format(term_number or '', cmd))
 end
 
 ---Checks if the operating system is running on Windows Subsystem for Linux (WSL).
@@ -116,22 +126,6 @@ function M.get_visual_selection()
 	local content = table.concat(lines, '\n')
 
 	return content
-end
-
----Restringe a execução de uma função a um intervalo de tempo definido.
----@param func function: A função a ser limitada.
----@param delay number: O tempo mínimo, em milissegundos, para esperar entre as execuções da função.
----@return function: Uma nova função que envolve a função original com lógica de limitação.
-function M.throttle(func, delay)
-	local lastExecuted = 0
-	return function(...)
-		---@diagnostic disable-next-line: undefined-field
-		local now = vim.uv.now()
-		if (now - lastExecuted) >= delay then
-			func(...)
-			lastExecuted = now
-		end
-	end
 end
 
 ---@example:

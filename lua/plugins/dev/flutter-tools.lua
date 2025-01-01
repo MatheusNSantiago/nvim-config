@@ -26,7 +26,7 @@ function M.config()
 	keymap(
 		'n',
 		'<leader>br',
-		":TermExec cmd='flutter pub run build_runner watch'<CR>",
+		function() U.exec_cmd('flutter pub run build_runner watch') end,
 		{ desc = 'flutter: run code generation' }
 	)
 
@@ -38,7 +38,7 @@ function M.config()
 		debugger = {},
 		decorations = {
 			statusline = {
-				device = false,  -- {flutter_tools_decorations.app_version} lualine
+				device = false, -- {flutter_tools_decorations.app_version} lualine
 				app_version = false, -- {flutter_tools_decorations.device} lualine
 			},
 		},
