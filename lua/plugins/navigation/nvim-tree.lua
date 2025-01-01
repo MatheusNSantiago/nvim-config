@@ -61,6 +61,8 @@ M.config = function()
 	end)
 
 	local is_java = vim.fn.glob(vim.fn.getcwd() .. '/pom.xml') ~= ''
+	-- comando pra enviar arquivo para a lixeira (melhor que só deletar)
+	local trash_command = [[sh -c 'kioclient move "$0" trash:/']]
 	require('nvim-tree').setup({
 		tab = {
 			sync = { open = true, close = true, ignore = { 'gitcommit' } },
@@ -115,7 +117,8 @@ M.config = function()
 			keymap('H', api.tree.toggle_hidden_filter, 'Toggle Dotfiles')
 			keymap('R', api.tree.reload, 'Refresh')
 			keymap('a', api.fs.create, 'Create')
-			keymap('d', api.fs.remove, 'Delete')
+			keymap('D', api.fs.delete, 'Delete')
+			keymap('d', api.fs.trash, 'Send to Trash')
 			keymap('r', api.fs.rename, 'Rename')
 			keymap('x', api.fs.cut, 'Cut')
 			keymap('c', api.fs.copy.node, 'Copy')
@@ -270,7 +273,7 @@ M.config = function()
 			number = false,
 			relativenumber = false,
 		},
-		trash = { cmd = 'trash', require_confirm = true },
+		trash = { cmd = trash_command, require_confirm = true },
 		ui = {
 			confirm = { remove = true, trash = true, default_yes = false },
 		},
