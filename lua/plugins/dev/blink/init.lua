@@ -185,7 +185,7 @@ function M.config()
 				-- Controls how the completion items are rendered on the popup window
 				draw = {
 					-- Aligns the keyword you've typed to a component in the menu
-					align_to_component = 'label', -- or 'none' to disable
+					-- align_to_component = 'label', -- or 'none' to disable
 					-- Left and right padding, optionally { left, right } for different padding on each side
 					padding = 1,
 					-- Gap between columns
