@@ -142,7 +142,7 @@ function M.config()
 					-- Synchronously use the kind of the item to determine if brackets should be added
 					kind_resolution = {
 						enabled = true,
-						blocked_filetypes = { 'typescriptreact', 'javascriptreact', 'vue' },
+						blocked_filetypes = { 'typescriptreact', 'javascriptreact', 'vue', 'cobol' },
 					},
 					-- Asynchronously use semantic token to determine if brackets should be added
 					semantic_token_resolution = {
