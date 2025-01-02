@@ -5,6 +5,25 @@ function M.setup()
 	local dap = require('dap')
 	local dapui = require('dapui')
 
+	vim.fn.sign_define('DapBreakpoint', {
+		text = utils.icons.base.bigCircle,
+		texthl = 'DiagnosticError',
+		linehl = '',
+		numhl = '',
+	})
+	vim.fn.sign_define('DapStopped', {
+		text = utils.icons.ui.BoldArrowRight,
+		texthl = 'DiagnosticInfo',
+		linehl = 'DiagnosticInfo',
+		numhl = 'DiagnosticInfo',
+	})
+	vim.fn.sign_define('DapBreakpointRejected', {
+		text = utils.icons.base.bug,
+		texthl = 'DiagnosticHint',
+		linehl = '',
+		numhl = '',
+	})
+
 	dapui.setup({
 		expand_lines = true,
 		icons = { expanded = '', collapsed = '', circular = '' },
@@ -19,17 +38,17 @@ function M.setup()
 		layouts = {
 			{
 				elements = {
-					{ id = 'scopes',      size = 0.33 },
+					{ id = 'scopes', size = 0.33 },
 					{ id = 'breakpoints', size = 0.17 },
-					{ id = 'stacks',      size = 0.25 },
-					{ id = 'watches',     size = 0.25 },
+					{ id = 'stacks', size = 0.25 },
+					{ id = 'watches', size = 0.25 },
 				},
 				size = 0.33,
 				position = 'right',
 			},
 			{
 				elements = {
-					{ id = 'repl',    size = 0.45 },
+					{ id = 'repl', size = 0.45 },
 					{ id = 'console', size = 0.55 },
 				},
 				size = 0.27,
