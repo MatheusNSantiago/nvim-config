@@ -21,7 +21,8 @@ local plugins = Array({
 	--  │                          Base                            │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	{ 'nvim-lua/plenary.nvim' }, -- Common utilities
+	{ 'nvim-lua/plenary.nvim' },
+	{ 'kevinhwang91/promise-async' },
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                        Interface                         │
@@ -171,7 +172,7 @@ local plugins = Array({
 
 	-- Markdown
 	{ 'bullets-vim/bullets.vim', ft = 'markdown' }, -- bullet list automático
-	setup('dev.render-markdown'),
+	-- setup('dev.render-markdown'),
 
 	-- Rust
 	setup('dev.rust'),

@@ -28,12 +28,12 @@ M.client_capabilities = function()
 		'force',
 		vim.lsp.protocol.make_client_capabilities(),
 		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers.
-		require('blink.cmp').get_lsp_capabilities(),
-		{
-			textDocument = {
-				foldingRange = { dynamicRegistration = true, lineFoldingOnly = true },
-			},
-		}
+		require('blink.cmp').get_lsp_capabilities()
+		-- {
+		-- 	textDocument = {
+		-- 		foldingRange = { dynamicRegistration = true, lineFoldingOnly = true },
+		-- 	},
+		-- }
 	)
 end
 

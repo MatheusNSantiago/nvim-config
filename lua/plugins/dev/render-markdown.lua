@@ -4,7 +4,7 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'MeanderingProgrammer/render-markdown.nvim',
 		config = M.config,
-		ft = { 'codecompanion' },
+		ft = { 'codecompanion', 'markdown' },
 	}
 end
 
@@ -33,7 +33,7 @@ function M.config()
 		-- Only intended to be used for plugin development / debugging
 		log_runtime = false,
 		-- Filetypes this plugin will run on
-		file_types = {},
+		file_types = { 'markdown' },
 		-- Out of the box language injections for known filetypes that allow markdown to be
 		-- interpreted in specified locations, see :h treesitter-language-injections
 		-- Set enabled to false in order to disable
