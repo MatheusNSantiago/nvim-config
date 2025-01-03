@@ -65,7 +65,7 @@ function M.common_on_attach(client, bufnr)
 
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', 'gr', ':Lspsaga rename<CR>')
-	keymap('n', 'gp', ":lua require('goto-preview').goto_preview_definition()<CR>")
+	keymap('n', 'gp', function() require('goto-preview').goto_preview_definition({}) end)
 	keymap('n', 'gf', ':Lspsaga finder<CR>')
 	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 	keymap('n', 'gd', ':Lspsaga goto_definition<CR>')
