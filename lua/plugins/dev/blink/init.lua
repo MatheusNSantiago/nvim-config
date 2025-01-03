@@ -15,7 +15,7 @@ function M.config()
 	U.api.augroup('blink_cmp_multi_cursor_fix', {
 		desc = 'Conserta o problema das mappings sumirem após sair do multicursor mode',
 		event = 'User',
-		pattern = 'BlinkCmpCompletionMenuOpen',
+		pattern = 'BlinkCmpMenuOpen',
 		command = function(_)
 			-- O blink checa se ele já setou mappings para não dar retrabalho
 
@@ -23,7 +23,7 @@ function M.config()
 			local curr_buf_keymaps = vim.api.nvim_buf_get_keymap(0, 'i')
 			for _, map in ipairs(curr_buf_keymaps) do
 				if map.desc == 'blink.cmp' then --
-					vim.api.nvim_buf_del_keymap(0, 'i', map.lhs)
+					vim.api.nvim_buf_del_keymap(0, 'i', map['lhs'])
 				end
 			end
 
