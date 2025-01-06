@@ -172,7 +172,7 @@ local plugins = Array({
 
 	-- Markdown
 	{ 'bullets-vim/bullets.vim', ft = 'markdown' }, -- bullet list automático
-	-- setup('dev.render-markdown'),
+	setup('dev.render-markdown'),
 
 	-- Rust
 	setup('dev.rust'),
