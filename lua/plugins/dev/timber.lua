@@ -16,10 +16,10 @@ function M.config()
 	require('timber').setup({
 		log_templates = {
 			default = {
-				javascript = [[console.log("%log_target", %log_target)]],
-				typescript = [[console.log("%log_target", %log_target)]],
-				jsx = [[console.log("%log_target", %log_target)]],
-				tsx = [[console.log("%log_target", %log_target)]],
+				javascript = [[console.log(%log_target)]],
+				typescript = [[console.log(%log_target)]],
+				jsx = [[console.log(%log_target)]],
+				tsx = [[console.log(%log_target)]],
 				lua = [[print("%log_target", %log_target)]],
 				ruby = [[puts("%log_target #{%log_target}")]],
 				elixir = [[IO.inspect(%log_target, label: "%log_target")]],
