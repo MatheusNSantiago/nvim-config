@@ -22,9 +22,6 @@ return {
 			content = function(context)
 				local diagnostics =
 					require('codecompanion.helpers.actions').get_diagnostics(context.start_line, context.end_line, context.bufnr)
-
-					log(diagnostics)
-
 				local concatenated_diagnostics = ''
 				for i, diagnostic in ipairs(diagnostics) do
 					concatenated_diagnostics = concatenated_diagnostics
