@@ -118,7 +118,7 @@ local plugins = Array({
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('treesitter', {
-		-- { 'windwp/nvim-ts-autotag', config = true }, -- tag completion
+		{ 'windwp/nvim-ts-autotag', config = true }, -- tag completion
 		{ 'nvim-treesitter/nvim-treesitter-textobjects' }, -- Additional text objects via treesitter. Se der ruim, commit = '8673926'
 		{ 'RRethy/nvim-treesitter-textsubjects', lazy = true },
 		{ 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- conserta comments para jsx,
