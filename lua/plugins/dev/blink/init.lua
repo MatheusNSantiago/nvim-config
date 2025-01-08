@@ -520,7 +520,7 @@ M.highlights = {
 	['BlinkCmpScrollBarThumb'] = { link = 'NormalFloat' }, -- The scrollbar thumb
 	['BlinkCmpScrollBarGutter'] = { link = 'NormalFloat' }, -- The scrollbar gutter
 	['BlinkCmpLabel'] = { bg = 'NONE', fg = c.white }, -- Label of the completion item
-	['BlinkCmpLabelDeprecated'] = { link = 'NonText' }, -- Deprecated label of the completion item
+	['BlinkCmpLabelDeprecated'] = { link = 'Comment' }, -- Deprecated label of the completion item
 	['BlinkCmpLabelMatch'] = { fg = c.secondary, bg = 'NONE' }, -- (Currently unused) Label of the completion item when it matches the query
 	['BlinkCmpLabelDetail'] = { link = 'NonText' }, -- Label description of the completion item
 	['BlinkCmpLabelDescription'] = { fg = '#C792EA', bg = 'NONE' }, -- Label description of the completion item
