@@ -11,6 +11,7 @@ function Array:initialize(...)
 		temp = temp[1]
 	end
 
+	self:foreach(function() self:pop() end)
 	for _, v in ipairs(temp) do
 		self:push(v)
 	end
@@ -102,7 +103,18 @@ end
 
 function Array:is_empty() return self:size() == 0 end
 
-function Array:to_table() return { unpack(self) } end
+function Array:to_list()
+	local tbl = {}
+
+	self:foreach(function(e)
+		if self.is_array(e) then
+			tbl[#tbl + 1] = e:to_table()
+		else
+			tbl[#tbl + 1] = e
+		end
+	end)
+	return tbl
+end
 
 function Array:extend(arr)
 	for _, v in ipairs(arr) do
@@ -125,7 +137,8 @@ function Array:flatten()
 			end
 		end
 	end
-	return Array(result)
+	self:initialize(result)
+	return self
 end
 
 ---@alias Array.constructor fun(...): Array
