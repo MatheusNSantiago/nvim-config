@@ -44,6 +44,14 @@
 return function()
 	local actions = require('telescope.actions')
 
+	U.api.augroup('fix-telescope-mappings', {
+		event = 'Filetype',
+		pattern = 'TelescopePrompt',
+		command = function(args)
+			U.api.keymap('i', '<C-w>', function() U.api.feedkeys('<Bs>', 'i') end, { buffer = args.buf })
+		end,
+	})
+
 	---@see https://github.com/nvim-telescope/telescope.nvim/issues/1048#issuecomment-1679797700
 	local select_one_or_multi = function(prompt_bufnr)
 		local picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)

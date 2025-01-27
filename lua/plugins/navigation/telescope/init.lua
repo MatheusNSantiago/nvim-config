@@ -12,8 +12,7 @@ function M.setup()
 			'kkharji/sqlite.lua',
 			{
 				'nvim-telescope/telescope-fzf-native.nvim',
-				-- no wsl faz um `make ~/.local/share/nvim/lazy/telescope-fzf-native.nvim`
-				build = 'make',
+				build = 'make', -- no wsl, é necessário fazer um `make ~/.local/share/nvim/lazy/telescope-fzf-native.nvim`
 			},
 			'nvim-telescope/telescope-fzy-native.nvim',
 		},
@@ -97,12 +96,6 @@ function M.config()
 	local telescope = require('telescope')
 	local icons = require('utils.icons')
 
-	-- Por algum motivo, as vezes as keys que eu botei no lazy não funcionam
-	-- Isso aqui é um workaround pra fazer as keympas funcionarem
-	-- for _, mapping in ipairs(M.keys()) do
-	-- 	utils.api.keymap(mapping.mode or 'n', mapping[1], mapping[2], { desc = mapping.desc })
-	-- end
-
 	-- Custom previewer
 	local previewers = require('telescope.previewers')
 	local Job = require('plenary.job')
@@ -116,6 +109,7 @@ function M.config()
 
 				if mime_type == 'text' then
 					-- Check file size
+					---@diagnostic disable-next-line: undefined-field
 					vim.loop.fs_stat(filepath, function(_, stat)
 						if not stat then return end
 						if stat.size > 500000 then
