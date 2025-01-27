@@ -98,8 +98,8 @@ return { ---@type table<string, blink.cmp.KeymapCommand[]>
 	['<Down>'] = { 'select_next', 'fallback' },
 	['<C-k>'] = { 'select_next', 'fallback' },
 
-	['<C-d>'] = { 'scroll_documentation_up', 'fallback' },
-	['<C-u>'] = { 'scroll_documentation_down', 'fallback' },
+	['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+	['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
 	cmdline = {
 		preset = 'super-tab',
 		['<C-l>'] = { 'select_prev', 'fallback' },
