@@ -111,7 +111,7 @@ function M.config()
 				-- and whether selection automatically inserts
 				selection = {
 					preselect = true,
-					auto_insert = true,
+					auto_insert = false,
 				},
 				cycle = {
 					-- When `true`, calling `select_next` at the *bottom* of the completion list
