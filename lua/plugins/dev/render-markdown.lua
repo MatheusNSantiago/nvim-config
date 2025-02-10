@@ -33,7 +33,7 @@ function M.config()
 		-- Only intended to be used for plugin development / debugging
 		log_runtime = false,
 		-- Filetypes this plugin will run on
-		file_types = { 'codecompanion' },
+		file_types = { 'codecompanion', 'markdown' },
 		-- Out of the box language injections for known filetypes that allow markdown to be
 		-- interpreted in specified locations, see :h treesitter-language-injections
 		-- Set enabled to false in order to disable
@@ -178,7 +178,7 @@ function M.config()
 			--  normal:   adds highlight group to code blocks & inline code, adds padding to code blocks
 			--  language: adds language icon to sign column if enabled and icon + name above code blocks
 			--  full:     normal + language
-			style = 'full',
+			style = 'normal',
 			-- Determines where language icon is rendered:
 			--  right: right side of code block
 			--  left:  left side of code block
@@ -213,13 +213,13 @@ function M.config()
 			--  none:  do not render a border
 			--  thick: use the same highlight as the code body
 			--  thin:  when lines are empty overlay the above & below icons
-			border = 'thin',
+			border = 'none',
 			-- Used above code blocks for thin border
 			above = '▄',
 			-- Used below code blocks for thin border
 			below = '▀',
 			-- Highlight for code blocks
-			highlight = 'RenderMarkdownCode',
+			highlight = '',
 			-- Highlight for inline code
 			highlight_inline = 'RenderMarkdownCodeInline',
 			-- Highlight for language, overrides icon provider value
