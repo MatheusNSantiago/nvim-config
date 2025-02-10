@@ -1,5 +1,7 @@
 local lazy_require = U.lazy_require
 
+vim.filetype.add({ extension = { ['cpy'] = 'copybook' } })
+
 U.api.augroup('filetype_configs', {
 	event = 'Filetype',
 	pattern = '*',
