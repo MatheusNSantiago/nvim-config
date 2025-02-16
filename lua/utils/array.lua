@@ -74,7 +74,7 @@ end
 function Array:join(sep)
 	sep = sep or ''
 	local res = ''
-	for k, v in pairs(self) do
+	for k, v in pairs(self:to_list()) do
 		if k == 1 then
 			res = res .. tostring(v)
 		else
