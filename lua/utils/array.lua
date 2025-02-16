@@ -87,7 +87,7 @@ end
 ---Finds the first element in a list that satisfies a given predicate.
 ---@param predicate fun(entry: any): boolean The predicate to satisfy.
 ---@return any|nil: The first element that satisfies the predicate, or nil if no element is found.
----@return number|nil
+---@return number|nil: The index of the element that satisfies the predicate, or nil if no element is found.
 function Array:find(predicate)
 	for i, entry in ipairs(self) do
 		if predicate(entry) then return entry, i end
@@ -138,6 +138,12 @@ function Array:flatten()
 		end
 	end
 	self:initialize(result)
+	return self
+end
+
+function Array:remove(value)
+	local _, idx = self:find(function(e) return e == value end)
+	if idx then table.remove(self, idx) end
 	return self
 end
 
