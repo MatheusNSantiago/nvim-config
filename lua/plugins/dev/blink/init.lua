@@ -41,6 +41,24 @@ function M.config()
 				and vim.bo.buftype ~= 'prompt'
 				and vim.b['completion'] ~= false
 		end,
+		cmdline = {
+			keymap = {
+				preset = 'super-tab',
+				['<C-l>'] = { 'select_prev', 'fallback' },
+				['<C-k>'] = { 'select_next', 'fallback' },
+			},
+			-- By default, we choose providers for the cmdline based on the current cmdtype
+			-- You may disable cmdline completions by replacing this with an empty table
+			---@diagnostic disable-next-line: assign-type-mismatch
+			sources = function()
+				local type = vim.fn.getcmdtype()
+				-- Search forward and backward
+				if type == '/' or type == '?' then return { 'buffer' } end
+				-- Commands
+				if type == ':' or type == '@' then return { 'cmdline' } end
+				return {}
+			end,
+		},
 
 		snippets = {
 			-- -- Function to use when expanding LSP provided snippets
@@ -420,17 +438,6 @@ function M.config()
 			per_filetype = {
 				-- lua = { 'lsp', 'path' },
 			},
-
-			-- By default, we choose providers for the cmdline based on the current cmdtype
-			-- You may disable cmdline completions by replacing this with an empty table
-			cmdline = function()
-				local type = vim.fn.getcmdtype()
-				-- Search forward and backward
-				if type == '/' or type == '?' then return { 'buffer' } end
-				-- Commands
-				if type == ':' then return { 'cmdline' } end
-				return {}
-			end,
 
 			-- Function to use when transforming the items before they're returned for all providers
 			-- The default will lower the score for snippets to sort them lower in the list
