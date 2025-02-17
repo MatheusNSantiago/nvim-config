@@ -221,8 +221,7 @@ function M.config()
 				opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
 				provider = 'default', -- default|mini_diff
 			},
-			inline = {
-				-- If the inline prompt creates a new buffer, how should we display this?
+			inline = { -- If the inline prompt creates a new buffer, how should we display this?
 				layout = 'vertical', -- vertical|horizontal|buffer
 			},
 		},

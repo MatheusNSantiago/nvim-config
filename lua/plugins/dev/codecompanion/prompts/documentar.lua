@@ -38,7 +38,7 @@ return {
 			content = function(context)
 				local doc_format
 				if context.filetype == 'python' then
-					doc_format = 'numpydoc'
+					doc_format = 'googledoc'
 				elseif context.filetype == 'lua' then
 					doc_format = 'emmylua'
 				else
