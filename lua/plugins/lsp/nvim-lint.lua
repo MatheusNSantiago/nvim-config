@@ -18,7 +18,7 @@ function M.config()
 		typescript = { 'eslint_d' },
 		javascriptreact = { 'eslint_d' },
 		typescriptreact = { 'eslint_d' },
-		html = { 'eslint_d' },
+		html = { 'htmlhint', 'eslint_d' },
 		json = { 'jsonlint' },
 	}
 	-- local add_args = function(linter, args) vim.list_extend(lint.linters[linter].args, args) end
@@ -31,10 +31,10 @@ function M.config()
 		return diagnostic
 	end)
 
-	utils.api.augroup('nvim-lint-augroup', {
-		event = { 'BufEnter', 'LspAttach', 'BufReadPost', 'BufWritePost', 'InsertLeave', 'CursorHold' },
-		command = function() vim.schedule(lint.try_lint) end,
-	})
+	-- utils.api.augroup('nvim-lint-augroup', {
+	-- 	event = { 'BufEnter', 'LspAttach', 'BufReadPost', 'BufWritePost', 'InsertLeave', 'CursorHold', 'TextChanged' },
+	-- 	command = function() vim.schedule(lint.try_lint) end,
+	-- })
 end
 
 return M
