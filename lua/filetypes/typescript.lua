@@ -3,7 +3,7 @@ local is_bb_project = function() return U.fs.is_wsl() and vim.fs.find('gaw-rever
 return {
 	picker = {
 		keymap = '<leader><leader>o',
-		title = 'JS/TS',
+		title = 'Typescript',
 		actions = {
 			{
 				name = 'Iniciar Projeto BB',
@@ -28,13 +28,15 @@ return {
 		updatetime = 200,
 	},
 	mappings = {
-		-- { 'n', '<leader>r', function() H.exec('clear && npm run start') end },
-	},
-	autocommands = {
 		{
-			event = 'BufWritePost',
-			desc = 'format on save',
-			command = function() require('conform').format({ async = true }) end,
+			'n',
+			'<leader>ff',
+			function()
+				require('conform').format({ async = true }, function()
+					vim.cmd('TSToolsSortImports')
+					vim.cmd('TSToolsRemoveUnusedImports')
+				end)
+			end,
 		},
 	},
 }

@@ -9,7 +9,7 @@ U.api.augroup('filetype_configs', {
 		local ft = vim.bo.ft
 		local get_settings = U.switch(ft, {
 			['python'] = lazy_require('filetypes.python'),
-			[{ 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' }] = lazy_require('filetypes.js'),
+			[{ 'typescript', 'typescriptreact' }] = lazy_require('filetypes.typescript'),
 			['c'] = lazy_require('filetypes.c'),
 			['java'] = lazy_require('filetypes.java'),
 			-- ['markdown'] = safe_require('filetypes.markdown'),
