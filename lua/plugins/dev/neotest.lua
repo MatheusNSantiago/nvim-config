@@ -10,6 +10,7 @@ function M.setup()
 			'nvim-treesitter/nvim-treesitter',
 			--  ─────────────────────────────
 			'nvim-neotest/neotest-jest',
+			'nvim-neotest/neotest-python',
 		},
 		config = M.config,
 
@@ -31,6 +32,7 @@ function M.config()
 				env = { CI = true },
 				cwd = function(_) return vim.fn.getcwd() end,
 			}),
+			require('neotest-python'),
 		},
 		benchmark = { enabled = true },
 		consumers = {},
