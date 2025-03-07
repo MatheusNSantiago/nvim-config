@@ -5,7 +5,6 @@ M.servers = {
 	'cssls',
 	'html',
 	'angularls',
-	'ts_ls',
 	'jdtls',
 	'tailwindcss',
 

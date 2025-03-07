@@ -36,7 +36,7 @@ local plugins = Array({
 	setup('ui.bufferline'), -- Tabs/buffers
 	setup('ui.dressing'), -- selection e input
 	setup('ui.noice'), -- messages, cmdline and popupmenu
-	-- setup('ui.barbecue'), -- breadcrumbs
+	setup('ui.barbecue'), -- breadcrumbs
 	setup('ui.highlight-colors'), -- highlighter #FFF
 	setup('ui.vim-scrollbar'), -- scrollbar
 	setup('ui.todo-comments'), -- highlight TODO, FIXME, etc...
@@ -150,11 +150,12 @@ local plugins = Array({
 	{ 'tpope/vim-fugitive', event = 'VeryLazy' },
 
 	-- Flutter
-	setup('dev.flutter-tools'), -- lsp/snippets/
+	setup('dev.flutter-tools'),
 	{ 'Nash0x7E2/awesome-flutter-snippets', ft = 'dart' }, -- snippets
 	{ 'akinsho/pubspec-assist.nvim', ft = 'yaml', config = true }, -- add/update dart dependencies
 
 	-- Javascript/Typescript
+	setup('dev.typescript-tools'),
 	setup('dev.package-info'), -- Mostra quais são as versões atuais dos packages
 	{ -- Live server. Igual do vscode
 		'barrett-ruth/live-server.nvim',
@@ -173,6 +174,13 @@ local plugins = Array({
 	-- Markdown
 	{ 'bullets-vim/bullets.vim', ft = 'markdown' }, -- bullet list automático
 	setup('dev.render-markdown'),
+	{
+		'iamcco/markdown-preview.nvim',
+		cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+		build = 'cd app && npm install',
+		init = function() vim.g.mkdp_filetypes = { 'markdown' } end,
+		ft = { 'markdown' },
+	},
 
 	-- Rust
 	setup('dev.rust'),
