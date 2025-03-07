@@ -42,11 +42,14 @@ function M.config()
 				and vim.b['completion'] ~= false
 		end,
 		cmdline = {
+			enabled = true,
 			keymap = {
 				preset = 'super-tab',
 				['<C-l>'] = { 'select_prev', 'fallback' },
 				['<C-k>'] = { 'select_next', 'fallback' },
 			},
+			completion = { menu = { auto_show = true } },
+
 			-- By default, we choose providers for the cmdline based on the current cmdtype
 			-- You may disable cmdline completions by replacing this with an empty table
 			---@diagnostic disable-next-line: assign-type-mismatch
@@ -219,25 +222,6 @@ function M.config()
 					--   text function: will be called for each item
 					--   highlight function: will be called only when the line appears on screen
 					components = {
-
-						kind_icon = {
-							ellipsis = false,
-							text = function(ctx) return ctx.kind_icon .. ctx.icon_gap end,
-							highlight = function(ctx)
-								return (require('blink.cmp.completion.windows.render.tailwind').get_hl(ctx) or 'BlinkCmpKind')
-									.. ctx.kind
-							end,
-						},
-						kind = {
-							ellipsis = false,
-							width = { fill = true },
-							text = function(ctx) return ctx.kind end,
-							highlight = function(ctx)
-								return (require('blink.cmp.completion.windows.render.tailwind').get_hl(ctx) or 'BlinkCmpKind')
-									.. ctx.kind
-							end,
-						},
-
 						label = {
 							width = { fill = true, max = 60 },
 							text = function(ctx) return ctx.label .. ctx.label_detail end,
@@ -499,19 +483,19 @@ function M.config()
 end
 
 M.highlights = {
-	['BlinkCmpMenu'] = { fg = '#C792EA', bg = 'NONE' }, -- The completion menu window
+	['BlinkCmpMenu'] = { fg = '#C792EA', bg = c.transparent }, -- The completion menu window
 	['BlinkCmpMenuBorder'] = { fg = '#488dff' }, -- The completion menu window border
 	['BlinkCmpMenuSelection'] = { link = 'PmenuSel' }, -- The completion menu window selected item
 	['BlinkCmpScrollBarThumb'] = { link = 'NormalFloat' }, -- The scrollbar thumb
 	['BlinkCmpScrollBarGutter'] = { link = 'NormalFloat' }, -- The scrollbar gutter
-	['BlinkCmpLabel'] = { bg = 'NONE', fg = c.white }, -- Label of the completion item
+	['BlinkCmpLabel'] = { bg = c.transparent, fg = c.white }, -- Label of the completion item
 	['BlinkCmpLabelDeprecated'] = { link = 'Comment' }, -- Deprecated label of the completion item
-	['BlinkCmpLabelMatch'] = { fg = c.secondary, bg = 'NONE' }, -- (Currently unused) Label of the completion item when it matches the query
-	['BlinkCmpLabelDetail'] = { link = 'NonText' }, -- Label description of the completion item
-	['BlinkCmpLabelDescription'] = { fg = '#C792EA', bg = 'NONE' }, -- Label description of the completion item
+	['BlinkCmpLabelMatch'] = { fg = c.secondary, bg = c.transparent }, -- (Currently unused) Label of the completion item when it matches the query
+	['BlinkCmpLabelDetail'] = { fg = c.gray }, -- Label description of the completion item
+	['BlinkCmpLabelDescription'] = { fg = '#C792EA', bg = c.transparent }, -- Label description of the completion item
 	['BlinkCmpKind'] = { link = 'Special' }, -- Kind icon/text of the completion item
-	['BlinkCmpSource'] = { link = 'NonText' }, -- Source of the completion item
-	['BlinkCmpGhostText'] = { link = 'NonText' }, -- Preview item with ghost text
+	['BlinkCmpSource'] = { fg = c.gray }, -- Source of the completion item
+	['BlinkCmpGhostText'] = { fg = c.gray }, -- Preview item with ghost text
 	['BlinkCmpDoc'] = { link = 'NormalFloat' }, -- The documentation window
 	['BlinkCmpDocBorder'] = { fg = '#488dff' }, -- The documentation window border
 	['BlinkCmpDocSeparator'] = { link = 'NormalFloat' }, -- The documentation separator between doc and detail
