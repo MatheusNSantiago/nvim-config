@@ -36,23 +36,27 @@ return {
 		{
 			role = 'system',
 			content = function(context)
-				local doc_format
+				local doc_format = ''
+				local extra = ''
 				if context.filetype == 'python' then
 					doc_format = 'googledoc'
+					extra = [[- Não é necessário declarar o type dos argumentos]]
 				elseif context.filetype == 'lua' then
 					doc_format = 'emmylua'
-				else
-					doc_format = 'markdown'
 				end
 
 				return string.format(
 					[[
-Aja como um desenvolvedor senior especialista em %s. Ao receber uma classe ou uma função, você deve retornar sua documentação em formato %s.
+Aja como um desenvolvedor senior especialista em %s. Ao receber uma classe ou uma função, você deve retornar sua documentação%s.
 Siga as seguinets diretrizes:
-  - Reponda apenas com a documentação
-  - Caso for uma classe, não inclua a documentação dos métodos]],
+- Reponda apenas com a documentação
+- Caso for uma classe, não inclua a documentação dos métodos
+- Seja sucinto.
+- Use português na sua resposta
+%s]],
 					context.filetype,
-					doc_format
+					(' usando o formato %s'):format(doc_format),
+					extra
 				)
 			end,
 			opts = { visible = false, tag = 'system_tag' },
