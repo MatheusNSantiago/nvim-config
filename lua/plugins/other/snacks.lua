@@ -37,8 +37,15 @@ function M.config()
 			notify = true, -- show notification when big file detected
 			size = 800 * 1024, -- 800KB
 			setup = function()
-				vim.b.minianimate_disable = true
-				vim.cmd('IlluminatePause')
+				local run = function(command)
+					if vim.fn.exists(':' .. command) ~= 0 then vim.cmd(command) end
+				end
+				run('IlluminatePause')
+				run('NoMatchParen')
+				run('Gitsigns detach')
+				run('DisableHLCunk')
+				run('DisableHLIndent')
+				run('ScrollbarHide')
 			end,
 		},
 		notifier = { ---@see https://github.com/folke/snacks.nvim/blob/main/docs/notifier.md
