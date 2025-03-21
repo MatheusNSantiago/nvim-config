@@ -77,4 +77,14 @@ augroup('random_autocommands', {
 			command = function() pcall(vim.api.nvim_del_autocmd, 'auto_remove_search_hl') end,
 		})
 	end,
+}, {
+	desc = 'Pega a versão mais recente dos arquivos quando focar no vim',
+	event = 'FocusGained',
+	pattern = '*',
+	command = "if getcmdwintype() == '' | checktime | endif",
+}, {
+	desc = 'Checa se o arquivo mudou no disco toda vez que abre um buffer',
+	event = 'BufEnter',
+	pattern = '*',
+	command = "if &buftype == '' && !&modified && expand('%') != '' | exec 'checktime ' . expand('<abuf>') | endif",
 })
