@@ -106,7 +106,7 @@ local plugins = Array({
 	setup('lsp.lsp_signature'), -- mostra a function signature enquanto digita
 	setup('lsp.lspsaga'), -- LSP UIs
 	setup('lsp.goto-preview'), -- gp
-	--
+
 	setup('lsp.illuminate'), -- higlight a palavra em cima do cursor
 	setup('lsp.symbol-usage'), -- mostra quantas referências e definições a função tem
 	setup('lsp.lazydev'), -- Faster LuaLS setup for Neovim
@@ -155,7 +155,6 @@ local plugins = Array({
 	{ 'akinsho/pubspec-assist.nvim', ft = 'yaml', config = true }, -- add/update dart dependencies
 
 	-- Javascript/Typescript
-	setup('dev.typescript-tools'),
 	setup('dev.package-info'), -- Mostra quais são as versões atuais dos packages
 	{ -- Live server. Igual do vscode
 		'barrett-ruth/live-server.nvim',
