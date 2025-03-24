@@ -6,32 +6,26 @@ function M.setup()
 		config = M.config,
 		keys = {
 			{ '<leader>ao', M.open_picker, mode = { 'n', 'v' }, desc = 'codecompanion: abrir picker' },
-			{ '<leader>k', M.open_quick_prompt, mode = { 'n', 'v' }, desc = 'codecompanion: quick prompt' },
+			-- { '<leader>k', M.open_quick_prompt, mode = { 'n', 'v' }, desc = 'codecompanion: quick prompt' },
 			{ '<leader>v', M.toggle_chat, desc = 'codecompanion: toggle chat' },
 		},
 	}
 end
 
 function M.config()
-	utils.api.augroup('CodeCompanionHooks', {
-		pattern = 'codecompanion',
-		event = 'Filetype',
-		command = function(args)
-			-- Esconde diagnosticos no codecompanion
-			vim.diagnostic.enable(false, { bufnr = args.buf })
-
-			-- Desabilita o cmp no codecompanion
-			require('blink.cmp.config').sources.providers['codecompanion'] = nil
-			require('blink.cmp.config').sources.per_filetype['codecompanion'] = nil
-		end,
-	})
-
 	require('codecompanion').setup({
 		language = 'English', -- Default is "English"
 		adapters = {
 			openai = function() -- remove o print da qnt de tokens utilizados
 				return require('codecompanion.adapters').extend('openai', {
 					handlers = { tokens = function() end },
+				})
+			end,
+			['openrouter'] = function()
+				return require('codecompanion.adapters').extend('openai_compatible', {
+					url = 'https://openrouter.ai/api/v1/chat/completions',
+					env = { api_key = 'OPENROUTER_API_KEY' },
+					schema = { model = { default = 'google/gemini-2.0-flash-001' } },
 				})
 			end,
 		},
@@ -46,7 +40,7 @@ function M.config()
 		strategies = {
 			-- CHAT STRATEGY ----------------------------------------------------------
 			chat = {
-				adapter = 'openai',
+				adapter = 'openrouter',
 				roles = { llm = 'CodeCompanion', user = 'Eu' },
 				variables = {
 					['buffer'] = {
@@ -74,7 +68,7 @@ function M.config()
 			},
 			-- INLINE STRATEGY --------------------------------------------------------
 			inline = {
-				adapter = 'openai',
+				adapter = 'openrouter',
 				keymaps = {
 					accept_change = {
 						modes = { n = 'ga' },
@@ -199,7 +193,7 @@ function M.config()
 					},
 				},
 				intro_message = '',
-				-- show_header_separator = true, -- Show header separators in the chat buffer? Set this to false if you're using an exteral markdown formatting plugin
+				show_header_separator = false, -- Show header separators in the chat buffer? Set this to false if you're using an exteral markdown formatting plugin
 				separator = '─', -- The separator between the different messages in the chat buffer
 				render_headers = false,
 
@@ -242,39 +236,38 @@ function M.config()
 			---@diagnostic disable-next-line: unused-local
 			system_prompt = function(adapter)
 				return table.concat({
-					"You are an AI programming assistant named 'CodeCompanion'.",
-					"You are currently plugged in to the Neovim text editor on a user's machine.",
+					"Você é um assistente de programação de IA chamado 'CodeCompanion'.",
+					'Você está atualmente conectado ao editor de texto Neovim na máquina de um usuário.',
 					'',
-					'Your core tasks include:',
-					'- Answering general programming questions.',
-					'- Explaining how the code in a Neovim buffer works.',
-					'- Reviewing the selected code in a Neovim buffer.',
-					'- Generating unit tests for the selected code.',
-					'- Proposing fixes for problems in the selected code.',
-					'- Scaffolding code for a new workspace.',
-					"- Finding relevant code to the user's query.",
-					'- Proposing fixes for test failures.',
-					'- Answering questions about Neovim.',
-					'- Running tools.',
+					'Suas principais tarefas incluem:',
+					'- Responder a perguntas gerais de programação.',
+					'- Explicar como o código em um buffer do Neovim funciona.',
+					'- Revisar o código selecionado em um buffer do Neovim.',
+					'- Gerar testes unitários para o código selecionado.',
+					'- Propor correções para problemas no código selecionado.',
+					'- Estruturar código para um novo espaço de trabalho.',
+					'- Encontrar código relevante para a consulta do usuário.',
+					'- Propor correções para falhas de testes.',
+					'- Responder a perguntas sobre o Neovim.',
+					'- Executar ferramentas.',
 					'',
-					'You must:',
-					"- Follow the user's requirements carefully and to the letter.",
-					'- Keep your answers short and impersonal, especially if the user responds with context outside of your tasks.',
-					'- Minimize other prose.',
-					'- Use Markdown formatting in your answers.',
-					'- Include the programming language name at the start of the Markdown code blocks.',
-					'- Avoid line numbers in code blocks.',
-					'- Avoid wrapping the whole response in triple backticks.',
-					"- Only return code that's relevant to the task at hand. You may not need to return all of the code that the user has shared.",
-					"- Use actual line breaks instead of '\\n' in your response to begin new lines.",
-					"- Use '\\n' only when you want a literal backslash followed by a character 'n'.",
-					"- Answer in the same language as the user's query.",
+					'Você deve:',
+					'- Seguir os requisitos do usuário cuidadosamente e ao pé da letra.',
+					'- Manter suas respostas curtas e impessoais, especialmente se o usuário responder com contexto fora de suas tarefas.',
+					'- Evitar floreios desnecessários.',
+					'- Usar formatação Markdown em suas respostas.',
+					'- Incluir o nome da linguagem de programação no início dos blocos de código Markdown.',
+					'- Evitar números de linha em blocos de código.',
+					'- Evitar envolver toda a resposta em três crases invertidas ```.',
+					'- Retornar apenas o código relevante para a tarefa. Não precisa retornar todo o código compartilhado pelo usuário.',
+					"- Usar quebras de linha reais em vez de '\n' em sua resposta para iniciar novas linhas.",
+					"- Usar '\n' apenas quando quiser uma barra invertida literal seguida pelo caractere 'n'.",
+					'- Responder no mesmo idioma da consulta do usuário.',
 					'',
-					'When given a task:',
-					'1. Think step-by-step and describe your plan for what to build in pseudocode, written out in great detail, unless asked not to do so.',
-					'2. Output the code in a single code block, being careful to only return relevant code.',
-					'3. You should always generate short suggestions for the next user turns that are relevant to the conversation.',
-					'4. You can only give one reply for each conversation turn.',
+					'Ao receber uma tarefa:',
+					'1. Pense passo a passo e descreva seu plano para o que construir em pseudocódigo, escrito em grande detalhe, a menos que seja solicitado a não fazê-lo.',
+					'2. Exiba o código em um único bloco de código, tendo cuidado para retornar apenas o código relevante.',
+					'3. Você só pode dar uma resposta para cada interação da conversa.',
 				}, '\n')
 			end,
 		},
@@ -449,7 +442,7 @@ M.toggle_chat = function()
 	vim.cmd('CodeCompanionChat Toggle')
 end
 
-M.open_quick_prompt = function() vim.cmd('CodeCompanion /documentar') end
+-- M.open_quick_prompt = function() vim.cmd('CodeCompanion /documentar') end
 
 M.get_prompt = function(title) --
 	return require('plugins.dev.codecompanion.prompts.' .. title)
