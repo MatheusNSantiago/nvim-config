@@ -6,13 +6,14 @@ return {
     is_default = false,
     is_slash_cmd = true,
     auto_submit = true,
+		short_name = 'gerar_mensagem_de_commit',
   },
   prompts = {
     {
       role = "user",
       content = function()
         return string.format(
-          [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me:
+          [[Você é um especialista em seguir a especificação do Conventional Commits. Dado o diff do git abaixo, gere uma mensagem de commit para mim:
 
 ```diff
 %s
