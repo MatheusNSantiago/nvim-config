@@ -36,7 +36,7 @@ local plugins = Array({
 	setup('ui.bufferline'), -- Tabs/buffers
 	setup('ui.dressing'), -- selection e input
 	setup('ui.noice'), -- messages, cmdline and popupmenu
-	setup('ui.barbecue'), -- breadcrumbs
+	-- setup('ui.barbecue'), -- breadcrumbs
 	setup('ui.highlight-colors'), -- highlighter #FFF
 	setup('ui.vim-scrollbar'), -- scrollbar
 	setup('ui.todo-comments'), -- highlight TODO, FIXME, etc...
@@ -188,11 +188,10 @@ local plugins = Array({
 	--  │                          Debug                           │
 	--  ╰──────────────────────────────────────────────────────────╯
 
-	setup('debug', {
-		{ 'rcarriga/nvim-dap-ui', lazy = true },
-		{ 'mfussenegger/nvim-dap-python', lazy = true },
-		{ 'theHamsta/nvim-dap-virtual-text', lazy = true },
-	}),
+	setup('debug'),
+	setup('debug.dap-ui'),
+	setup('debug.dap-python'),
+	setup('debug.dap-virtual-text'),
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                         Other                            │

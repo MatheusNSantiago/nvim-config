@@ -5,7 +5,6 @@ function M.setup()
 		'mfussenegger/nvim-dap',
 		config = M.config,
 		keys = {
-			{ '<leader>dap', function() require('dapui').toggle() end, desc = 'dap ui: toggle' },
 			{ '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'dap: toggle breakpoint' },
 			{
 				'<leader>dL',
@@ -24,19 +23,11 @@ function M.setup()
 end
 
 function M.config()
-	M.setup_listeners()
-
-	require('plugins.debug.ui').setup()
-	require('plugins.debug.virtual-text').setup()
-	require('plugins.debug.dap-python').setup()
-end
-
-function M.setup_listeners()
 	local dap = require('dap')
-	local dapui = require('dapui')
 
+	-- SETUP LISTENERS
 	dap.listeners.after.event_initialized['me'] = function()
-		M._force_temporary_keymap('K', dapui.eval)
+		M._force_temporary_keymap('K', function() require('dapui').eval() end)
 		M._force_temporary_keymap('<leader>q', dap.terminate)
 		M._force_temporary_keymap('<leader>j', dap.step_out)
 		M._force_temporary_keymap('<leader>k', dap.step_over)
