@@ -4,7 +4,9 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'zbirenbaum/copilot.lua',
 		config = M.config,
-		event = 'LspAttach',
+    keys = {
+      { '<M-]>', mode = { 'i' } },
+    },
 	}
 end
 
