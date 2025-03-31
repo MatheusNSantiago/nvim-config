@@ -33,6 +33,7 @@ function M.config()
 			html = { 'prettierd' },
 			python = { 'ruff_format', 'ruff_organize_imports' },
 			markdown = { 'prettierd' },
+			java = { 'google-java-format' },
 		},
 		default_format_opts = { lsp_format = 'fallback' },
 		-- Set the log level. Use `:ConformInfo` to see the location of the log file.
