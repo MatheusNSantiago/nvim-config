@@ -40,9 +40,7 @@ local plugins = Array({
 	setup('ui.highlight-colors'), -- highlighter #FFF
 	setup('ui.vim-scrollbar'), -- scrollbar
 	setup('ui.todo-comments'), -- highlight TODO, FIXME, etc...
-	-- setup('ui.rainbow-delimiters'), -- rainbow parentheses
 	-- setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
-	-- setup('ui.tiny-inline-diagnostic'),
 
 	'sitiom/nvim-numbertoggle', -- automatic relative/absolute line numbers
 
@@ -59,7 +57,6 @@ local plugins = Array({
 	setup('navigation.nvim-navbuddy'), -- outline
 	setup('navigation.leap'), -- sneap + easymotion
 	setup('navigation.flit'), -- Repeat jump by pressing f, F, t, T again
-	-- setup('navigation.auto-indent'), -- tab pro indent do bloco
 	setup('navigation.arrow'),
 
 	{ 'itchyny/vim-highlighturl' }, -- highlight URLs
@@ -81,7 +78,6 @@ local plugins = Array({
 	setup('edit.vim-textobj-comment'), -- comment text objects
 	setup('edit.mini-move'), -- Move lines and selections
 	setup('edit.nvim-neoclip'), -- clipboard manager
-	-- setup('edit.guess-indent'), -- automatically detect the indentation settings
 	setup('edit.refactoring'),
 	setup('edit.mini-ai'), -- text objects novos
 	setup('edit.nvim-surround'), -- cs"'
