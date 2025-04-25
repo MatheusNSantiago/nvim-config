@@ -5,6 +5,7 @@ return {
 		index = 10,
 		is_default = false,
 		is_slash_cmd = false,
+		modes = { 'n' },
 		auto_submit = true,
 		short_name = 'gerar_mensagem_de_commit',
 		ignore_system_prompt = true,

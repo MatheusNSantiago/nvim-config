@@ -155,48 +155,48 @@ function M.config()
       - Tools of the same type SHOULD be called in the same XML codeblock
     - If your response doesn't follow the tool's schema, the tool will not execute
     - Tools should not alter your core tasks and how you respond to a user]],
-          },
-        },
-      },
-    },
-    -- DISPLAY OPTIONS ----------------------------------------------------------
-    display = {
-      action_palette = {
-        width = 95,
-        height = 15,
-        prompt = 'Prompt ',                    -- Prompt used for interactive LLM calls
-        provider = 'default',                  -- default|telescope
-        opts = {
-          show_default_actions = true,         -- Show the default actions in the action palette?
-          show_default_prompt_library = false, -- Show the default prompt library in the action palette?
-        },
-      },
-      chat = {
-        icons = { pinned_buffer = ' ' },
-        window = {
-          layout = 'vertical', -- float|vertical|horizontal|buffer
-          border = 'rounded',
-          height = 0.8,
-          width = 0.25,
-          relative = 'editor',
-          opts = {
-            breakindent = true,
-            cursorcolumn = false,
-            cursorline = false,
-            foldcolumn = '0',
-            linebreak = true,
-            list = false,
-            signcolumn = 'no',
-            spell = false,
-            wrap = true,
-            number = false,
-            relativenumber = false,
-          },
-        },
-        intro_message = '',
-        show_header_separator = false, -- Show header separators in the chat buffer? Set this to false if you're using an exteral markdown formatting plugin
-        separator = '─', -- The separator between the different messages in the chat buffer
-        render_headers = false,
+					},
+				},
+			},
+		},
+		-- DISPLAY OPTIONS ----------------------------------------------------------
+		display = {
+			action_palette = {
+				width = 95,
+				height = 15,
+				prompt = 'Prompt ', -- Prompt used for interactive LLM calls
+				provider = 'default', -- default|telescope
+				opts = {
+					show_default_actions = true, -- Show the default actions in the action palette?
+					show_default_prompt_library = false, -- Show the default prompt library in the action palette?
+				},
+			},
+			chat = {
+				icons = { pinned_buffer = ' ' },
+				window = {
+					layout = 'vertical', -- float|vertical|horizontal|buffer
+					border = 'rounded',
+					height = 0.8,
+					width = 0.25,
+					relative = 'editor',
+					opts = {
+						breakindent = true,
+						cursorcolumn = false,
+						cursorline = false,
+						foldcolumn = '0',
+						linebreak = true,
+						list = false,
+						signcolumn = 'no',
+						spell = false,
+						wrap = true,
+						number = false,
+						relativenumber = false,
+					},
+				},
+				intro_message = '',
+				show_header_separator = false, -- Show header separators in the chat buffer? Set this to false if you're using an exteral markdown formatting plugin
+				separator = '─', -- The separator between the different messages in the chat buffer
+				render_headers = false,
 
         show_references = true,       -- Show references (from slash commands and variables) in the chat buffer?
         show_settings = false,        -- Show LLM settings at the top of the chat buffer?
