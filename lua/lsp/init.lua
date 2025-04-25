@@ -15,6 +15,7 @@ M.servers = {
 	'bashls',
 	'cobol_ls',
 	'dart_ls',
+	'gopls',
 	'pyright',
 	'ruff',
 	'clangd',
@@ -26,13 +27,7 @@ M.client_capabilities = function()
 	return vim.tbl_deep_extend(
 		'force',
 		vim.lsp.protocol.make_client_capabilities(),
-		-- nvim-cmp supports additional completion capabilities, so broadcast that to servers.
 		require('blink.cmp').get_lsp_capabilities()
-		-- {
-		-- 	textDocument = {
-		-- 		foldingRange = { dynamicRegistration = true, lineFoldingOnly = true },
-		-- 	},
-		-- }
 	)
 end
 
@@ -97,33 +92,24 @@ function M.get_configs_for(server_name)
 end
 
 function M.setup()
-	-- vim.lsp.set_log_level('off')
+	vim.lsp.set_log_level('off')
 	require('lspconfig.ui.windows').default_options.border = 'single' -- coloca borda no :LspInfo
 
 	-- Setup handlers
 	require('lsp.handlers').setup()
 
-	-- Definir icones dos diagnósticos
-	local icons = utils.icons.diagnostics
-	local signs = {
-		{ name = 'DiagnosticSignError', text = icons.Error },
-		{ name = 'DiagnosticSignWarn', text = icons.Warning },
-		{ name = 'DiagnosticSignHint', text = icons.Hint },
-		{ name = 'DiagnosticSignInfo', text = icons.Information },
-	}
-	for _, sign in ipairs(signs) do
-		vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
-	end
-
 	-- Diagnosticos
 	vim.diagnostic.config({
 		-- virtual_text = false,
-		virtual_text = {
-			spacing = 4,
-			prefix = '●',
-			source = false,
+		virtual_text = { spacing = 4, prefix = '●', source = false },
+		signs = {
+			text = {
+				[vim.diagnostic.severity.ERROR] = U.icons.diagnostics.Error,
+				[vim.diagnostic.severity.WARN] = U.icons.diagnostics.Warning,
+				[vim.diagnostic.severity.HINT] = U.icons.diagnostics.Hint,
+				[vim.diagnostic.severity.INFO] = U.icons.diagnostics.Information,
+			},
 		},
-		signs = { active = signs },
 		underline = true,
 		update_in_insert = false,
 		severity_sort = true,
