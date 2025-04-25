@@ -1,16 +1,18 @@
-local opt =  vim.opt
-vim.g.mapleader = " "
+local opt = vim.opt
+local o = vim.o
+vim.g.mapleader = vim.keycode('<space>')
 
-
+opt.shell = 'fish'
 opt.hidden = true
-opt.encoding = "utf-8"
+opt.encoding = 'utf-8'
 opt.showmatch = true -- show matching brackets.
-opt.completeopt = "menu,menuone,noselect"
+o.completeopt = 'menu,menuone,popup,fuzzy'
 opt.pumheight = 10 -- Maximum number of items to show in the popup menu
 
 -- opt.mouse = ""      -- disabilita o mouse
 
-opt.undofile = true -- Save undo history
+opt.undofile = true -- Salva histórico de undo
+o.undolevels = 10000 -- Max undo
 
 -- Indentação
 opt.autoindent = true -- indent a new line the same as the current line
@@ -27,21 +29,25 @@ opt.lbr = true -- ligar o linebreak
 opt.tw = 500 -- linebreak on 500 characters
 opt.wrap = true -- wrap lines
 
+-- Fold
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
--- UI Stuff
-opt.signcolumn = "yes" -- Add a column on the left. Useful for linting
-opt.cmdheight = 1 -- Give more space for displaying messages
+-- Coisos de UI
+opt.signcolumn = 'yes' -- Adiciona uma coluna (de signs) do lado dos números
+opt.cmdheight = 1
 opt.number = true
 opt.relativenumber = true
-opt.scrolloff = 6
-opt.splitkeep = "screen"
+opt.scrolloff = 6 -- número de mínimo de linhas acima e abaixo do cursor
+-- opt.splitkeep = 'screen'
 opt.laststatus = 3
-
--- Highlights
 opt.cursorline = true
--- opt.cursorcolumn = true
 opt.termguicolors = true
-opt.background = "dark"
+opt.background = 'dark'
+vim.g.netrw_banner = 0
+
 
 -- Desabilitar Backups
 opt.swapfile = false -- No swap files
@@ -53,8 +59,10 @@ opt.hlsearch = true -- highlight search results
 opt.ignorecase = true -- case insensitive matching
 opt.incsearch = true -- Start showing results as you type
 opt.smartcase = true -- Be smart about case sensitivity when searching
-opt.path:remove("/usr/include")
-opt.path:append("**")
+opt.path:remove('/usr/include')
+opt.path:append('**')
 opt.wildignorecase = true
-opt.wildignore:append("**/node_modules/*")
-opt.wildignore:append("**/.git/*")
+opt.wildignore:append('**/node_modules/*')
+opt.wildignore:append('**/.git/*')
+
+vim.o.updatetime = 200 -- save swap file with 200ms debouncing
