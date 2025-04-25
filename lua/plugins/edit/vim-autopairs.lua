@@ -35,7 +35,7 @@ function M.config()
 			java = false,
 		},
 		enable_check_bracket_line = true, -- (|)) =digita=> ( =fica=> ((|))
-		disable_filetype = { 'TelescopePrompt', 'vim' },
+		disable_filetype = { 'TelescopePrompt', 'vim', 'bigfile' },
 	})
 end
 

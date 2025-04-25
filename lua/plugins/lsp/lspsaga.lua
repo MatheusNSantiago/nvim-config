@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-	return {
+	return { ---@type LazyPluginSpec
 		'glepnir/lspsaga.nvim',
 		config = M.config,
 		dependencies = {

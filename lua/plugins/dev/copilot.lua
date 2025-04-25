@@ -4,9 +4,10 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'zbirenbaum/copilot.lua',
 		config = M.config,
-    keys = {
-      { '<M-]>', mode = { 'i' } },
-    },
+		keys = {
+			{ '<M-[>', mode = { 'i' } },
+			{ '<M-]>', mode = { 'i' } },
+		},
 	}
 end
 

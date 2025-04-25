@@ -1,18 +1,16 @@
 local M = {}
 
 function M.setup()
-	return {
+	return { ---@type LazyPluginSpec
 		'SmiteshP/nvim-navbuddy',
+		config = M.config,
+		keys = { { '<leader>o', function() require('nvim-navbuddy').open() end, desc = 'navbuddy: open pannel' } },
 		dependencies = {
 			'neovim/nvim-lspconfig',
 			'SmiteshP/nvim-navic',
 			'MunifTanjim/nui.nvim',
-			'numToStr/Comment.nvim', -- Optional
-			'nvim-telescope/telescope.nvim', -- Optional
-		},
-		config = M.config,
-		keys = {
-			{ '<leader>o', function() require('nvim-navbuddy').open() end, desc = 'navbuddy: open pannel' },
+			'numToStr/Comment.nvim',
+			'nvim-telescope/telescope.nvim',
 		},
 	}
 end

@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-	return {
+	return { ---@type LazyPluginSpec
 		'nvim-lualine/lualine.nvim',
 		event = 'VimEnter',
 		config = M.config,
