@@ -2,6 +2,15 @@ local lazy_require = U.lazy_require
 
 vim.filetype.add({ extension = { ['cpy'] = 'copybook' } })
 
+---@class FiletypeSettings
+---@field on_buf_enter fun(args: AutocmdArgs)
+---@field picker CreatePickerSettings
+---@field plugins table<string, fun(plugin: any)>
+---@field bo vim.bo
+---@field opt table<string, any>
+---@field mappings table<string, string>
+---@field autocommands table<string, string | fun(args: AutocmdArgs)>
+
 U.api.augroup('filetype_configs', {
 	event = 'Filetype',
 	pattern = '*',
@@ -12,7 +21,7 @@ U.api.augroup('filetype_configs', {
 			[{ 'typescript', 'typescriptreact' }] = lazy_require('filetypes.typescript'),
 			['c'] = lazy_require('filetypes.c'),
 			['java'] = lazy_require('filetypes.java'),
-			-- ['markdown'] = safe_require('filetypes.markdown'),
+			['markdown'] = lazy_require('filetypes.markdown'),
 			['rust'] = lazy_require('filetypes.rust'),
 			--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 			['cobol'] = lazy_require('cobol-bundle', 'cobol_config'),
@@ -26,7 +35,13 @@ U.api.augroup('filetype_configs', {
 		for scope, value in pairs(settings) do
 			local apply = U.switch(scope, {
 				on_buf_enter = vim.schedule_wrap(function() value(args) end),
-				picker = function() create_picker(value.keymap, value.title, value.actions) end,
+				picker = function()
+					create_picker({
+						keymap = value.keymap,
+						title = value.title,
+						actions = value.actions,
+					})
+				end,
 				plugins = function()
 					if type(value) ~= 'table' then return end
 					for pkg, callback in pairs(value) do

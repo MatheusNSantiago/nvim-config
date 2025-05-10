@@ -1,10 +1,17 @@
 local M = {}
 
+---@class CreatePickerSettings
+---@field keymap string
+---@field title string
+---@field actions {name: string, handler: function | string, condition?: fun(buffer, ft):boolean}
+
+---@param opts CreatePickerSettings
 --- Cria um picker pro telescope que funciona para um determinado filetype
----@param keymap string
----@param title string
----@param actions_tbl {name: string, handler: function | string, condition?: fun(buffer, ft):boolean}
-function M.create_picker(keymap, title, actions_tbl)
+function M.create_picker(opts)
+	local keymap = opts.keymap
+	local title = opts.title
+	local actions_tbl = opts.actions
+
 	actions_tbl = vim.tbl_filter(function(action)
 		local buffer = vim.api.nvim_get_current_buf()
 		return action.condition and action.condition(buffer, vim.bo[buffer].ft) or true

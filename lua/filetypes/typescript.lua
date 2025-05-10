@@ -33,8 +33,8 @@ return {
 			'<leader>ff',
 			function()
 				require('conform').format({ async = true }, function()
-					vim.cmd('TSToolsSortImports')
-					vim.cmd('TSToolsRemoveUnusedImports')
+					-- vim.cmd('TSToolsSortImports')
+					-- vim.cmd('TSToolsRemoveUnusedImports')
 				end)
 			end,
 		},
