@@ -29,6 +29,7 @@ local plugins = Array({
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('ui.tokyonight'), -- Tema
+
 	setup('ui.web-devicons'), -- icones
 	setup('ui.lualine'), -- Status Line
 	setup('ui.hlchunk'), -- indentação/context
@@ -36,7 +37,7 @@ local plugins = Array({
 	setup('ui.bufferline'), -- Tabs/buffers
 	setup('ui.dressing'), -- selection e input
 	setup('ui.noice'), -- messages, cmdline and popupmenu
-	-- setup('ui.barbecue'), -- breadcrumbs
+	setup('ui.barbecue'), -- breadcrumbs
 	setup('ui.highlight-colors'), -- highlighter #FFF
 	setup('ui.vim-scrollbar'), -- scrollbar
 	setup('ui.todo-comments'), -- highlight TODO, FIXME, etc...
@@ -172,9 +173,9 @@ local plugins = Array({
 	{
 		'iamcco/markdown-preview.nvim',
 		cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
-		build = 'cd app && npm install',
 		init = function() vim.g.mkdp_filetypes = { 'markdown' } end,
 		ft = { 'markdown' },
+		build = function() vim.fn['mkdp#util#install']() end,
 	},
 
 	-- Rust
@@ -194,6 +195,7 @@ local plugins = Array({
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('other.snacks'), -- bundle de coisas uteis
+	setup('other.image'), -- bundle de coisas uteis
 })
 
 if utils.is_wsl() then
