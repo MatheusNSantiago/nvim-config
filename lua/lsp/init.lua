@@ -5,9 +5,9 @@ M.servers = {
 	'cssls',
 	'html',
 	'angularls',
-	'jdtls',
+	-- 'jdtls',
 	'tailwindcss',
-
+	'ts_ls',
 	'jsonls',
 	'yamlls',
 	'dockerls',
@@ -72,18 +72,16 @@ end
 
 function M.get_commom_configs()
 	return {
-		on_attach = function(client, bufnr) M.common_on_attach(client, bufnr) end,
+		on_attach = M.common_on_attach,
 		capabilities = M.client_capabilities(),
-		flags = { debounce_text_changes = 150 },
 	}
 end
-
-function M.extend_commom_configs(config) return vim.tbl_deep_extend('force', config, M.get_commom_configs()) end
 
 function M.get_configs_for(server_name)
 	local config = M.get_commom_configs()
 
 	local has_custom_config, ls_configs = pcall(require, 'lsp.servers.' .. server_name)
+
 	if has_custom_config then
 		config = vim.tbl_deep_extend('force', config, ls_configs) -- adicioar configurações personalizadas
 	end
@@ -97,6 +95,11 @@ function M.setup()
 
 	-- Setup handlers
 	require('lsp.handlers').setup()
+
+	for _, server in ipairs(M.servers) do
+		local configs = M.get_configs_for(server)
+		vim.lsp.config[server] = configs
+	end
 
 	-- Diagnosticos
 	vim.diagnostic.config({

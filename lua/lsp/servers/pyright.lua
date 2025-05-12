@@ -1,15 +1,5 @@
 local M = {}
 
-M.root_dir = require('lspconfig.util').root_pattern(
-	'pyproject.toml',
-	'requirements.txt',
-	'.venv',
-	'.git',
-	'setup.py',
-	'setup.cfg',
-	'pyrightconfig.json'
-)
-
 M.handlers = {
 	['textDocument/publishDiagnostics'] = function() end,
 }

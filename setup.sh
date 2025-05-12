@@ -7,7 +7,11 @@ install lazygit \
             eza \ # `ls` melhorado
              rg \ # ripgrep
              fd \ # find
-             gh   # github
+             gh \ # github
+    imagemagick \ # manipulação de imagens - dependencia do image.nvim
+  python-pynvim \
+  python-jupyter-client \
+      jupytext
 
 install python-debugpy
 
