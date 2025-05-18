@@ -22,6 +22,7 @@ function M.config()
 
 		formatters_by_ft = {
 			lua = { 'stylua' },
+			go = { 'goimports', 'gofmt' },
 			c = { 'clang-format' },
 			dart = { 'dart_format' },
 			yamlfmt = { 'yamlfmt' },
@@ -36,6 +37,7 @@ function M.config()
 			java = { 'google-java-format' },
 		},
 		default_format_opts = { lsp_format = 'fallback' },
+
 		-- Set the log level. Use `:ConformInfo` to see the location of the log file.
 		log_level = vim.log.levels.ERROR,
 		-- Conform will notify you when a formatter errors
