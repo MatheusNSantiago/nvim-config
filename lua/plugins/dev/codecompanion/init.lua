@@ -25,7 +25,7 @@ function M.config()
         return require('codecompanion.adapters').extend('openai_compatible', {
           url = 'https://openrouter.ai/api/v1/chat/completions',
           env = { api_key = 'OPENROUTER_API_KEY' },
-          schema = { model = { default = 'google/gemini-2.0-flash-001' } },
+          schema = { model = { default = 'google/gemini-2.5-flash-preview' } },
         })
       end,
     },
@@ -40,7 +40,7 @@ function M.config()
     strategies = {
       -- CHAT STRATEGY ----------------------------------------------------------
       chat = {
-        adapter = U.is_wsl() and 'openai' or 'openrouter',
+        adapter = 'openrouter',
         roles = { llm = 'CodeCompanion', user = 'Eu' },
         variables = {
           ['buffer'] = {
