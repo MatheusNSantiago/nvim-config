@@ -209,7 +209,7 @@ if utils.is_wsl() then
 	})
 else
 	plugins:extend({
-		{ dir = '~/dev/cobol/cobol-bundle/', config = true, lazy = true },
+		{ dir = '~/dev/cobol/cobol-bundle/', ft = { 'cobol', 'copybook' }, lazy=true, config = true },
 		{ dir = '~/dev/foo/foo-nvim/', ft = { 'foo' }, lazy = true },
 	})
 end

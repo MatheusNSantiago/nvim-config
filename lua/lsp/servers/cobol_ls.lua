@@ -4,9 +4,8 @@ local keymap = utils.api.keymap
 local M = {
 	filetypes = { 'cobol', 'copybook' },
 	capabilities = lsp.client_capabilities(),
-	root_dir = require('lsp.utils').find_root_dir,
 }
---
+
 -- M.cmd = function(dispatchers)
 -- 	local is_wsl = utils.is_wsl()
 -- 	local lsp_path = '~/dev/cobol/plugins/server-linux'
@@ -23,28 +22,28 @@ local M = {
 --
 -- 	return lsp_rpc_client_factory(dispatchers)
 -- end
---
-M.handlers = {
-	['copybook/resolve'] = function(_, result, _)
-		local uri, name = unpack(result)
-		local filename = name .. '.cpy'
-		local path = uri:gsub('file://', '')
 
-		while path ~= '/' do
-			local parent_dir_path = vim.fn.fnamemodify(path, ':h')
-			local parent_dir_files = Array(vim.fn.readdir(parent_dir_path))
+M.handlers = vim.lsp.handlers
+M.handlers['copybook/resolve'] = function(_, result, err)
+	local uri, name = unpack(result)
+	local filename = name .. '.cpy'
+	local path = uri:gsub('file://', '')
 
-			if parent_dir_files:contains('copybook') then
-				local copybook_uri = ('file://%s/copybook/%s'):format(parent_dir_path, filename)
-				return copybook_uri
-			end
+	while path ~= '/' do
+		local parent_dir_path = vim.fn.fnamemodify(path, ':h')
+		local parent_dir_files = Array(vim.fn.readdir(parent_dir_path))
 
-			path = parent_dir_path
+		if parent_dir_files:contains('copybook') then
+			local copybook_uri = ('file://%s/copybook/%s'):format(parent_dir_path, filename)
+			return copybook_uri
 		end
 
-		print("Não foi possível encontrar o copybook '" .. filename .. "'")
-	end,
-}
+		path = parent_dir_path
+	end
+
+	print("Não foi possível encontrar o copybook '" .. filename .. "'")
+  return err
+end
 
 M.on_attach = function(client, bufnr)
 	lsp.common_on_attach(client, bufnr)
@@ -53,7 +52,8 @@ M.on_attach = function(client, bufnr)
 	keymap('n', 'gV', function()
 		vim.cmd('vsplit')
 
-		vim.cmd('wincmd w') vim.cmd('wincmd L')
+		vim.cmd('wincmd w')
+		vim.cmd('wincmd L')
 		vim.cmd('Lspsaga goto_definition')
 
 		vim.cmd('vertical resize ' .. 127)

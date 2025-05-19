@@ -97,8 +97,8 @@ function M.setup()
 	require('lsp.handlers').setup()
 
 	for _, server in ipairs(M.servers) do
-		local configs = M.get_configs_for(server)
-		vim.lsp.config[server] = configs
+		local config = M.get_configs_for(server)
+		vim.lsp.config[server] = vim.tbl_deep_extend('keep', config, vim.lsp.config[server] or {})
 	end
 
 	-- Diagnosticos
