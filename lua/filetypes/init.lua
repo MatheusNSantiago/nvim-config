@@ -2,44 +2,46 @@ local lazy_require = U.lazy_require
 
 vim.filetype.add({ extension = { ['cpy'] = 'copybook' } })
 
----@class FiletypeSettings
----@field on_buf_enter fun(args: AutocmdArgs)
----@field picker CreatePickerSettings
----@field plugins table<string, fun(plugin: any)>
----@field bo vim.bo
----@field opt table<string, any>
----@field mappings table<string, string>
----@field autocommands table<string, string | fun(args: AutocmdArgs)>
+local settings_map = {
+	['python'] = lazy_require('filetypes.python'),
+	['typescript'] = lazy_require('filetypes.typescript'),
+	['typescriptreact'] = lazy_require('filetypes.typescript'),
+	['c'] = lazy_require('filetypes.c'),
+	['java'] = lazy_require('filetypes.java'),
+	['markdown'] = lazy_require('filetypes.markdown'),
+	['rust'] = lazy_require('filetypes.rust'),
+	--  ╾───────────────────────────────────────────────────────────────────────────────────╼
+	['cobol'] = lazy_require('cobol-bundle', 'cobol_config'),
+	['copybook'] = lazy_require('cobol-bundle', 'copybook_config'),
+	['foo'] = lazy_require('cobol-foo'),
+}
+
+local filetypes = vim.tbl_keys(settings_map)
+
+local get_settings = function()
+	local _get_settings = settings_map[vim.bo.ft]
+	return _get_settings()
+end
 
 U.api.augroup('filetype_configs', {
-	event = 'Filetype',
-	pattern = '*',
+	event = { 'Filetype' },
+	pattern = filetypes,
 	command = function(args)
-		local ft = vim.bo.ft
-		local get_settings = U.switch(ft, {
-			['python'] = lazy_require('filetypes.python'),
-			[{ 'typescript', 'typescriptreact' }] = lazy_require('filetypes.typescript'),
-			['c'] = lazy_require('filetypes.c'),
-			['java'] = lazy_require('filetypes.java'),
-			['markdown'] = lazy_require('filetypes.markdown'),
-			['rust'] = lazy_require('filetypes.rust'),
-			--  ╾───────────────────────────────────────────────────────────────────────────────────╼
-			['cobol'] = lazy_require('cobol-bundle', 'cobol_config'),
-			['copybook'] = lazy_require('cobol-bundle', 'copybook_config'),
-			['foo'] = lazy_require('cobol-foo'),
-		})
-
-		if not get_settings then return end
 		local settings = get_settings()
 
 		for scope, value in pairs(settings) do
 			local apply = U.switch(scope, {
 				on_buf_enter = vim.schedule_wrap(function() value(args) end),
 				picker = function()
-					create_picker({
-						keymap = value.keymap,
-						title = value.title,
-						actions = value.actions,
+					-- hack pra atualizar o picker quando muda o buffer
+					U.api.augroup('filetype_picker', {
+						event = 'BufEnter',
+						command = function()
+							if not vim.tbl_contains(filetypes, vim.bo.ft) then return end
+							value = get_settings().picker
+							if not value then return end
+							create_picker({ keymap = value.keymap, title = value.title, actions = value.actions })
+						end,
 					})
 				end,
 				plugins = function()
@@ -78,10 +80,19 @@ U.api.augroup('filetype_configs', {
 					-- end, value)
 					local commands = value
 
-					U.api.augroup(ft .. '_filetype_aucommands', unpack(commands))
+					U.api.augroup('filetype_aucommands', unpack(commands))
 				end,
 			})
 			if apply then apply() end
 		end
 	end,
 })
+
+---@class FiletypeSettings
+---@field on_buf_enter fun(args: AutocmdArgs)
+---@field picker CreatePickerSettings
+---@field plugins table<string, fun(plugin: any)>
+---@field bo vim.bo
+---@field opt table<string, any>
+---@field mappings table<string, string>
+---@field autocommands table<string, string | fun(args: AutocmdArgs)>
