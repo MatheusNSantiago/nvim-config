@@ -70,13 +70,8 @@ function M.setup()
 			--  ╰──────────────────────────────────────────────────────────╯
 			{
 				'<leader>sf',
-				function() require('telescope').extensions.smart_open.smart_open({ cwd_only = true }) end,
+				function() require('telescope.builtin').find_files() end,
 				desc = '[S]earch [F]iles',
-			},
-			{
-				'<leader>smf',
-				function() require('telescope').extensions.media_files.media_files() end,
-				desc = '[S]earch [M]edia [F]iles',
 			},
 			{
 				'<leader>sy',
@@ -190,10 +185,6 @@ function M.config()
 				override_file_sorter = true, -- override the file sorter
 				case_mode = 'smart_case', -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
 			},
-			media_files = {
-				filetypes = { 'png', 'webp', 'jpg', 'jpeg', 'pdf', 'mp4', 'webm' },
-				find_cmd = 'fd',
-			},
 			smart_open = {
 				show_scores = false,
 				ignore_patterns = ignore_patterns,
@@ -232,7 +223,6 @@ function M.config()
 
 	telescope.load_extension('fzf')
 	telescope.load_extension('undo')
-	telescope.load_extension('media_files')
 	telescope.load_extension('smart_open')
 	telescope.load_extension('neoclip')
 	telescope.load_extension('egrepify')
