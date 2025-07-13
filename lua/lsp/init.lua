@@ -4,7 +4,7 @@ local keymap = utils.api.keymap
 M.servers = {
 	'cssls',
 	'html',
-	'angularls',
+	'angularls@17.0.0',
 	-- 'jdtls',
 	'tailwindcss',
 	'ts_ls',
@@ -90,7 +90,7 @@ function M.get_configs_for(server_name)
 end
 
 function M.setup()
-	vim.lsp.set_log_level('off')
+	-- vim.lsp.set_log_level('off')
 	require('lspconfig.ui.windows').default_options.border = 'single' -- coloca borda no :LspInfo
 
 	-- Setup handlers

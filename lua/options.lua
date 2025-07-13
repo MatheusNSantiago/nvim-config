@@ -2,7 +2,6 @@ local opt = vim.opt
 local o = vim.o
 vim.g.mapleader = vim.keycode('<space>')
 
-opt.shell = 'fish'
 opt.hidden = true
 opt.encoding = 'utf-8'
 opt.showmatch = true -- show matching brackets.

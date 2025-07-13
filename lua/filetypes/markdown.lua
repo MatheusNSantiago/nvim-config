@@ -4,7 +4,7 @@ return {
 		keymap = '<leader><leader>o',
 		title = 'Markdown',
 		actions = {
-			{ name = 'Ativar Preview', handler = ':MarkdownPreview<CR>' },
+			-- { name = 'Ativar Preview', handler = ':MarkdownPreview<CR>' },
 		},
 	},
 	bo = {
