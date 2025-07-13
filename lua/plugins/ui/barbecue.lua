@@ -93,7 +93,6 @@ function M.config()
 		---|false # Disable kind icons.
 		---|table<string, string> # Type to icon mapping.
 		---Icons for different context entry kinds.
-		---@type barbecue.Config.kinds
 		kinds = {
 			Boolean = kind.Boolean,
 			Class = kind.Class,
