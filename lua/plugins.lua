@@ -137,6 +137,9 @@ local plugins = Array({
   setup('dev.blink'),         -- autocomplete
   setup('dev.luasnip'),       -- snippets
 
+  -- kndndrj/nvim-dbee -- database
+  -- hrsh7th/nvim-cmp -- database
+
   -- testes
   setup('dev.neotest'),
   setup('dev.kulala'), -- REST-Client
@@ -165,7 +168,6 @@ local plugins = Array({
 
   -- Python
   setup('dev.venv-selector'),
-  setup('dev.iron'), -- notebook
   { 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
 
 	-- Markdown
@@ -205,8 +207,8 @@ if utils.is_wsl() then
   })
 else
 	plugins:extend({
-		{ dir = '~/dev/cobol/cobol-bundle/', ft = { 'cobol', 'copybook' }, lazy=true, config = true },
-		{ dir = '~/dev/foo/foo-nvim/', ft = { 'foo' }, lazy = true },
+		{ dir = '~/dev/cobol/cobol-bundle/', ft = { 'cobol', 'copybook' }, config = true },
+		{ dir = '~/dev/bb/foo/foo-nvim/', ft = { 'foo' }, lazy = true },
 	})
 end
 
