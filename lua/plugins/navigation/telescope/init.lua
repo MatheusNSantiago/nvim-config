@@ -70,7 +70,7 @@ function M.setup()
 			--  ╰──────────────────────────────────────────────────────────╯
 			{
 				'<leader>sf',
-				function() require('telescope.builtin').find_files() end,
+				function() M.smart_open() end,
 				desc = '[S]earch [F]iles',
 			},
 			{
@@ -120,29 +120,6 @@ function M.config()
 		}):sync()
 	end
 
-	local ignore_patterns = {
-		'.git',
-		'.venv',
-		'node_modules',
-		'*.jpg',
-		'*.jpeg',
-		'*.png',
-		'*.lock',
-		-- Flutter/Dart/Pub related
-		'.dart_tool/',
-		'.idea',
-		'android',
-		'build/',
-		'out/',
-		'ios',
-		'linux',
-		'macos',
-		'web',
-		'windows',
-		'.metadata',
-		'%.iml',
-	}
-
 	local get_mappings = require('plugins.navigation.telescope.mappings')
 
 	telescope.setup({
@@ -151,11 +128,11 @@ function M.config()
 		buffer_previewer_maker = preview_maker,
 		pickers = {
 			find_files = {
-				file_ignore_patterns = ignore_patterns,
+				file_ignore_patterns = M._ignore_patterns,
 				hidden = true,
 			},
 			live_grep = {
-				glob_pattern = vim.tbl_map(function(pattern) return '!' .. pattern end, ignore_patterns),
+				glob_pattern = vim.tbl_map(function(pattern) return '!' .. pattern end, M._ignore_patterns),
 			},
 		},
 		layout_config = {
@@ -184,12 +161,6 @@ function M.config()
 				override_generic_sorter = true, -- override the generic sorter
 				override_file_sorter = true, -- override the file sorter
 				case_mode = 'smart_case', -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
-			},
-			smart_open = {
-				show_scores = false,
-				ignore_patterns = ignore_patterns,
-				match_algorithm = 'fzf',
-				disable_devicons = false,
 			},
 			undo = {
 				use_delta = true,
@@ -226,6 +197,92 @@ function M.config()
 	telescope.load_extension('smart_open')
 	telescope.load_extension('neoclip')
 	telescope.load_extension('egrepify')
+end
+
+M._ignore_patterns = {
+	'.git',
+	'.venv',
+	'node_modules',
+	'*.jpg',
+	'*.jpeg',
+	'*.png',
+	'*.lock',
+	-- Flutter/Dart/Pub related
+	'.dart_tool/',
+	'.idea',
+	'android',
+	'build/',
+	'out/',
+	'ios',
+	'linux',
+	'macos',
+	'web',
+	'windows',
+	'.metadata',
+	'%.iml',
+}
+
+function M.smart_open()
+	vim.api.nvim_set_vvar('oldfiles', {})
+	local cwd = vim.fn.expand('%:p:h')
+
+	local ignore_patterns = {}
+	for _, pattern in ipairs(M._ignore_patterns) do
+		table.insert(ignore_patterns, pattern)
+	end
+
+	-- Encontra o diretório root do projeto
+	local find_root_dir = require('lspconfig.util').root_pattern('.git')
+	local project_root_folder = find_root_dir(cwd)
+
+	if project_root_folder then
+		-- Guarda todos os patterns do .gitignore
+		local git_ignore = {}
+		local git_ignore_file = vim.fn.expand(project_root_folder .. '/.gitignore')
+		if vim.fn.filereadable(git_ignore_file) == 1 then
+			for _, line in ipairs(vim.fn.readfile(git_ignore_file)) do
+				if not line:match('^%s*#') and #line > 0 then -- ignora linhas comentadas e vazias
+					table.insert(git_ignore, line)
+				end
+			end
+		end
+
+		if cwd ~= project_root_folder then
+			-- Precisamos adaptar os padrões de ignore para o diretório atual
+
+			-- > cwd: /home/foo/bar/projeto/backend/buzz
+			-- > project_root_folder: /home/foo/bar/projeto
+
+			-- Pega a diferença entre cwd e project_root_folder
+			local relative_dirs = cwd:sub(#project_root_folder + 2)
+
+			-- > relative_dirs: backend/buzz
+
+			-- Remove o prefixo do diretório atual dos padrões de ignore
+			for i, pattern in ipairs(git_ignore) do
+				if pattern:sub(1, #relative_dirs + 1) == relative_dirs .. '/' then
+					-- remove o prefixo do diretório atual
+					git_ignore[i] = pattern:sub(#relative_dirs + 2)
+
+					-- remove o / do último caractere, se existir
+					if git_ignore[i]:sub(-1) == '/' then --
+						git_ignore[i] = git_ignore[i]:sub(1, -2)
+					end
+				end
+			end
+		end
+
+		-- adiciona os padrões de ignore do smart_open
+		ignore_patterns = vim.list_extend(ignore_patterns, git_ignore)
+	end
+
+	require('telescope').extensions.smart_open.smart_open({
+		cwd_only = true, --
+		ignore_patterns = ignore_patterns,
+		show_scores = false,
+		match_algorithm = 'fzf',
+		disable_devicons = false,
+	})
 end
 
 M.highlights = {
