@@ -109,16 +109,4 @@ function M.format(opts)
 	return vim.lsp.buf.format(opts)
 end
 
-function M.find_root_dir(startpath)
-	local p = require('lspconfig.util').path
-	local is_dir, is_file, join = p.is_dir, p.is_file, p.join
-
-	return require('lspconfig.util').search_ancestors(startpath, function(path)
-		local is_git = is_dir(join(path, '.git')) or is_file(join(path, '.git'))
-		if is_git then return path end
-
-		if is_dir(path) then return path end
-	end)
-end
-
 return M

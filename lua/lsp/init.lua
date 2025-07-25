@@ -5,7 +5,7 @@ M.servers = {
 	'cssls',
 	'html',
 	'angularls@17.0.0',
-	-- 'jdtls',
+	'jdtls',
 	'tailwindcss',
 	'ts_ls',
 	'jsonls',

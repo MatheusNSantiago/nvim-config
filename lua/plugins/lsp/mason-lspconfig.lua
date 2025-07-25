@@ -27,7 +27,7 @@ function M.config()
 	end, lsp.servers)
 
 	mason_lspconfig.setup({
-		ensure_installed = lsp_list,
+		-- ensure_installed = lsp_list,
 		automatic_enable = true,
 	})
 
