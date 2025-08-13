@@ -11,7 +11,7 @@ end
 
 M.config = function()
   local api = require('nvim-tree.api')
-  local view = require('nvim-tree.view')
+  -- local view = require('nvim-tree.view')
 
   utils.api.keymap('n', '<A-e>', M.focusOrToggle, { desc = 'nvim-tree: open explorer' })
 
@@ -32,10 +32,10 @@ M.config = function()
     desc = 'salva a width do nvim-tree para poder restaurar depois',
     event = 'WinResized',
     command = function()
-      local filetree_winnr = view.get_winnr()
-      if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
-        vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
-      end
+      -- local filetree_winnr = view.get_winnr()
+      -- if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
+      --   vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
+      -- end
     end,
   }, {
     event = 'User',
@@ -55,11 +55,11 @@ M.config = function()
   api.events.subscribe(api.events.Event.FileCreated, function(file) vim.cmd('edit ' .. file.fname) end)
 
   -- restaura o último tamanho da janela ao abrir o nvim-tree
-  api.events.subscribe(api.events.Event.TreeOpen, function()
-    if vim.t['filetree_width'] ~= nil then
-      view.resize(vim.t['filetree_width']) --
-    end
-  end)
+  -- api.events.subscribe(api.events.Event.TreeOpen, function()
+  --   if vim.t['filetree_width'] ~= nil then
+  --     view.resize(vim.t['filetree_width']) --
+  --   end
+  -- end)
 
   local is_java = vim.fn.glob(vim.fn.getcwd() .. '/pom.xml') ~= ''
   -- comando pra enviar arquivo para a lixeira (melhor que só deletar)
