@@ -8,7 +8,7 @@ function M.setup()
 		-- install jsregexp (optional!).
 		build = 'make install_jsregexp',
 		dependencies = {
-			'friendly-snippets', -- Set of preconfigured snippets for different languages.
+      "rafamadriz/friendly-snippets"
 		},
 	}
 end
