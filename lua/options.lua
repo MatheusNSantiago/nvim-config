@@ -7,6 +7,7 @@ opt.encoding = 'utf-8'
 opt.showmatch = true -- show matching brackets.
 o.completeopt = 'menu,menuone,popup,fuzzy'
 opt.pumheight = 10 -- Maximum number of items to show in the popup menu
+o.shell = "zsh"
 
 -- opt.mouse = ""      -- disabilita o mouse
 

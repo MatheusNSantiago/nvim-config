@@ -4,6 +4,7 @@ vim.filetype.add({ extension = { ['cpy'] = 'copybook' } })
 
 local settings_map = {
   ['python'] = lazy_require('filetypes.python'),
+  ['javascript'] = lazy_require('filetypes.javascript'),
   ['typescript'] = lazy_require('filetypes.typescript'),
   ['typescriptreact'] = lazy_require('filetypes.typescript'),
   ['c'] = lazy_require('filetypes.c'),
