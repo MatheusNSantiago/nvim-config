@@ -24,23 +24,37 @@ return {
 			'<leader>r',
 			function()
 				vim.cmd('w')
+				local current_relative_path = vim.fn.expand('%')
 
-				local python_executable
-
-				local is_poetry_project = vim.fn.glob(vim.fn.getcwd() .. '/pyproject.toml') ~= ''
-				if is_poetry_project then
-					python_executable = require('venv-selector').python()
-
-					if python_executable == nil then
-						utils.error('Usa :VenvSelect e selecione o poetry environment')
-						return
-					end
-				else
-					python_executable = 'python'
+				local run = function(cmd)
+					U.exec_cmd(cmd)
+					vim.defer_fn(function() vim.cmd('stopinsert') end, 100)
 				end
 
-				U.exec_cmd(python_executable .. ' ' .. vim.fn.expand('%'))
-				vim.defer_fn(function() vim.cmd('stopinsert') end, 100)
+				local is_python_project = vim.fn.glob(vim.fn.getcwd() .. '/pyproject.toml') ~= ''
+				if is_python_project then
+					local project_root = require('venv-selector.utils').find_workspace_root()
+					local lock_file = vim
+						.iter(vim.fn.readdir(project_root))
+						:find(function(file) return file:match('.*%.lock') end)
+
+					if lock_file then
+						local package_manager = lock_file:match('^(.-)%.lock$')
+
+						if package_manager == 'uv' then --
+							-- codebase/codebase.py --> codebase.codebase
+							local module_path = current_relative_path:gsub('%.py$', ''):gsub('/', '.')
+
+							return run('uv run python -m ' .. module_path)
+						end
+					end
+
+					local python_executable = require('venv-selector').python()
+
+					return run(python_executable .. ' ' .. current_relative_path)
+				end
+
+				return run('python ' .. current_relative_path)
 			end,
 			desc = 'python: [R]un',
 		},

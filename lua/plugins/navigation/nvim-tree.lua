@@ -492,12 +492,13 @@ function M._custom_commands()
 			local root_path = vim.fn.shellescape(root)
 			local include_args = table.concat(include_patterns, ' ')
 
-			local command = ('gitingest %s %s -o - | wl-copy'):format(root_path, include_args)
+			local command = ('code2prompt %s %s --absolute-paths --output-file - | wl-copy'):format(root_path, include_args)
 
-			vim.fn.jobstart({ 'sh', '-c', command }, {
+			vim.fn.jobstart(command, {
+				stdout_buffered = true,
 				on_exit = function(_, code)
 					if code ~= 0 then
-						vim.notify('Erro ao executar o gitingest. Código de saída: ' .. tostring(code), vim.log.levels.ERROR)
+						vim.notify('Erro ao executar code2prompt. Código de saída: ' .. tostring(code), vim.log.levels.ERROR)
 					end
 				end,
 			})
