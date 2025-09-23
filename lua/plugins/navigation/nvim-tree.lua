@@ -392,8 +392,7 @@ end
 function M._custom_commands()
 	local tree = require('nvim-tree.api').tree
 	local api = require('nvim-tree.api')
-	local U = require('nvim-tree.utils')
-
+  local core = require("nvim-tree.core")
 	return {
 		swap_then_open_tab = function()
 			local node = tree.get_node_under_cursor()
@@ -413,7 +412,11 @@ function M._custom_commands()
 				local parent = node.parent
 				if not parent then return end
 				parent:expand_or_collapse()
-				U.focus_node_or_parent(parent)
+
+        local explorer = core.get_explorer()
+        if explorer then
+          return explorer:focus_node_or_parent(parent)
+        end
 			end
 		end,
 		expand = function() -- open as vsplit on current node
