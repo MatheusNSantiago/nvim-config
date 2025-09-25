@@ -11,7 +11,7 @@ function M.setup()
 			--  │                     resizing splits                      │
 			--  ╰──────────────────────────────────────────────────────────╯
 			{
-				is_wsl and '<C-S-A-Up>' or '<C-S-A-i>',
+				is_wsl and '<C-S-A-Up>' or '<C-S-A-l>',
 				function() require('smart-splits').resize_up() end,
 				desc = 'smart-splits: resize up',
 			}, -- (autokey = <C-S-A-l>)

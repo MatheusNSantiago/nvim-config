@@ -29,7 +29,6 @@ function M.config()
 	})
 end
 
-local c = require('utils.colors')
 M.highlights = {
 	LeapMatch = { fg = c.red, bold = true, underline = true, nocombine = true },
 	LeapLabel = { fg = c.red, bold = true, underline = true, nocombine = true },

@@ -390,35 +390,36 @@ function M._win_closed(args)
 end
 
 function M._custom_commands()
-  local tree = require('nvim-tree.api').tree
-  local api = require('nvim-tree.api')
-  local U = require('nvim-tree.utils')
-
-  return {
-    swap_then_open_tab = function()
-      local node = tree.get_node_under_cursor()
-      if node == nil then return end
-      vim.cmd('wincmd l')
-      api.node.open.tab(node)
-    end,
+	local tree = require('nvim-tree.api').tree
+	local api = require('nvim-tree.api')
+	local core = require('nvim-tree.core')
+	return {
+		swap_then_open_tab = function()
+			local node = tree.get_node_under_cursor()
+			if node == nil then return end
+			vim.cmd('wincmd l')
+			api.node.open.tab(node)
+		end,
 
     collapse_all = function() require('nvim-tree.actions.tree-modifiers.collapse-all').fn() end,
     collapse = function()
       local node = tree.get_node_under_cursor()
       if node == nil then return end
 
-      if node.open then
-        node:expand_or_collapse()
-      else
-        local parent = node.parent
-        if not parent then return end
-        parent:expand_or_collapse()
-        U.focus_node_or_parent(parent)
-      end
-    end,
-    expand = function() -- open as vsplit on current node
-      local node = tree.get_node_under_cursor()
-      if node == nil then return end
+			if node.open then
+				node:expand_or_collapse()
+			else
+				local parent = node.parent
+				if not parent then return end
+				parent:expand_or_collapse()
+
+				local explorer = core.get_explorer()
+				if explorer then return explorer:focus_node_or_parent(parent) end
+			end
+		end,
+		expand = function() -- open as vsplit on current node
+			local node = tree.get_node_under_cursor()
+			if node == nil then return end
 
       if node.nodes ~= nil then node:expand_or_collapse() end
     end,
@@ -492,15 +493,23 @@ function M._custom_commands()
       local root_path = vim.fn.shellescape(root)
       local include_args = table.concat(include_patterns, ' ')
 
-      local command
-      if U.is_wsl then
-        command = ('code2prompt %s %s --output-file - | iconv -f UTF-8 -t UTF-16LE | clip.exe'):format(include_args,
-          root_path)
-      else
-        command = ('gitingest %s %s -o - | wl-copy'):format(root_path, include_args)
-      end
+			local exclude_patterns = { 'package-lock.json' }
+			local exclude_args = Array(exclude_patterns):map(function(p) return '-e ' .. p end):join(' ')
 
-      -- code2prompt  -i 'src/app/spas/estruturacao/operacaoEstruturada/precificacaoOperacaoEstruturada/operacaoEstruturada.precificacao.edicao.tpl.html' '/home/wsl/bb/sgt/sgt-estatico' --output-file - | clip.exe
+			local command = ('code2prompt %s %s %s --absolute-paths --output-file - | wl-copy'):format(
+				root_path,
+				exclude_args,
+				include_args
+			)
+
+			vim.fn.jobstart(command, {
+				stdout_buffered = true,
+				on_exit = function(_, code)
+					if code ~= 0 then
+						vim.notify('Erro ao executar code2prompt. Código de saída: ' .. tostring(code), vim.log.levels.ERROR)
+					end
+				end,
+			})
 
       vim.fn.jobstart({ 'sh', '-c', command }, {
         on_exit = function(_, code)
