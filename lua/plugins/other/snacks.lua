@@ -31,12 +31,15 @@ function M.setup()
 end
 
 function M.config()
+	local MAX_LUA_INTEGER = 9223372036854775807
 	require('snacks').setup({
 		bigfile = {
 			enabled = true,
 			notify = true, -- show notification when big file detected
 			size = 800 * 1024, -- 800KB
-			setup = function()
+			line_length = MAX_LUA_INTEGER,
+			setup = function(a)
+				U.log(a)
 				local run = function(command)
 					if vim.fn.exists(':' .. command) ~= 0 then vim.cmd(command) end
 				end
