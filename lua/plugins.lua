@@ -57,7 +57,6 @@ local plugins = Array({
   setup('navigation.marks'),         -- marks
   setup('navigation.nvim-navbuddy'), -- outline
   setup('navigation.leap'),          -- sneap + easymotion
-  setup('navigation.flit'),          -- Repeat jump by pressing f, F, t, T again
   setup('navigation.arrow'),
 
   { 'itchyny/vim-highlighturl' }, -- highlight URLs
@@ -207,8 +206,8 @@ if utils.is_wsl() then
   })
 else
 	plugins:extend({
-		{ dir = '~/dev/cobol/cobol-bundle/', ft = { 'cobol', 'copybook' }, config = true },
-		{ dir = '~/dev/bb/foo/foo-nvim/', ft = { 'foo' }, lazy = true },
+		{ dir = '~/dev/cobol-bundle', ft = { 'cobol', 'copybook' }, config = true },
+		-- { dir = '~/dev/bb/foo/foo-nvim/', ft = { 'foo' }, lazy = true },
 	})
 end
 
