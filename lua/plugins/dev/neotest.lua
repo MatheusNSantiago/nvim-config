@@ -11,6 +11,7 @@ function M.setup()
 			--  ─────────────────────────────
 			'nvim-neotest/neotest-jest',
 			'nvim-neotest/neotest-python',
+			'arthur944/neotest-bun',
 		},
 		config = M.config,
 
@@ -33,6 +34,7 @@ function M.config()
 				cwd = function(_) return vim.fn.getcwd() end,
 			}),
 			require('neotest-python'),
+			require('neotest-bun'),
 		},
 		benchmark = { enabled = true },
 		consumers = {},
