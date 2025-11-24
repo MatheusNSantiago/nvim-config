@@ -274,7 +274,7 @@ hls.html = {
 }
 
 hls.markdown = {
-	["@markup.raw.block.markdown"] = { link = '@speel' },
+	['@markup.raw.block.markdown'] = { link = '@speel' },
 }
 hls.python = {
 	['@punctuation.special.python'] = { link = 'Operator' },
@@ -291,6 +291,13 @@ hls.cobol = {
 	['@keyword.cobol'] = { link = 'Keyword' },
 
 	['@level_number.cobol'] = { fg = c.red },
+}
+
+hls.sql = {
+	-- Garante que identifiers SQL tenham cor própria (ex: Cyan), quebrando a herança
+	['@variable'] = { fg = c.cyan },
+	['@field'] = { fg = c.cyan },
+	['@property'] = { fg = c.cyan },
 }
 
 hls.editor = {

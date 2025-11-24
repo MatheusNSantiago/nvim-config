@@ -20,6 +20,7 @@ function M.config()
     'dart_ls',
     'rust-analyzer',
     'jdtls',
+    'trexx_ls'
   }
   local lsp_list = vim.tbl_filter(function(server)
     local is_custom_lsp = vim.tbl_contains(custom_lsps, server)

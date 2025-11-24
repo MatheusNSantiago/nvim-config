@@ -20,6 +20,7 @@ M.servers = {
 	'ruff',
 	'clangd',
 	'rust-analyzer', -- inicializado pelo rustacean
+  'trexx_ls'
 }
 
 ---editor's capabilities + some overrides.
@@ -96,8 +97,29 @@ function M.setup()
 	-- Setup handlers
 	require('lsp.handlers').setup()
 
+	-- for _, server in ipairs(M.servers) do
+	-- 	local config = M.get_configs_for(server)
+	-- 	vim.lsp.config[server] = vim.tbl_deep_extend('keep', config, vim.lsp.config[server] or {})
+	-- end
+	--
+	-- vim.lsp.config['trexx_ls'] = M.get_configs_for('trexx_ls')
+
+	local lspconfig = require('lspconfig')
+	local configs = require('lspconfig.configs')
+
+	-- 1. Registrar a configuração do servidor customizado (Se ainda não existir no nvim-lspconfig)
+	if not configs.trexx_ls then configs.trexx_ls = {
+		default_config = require('lsp.servers.trexx_ls').config,
+	} end
+
+	-- 2. Iterar e inicializar
 	for _, server in ipairs(M.servers) do
 		local config = M.get_configs_for(server)
+
+		-- Se for o nosso servidor customizado, FORÇA o setup aqui
+		if server == 'trexx_ls' then lspconfig.trexx_ls.setup(config) end
+
+		-- Mantém sua lógica existente para os outros (se necessário)
 		vim.lsp.config[server] = vim.tbl_deep_extend('keep', config, vim.lsp.config[server] or {})
 	end
 

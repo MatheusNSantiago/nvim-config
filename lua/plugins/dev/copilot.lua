@@ -4,10 +4,11 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'zbirenbaum/copilot.lua',
 		config = M.config,
-		keys = {
-			{ '<M-]>', mode = { 'i' } },
-			{ '<M-[>', mode = { 'i' } },
-		},
+    lazy = false,
+		-- keys = {
+		-- 	{ '<M-]>', mode = { 'i' } },
+		-- 	{ '<M-[>', mode = { 'i' } },
+		-- },
 		-- cmd = 'Copilot',
 	}
 end
@@ -30,7 +31,7 @@ function M.config()
 				dismiss = false,
 			},
 		},
-
+		disable_limit_reached_message = true,
 		filetypes = {
 			help = false,
 			['*'] = true, -- disable for all other filetypes and ignore default `filetypes`
