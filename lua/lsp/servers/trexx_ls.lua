@@ -1,6 +1,6 @@
 local M = {}
 
-local trexx_tool_path = vim.fn.expand('~/dev/trexx/trexx-tool/src/cmd/lsp-server.ts')
+local trexx_tool_path = vim.fn.expand('~/dev/trexx/trexx-tool/src/lsp/server.ts')
 M.config = {
 	cmd = { 'bun', trexx_tool_path, '--stdio' },
 

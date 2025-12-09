@@ -21,20 +21,20 @@ M.settings = {
 				vim.cmd('w')
 				local current_file = vim.fn.expand('%:p')
 				-- Ajuste o caminho para o transpiler
-				local transpiler_cmd = 'bun ~/dev/trexx/trexx-tool/src/cmd/transpiler-cli.ts ' .. current_file
+				local transpiler_cmd = 'bun ~/dev/trexx/trexx-tool/src/cli/main.ts ' .. current_file
 
 				-- Executa em um terminal flutuante ou mensagem
 				local output = vim.fn.system(transpiler_cmd)
 				print(output)
 
 				-- Opcional: Abrir o arquivo gerado
-				vim.cmd('edit ' .. current_file:gsub('%.trexx$', '.teste'))
+				-- vim.cmd('edit ' .. current_file:gsub('%.trexx$', '.teste'))
 			end,
 			desc = 'Trexx: [R]un Transpiler',
 		},
 	},
 	bo = {
-		commentstring = '// %s',
+		commentstring = '-- %s',
 	},
 }
 

@@ -4,7 +4,7 @@ local keymap = utils.api.keymap
 M.servers = {
 	'cssls',
 	'html',
-	'angularls@17.0.0',
+	-- 'angularls@17.0.0',
 	'jdtls',
 	'tailwindcss',
 	'ts_ls',
@@ -117,7 +117,7 @@ function M.setup()
 		local config = M.get_configs_for(server)
 
 		-- Se for o nosso servidor customizado, FORÇA o setup aqui
-		if server == 'trexx_ls' then lspconfig.trexx_ls.setup(config) end
+		-- if server == 'trexx_ls' then lspconfig.trexx_ls.setup(config) end
 
 		-- Mantém sua lógica existente para os outros (se necessário)
 		vim.lsp.config[server] = vim.tbl_deep_extend('keep', config, vim.lsp.config[server] or {})

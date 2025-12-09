@@ -1,58 +1,125 @@
-; --- Keywords & Controle ---
-(metadata_statement "test" @function.macro) ; 'test' parece uma macro/função global
-(import_statement "import" @keyword.import "from" @keyword.import)
-(setup_block "setup" @keyword.function)
-(mocks_block "mocks" @keyword.function)
-(execute_block "execute" @keyword.function)
-
+; --- Keywords ---
+(config_block "config" @keyword)
+(include_statement "include" @keyword.import)
+(routine_definition "routine" @keyword.function)
+(test_block "test" @keyword.function)
+(mock_block [ "mock" "iib" "program" ] @keyword)
+(input_block "input" @keyword)
+(mock_when_clause "when" @keyword.control) ; Corrigido
 
 [
- "const"
- "let"
- "var"
+  (keyword_setup)
+  (keyword_cleanup)
+] @keyword.function
+
+[
+  (keyword_assert)
+
+  (keyword_select)
+  (keyword_insert)
+  (keyword_update)
+  (keyword_delete)
+  (keyword_from)
+  (keyword_where)
+  (keyword_into)
+  (keyword_values)
+  (keyword_set)
+  (keyword_and)
+  (keyword_or)
+  ; (keyword_in)
+  ; (keyword_like)
+  ; (keyword_order)
+  ; (keyword_group)
+  ; (keyword_by)
+  ; (keyword_limit)
+  ; (keyword_join)
+  ; (keyword_on)
+  (keyword_as)
+  ; (keyword_distinct)
+  (keyword_null)
 ] @keyword
 
+
+; Controle de Fluxo
 [
   "for"
+  "in"
   "if"
   "else"
 ] @keyword.control
 
+; --- Identificadores e Definições ---
+
 (identifier) @variable
 
-; --- Funções ---
-(function_declaration
-  "function" @keyword.function
+(routine_definition
   name: (identifier) @function)
 
-(call_expression
-  function: (identifier) @function.call)
+(test_block
+  name: (_) @string.special)
 
-(call_expression
-  function: (member_expression
-    property: (identifier) @method.call))
+(constant_definition
+  name: (constant_identifier) @constant)
 
-; --- Variáveis e Propriedades ---
-(pair
+(parameter
+  (identifier) @variable.parameter)
+
+(config_pair
   key: (identifier) @property)
 
-(member_expression
-  property: (identifier) @property)
+(object_field
+  (identifier) @property)
 
-; --- Literais ---
-(string) @string
-(number) @number
-(boolean) @boolean
-(null) @constant.builtin
-(template_string) @string
+; --- Chamadas (Unificadas como Invocation) ---
+(invocation name: (identifier) @function.call)
 
-; Exceção para SQL - Tenta usar @nospell ou @none
-((tagged_template_expression
-    tag: (identifier) @tag_name
-    template: (template_string) @embedded_sql)
- (#eq? @tag_name "sql")
- (#set! "priority" 105))
 
+; --- SQL Objects (Usando nomes reais da gramática) ---
+; (object_reference
+;   schema: (identifier) @constant
+;   name: (identifier) @constant) ; Tabela
+
+; --- Literais (Usando nós internos do SQL) ---
+[
+  (literal_string)
+  ; (single_quote_string)
+  ; (double_quote_string)
+] @string
+
+[
+  (integer)
+  (decimal_number)
+] @number
+
+[
+  (keyword_true)
+  (keyword_false)
+] @boolean
+
+(keyword_null) @constant.builtin
+
+(constant_identifier) @constant
+
+; --- Mock Attributes ---
+(attribute
+  (identifier) @property)
+
+
+(mock_block
+  target: (_) @string.special)
+
+; --- Operadores ---
+(binary_expression
+  operator: _ @operator)
+
+(unary_expression
+  operator: _ @operator)
+
+
+[
+  "="
+  ":"
+] @operator
 
 ; --- Pontuação ---
 [
@@ -67,37 +134,4 @@
   "."
 ] @punctuation.delimiter
 
-(template_substitution
-  "${" @punctuation.special
-  "}" @punctuation.special) @embedded
-
 (comment) @comment @spell
-
-; --- SQL Tag ---
-(tagged_template_expression
-  tag: (identifier) @function.macro) ; Pinta 'sql' como macro
-
-
-; --- Operadores Matemáticos e Lógicos ---
-
-; Operadores Binários (+ - * / < > == && ||)
-(binary_expression
-  operator: _ @operator)
-
-; Atribuição (=)
-(assignment_expression
-  "=" @operator)
-(variable_declaration
-  "=" @operator)
-
-; Incremento/Decremento (++ --)
-(update_expression
-  [
-    "++"
-    "--"
-  ] @operator)
-
-; Seta de Função (=>)
-(arrow_function
-  "=>" @operator)
-
