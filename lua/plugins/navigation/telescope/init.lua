@@ -68,11 +68,11 @@ function M.setup()
 			--  ╭──────────────────────────────────────────────────────────╮
 			--  │                        Extension                         │
 			--  ╰──────────────────────────────────────────────────────────╯
-			{
-				'<leader>sf',
-				function() M.smart_open() end,
-				desc = '[S]earch [F]iles',
-			},
+			-- {
+			-- 	'<leader>sf',
+			-- 	function() M.smart_open() end,
+			-- 	desc = '[S]earch [F]iles',
+			-- },
 			{
 				'<leader>sy',
 				function() require('telescope').extensions.neoclip.default() end,

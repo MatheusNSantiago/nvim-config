@@ -58,6 +58,7 @@ local plugins = Array({
   setup('navigation.nvim-navbuddy'), -- outline
   setup('navigation.leap'),          -- sneap + easymotion
   setup('navigation.arrow'),
+  setup('navigation.fff'),
 
   { 'itchyny/vim-highlighturl' }, -- highlight URLs
 
