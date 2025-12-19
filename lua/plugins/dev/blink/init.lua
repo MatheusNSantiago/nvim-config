@@ -424,6 +424,7 @@ function M.config()
 
 			-- You may also define providers per filetype
 			per_filetype = {
+				codecompanion = { 'codecompanion' },
 				-- lua = { 'lsp', 'path' },
 			},
 
