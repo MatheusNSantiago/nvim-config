@@ -19,40 +19,55 @@ M.config = function()
 	vim.g.loaded_netrw = 1
 	vim.g.loaded_netrwPlugin = 1
 
-	utils.api.augroup('nvim-tree-automation', {
-		desc = 'Abre nvim-tree ao entrar no neovim',
-		event = 'VimEnter',
-		command = M._open_on_startup,
-	}, {
-		desc = 'Fecha nvim tree se ele for o último buffer',
-		event = { 'WinClosed' },
-		command = M._auto_close,
-		nested = true,
-	}, {
-		desc = 'salva a width do nvim-tree para poder restaurar depois',
-		event = 'WinResized',
-		command = function()
-			-- local filetree_winnr = view.get_winnr()
-			-- if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
-			--   vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
-			-- end
-		end,
-	}, {
-		event = 'User',
-		pattern = 'NvimTreeSetup',
-		command = function()
-			M._prev = M._prev or { new_name = '', old_name = '' } -- Prevents duplicate events
-			api.events.subscribe(api.events.Event.NodeRenamed, function(data)
-				if M._prev.new_name ~= data.new_name or M._prev.old_name ~= data.old_name then
-					data = data
-					Snacks.rename.on_rename_file(data.old_name, data.new_name)
-				end
-			end)
-		end,
-	})
+	utils.api.augroup(
+		'nvim-tree-automation',
+		{
+			desc = 'Abre nvim-tree ao entrar no neovim',
+			event = 'VimEnter',
+			command = M._open_on_startup,
+		},
+		{
+			desc = 'Fecha nvim tree se ele for o último buffer',
+			event = { 'WinClosed' },
+			command = M._auto_close,
+			nested = true,
+		},
+		{
+			desc = 'salva a width do nvim-tree para poder restaurar depois',
+			event = 'WinResized',
+			command = function()
+				-- local filetree_winnr = view.get_winnr()
+				-- if filetree_winnr ~= nil and vim.tbl_contains(vim.v.event['windows'], filetree_winnr) then
+				--   vim.t['filetree_width'] = vim.api.nvim_win_get_width(filetree_winnr)
+				-- end
+			end,
+		}
+		--  , {
+		-- 	event = 'User',
+		-- 	pattern = 'NvimTreeSetup',
+		-- 	command = function()
+		-- 		M._prev = M._prev or { new_name = '', old_name = '' } -- Prevents duplicate events
+		-- 		api.events.subscribe(api.events.Event.NodeRenamed, function(data)
+		-- 			if M._prev.new_name ~= data.new_name or M._prev.old_name ~= data.old_name then
+		-- 				data = data
+		-- 				Snacks.rename.on_rename_file(data.old_name, data.new_name)
+		-- 			end
+		-- 		end)
+		-- 	end,
+		-- }
+	)
+
+	api.events.subscribe(api.events.Event.NodeRenamed, function(data)
+		Snacks.rename.on_rename_file(data.old_name, data.new_name)
+		vim.cmd('FFFScan')
+	end)
 
 	-- Automatically open file upon creation
-	api.events.subscribe(api.events.Event.FileCreated, function(file) vim.cmd('edit ' .. file.fname) end)
+	api.events.subscribe(api.events.Event.FileCreated, function(file)
+		vim.cmd('tab new ' .. file.fname)
+		vim.cmd('FFFScan')
+	end)
+	api.events.subscribe(api.events.Event.FileRemoved, function() vim.cmd('FFFScan') end)
 
 	-- restaura o último tamanho da janela ao abrir o nvim-tree
 	-- api.events.subscribe(api.events.Event.TreeOpen, function()
