@@ -203,6 +203,7 @@ M._ignore_patterns = {
 	'.git',
 	'.venv',
 	'node_modules',
+	'openspec',
 	'*.jpg',
 	'*.jpeg',
 	'*.png',

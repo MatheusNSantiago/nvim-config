@@ -17,6 +17,38 @@ function M.config()
 		presets = M.presets,
 		routes = M.routes,
 		messages = M.messages,
+		---@type NoiceConfigViews
+		views = {
+			confirm = {
+				backend = 'popup',
+				relative = 'editor',
+				focusable = false,
+				align = 'center',
+				enter = false,
+				zindex = 210,
+				format = { '{confirm}' },
+				position = {
+					row = 3,
+					col = '50%',
+				},
+				size = 'auto',
+				border = {
+					style = 'rounded',
+					padding = { 0, 1 },
+					text = {
+						top = ' Confirm ',
+					},
+				},
+				win_options = {
+					winhighlight = {
+						Normal = 'NoiceConfirm',
+						FloatBorder = 'NoiceConfirmBorder',
+					},
+					winbar = '',
+					foldenable = false,
+				},
+			},
+		}, ---@see section on views
 	})
 	--[[ require('noice').setup({
 		popupmenu = {

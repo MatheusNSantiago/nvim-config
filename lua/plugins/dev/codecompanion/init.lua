@@ -19,6 +19,16 @@ function M.config()
 
 	require('codecompanion').setup({
 		language = 'English', -- Default is "English"
+		interactions = {
+			chat = {
+				adapter = {
+					name = 'openrouter',
+					model = 'google/gemini-3-flash-preview',
+				},
+			},
+			inline = { adapter = 'openrouter' },
+			cmd = { adapter = 'openai' },
+		},
 		adapters = {
 			http = {
 				openai = function() -- remove o print da qnt de tokens utilizados
@@ -30,7 +40,7 @@ function M.config()
 					return require('codecompanion.adapters').extend('openai_compatible', {
 						url = 'https://openrouter.ai/api/v1/chat/completions',
 						env = { api_key = 'OPENROUTER_API_KEY' },
-						schema = { model = { default = 'google/gemini-2.5-flash' } },
+						-- schema = { model = { default = 'google/gemini-2.5-flash' } },
 					})
 				end,
 				opts = U.is_wsl() and { allow_insecure = true, proxy = 'http://192.168.127.254:3128' } or nil,
@@ -206,17 +216,17 @@ function M.config()
 						breakindent = true,
 						linebreak = true,
 						wrap = true,
-					-- 	breakindent = true,
-					-- 	cursorcolumn = false,
-					-- 	cursorline = false,
-					-- 	foldcolumn = '0',
-					-- 	linebreak = true,
-					-- 	list = false,
-					-- 	signcolumn = 'no',
-					-- 	spell = false,
-					-- 	wrap = true,
-					-- 	number = false,
-					-- 	relativenumber = false,
+						-- 	breakindent = true,
+						-- 	cursorcolumn = false,
+						-- 	cursorline = false,
+						-- 	foldcolumn = '0',
+						-- 	linebreak = true,
+						-- 	list = false,
+						-- 	signcolumn = 'no',
+						-- 	spell = false,
+						-- 	wrap = true,
+						-- 	number = false,
+						-- 	relativenumber = false,
 					},
 				},
 				-- intro_message = '',
