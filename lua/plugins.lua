@@ -42,7 +42,7 @@ local plugins = Array({
 	setup('ui.vim-scrollbar'), -- scrollbar
 	setup('ui.todo-comments'), -- highlight TODO, FIXME, etc...
 	-- setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
-	setup('ui.stickybuf'), -- Trava abrir buffer dentro de um buffer específo (toggleterm, neotree)
+	-- setup('ui.stickybuf'), -- Trava abrir buffer dentro de um buffer específo (toggleterm, neotree)
 
 	'sitiom/nvim-numbertoggle', -- automatic relative/absolute line numbers
 
@@ -199,6 +199,7 @@ local plugins = Array({
 
 	setup('other.snacks'), -- bundle de coisas uteis
 	setup('other.image'), -- bundle de coisas uteis
+	setup('other.aw-watcher'), -- bundle de coisas uteis
 })
 
 if utils.is_wsl() then
