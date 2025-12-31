@@ -3,7 +3,6 @@
 (include_statement "include" @keyword.import)
 (routine_definition "routine" @keyword.function)
 (test_block "test" @keyword.function)
-(mock_block [ "mock" "iib" "program" ] @keyword)
 (input_block "input" @keyword)
 (mock_when_clause "when" @keyword.control) ; Corrigido
 
@@ -101,12 +100,11 @@
 (constant_identifier) @constant
 
 ; --- Mock Attributes ---
-(attribute
-  (identifier) @property)
-
-
 (mock_block
-  target: (_) @string.special)
+  "mock" @keyword
+  type: (_) @keyword
+  target: (_) @string.special
+  (attribute key: (_) @property))
 
 ; --- Operadores ---
 (binary_expression
