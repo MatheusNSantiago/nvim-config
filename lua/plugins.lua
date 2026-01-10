@@ -200,6 +200,13 @@ local plugins = Array({
 	setup('other.snacks'), -- bundle de coisas uteis
 	setup('other.image'), -- bundle de coisas uteis
 	setup('other.aw-watcher'), -- bundle de coisas uteis
+
+	--  ╭──────────────────────────────────────────────────────────╮
+	--  │                          Custom                          │
+	--  ╰──────────────────────────────────────────────────────────╯
+
+	setup('custom.hotreload'), --  Auto-reload de buffers quando arquivos mudarem no disco
+	setup('custom.last-place'), --  Lembrar a última posição do cursor
 })
 
 if utils.is_wsl() then

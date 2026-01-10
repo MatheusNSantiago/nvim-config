@@ -1,24 +1,24 @@
 local M = {}
 
 function M.setup()
-  return {
-    'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
-    keys = {
-      {
-        '<leader>ff',
-        function() require('conform').format({ async = true }) end,
-        desc = 'Format buffer',
-      },
-    },
-    config = M.config,
-  }
+	return {
+		'stevearc/conform.nvim',
+		event = { 'BufWritePre' },
+		keys = {
+			{
+				'<leader>ff',
+				function() require('conform').format({ async = true }) end,
+				desc = 'Format buffer',
+			},
+		},
+		config = M.config,
+	}
 end
 
 function M.config()
-  local conform = require('conform')
+	local conform = require('conform')
 
-  conform.setup({
+	conform.setup({
 
 		formatters_by_ft = {
 			lua = { 'stylua' },

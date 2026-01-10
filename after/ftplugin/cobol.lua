@@ -1,7 +1,0 @@
--- local lspconfig = require('lspconfig')
--- local lsp = require('lsp')
---
--- local server = 'cobol_ls'
---
--- local config = lsp.get_configs_for(server)
--- lspconfig[server].setup(config)

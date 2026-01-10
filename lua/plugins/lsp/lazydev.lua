@@ -20,6 +20,7 @@ function M.config()
 			-- always load the LazyVim library
 			'LazyVim',
 			'nvim-dap-ui',
+			{ path = '${3rd}/luv/library', words = { 'vim%.uv' } },
 		},
 
 		integrations = {

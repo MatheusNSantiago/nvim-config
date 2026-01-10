@@ -67,7 +67,6 @@ M.config = function()
 	--   end
 	-- end)
 
-	local is_java = vim.fn.glob(vim.fn.getcwd() .. '/pom.xml') ~= ''
 	-- comando pra enviar arquivo para a lixeira (melhor que só deletar)
 	local trash_command = [[sh -c 'kioclient move "$0" trash:/']]
 	require('nvim-tree').setup({
@@ -151,7 +150,7 @@ M.config = function()
 		end,
 		renderer = {
 			add_trailing = false,
-			group_empty = is_java, -- folders that only contain a single folder into one node in the file tree
+			group_empty = M._project_has_java(), -- folders that only contain a single folder into one node in the file tree
 			highlight_git = true,
 			highlight_opened_files = 'none',
 			root_folder_modifier = ':~',
@@ -571,6 +570,16 @@ function M._get_filetype(path, contents)
 	vim.api.nvim_buf_delete(temp_buf, {})
 
 	return filetype
+end
+
+function M._project_has_java()
+	local root = vim.uv.cwd()
+	local found = vim.fs.find('pom.xml', {
+		path = root,
+		upward = false, -- Search downwards into subdirectories
+		limit = 1, -- Stop after first match for performance
+	})
+	return #found > 0
 end
 
 return M

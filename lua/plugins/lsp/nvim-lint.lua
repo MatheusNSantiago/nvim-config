@@ -24,17 +24,17 @@ function M.config()
 	-- local add_args = function(linter, args) vim.list_extend(lint.linters[linter].args, args) end
 	-- add_args('ruff', { '--config', configs .. '/ruff.toml' })
 
-	---@see https://github.com/mfussenegger/nvim-lint/issues/462#issuecomment-2288048568
-	lint.linters['eslint_d'] = require('lint.util').wrap(lint.linters['eslint_d'], function(diagnostic)
-		---@diagnostic disable-next-line: return-type-mismatch, undefined-field
-		if diagnostic.message:find('Error: Could not find config file') then return nil end
-		return diagnostic
-	end)
+	-- ---@see https://github.com/mfussenegger/nvim-lint/issues/462#issuecomment-2288048568
+	-- lint.linters['eslint_d'] = require('lint.util').wrap(lint.linters['eslint_d'], function(diagnostic)
+	-- 	---@diagnostic disable-next-line: return-type-mismatch, undefined-field
+	-- 	if diagnostic.message:find('Error: Could not find config file') then return nil end
+	-- 	return diagnostic
+	-- end)
 
-	-- utils.api.augroup('nvim-lint-augroup', {
-	-- 	event = { 'BufEnter', 'LspAttach', 'BufReadPost', 'BufWritePost', 'InsertLeave', 'CursorHold', 'TextChanged' },
-	-- 	command = function() vim.schedule(lint.try_lint) end,
-	-- })
+	utils.api.augroup('nvim-lint-augroup', {
+		event = { 'BufEnter', 'LspAttach', 'BufReadPost', 'BufWritePost', 'InsertLeave', 'CursorHold', 'TextChanged' },
+		command = function() vim.schedule(lint.try_lint) end,
+	})
 end
 
 return M

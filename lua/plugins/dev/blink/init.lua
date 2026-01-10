@@ -174,7 +174,7 @@ function M.config()
 				enabled = true,
 				min_width = 15,
 				max_height = 10,
-				border = 'rounded',
+				border = 'single',
 				winblend = 0,
 				winhighlight = 'Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
 				-- Keep the cursor X lines away from the top/bottom of the window
@@ -275,7 +275,7 @@ function M.config()
 					min_width = 10,
 					max_width = 60,
 					max_height = 20,
-					border = 'rounded',
+					border = 'single',
 					winblend = 0,
 					winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
 					-- Note that the gutter will be disabled when border ~= 'none'
