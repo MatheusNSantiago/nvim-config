@@ -1,11 +1,52 @@
 local lsp = require('lsp')
 local keymap = utils.api.keymap
 
+  -- server.jar  : /home/matheus/dev/che4z-example/che-che4z-lsp-for-cobol/server/engine/target/server.jar
+  -- dialect jar :
+  --
+  -- local server_path = vim.fn.expand('~/dev/che-che4z-lsp-for-cobol/server/engine/target/server.jar')
+-- local dialect_path = vim.fn.expand('~/dev/cobol-dialect-template/server/dialect-example/target/dialect-example.jar')
+
+local server_path = vim.fn.expand("~/dev/che4z-example/che-che4z-lsp-for-cobol/server/engine/target/server.jar")
+local dialect_path = vim.fn.expand('~/dev/che4z-example/dialects/dialect-example.jar')
 local M = {
+	cmd = {
+		'java',
+		'-jar',
+		server_path,
+		'pipeEnabled',
+		'-Dline.separator=\r\n',
+		'-Dlogback.statusListenerClass=ch.qos.logback.core.status.NopStatusListener',
+		'-DserverType=NATIVE',
+	},
 	filetypes = { 'cobol', 'copybook' },
 	capabilities = lsp.client_capabilities(),
-}
+	settings = {
+		['cobol-lsp'] = {
+			dialects = { 'example' },
+			['analysis-mode'] = 'ADVANCED',
+			['target-sql-backend-enable-processing'] = true,
+			['target-sql-backend'] = 'DB2_SERVER',
+			cics = { translator = true },
+			logging = { level = { root = 'ERROR' } },
+			dialect = {
 
+				registry = {
+					{
+						name = 'example',
+						protocolVersion = 1,
+						uri = {
+							scheme = 'file',
+							path = dialect_path,
+						},
+						description = 'Example dialect (local)',
+						extensionId = 'nvim-local',
+					},
+				},
+			},
+		},
+	},
+}
 -- M.cmd = function(dispatchers)
 -- 	local is_wsl = utils.is_wsl()
 -- 	local lsp_path = '~/dev/cobol/plugins/server-linux'
@@ -42,7 +83,7 @@ M.handlers['copybook/resolve'] = function(_, result, err)
 	end
 
 	print("Não foi possível encontrar o copybook '" .. filename .. "'")
-  return err
+	return err
 end
 
 M.on_attach = function(client, bufnr)
