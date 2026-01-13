@@ -146,7 +146,8 @@ local plugins = Array({
 
 	-- Git
 	setup('dev.gitsigns'), -- gutter signs
-	setup('dev.diffview'),
+	-- setup('dev.diffview'),-- diff view
+	setup('dev.codediff'), -- diff view
 	{ 'tpope/vim-fugitive', event = 'VeryLazy' },
 
 	-- Flutter
@@ -156,12 +157,12 @@ local plugins = Array({
 
 	-- Javascript/Typescript
 	setup('dev.package-info'), -- Mostra quais são as versões atuais dos packages
-	{ -- Live server. Igual do vscode
-		'barrett-ruth/live-server.nvim',
-		cmd = { 'LiveServerStart', 'LiveServerStop' },
-		opts = { args = { '--port=7000', '--browser=google-chrome-stable' } },
-		build = 'sudo npm add -g live-server',
-	},
+	-- { -- Live server. Igual do vscode
+	-- 	'barrett-ruth/live-server.nvim',
+	-- 	cmd = { 'LiveServerStart', 'LiveServerStop' },
+	-- 	opts = { args = { '--port=7000', '--browser=google-chrome-stable' } },
+	-- 	build = 'sudo npm add -g live-server',
+	-- },
 
 	-- Java
 	setup('dev.java'),
