@@ -4,7 +4,8 @@ vim.filetype.add({
 	extension = {
 		['cpy'] = 'copybook',
 		['trexx'] = 'trexx',
-		['sgt'] = 'trexx',
+		['teste'] = 'teste',
+		['include'] = 'include',
 	},
 })
 

@@ -50,6 +50,8 @@
 ; --- Identificadores e Definições ---
 
 (identifier) @variable
+(sql_qualified_name) @variable
+(sql_identifier) @variable
 
 (routine_definition
   name: (identifier) @function)

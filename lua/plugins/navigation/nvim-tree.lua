@@ -501,7 +501,7 @@ function M._custom_commands()
 			local exclude_patterns = { 'package-lock.json' }
 			local exclude_args = Array(exclude_patterns):map(function(p) return '-e ' .. p end):join(' ')
 
-			local command = ('code2prompt %s %s %s --absolute-paths --quiet --output-file - | wl-copy'):format(
+			local command = ('code2prompt %s %s %s --absolute-paths --quiet --hidden --output-file - | wl-copy'):format(
 				root_path,
 				exclude_args,
 				include_args
