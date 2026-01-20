@@ -99,59 +99,6 @@ function M.get_configs_for(server_name)
 	return config
 end
 
--- function M.setup()
--- 	-- vim.lsp.set_log_level('off')
--- 	require('lspconfig.ui.windows').default_options.border = 'single' -- coloca borda no :LspInfo
---
--- 	-- Setup handlers
--- 	require('lsp.handlers').setup()
---
--- 	local lspconfig = require('lspconfig')
--- 	local configs = require('lspconfig.configs')
---
--- 	-- 1. Registrar a configuração do servidor customizado (Se ainda não existir no nvim-lspconfig)
--- 	if not configs.trexx_ls then configs.trexx_ls = {
--- 		default_config = require('lsp.servers.trexx_ls').config,
--- 	} end
---
--- 	-- 2. Iterar e inicializar
--- 	for _, server in ipairs(M.servers) do
--- 		local config = M.get_configs_for(server)
---
--- 		-- Mantém sua lógica existente para os outros (se necessário)
--- 		vim.lsp.config[server] = vim.tbl_deep_extend('keep', config, vim.lsp.config[server] or {})
---
--- 		if server == 'trexx_ls' then lspconfig.trexx_ls.setup(config) end
--- 	end
---
--- 	vim.lsp.enable('cobol_ls')
---
--- 	U.api.augroup('cobol_ls activation', {
--- 		event = 'FileType',
--- 		pattern = 'cobol',
--- 		command = function()
--- 			vim.lsp.start(vim.lsp.config['cobol_ls']) --
--- 		end,
--- 	})
---
--- 	-- Diagnosticos
--- 	vim.diagnostic.config({
--- 		-- virtual_text = false,
--- 		virtual_text = { spacing = 4, prefix = '●', source = false },
--- 		signs = {
--- 			text = {
--- 				[vim.diagnostic.severity.ERROR] = U.icons.diagnostics.Error,
--- 				[vim.diagnostic.severity.WARN] = U.icons.diagnostics.Warning,
--- 				[vim.diagnostic.severity.HINT] = U.icons.diagnostics.Hint,
--- 				[vim.diagnostic.severity.INFO] = U.icons.diagnostics.Information,
--- 			},
--- 		},
--- 		underline = true,
--- 		update_in_insert = false,
--- 		severity_sort = true,
--- 	})
--- end
-
 function M.setup()
 	-- vim.lsp.set_log_level('off')
 	require('lspconfig.ui.windows').default_options.border = 'single' -- coloca borda no :LspInfo
@@ -163,9 +110,10 @@ function M.setup()
 	local configs = require('lspconfig.configs')
 
 	-- 1. Registrar a configuração do servidor customizado (Se ainda não existir no nvim-lspconfig)
-	if not configs.trexx_ls then configs.trexx_ls = {
-		default_config = require('lsp.servers.trexx_ls').config,
-	} end
+
+	if not configs.trexx_ls then --
+		configs.trexx_ls = { default_config = M.get_configs_for('trexx_ls') }
+	end
 
 	-- 2. Iterar e inicializar
 	for _, server in ipairs(M.servers) do
@@ -178,7 +126,7 @@ function M.setup()
 		vim.lsp.config[server] = vim.tbl_deep_extend('keep', config, vim.lsp.config[server] or {})
 	end
 
-  vim.lsp.enable('cobol_ls')
+	vim.lsp.enable('cobol_ls')
 
 	-- Diagnosticos
 	vim.diagnostic.config({
