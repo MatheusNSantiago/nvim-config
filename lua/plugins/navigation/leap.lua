@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
 	return { ---@type LazyPluginSpec
-		'ggandor/leap.nvim',
+		url = 'https://codeberg.org/andyg/leap.nvim',
 		config = M.config,
 	}
 end
