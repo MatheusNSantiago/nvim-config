@@ -22,18 +22,29 @@ function M.config()
 				vim.api.nvim_buf_del_keymap(args.buf, 'i', 'q')
 			end)
 		end,
+	}, {
+		desc = 'Adiciona scroll no preview do finder',
+		event = 'FileType',
+		pattern = 'sagafinder',
+		command = function(args)
+			U.api.keymap(
+				'n',
+				'<C-d>',
+				function() M._scroll_preview('down') end,
+				{ buffer = args.buf, desc = 'Scroll preview down' }
+			)
+			U.api.keymap(
+				'n',
+				'<C-u>',
+				function() M._scroll_preview('up') end,
+				{ buffer = args.buf, desc = 'Scroll preview up' }
+			)
+		end,
 	})
 
 	require('lspsaga').setup({
-		scroll_preview = {
-			scroll_down = '<C-d>',
-			scroll_up = '<C-u>',
-		},
 		request_timeout = 3000,
-		beacon = {
-			enable = false,
-			frequency = 7,
-		},
+		beacon = { enable = false, frequency = 7 },
 		ui = {
 			title = true,
 			-- Border type can be single, double, rounded, solid, shadow.
@@ -147,6 +158,34 @@ function M.config()
 			},
 		},
 	})
+end
+
+--- Scrolla a janela de preview do lspsaga finder.
+--- scroll_preview era nativo do lspsaga, mas por algum motivo parou de funcionar
+--- @param direction 'up' | 'down'
+function M._scroll_preview(direction)
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		-- Identifica a janela de preview: é floating (relative ~= '') e não é a janela atual
+		if vim.api.nvim_win_get_config(win).relative ~= '' and win ~= vim.api.nvim_get_current_win() then
+			local buf = vim.api.nvim_win_get_buf(win)
+			local line_count = vim.api.nvim_buf_line_count(buf)
+			local height = vim.api.nvim_win_get_height(win)
+
+			-- Multiplier: 1 para down, -1 para up (similar ao comportamento de <C-d> e <C-u>)
+			local multiplier = direction == 'down' and 1 or -1
+			local scroll_amount = math.floor(height / 2) * multiplier
+
+			vim.api.nvim_win_call(win, function()
+				-- Usa winsaveview/winrestview para manipular o topline diretamente,
+				-- garantindo que a view sempre scrolla mesmo quando o cursor está nos limites
+				local view = vim.fn.winsaveview()
+				view.topline = math.max(1, math.min(view.topline + scroll_amount, line_count - height + 1))
+				view.lnum = math.max(1, math.min(view.lnum + scroll_amount, line_count))
+				vim.fn.winrestview(view)
+			end)
+			break
+		end
+	end
 end
 
 return M
