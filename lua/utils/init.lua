@@ -115,6 +115,7 @@ function M.is_linux() return not M.is_wsl() end
 ---@return boolean: True se foi aberto com diretório, false caso contrário
 function M.was_nvim_opened_to_directory() return vim.fn.isdirectory(vim.v.argv[3]) == 1 end
 
+---@return string, Range
 function M.get_visual_selection()
 	local ESC_FEEDKEY = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
 
@@ -132,7 +133,12 @@ function M.get_visual_selection()
 	lines[1] = lines[1]:sub(start_col)
 	local content = table.concat(lines, '\n')
 
-	return content
+	local range = {
+		start = { line = start_line, character = start_col },
+		['end'] = { line = end_line, character = end_col },
+	}
+
+	return content, range
 end
 
 ---@example:

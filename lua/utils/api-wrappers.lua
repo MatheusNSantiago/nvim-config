@@ -126,4 +126,27 @@ function M.get_hl_by_name(name)
 	return hl
 end
 
+---@class Range
+---@field start { line: number, character: number }
+---@field end { line: number, character: number }
+
+---@class SetTextOpts
+---@field bufnr number|nil
+---@field range Range
+---@field text string
+
+---Seta um texto em um buffer em um range específico
+---@param opts SetTextOpts
+function M.set_text(opts)
+	local bufnr = opts.bufnr or 0
+	vim.api.nvim_buf_set_text(
+		bufnr,
+		opts.range.start.line - 1,
+		opts.range.start.character - 1,
+		opts.range['end'].line - 1,
+		opts.range['end'].character,
+		{ opts.text }
+	)
+end
+
 return M
