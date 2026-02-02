@@ -13,7 +13,7 @@ M.servers = {
 	'dockerls',
 	'lua_ls',
 	'bashls',
-	'cobol_ls',
+	'cobol_lsp',
 	'dart_ls',
 	'gopls',
 	'pyright',
@@ -28,7 +28,7 @@ M.custom_lsps = {
 	'dart_ls',
 	'rust-analyzer',
 	'jdtls',
-	'cobol_ls',
+	'cobol_lsp',
 	'trexx_ls',
 }
 
@@ -100,7 +100,7 @@ function M.get_configs_for(server_name)
 end
 
 function M.setup()
-	-- vim.lsp.set_log_level('off')
+	vim.lsp.set_log_level('INFO')
 	require('lspconfig.ui.windows').default_options.border = 'single' -- coloca borda no :LspInfo
 
 	-- Setup handlers
@@ -125,8 +125,6 @@ function M.setup()
 		-- Mantém sua lógica existente para os outros (se necessário)
 		vim.lsp.config[server] = vim.tbl_deep_extend('keep', config, vim.lsp.config[server] or {})
 	end
-
-	vim.lsp.enable('cobol_ls')
 
 	-- Diagnosticos
 	vim.diagnostic.config({

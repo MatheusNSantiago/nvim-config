@@ -208,17 +208,8 @@ local plugins = Array({
 
 	setup('custom.hotreload'), --  Auto-reload de buffers quando arquivos mudarem no disco
 	setup('custom.last-place'), --  Lembrar a última posição do cursor
-})
 
-if utils.is_wsl() then
-	plugins:extend({
-		{ dir = '~/dev/cobol/cobol-bundle/', config = true },
-	})
-else
-	plugins:extend({
-		{ dir = '~/dev/cobol-bundle', ft = { 'cobol', 'copybook' }, config = true },
-		-- { dir = '~/dev/bb/foo/foo-nvim/', ft = { 'foo' }, lazy = true },
-	})
-end
+	{ dir = '~/dev/cobol-bundle', config = true },
+})
 
 require('lazy').setup(plugins)
