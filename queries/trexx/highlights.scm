@@ -13,7 +13,6 @@
 
 [
   (keyword_assert)
-
   (keyword_select)
   (keyword_insert)
   (keyword_update)
@@ -49,9 +48,10 @@
 
 ; --- Identificadores e Definições ---
 
-(identifier) @variable
+(identifier)         @variable
 (sql_qualified_name) @variable
-(sql_identifier) @variable
+(sql_identifier)     @variable
+(picture_reference)  @variable
 
 (routine_definition
   name: (identifier) @function)
@@ -64,9 +64,6 @@
 
 (parameter
   (identifier) @variable.parameter)
-
-(config_pair
-  key: (identifier) @property)
 
 (object_field
   (identifier) @property)
