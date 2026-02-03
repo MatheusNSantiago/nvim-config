@@ -27,6 +27,7 @@ function M.config()
 				rust = [[println!("%log_target: {:#?}", %log_target);]],
 				python = [[print(%log_target)]],
 				c = [[printf("%log_target: %s\n", %log_target);]],
+				cobol = [[DISPLAY '%log_target: ' %log_target.]],
 				cpp = [[std::cout << "%log_target: " << %log_target << std::endl;]],
 				java = [[System.out.println("%log_target: " + %log_target);]],
 				c_sharp = [[Console.WriteLine($"%log_target: {%log_target}");]],
