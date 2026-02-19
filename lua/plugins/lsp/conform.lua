@@ -37,6 +37,7 @@ function M.config()
 			markdown = { 'prettierd' },
 			java = { 'google-java-format' },
 			xml = { 'xmlformatter' },
+			toml = { 'pyproject-fmt' },
 		},
 		default_format_opts = { lsp_format = 'fallback' },
 

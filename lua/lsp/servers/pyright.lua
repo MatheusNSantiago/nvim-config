@@ -1,8 +1,8 @@
 local M = {}
 
--- M.handlers = {
--- 	['textDocument/publishDiagnostics'] = function() end,
--- }
+M.handlers = {
+	['textDocument/publishDiagnostics'] = function() end,
+}
 
 M.settings = {
 	pyright = {
@@ -11,8 +11,8 @@ M.settings = {
 	},
 	python = {
 		analysis = {
-			autoSearchPaths = false,
-			diagnosticMode = 'openFilesOnly',
+			autoSearchPaths = true,
+      diagnosticMode = 'off', -- Disable diagnostics entirely
 			useLibraryCodeForTypes = true,
 			typeCheckingMode = 'off',
 		},
