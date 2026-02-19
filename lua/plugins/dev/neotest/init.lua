@@ -33,7 +33,19 @@ function M.config()
 				env = { CI = true },
 				cwd = function(_) return vim.fn.getcwd() end,
 			}),
-			require('neotest-python'),
+			require('neotest-python')({
+				args = { '-s' }, -- desabilita captura de stdout (mostra print() no output)
+				python = function(root)
+					local dir = root
+					while dir and dir ~= '/' do
+						if vim.fn.filereadable(dir .. '/uv.lock') == 1 then
+							return { 'uv', 'run', 'python' }
+						end
+						dir = vim.fn.fnamemodify(dir, ':h')
+					end
+					return require('neotest-python.base').get_python_command(root)
+				end,
+			}),
 			-- require('neotest-bun'),
 			require('plugins.dev.neotest.neotest-bun'),
 		},
