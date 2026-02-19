@@ -17,7 +17,7 @@ M.servers = {
 	'dart_ls',
 	'gopls',
 	'pyright',
-	'ruff',
+	-- 'ruff',
 	'sqls',
 	'clangd',
 	'rust-analyzer', -- inicializado pelo rustacean
@@ -100,7 +100,7 @@ function M.get_configs_for(server_name)
 end
 
 function M.setup()
-	vim.lsp.set_log_level('INFO')
+	vim.lsp.set_log_level('ERROR')
 	require('lspconfig.ui.windows').default_options.border = 'single' -- coloca borda no :LspInfo
 
 	-- Setup handlers
