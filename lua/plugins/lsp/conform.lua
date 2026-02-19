@@ -33,9 +33,10 @@ function M.config()
 			typescriptreact = { 'prettierd', 'rustywind' },
 			html = { 'prettierd' },
 			htmlangular = { 'prettierd' },
-			python = { 'ruff_format', 'ruff_organize_imports' },
+			python = { 'black', 'isort' },
 			markdown = { 'prettierd' },
 			java = { 'google-java-format' },
+			xml = { 'xmlformatter' },
 		},
 		default_format_opts = { lsp_format = 'fallback' },
 

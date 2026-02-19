@@ -42,8 +42,11 @@ return {
 						local package_manager = lock_file:match('^(.-)%.lock$')
 
 						if package_manager == 'uv' then --
+							-- make path relative to project root
+							local abs_path = vim.fn.expand('%:p')
+							local rel_path = abs_path:sub(#project_root + 2)
 							-- codebase/codebase.py --> codebase.codebase
-							local module_path = current_relative_path:gsub('%.py$', ''):gsub('/', '.')
+							local module_path = rel_path:gsub('%.py$', ''):gsub('/', '.')
 							return run('uv run python -m ' .. module_path)
 						end
 					end
