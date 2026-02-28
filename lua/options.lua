@@ -66,3 +66,5 @@ opt.wildignore:append('**/node_modules/*')
 opt.wildignore:append('**/.git/*')
 
 vim.o.updatetime = 200 -- save swap file with 200ms debouncing
+
+vim.opt.clipboard = 'unnamedplus'

@@ -15,7 +15,7 @@ return {
           node_version = node_version:match("%d+$")
 
           U.exec_cmd(('nvm use %s; npx grunt'):format(node_version))
-          U.exec_cmd('gaw-rev', 2)
+          U.exec_cmd('gaw-rev')
 
           vim.defer_fn(function() vim.cmd('wincmd k') end, 100)
         end,

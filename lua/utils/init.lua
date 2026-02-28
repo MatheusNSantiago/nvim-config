@@ -97,11 +97,10 @@ M.lazy_require = function(package, ...)
 	end
 end
 
----Abre um terminal e executa um comando
+---Executa um comando no pane tmux runner (vimux)
 ---@param cmd string
----@param term_number? number numero do terminal
-function M.exec_cmd(cmd, term_number) --
-	vim.cmd(("%sTermExec cmd='%s'"):format(term_number or '', cmd))
+function M.exec_cmd(cmd)
+	vim.fn.VimuxRunCommand(cmd)
 end
 
 ---Checks if the operating system is running on Windows Subsystem for Linux (WSL).

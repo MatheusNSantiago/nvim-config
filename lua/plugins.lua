@@ -33,7 +33,6 @@ local plugins = Array({
 	setup('ui.web-devicons'), -- icones
 	setup('ui.lualine'), -- Status Line
 	setup('ui.hlchunk'), -- indentação/context
-	setup('ui.toggleterm'), -- Terminal
 	setup('ui.bufferline'), -- Tabs/buffers
 	setup('ui.dressing'), -- selection e input
 	setup('ui.noice'), -- messages, cmdline and popupmenu
@@ -52,7 +51,7 @@ local plugins = Array({
 
 	setup('navigation.telescope'),
 	setup('navigation.nvim-tree'), -- File Explorer
-	setup('navigation.smart-splits'), -- split pane management
+	setup('navigation.tmux'), -- split pane management
 	setup('navigation.hop'), -- tipo o easymotion
 	setup('navigation.tabout'), -- tabout
 	setup('navigation.marks'), -- marks
@@ -140,6 +139,8 @@ local plugins = Array({
 	-- kndndrj/nvim-dbee -- database
 	-- hrsh7th/nvim-cmp -- database
 
+	setup('dev.vimux'), -- Terminal tmux runner
+
 	-- testes
 	setup('dev.neotest'),
 	setup('dev.kulala'), -- REST-Client
@@ -199,7 +200,7 @@ local plugins = Array({
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('other.snacks'), -- bundle de coisas uteis
-	setup('other.image'), -- bundle de coisas uteis
+	-- setup('other.image'), -- bundle de coisas uteis
 	setup('other.aw-watcher'), -- bundle de coisas uteis
 
 	--  ╭──────────────────────────────────────────────────────────╮
