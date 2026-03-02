@@ -27,6 +27,7 @@ function M.config()
 	-- })
 
 	require('nvim-autopairs').setup({
+		map_cr = false, -- blink.cmp já gerencia o <CR> e tem auto_brackets nativo
 		check_ts = true,
 		close_triple_quotes = true,
 		ts_config = {
