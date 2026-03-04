@@ -2,100 +2,79 @@ local M = {}
 
 function M.setup()
 	return { ---@type LazyPluginSpec
-		'idelice/nvim-jls',
+		'mfussenegger/nvim-jdtls',
+		ft = { 'java' },
 		config = M.config,
 	}
 end
 
-function M.config()
-	require('jls').setup({
-		cmd = nil, -- override full command
-		jls_dir = vim.fn.expand('~/Documents/jls'),
-		filetypes = { 'java' },
-		root_markers = {
+local function get_config()
+	local jdtls_path = vim.fn.expand('~/.local/share/nvim/mason/packages/jdtls')
+	local launcher = vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher_*.jar')
+
+	if launcher == '' then
+		vim.notify('[java] jdtls não encontrado. Execute :MasonInstall jdtls', vim.log.levels.ERROR)
+		return nil
+	end
+
+	local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+	local workspace_dir = vim.fn.expand('~/.local/share/eclipse/' .. project_name)
+
+	return {
+		cmd = {
+			'/usr/lib/jvm/java-21-openjdk/bin/java',
+			'-Declipse.application=org.eclipse.jdt.ls.core.id1',
+			'-Dosgi.bundles.defaultStartLevel=4',
+			'-Declipse.product=org.eclipse.jdt.ls.core.product',
+			'-Dlog.protocol=true',
+			'-Dlog.level=ALL',
+			'-Xmx1g',
+			'--add-modules=ALL-SYSTEM',
+			'--add-opens', 'java.base/java.util=ALL-UNNAMED',
+			'--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+			'-jar', launcher,
+			'-configuration', jdtls_path .. '/config_linux',
+			'-data', workspace_dir,
+		},
+		root_dir = require('jdtls.setup').find_root({
 			'pom.xml',
 			'build.gradle',
 			'build.gradle.kts',
 			'settings.gradle',
 			'settings.gradle.kts',
 			'WORKSPACE',
-			'WORKSPACE.bazel',
-			'.java-version',
 			'.git',
-		},
-		settings = { -- LSP settings (sent via didChangeConfiguration)
-			jls = {
-				features = { inlayHints = true, semanticTokens = true },
+		}),
+		settings = {
+			java = {
+				configuration = {
+					runtimes = {
+						{ name = 'JavaSE-21', path = '/usr/lib/jvm/java-21-openjdk', default = true },
+						{ name = 'JavaSE-8', path = '/opt/desenv/libs/jdk1.8.0_281/' },
+					},
+				},
+				inlayHints = { parameterNames = { enabled = 'all' } },
 			},
 		},
-		init_options = {}, -- LSP init options
-		java_home = '/usr/lib/jvm/java-21-openjdk', -- sets JAVA_HOME (Tem que ser o java 21)
-		lombok = { path = nil, javaagent = nil },
-		extra_args = {}, -- extra args passed to JLS launcher
-		codelens = { enable = false }, -- auto-refresh codelens on BufEnter
+		on_attach = require('lsp').common_on_attach,
+		capabilities = require('lsp').client_capabilities(),
+	}
+end
+
+function M.config()
+	vim.api.nvim_create_autocmd('FileType', {
+		pattern = 'java',
+		callback = function()
+			local cfg = get_config()
+			if cfg then require('jdtls').start_or_attach(cfg) end
+		end,
 	})
+
+	-- Dispara para o buffer que causou o carregamento do plugin
+	if vim.bo.filetype == 'java' then
+		local cfg = get_config()
+		if cfg then require('jdtls').start_or_attach(cfg) end
+	end
 end
 
 return M
-
---  ╾───────────────────────────────────────────────────────────────────────────────────╼
--- local M = {}
--- function M.setup()
--- 	return {
--- 		'nvim-java/nvim-java',
--- 		config = M.config,
--- 		ft = { 'java' },
--- 		-- enabled = not utils.is_wsl(),
--- 		enabled = true,
--- 		dependencies = {
--- 			'nvim-java/nvim-java-refactor',
--- 			'nvim-java/lua-async-await',
--- 			'nvim-java/nvim-java-core',
--- 			'nvim-java/nvim-java-test',
--- 			'nvim-java/nvim-java-dap',
--- 			'mfussenegger/nvim-dap',
--- 			'MunifTanjim/nui.nvim',
--- 			'neovim/nvim-lspconfig',
--- 		},
--- 	}
--- end
---
--- function M.config()
--- 	require('java').setup({
--- 		java_test = { enable = false },
--- 		java_debug_adapter = { enable = false },
--- 		spring_boot_tools = { enable = true },
--- 		jdk = { auto_install = true }, -- install jdk using mason.nvim
--- 		notifications = { dap = false }, -- enable 'Configuring DAP' & 'DAP configured' messages on start up
--- 		-- We do multiple verifications to make sure things are in place to run this plugin
--- 		-- verification = {
--- 		-- 	-- nvim-java checks for the order of execution of following
--- 		-- 	-- * require('java').setup()
--- 		-- 	-- * require('lspconfig').jdtls.setup()
--- 		-- 	-- IF they are not executed in the correct order, you will see a error notification.
--- 		-- 	-- Set following to false to disable the notification if you know what you are doing
--- 		-- 	invalid_order = true,
--- 		--
--- 		-- 	-- nvim-java checks if the require('java').setup() is called multiple times.
--- 		-- 	-- IF there are multiple setup calls are executed, an error will be shown
--- 		-- 	-- Set following property value to false to disable the notification if you know what you are doing
--- 		-- 	duplicate_setup_calls = true,
--- 		--
--- 		-- 	-- nvim-java checks if nvim-java/mason-registry is added correctly to mason.nvim plugin.
--- 		-- 	-- IF it's not registered correctly, an error will be thrown and nvim-java will stop setup
--- 		-- 	invalid_mason_registry = true,
--- 		-- },
--- 		root_markers = {
--- 			'settings.gradle',
--- 			'settings.gradle.kts',
--- 			'pom.xml',
--- 			'build.gradle',
--- 			'mvnw',
--- 			'gradlew',
--- 			'build.gradle',
--- 			'build.gradle.kts',
--- 			'.git',
--- 		},
--- 	})
--- end
--- return M

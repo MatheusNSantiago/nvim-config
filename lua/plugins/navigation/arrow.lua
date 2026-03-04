@@ -4,6 +4,7 @@ function M.setup()
 	return {
 		'otavioschwanck/arrow.nvim',
 		config = M.config,
+    enabled=false,
 		keys = { { ';', desc = 'arrow: toggle' } },
 	}
 end

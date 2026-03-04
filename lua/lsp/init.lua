@@ -5,7 +5,7 @@ M.servers = {
 	'cssls',
 	'html',
 	-- 'angularls@17.0.0',
-	'jdtls',
+	-- 'jdtls', -- gerenciado pelo nvim-jdtls (lua/plugins/dev/java.lua)
 	'tailwindcss',
 	'ts_ls',
 	'jsonls',
@@ -27,7 +27,6 @@ M.servers = {
 M.custom_lsps = {
 	'dart_ls',
 	'rust-analyzer',
-	'jdtls',
 	'cobol_lsp',
 	'trexx_ls',
 }
