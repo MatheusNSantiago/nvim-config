@@ -99,7 +99,7 @@ function M.get_configs_for(server_name)
 end
 
 function M.setup()
-	vim.lsp.set_log_level('ERROR')
+	vim.lsp.log.set_level('ERROR')
 	require('lspconfig.ui.windows').default_options.border = 'single' -- coloca borda no :LspInfo
 
 	-- Setup handlers

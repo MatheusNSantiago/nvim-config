@@ -6,10 +6,14 @@ M.setup = function()
 end
 
 M.setup_lsp_handlers = function()
-	local float = { focusable = true, style = 'minimal', border = 'rounded' }
-
-	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float)
-	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
+	vim.lsp.handlers['textDocument/hover'] = function(err, result, ctx, config)
+		config = vim.tbl_deep_extend('force', config or {}, { focusable = true, style = 'minimal', border = 'rounded' })
+		vim.lsp.handlers.hover(err, result, ctx, config)
+	end
+	vim.lsp.handlers['textDocument/signatureHelp'] = function(err, result, ctx, config)
+		config = vim.tbl_deep_extend('force', config or {}, { focusable = true, style = 'minimal', border = 'rounded' })
+		vim.lsp.handlers.signature_help(err, result, ctx, config)
+	end
 end
 
 -- ---@source https://github.com/lucasvianav/nvim/blob/8f763b85e2da9ebd4656bf732cbdd7410cc0e4e4/lua/v/settings/handlers.lua#L18-L48_

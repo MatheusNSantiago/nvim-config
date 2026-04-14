@@ -18,8 +18,6 @@ function M.config()
 		ensure_installed = {
 			'vim',
 			'vimdoc',
-			'markdown',
-			'markdown_inline',
 			'bash',
 			'regex',
 			'javascript',
@@ -117,35 +115,31 @@ function M.config()
 		endwise = { enable = true, disable = disable }, -- Automatically add end to blocks
 	})
 
-	require('ts_context_commentstring').setup({
-		enable_autocmd = false,
-		languages = { -- Languages that have a single comment style
-			typescript = '// %s',
-			css = '/* %s */',
-			scss = '/* %s */',
-			html = '<!-- %s -->',
-			svelte = '<!-- %s -->',
-			vue = '<!-- %s -->',
-			json = '',
-		},
-	})
-
-	require('nvim-ts-autotag').setup({
-		opts = {
-			-- Defaults
-			enable_close = true, -- Auto close tags
-			enable_rename = true, -- Auto rename pairs of tags
-			enable_close_on_slash = false, -- Auto close on trailing </
-		},
-		-- Also override individual filetype configs, these take priority.
-		-- Empty by default, useful if one of the "opts" global settings
-		-- doesn't work well in a specific filetype
-		per_filetype = {
-			['html'] = {
-				enable_close = false,
-			},
-		},
-	})
+	-- require('ts_context_commentstring').setup({
+	-- 	enable_autocmd = false,
+	-- 	languages = { -- Languages that have a single comment style
+	-- 		typescript = '// %s',
+	-- 		css = '/* %s */',
+	-- 		scss = '/* %s */',
+	-- 		html = '<!-- %s -->',
+	-- 		svelte = '<!-- %s -->',
+	-- 		vue = '<!-- %s -->',
+	-- 		json = '',
+	-- 	},
+	-- })
+	--
+	-- require('nvim-ts-autotag').setup({
+	-- 	enable_close_on_slash = false, -- disable case: `<div /` become `<div /div>`
+	-- 	filetypes = {
+	-- 		'html',
+	-- 		'javascript',
+	-- 		'javascriptreact',
+	-- 		'typescript',
+	-- 		'typescriptreact',
+	-- 		'vue',
+	-- 		'xml',
+	-- 	},
+	-- })
 end
 
 return M
