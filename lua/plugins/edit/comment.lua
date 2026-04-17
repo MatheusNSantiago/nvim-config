@@ -9,6 +9,14 @@ function M.setup()
 end
 
 function M.config()
+  -- trexx não tem queries Treesitter de commentstring, então o plugin falharia
+  -- ao tentar resolvê-la dinamicamente; registrar aqui evita o erro.
+  require('ts_context_commentstring').setup({
+    languages = {
+      trexx = { __default = '-- %s' },
+    },
+  })
+
   require('Comment').setup({
     ---Add a space b/w comment and the line
     padding = true,
