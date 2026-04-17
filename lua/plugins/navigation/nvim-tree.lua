@@ -224,10 +224,10 @@ M.config = function()
       exclude = false,
     },
     -- configuration options for the system open command (`s` in the tree by default)
-    system_open = {
-      cmd = nil, -- the command to run this, leaving nil should work in most cases
-      args = {}, -- the command arguments as a list
-    },
+    -- system_open = {
+    --   cmd = nil, -- the command to run this, leaving nil should work in most cases
+    --   args = {}, -- the command arguments as a list
+    -- },
     filters = {
       enable = true,
       git_ignored = false,

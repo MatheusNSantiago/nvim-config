@@ -142,8 +142,8 @@ local plugins = Array({
 	setup('dev.vimux'), -- Terminal tmux runner
 
 	-- testes
-	setup('dev.neotest'),
 	setup('dev.kulala'), -- REST-Client
+  setup('dev.neotest'),
 
 	-- Git
 	setup('dev.gitsigns'), -- gutter signs
