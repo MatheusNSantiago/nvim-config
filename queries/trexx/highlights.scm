@@ -101,9 +101,7 @@
 ; --- Mock Attributes ---
 (mock_block
   "mock" @keyword
-  type: (_) @keyword
-  target: (_) @string.special
-  (attribute key: (_) @property))
+  (attribute key: (_) @property)*)
 
 ; --- Operadores ---
 (binary_expression
