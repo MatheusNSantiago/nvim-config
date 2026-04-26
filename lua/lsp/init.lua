@@ -52,6 +52,21 @@ function M.common_on_attach(client, bufnr)
 		if navbuddy_ok then navbuddy.attach(client, bufnr) end
 	end
 
+	if caps.inlayHintProvider then
+		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+	end
+
+	if caps.codeLensProvider then
+		vim.lsp.codelens.enable(true, { bufnr = bufnr })
+	end
+
+	if caps.foldingRangeProvider then
+		for _, winid in ipairs(vim.fn.win_findbuf(bufnr)) do
+			vim.wo[winid].foldmethod = 'expr'
+			vim.wo[winid].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+		end
+	end
+
 	-- keymap('n', 'K', vim.lsp.buf.hover)
 	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
 

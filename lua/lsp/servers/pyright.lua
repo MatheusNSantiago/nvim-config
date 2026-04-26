@@ -1,8 +1,9 @@
 local M = {}
 
-M.handlers = {
-	['textDocument/publishDiagnostics'] = function() end,
-}
+M.on_attach = function(client, bufnr)
+	require('lsp').common_on_attach(client, bufnr)
+	client.handlers['textDocument/publishDiagnostics'] = function() end
+end
 
 M.settings = {
 	pyright = {

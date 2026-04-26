@@ -1,6 +1,8 @@
 local M = {}
 
-local trexx_tool_path = vim.fn.expand('~/dev/trexx/trexx-tool/src/lsp/server.ts')
+local project_name = 'trexx'
+
+local trexx_tool_path = vim.fn.expand('~/dev/' .. project_name .. '/trexx-tool/src/lsp/server.ts')
 M.cmd = { 'bun', trexx_tool_path, '--stdio' }
 M.filetypes = { 'trexx' }
 
