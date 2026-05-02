@@ -24,11 +24,18 @@
   (keyword_set)
   (keyword_and)
   (keyword_or)
+  (keyword_order)
+  (keyword_by)
+  (keyword_asc)
+  (keyword_desc)
+  (keyword_fetch)
+  (keyword_first)
+  (keyword_row)
+  (keyword_rows)
+  (keyword_only)
   ; (keyword_in)
   ; (keyword_like)
-  ; (keyword_order)
   ; (keyword_group)
-  ; (keyword_by)
   ; (keyword_limit)
   ; (keyword_join)
   ; (keyword_on)
@@ -45,6 +52,8 @@
   "if"
   "else"
 ] @keyword.control
+
+(keyword_return) @keyword.return
 
 ; --- Identificadores e Definições ---
 
