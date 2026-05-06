@@ -1,14 +1,9 @@
 local M = {}
 
--- Setup treesitter
-local parsers = require('nvim-treesitter.parsers')
-
-parsers['trexx'] = {
-	install_info = {
-		url = '~/dev/trexx/tree-sitter-trexx',
-		files = { 'src/parser.c', 'src/scanner.c' },
-	},
-}
+require('utils.ts-parsers').register('trexx', {
+	url = '~/dev/trexx/tree-sitter-trexx',
+	files = { 'src/parser.c', 'src/scanner.c' },
+})
 
 ---@type FiletypeSettings
 M.settings = {
