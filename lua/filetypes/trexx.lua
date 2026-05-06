@@ -1,9 +1,14 @@
 local M = {}
 
-local trexx_so = vim.fn.expand('~/.cache/tree-sitter/lib/trexx.so')
-if vim.fn.filereadable(trexx_so) == 1 then
-	vim.treesitter.language.add('trexx', { path = trexx_so })
-end
+local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+
+parser_config['trexx'] = {
+	install_info = {
+		url = '~/dev/trexx/tree-sitter-trexx',
+		files = { 'src/parser.c', 'src/scanner.c' },
+	},
+	filetype = { 'trexx' },
+}
 
 ---@type FiletypeSettings
 M.settings = {
