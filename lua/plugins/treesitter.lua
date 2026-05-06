@@ -25,7 +25,7 @@ function M.config()
 			if ok and stats and stats.size > max_filesize then return end
 
 			local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
-			if lang and not vim.tbl_contains(ts.get_installed(), lang) then
+			if lang and not vim.tbl_contains(ts.get_installed(), lang) and vim.tbl_contains(ts.get_available(), lang) then
 				ts.install({ lang })
 			end
 
