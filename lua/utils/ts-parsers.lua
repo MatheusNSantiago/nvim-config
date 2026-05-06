@@ -1,28 +1,37 @@
--- Registra parsers customizados de forma que sobrevivam ao reload_parsers()
--- do nvim-treesitter. ts.install() chama reload_parsers() internamente, que
--- limpa package.loaded antes de validar a lista.
---
--- O require circular é o problema central: chamar require(modname) de dentro
--- de um loader para o mesmo modname faz o LuaJIT retornar true (sentinel de
--- detecção de ciclo) em vez da tabela. A solução captura os parsers base uma
--- única vez (sem require circular) e reconstrói a tabela em todo reload.
-
 local MODNAME = 'nvim-treesitter.parsers'
 _G.__custom_ts_parsers = _G.__custom_ts_parsers or {}
 
 local _base_parsers = nil
 local _base_captured = false
 
-local function loader(modname)
-	if not _base_captured then
-		_base_captured = true
-		-- Remove temporariamente nosso preload para o require interno
-		-- usar o file loader (sem criar require circular)
-		package.preload[modname] = nil
-		local ok, base = pcall(require, modname)
-		package.preload[modname] = loader
-		if ok and type(base) == 'table' then _base_parsers = base end
+local function capture_base()
+	if _base_captured then return end
+	_base_captured = true
+
+	-- Preferência: módulo já carregado
+	local current = package.loaded[MODNAME]
+	if type(current) == 'table' then
+		_base_parsers = current
+		return
 	end
+
+	-- Carrega o arquivo diretamente, sem passar pelo require
+	-- (evita problemas com cache_loader e require circular)
+	local paths = vim.api.nvim_get_runtime_file('lua/nvim-treesitter/parsers.lua', false)
+	local path = paths and paths[1]
+	if not path then return end
+
+	local fn = loadfile(path)
+	if not fn then return end
+
+	local ok, result = pcall(fn)
+	if ok and type(result) == 'table' then
+		_base_parsers = result
+	end
+end
+
+local function loader(modname)
+	capture_base()
 
 	local result = {}
 	if _base_parsers then
@@ -40,11 +49,12 @@ function M.register(name, install_info)
 	_G.__custom_ts_parsers[name] = entry
 
 	if package.preload[MODNAME] ~= loader then
+		capture_base()
 		package.preload[MODNAME] = loader
 	end
 
 	local parsers = package.loaded[MODNAME]
-	if parsers then parsers[name] = entry end
+	if type(parsers) == 'table' then parsers[name] = entry end
 end
 
 return M
