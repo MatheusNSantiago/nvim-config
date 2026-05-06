@@ -4,7 +4,7 @@ local keymap = utils.api.keymap
 function M.setup()
 	return {
 		'ThePrimeagen/refactoring.nvim',
-		dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' },
+		dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter', 'lewis6991/async.nvim' },
 		config = M.config,
 		lazy = true,
 		keys = {
@@ -17,14 +17,14 @@ function M.setup()
 end
 
 function M.config()
-	local refactoring = require('refactoring')
+	local refactoring_debug = require('refactoring.debug')
 
 	keymap('x', 'rf', ':Refactor extract <CR>', { desc = 'refactoring: extract to function' })
 	keymap('x', 'rv', ':Refactor extract_var <CR>', { desc = 'refactoring: extract to variable' })
-	keymap('n', '<leader>rp', refactoring.debug.print_var, { desc = 'refactoring: print variable' })
-	keymap('n', '<leader>rc', refactoring.debug.cleanup, { desc = 'refactoring: clean prints' })
+	keymap('n', '<leader>rp', refactoring_debug.print_var, { expr = true, desc = 'refactoring: print variable' })
+	keymap('n', '<leader>rc', refactoring_debug.cleanup, { expr = true, desc = 'refactoring: clean prints' })
 
-	refactoring.setup({
+	require('refactoring').setup({
 		prompt_func_return_type = {
 			go = false,
 			java = false,

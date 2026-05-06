@@ -1,9 +1,12 @@
 local M = {}
+local util = require('lspconfig.util')
 
 M.on_attach = function(client, bufnr)
 	require('lsp').common_on_attach(client, bufnr)
-	client.handlers['textDocument/publishDiagnostics'] = function() end
 end
+
+-- Força root no pyrightconfig.json ou .git, ignorando pyproject.toml dos sub-pacotes do monorepo.
+M.root_dir = util.root_pattern('pyrightconfig.json', '.git')
 
 M.settings = {
 	pyright = {
@@ -13,9 +16,13 @@ M.settings = {
 	python = {
 		analysis = {
 			autoSearchPaths = true,
-      diagnosticMode = 'off', -- Disable diagnostics entirely
+			diagnosticMode = 'openFilesOnly',
 			useLibraryCodeForTypes = true,
 			typeCheckingMode = 'off',
+			diagnosticSeverityOverrides = {
+				reportMissingImports = 'none',
+				reportMissingModuleSource = 'none',
+			},
 		},
 	},
 }

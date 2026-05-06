@@ -52,7 +52,7 @@ local plugins = Array({
 	setup('navigation.telescope'),
 	setup('navigation.nvim-tree'), -- File Explorer
 	setup('navigation.tmux'), -- split pane management
-	setup('navigation.hop'), -- tipo o easymotion
+	-- setup('navigation.hop'), -- tipo o easymotion
 	setup('navigation.tabout'), -- tabout
 	setup('navigation.marks'), -- marks
 	setup('navigation.nvim-navbuddy'), -- outline
@@ -139,6 +139,7 @@ local plugins = Array({
 	-- kndndrj/nvim-dbee -- database
 	-- hrsh7th/nvim-cmp -- database
 
+	setup('dev.vimux'), -- Terminal tmux runner
 	setup('dev.vimux'), -- Terminal tmux runner
 
 	-- testes
