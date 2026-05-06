@@ -3,143 +3,78 @@ local M = {}
 function M.setup()
 	return {
 		'nvim-treesitter/nvim-treesitter',
+		lazy = false,
 		build = ':TSUpdate',
-		event = { 'BufReadPost', 'BufNewFile' },
 		config = M.config,
 	}
 end
 
 function M.config()
-	local ts = require('nvim-treesitter.configs')
+	local ts = require('nvim-treesitter')
+	local max_filesize = 1024 * 1024 -- 1 MB
 
-	local disable = { 'cobol', 'foo' }
-
-	ts.setup({
-		ensure_installed = {
-			'vim',
-			'vimdoc',
-			'bash',
-			'regex',
-			'javascript',
-			'typescript',
-			'prisma',
-			'ruby',
-			'tsx',
-			'python',
-			'dart',
-			'json',
-			'html',
-			'lua',
-			'css',
-			'scss',
-			'toml',
-			'fish',
-			'jsdoc',
-			'yaml',
-		},
-		auto_install = true,
-		refactor = {
-			highlight_definitions = { enable = true, disable = disable },
-			highlight_current_scope = { enable = true, disable = disable },
-		},
-		incremental_selection = {
-			enable = true,
-			keymaps = {
-				init_selection = '<C-space>',
-				node_incremental = '<C-space>',
-				scope_incremental = false,
-				node_decremental = '<BS>',
-			},
-		},
-		highlight = {
-			enable = true,
-			-- these are the names of the parsers and not the filetype. (for example if you want to
-			-- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-			-- the name of the parser)
-			-- list of language that will be disabled
-			-- disable = { 'c', 'rust' },
-			-- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-			disable = function(lang, buf)
-				local max_filesize = (1 * 1024) * 1024 -- 1 MB
-
-				local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
-				if ok and stats and stats.size > max_filesize then return true end
-			end,
-			-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-			-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-			-- Using this option may slow down your editor, and you may see some duplicate highlights.
-			-- Instead of true it can also be a list of languages
-			additional_vim_regex_highlighting = disable,
-		},
-		textobjects = {
-			select = {
-				enable = true,
-				disable = { 'cobol', 'javascript' },
-				-- Automatically jump forward to textobj, similar to targets.vim
-				lookahead = true,
-				keymaps = {
-					-- You can use the capture groups defined in textobjects.scm
-					['af'] = '@function.outer',
-					['if'] = '@function.inner',
-					['ac'] = '@class.outer',
-					['ic'] = '@class.inner',
-					['iB'] = '@block.inner',
-					['aB'] = '@block.outer',
-				},
-				include_surrounding_whitespace = false,
-			},
-			move = {
-				enable = true,
-				disable = disable,
-				set_jumps = true, -- whether to set jumps in the jumplist
-				goto_next_start = {
-					[']f'] = '@function.outer',
-					[']c'] = '@class.outer',
-				},
-				goto_previous_start = {
-					['[f'] = '@function.outer',
-					['[c'] = '@class.outer',
-				},
-				goto_next_end = {
-					[']F'] = '@function.outer',
-					[']C'] = '@class.outer',
-				},
-				goto_previous_end = {
-					['[F'] = '@function.outer',
-					['[C'] = '@class.outer',
-				},
-			},
-			swap = { enable = false, swap_next = {} },
-		},
-		matchup = { enable = true, disable_virtual_text = true, disable = { 'python', 'cobol', 'foo' } },
-		endwise = { enable = true, disable = disable }, -- Automatically add end to blocks
+	ts.install({
+		'vim', 'vimdoc', 'bash', 'regex', 'javascript', 'typescript',
+		'prisma', 'ruby', 'tsx', 'python', 'dart', 'json', 'html',
+		'lua', 'css', 'scss', 'toml', 'fish', 'jsdoc', 'yaml',
 	})
 
-	-- require('ts_context_commentstring').setup({
-	-- 	enable_autocmd = false,
-	-- 	languages = { -- Languages that have a single comment style
-	-- 		typescript = '// %s',
-	-- 		css = '/* %s */',
-	-- 		scss = '/* %s */',
-	-- 		html = '<!-- %s -->',
-	-- 		svelte = '<!-- %s -->',
-	-- 		vue = '<!-- %s -->',
-	-- 		json = '',
-	-- 	},
-	-- })
-	--
-	-- require('nvim-ts-autotag').setup({
-	-- 	enable_close_on_slash = false, -- disable case: `<div /` become `<div /div>`
-	-- 	filetypes = {
-	-- 		'html',
-	-- 		'javascript',
-	-- 		'javascriptreact',
-	-- 		'typescript',
-	-- 		'typescriptreact',
-	-- 		'vue',
-	-- 		'xml',
-	-- 	},
-	-- })
+	vim.api.nvim_create_autocmd('FileType', {
+		callback = function(ev)
+			local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(ev.buf))
+			if ok and stats and stats.size > max_filesize then return end
+
+			local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
+			if lang and not vim.tbl_contains(ts.get_installed(), lang) then
+				ts.install({ lang })
+			end
+
+			pcall(vim.treesitter.start, ev.buf)
+		end,
+	})
+
+	require('nvim-treesitter-textobjects').setup({
+		select = { lookahead = true, include_surrounding_whitespace = false },
+		move = { set_jumps = true },
+	})
+
+	local select_to = require('nvim-treesitter-textobjects.select')
+	local move_to = require('nvim-treesitter-textobjects.move')
+
+	local ts_disable = { cobol = true, foo = true }
+
+	local select_maps = {
+		['af'] = '@function.outer',
+		['if'] = '@function.inner',
+		['ac'] = '@class.outer',
+		['ic'] = '@class.inner',
+		['iB'] = '@block.inner',
+		['aB'] = '@block.outer',
+	}
+	for key, query in pairs(select_maps) do
+		vim.keymap.set({ 'x', 'o' }, key, function()
+			if ts_disable[vim.bo.filetype] then return end
+			select_to.select_textobject(query, 'textobjects')
+		end)
+	end
+
+	local move_maps = {
+		[']f'] = { 'goto_next_start', '@function.outer' },
+		[']c'] = { 'goto_next_start', '@class.outer' },
+		['[f'] = { 'goto_previous_start', '@function.outer' },
+		['[c'] = { 'goto_previous_start', '@class.outer' },
+		[']F'] = { 'goto_next_end', '@function.outer' },
+		[']C'] = { 'goto_next_end', '@class.outer' },
+		['[F'] = { 'goto_previous_end', '@function.outer' },
+		['[C'] = { 'goto_previous_end', '@class.outer' },
+	}
+	for key, spec in pairs(move_maps) do
+		local fn, query = spec[1], spec[2]
+		vim.keymap.set({ 'n', 'x', 'o' }, key, function()
+			if ts_disable[vim.bo.filetype] then return end
+			move_to[fn](query, 'textobjects')
+		end)
+	end
 end
 
 return M
