@@ -3,105 +3,95 @@ local M = {}
 function M.setup()
 	return {
 		'nvim-treesitter/nvim-treesitter',
-		tag = 'v0.9.3',
+		branch = 'main',
+		lazy = false,
 		build = ':TSUpdate',
-		event = { 'BufReadPost', 'BufNewFile' },
 		config = M.config,
 	}
 end
 
 function M.config()
-	local ts = require('nvim-treesitter.configs')
+	local ts = require('nvim-treesitter')
+	local locals = require('utils.local-parsers')
+	local max_filesize = 1024 * 1024 -- 1 MB
 
-	local disable = { 'cobol', 'foo' }
-
-	ts.setup({
-		ensure_installed = {
-			'vim',
-			'vimdoc',
-			'bash',
-			'regex',
-			'javascript',
-			'typescript',
-			'prisma',
-			'ruby',
-			'tsx',
-			'python',
-			'dart',
-			'json',
-			'html',
-			'lua',
-			'css',
-			'scss',
-			'toml',
-			'fish',
-			'jsdoc',
-			'yaml',
-		},
-		auto_install = true,
-		refactor = {
-			highlight_definitions = { enable = true, disable = disable },
-			highlight_current_scope = { enable = true, disable = disable },
-		},
-		incremental_selection = {
-			enable = true,
-			keymaps = {
-				init_selection = '<C-space>',
-				node_incremental = '<C-space>',
-				scope_incremental = false,
-				node_decremental = '<BS>',
-			},
-		},
-		highlight = {
-			enable = true,
-			disable = function(lang, buf)
-				local max_filesize = (1 * 1024) * 1024 -- 1 MB
-				local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
-				if ok and stats and stats.size > max_filesize then return true end
-			end,
-			additional_vim_regex_highlighting = disable,
-		},
-		textobjects = {
-			select = {
-				enable = true,
-				disable = { 'cobol', 'javascript' },
-				lookahead = true,
-				keymaps = {
-					['af'] = '@function.outer',
-					['if'] = '@function.inner',
-					['ac'] = '@class.outer',
-					['ic'] = '@class.inner',
-					['iB'] = '@block.inner',
-					['aB'] = '@block.outer',
-				},
-				include_surrounding_whitespace = false,
-			},
-			move = {
-				enable = true,
-				disable = disable,
-				set_jumps = true,
-				goto_next_start = {
-					[']f'] = '@function.outer',
-					[']c'] = '@class.outer',
-				},
-				goto_previous_start = {
-					['[f'] = '@function.outer',
-					['[c'] = '@class.outer',
-				},
-				goto_next_end = {
-					[']F'] = '@function.outer',
-					[']C'] = '@class.outer',
-				},
-				goto_previous_end = {
-					['[F'] = '@function.outer',
-					['[C'] = '@class.outer',
-				},
-			},
-			swap = { enable = false, swap_next = {} },
-		},
-		matchup = { enable = true, disable_virtual_text = true, disable = { 'python', 'cobol', 'foo' } },
-		endwise = { enable = true, disable = disable },
+	ts.install({
+		'vim', 'vimdoc', 'bash', 'regex', 'javascript', 'typescript',
+		'prisma', 'ruby', 'tsx', 'python', 'dart', 'json', 'html',
+		'lua', 'css', 'scss', 'toml', 'fish', 'jsdoc', 'yaml',
 	})
+
+	vim.api.nvim_create_autocmd('FileType', {
+		callback = function(ev)
+			local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(ev.buf))
+			if ok and stats and stats.size > max_filesize then return end
+
+			local ft = vim.bo[ev.buf].filetype
+
+			-- Parser local registrado: garante build + ativação, depois inicia
+			if locals.is_registered(ft) then
+				locals.ensure_for_buf(ev.buf, ft, function()
+					if vim.api.nvim_buf_is_valid(ev.buf) then
+						pcall(vim.treesitter.start, ev.buf)
+					end
+				end)
+				return
+			end
+
+			pcall(vim.treesitter.start, ev.buf)
+		end,
+	})
+
+	vim.api.nvim_create_user_command('TSBuildLocal', function(args)
+		locals.rebuild(args.args)
+	end, {
+		nargs = 1,
+		complete = function() return locals.list() end,
+		desc = 'Build/rebuild a local treesitter parser',
+	})
+
+	require('nvim-treesitter-textobjects').setup({
+		select = { lookahead = true, include_surrounding_whitespace = false },
+		move = { set_jumps = true },
+	})
+
+	local select_to = require('nvim-treesitter-textobjects.select')
+	local move_to = require('nvim-treesitter-textobjects.move')
+
+	local ts_disable = { cobol = true, foo = true }
+
+	local select_maps = {
+		['af'] = '@function.outer',
+		['if'] = '@function.inner',
+		['ac'] = '@class.outer',
+		['ic'] = '@class.inner',
+		['iB'] = '@block.inner',
+		['aB'] = '@block.outer',
+	}
+	for key, query in pairs(select_maps) do
+		vim.keymap.set({ 'x', 'o' }, key, function()
+			if ts_disable[vim.bo.filetype] then return end
+			select_to.select_textobject(query, 'textobjects')
+		end)
+	end
+
+	local move_maps = {
+		[']f'] = { 'goto_next_start', '@function.outer' },
+		[']c'] = { 'goto_next_start', '@class.outer' },
+		['[f'] = { 'goto_previous_start', '@function.outer' },
+		['[c'] = { 'goto_previous_start', '@class.outer' },
+		[']F'] = { 'goto_next_end', '@function.outer' },
+		[']C'] = { 'goto_next_end', '@class.outer' },
+		['[F'] = { 'goto_previous_end', '@function.outer' },
+		['[C'] = { 'goto_previous_end', '@class.outer' },
+	}
+	for key, spec in pairs(move_maps) do
+		local fn, query = spec[1], spec[2]
+		vim.keymap.set({ 'n', 'x', 'o' }, key, function()
+			if ts_disable[vim.bo.filetype] then return end
+			move_to[fn](query, 'textobjects')
+		end)
+	end
 end
 
 return M

@@ -116,8 +116,7 @@ local plugins = Array({
 
 	setup('treesitter', {
 		{ 'windwp/nvim-ts-autotag', config = true }, -- tag completion
-		{ 'nvim-treesitter/nvim-treesitter-textobjects' },
-		{ 'RRethy/nvim-treesitter-textsubjects', lazy = true },
+		{ 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
 		{ 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- conserta comments para jsx,
 		{ 'fladson/vim-kitty', ft = { 'kitty', 'conf' } }, -- syntax highlighting for kitty
 		{ 'delphinus/vim-firestore' }, -- syntax highlighting firestore rules
