@@ -17,7 +17,7 @@ M.servers = {
 	'dart_ls',
 	'gopls',
 	'pyright',
-	-- 'ruff',
+	'ruff',
 	'sqls',
 	'clangd',
 	'rust-analyzer', -- inicializado pelo rustacean
