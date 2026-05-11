@@ -14,13 +14,23 @@ function M.config()
 	vim.opt.runtimepath:prepend(vim.fn.stdpath('data') .. '/lazy/nvim-treesitter/runtime')
 
 	local ts = require('nvim-treesitter')
-	local locals = require('utils.local-parsers')
 	local max_filesize = 1024 * 1024 -- 1 MB
+
+	vim.api.nvim_create_autocmd('User', {
+		pattern = 'TSUpdate',
+		callback = function()
+			local parsers = require('nvim-treesitter.parsers')
+			parsers.trexx = { install_info = { path = '~/dev/trexx/tree-sitter-trexx' } }
+			parsers.cobol = { install_info = { path = '~/dev/tree-sitter-cobol' } }
+			parsers.copybook = { install_info = { path = '~/dev/tree-sitter-copybook' } }
+		end,
+	})
 
 	ts.install({
 		'vim', 'vimdoc', 'bash', 'regex', 'javascript', 'typescript',
 		'prisma', 'ruby', 'tsx', 'python', 'dart', 'json', 'html',
 		'lua', 'css', 'scss', 'toml', 'fish', 'jsdoc', 'yaml',
+		'trexx', 'cobol', 'copybook',
 	})
 
 	vim.api.nvim_create_autocmd('FileType', {
@@ -28,28 +38,8 @@ function M.config()
 			local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(ev.buf))
 			if ok and stats and stats.size > max_filesize then return end
 
-			local ft = vim.bo[ev.buf].filetype
-
-			-- Parser local registrado: garante build + ativação, depois inicia
-			if locals.is_registered(ft) then
-				locals.ensure_for_buf(ev.buf, ft, function()
-					if vim.api.nvim_buf_is_valid(ev.buf) then
-						pcall(vim.treesitter.start, ev.buf)
-					end
-				end)
-				return
-			end
-
 			pcall(vim.treesitter.start, ev.buf)
 		end,
-	})
-
-	vim.api.nvim_create_user_command('TSBuildLocal', function(args)
-		locals.rebuild(args.args)
-	end, {
-		nargs = 1,
-		complete = function() return locals.list() end,
-		desc = 'Build/rebuild a local treesitter parser',
 	})
 
 	require('nvim-treesitter-textobjects').setup({

@@ -1,7 +1,5 @@
 local M = {}
 
-require('utils.local-parsers').register('trexx', '~/dev/trexx/tree-sitter-trexx')
-
 ---@type FiletypeSettings
 M.settings = {
   bo = {
