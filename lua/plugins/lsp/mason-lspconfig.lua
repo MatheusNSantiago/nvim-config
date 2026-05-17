@@ -13,6 +13,8 @@ end
 
 -- REF (lsp-config): https://github.com/neovim/nvim-lspconfig/wiki
 function M.config()
+	vim.env.CGO_ENABLED = vim.env.CGO_ENABLED or '0'
+
 	local mason_lspconfig = require('mason-lspconfig')
 	local lsp = require('lsp')
 

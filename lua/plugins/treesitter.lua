@@ -11,6 +11,8 @@ function M.setup()
 end
 
 function M.config()
+	vim.opt.runtimepath:prepend(vim.fn.stdpath('data') .. '/lazy/nvim-treesitter/runtime')
+
 	local ts = require('nvim-treesitter')
 	local locals = require('utils.local-parsers')
 	local max_filesize = 1024 * 1024 -- 1 MB

@@ -3,6 +3,9 @@ local M = {}
 function M.setup()
 	return {
 		'williamboman/mason.nvim',
+		init = function()
+			vim.env.CGO_ENABLED = '0'
+		end,
 		config = M.config,
 		cmd = 'Mason',
 		build = ':MasonUpdate', -- updates registry contents

@@ -18,7 +18,7 @@ M.servers = {
 	'gopls',
 	'pyright',
 	'ruff',
-	'sqls',
+	'sqlls',
 	'clangd',
 	'rust-analyzer', -- inicializado pelo rustacean
 	'trexx_ls',
@@ -57,7 +57,11 @@ function M.common_on_attach(client, bufnr)
 	end
 
 	if caps.codeLensProvider then
-		vim.lsp.codelens.enable(true, { bufnr = bufnr })
+		if vim.lsp.codelens.enable then
+			vim.lsp.codelens.enable(true, { bufnr = bufnr })
+		else
+			vim.lsp.codelens.refresh({ bufnr = bufnr })
+		end
 	end
 
 	if caps.foldingRangeProvider then
