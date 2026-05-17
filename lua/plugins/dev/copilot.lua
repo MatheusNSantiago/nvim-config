@@ -4,7 +4,7 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'zbirenbaum/copilot.lua',
 		config = M.config,
-    lazy = false,
+		lazy = false,
 		-- keys = {
 		-- 	{ '<M-]>', mode = { 'i' } },
 		-- 	{ '<M-[>', mode = { 'i' } },
@@ -26,8 +26,8 @@ function M.config()
 				accept = false,
 				accept_word = false,
 				accept_line = false,
-				next = '<M-]>',
-				prev = '<M-[>',
+				next = false,
+				prev = false,
 				dismiss = false,
 			},
 		},
@@ -38,6 +38,24 @@ function M.config()
 		},
 		copilot_node_command = 'node', -- Node.js version must be > 16.x
 	})
+	M.setup_suggestion_keymaps()
+end
+
+function M.repair_blink_keymaps()
+	local blink_ok, blink = pcall(require, 'plugins.dev.blink')
+	if blink_ok then blink.repair_keymaps() end
+end
+
+function M.setup_suggestion_keymaps()
+	vim.keymap.set('i', '<M-]>', function()
+		M.repair_blink_keymaps()
+		require('copilot.suggestion').next()
+	end, { desc = '[copilot] next suggestion', silent = true })
+
+	vim.keymap.set('i', '<M-[>', function()
+		M.repair_blink_keymaps()
+		require('copilot.suggestion').prev()
+	end, { desc = '[copilot] prev suggestion', silent = true })
 end
 
 return M

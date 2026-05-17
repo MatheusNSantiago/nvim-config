@@ -12,27 +12,6 @@ end
 function M.config()
 	local kind_icons = U.icons.lspkind
 
-	-- U.api.augroup('blink_cmp_multi_cursor_fix', {
-	-- 	desc = 'Conserta o problema das mappings sumirem após sair do multicursor mode',
-	-- 	event = 'User',
-	-- 	pattern = 'BlinkCmpMenuOpen',
-	-- 	command = function(_)
-	-- 		-- O blink checa se ele já setou mappings para não dar retrabalho
-	--
-	-- 		-- Deleta as keymaps existentes do blink
-	-- 		local curr_buf_keymaps = vim.api.nvim_buf_get_keymap(0, 'i')
-	-- 		for _, map in ipairs(curr_buf_keymaps) do
-	-- 			if map.desc == 'blink.cmp' then --
-	-- 				vim.api.nvim_buf_del_keymap(0, 'i', map['lhs'])
-	-- 			end
-	-- 		end
-	--
-	-- 		-- Aplica mappings
-	-- 		local mappings = require('plugins.dev.blink.mappings')
-	-- 		require('blink.cmp.keymap.apply').keymap_to_current_buffer(mappings)
-	-- 	end,
-	-- })
-
 	require('blink.cmp').setup({
 		keymap = require('plugins.dev.blink.mappings'),
 		enabled = function()
@@ -96,7 +75,7 @@ function M.config()
 				},
 			},
 			documentation = {
-				auto_show = true,        -- default é false
+				auto_show = true, -- default é false
 				auto_show_delay_ms = 50, -- default é 500
 				window = {
 					max_width = 60, -- default é 80
@@ -200,6 +179,8 @@ function M.config()
 			},
 		},
 	})
+
+	M.setup_keymap_repair()
 end
 
 M.highlights = {
@@ -221,4 +202,46 @@ M.highlights = {
 	['BlinkCmpDocSeparator'] = { link = 'NormalFloat' }, -- The documentation separator between doc and detail
 	['BlinkCmpDocCursorLine'] = { link = 'Visual' }, -- The documentation window cursor line
 }
+
+local function is_blink_keymap(map) return type(map.desc) == 'string' and vim.startswith(map.desc, 'blink.cmp') end
+
+local function is_visual_multi_insert_keymap(map)
+	return type(map.rhs) == 'string' and map.rhs:find('<Plug>%(VM%-I%-') ~= nil
+end
+
+local function should_repair_cr_keymap()
+	local map = vim.fn.maparg('<CR>', 'i', false, true)
+	if is_blink_keymap(map) then return false end
+	if is_visual_multi_insert_keymap(map) then return false end
+	return true
+end
+
+local function remove_blink_keymaps()
+	for _, mode in ipairs({ 'i', 's' }) do
+		for _, map in ipairs(vim.api.nvim_buf_get_keymap(0, mode)) do
+			if is_blink_keymap(map) then pcall(vim.api.nvim_buf_del_keymap, 0, mode, map.lhs) end
+		end
+	end
+end
+
+function M.repair_keymaps()
+	local config_ok, config = pcall(require, 'blink.cmp.config')
+	if config_ok and not config.enabled() then return end
+	if not should_repair_cr_keymap() then return end
+
+	remove_blink_keymaps()
+	require('blink.cmp.keymap.apply').keymap_to_current_buffer(require('plugins.dev.blink.mappings'))
+end
+
+function M.setup_keymap_repair()
+	U.api.augroup('blink_cmp_keymap_repair', {
+		desc = 'Reaplica keymaps do blink quando o menu de completion abre',
+		event = 'User',
+		pattern = 'BlinkCmpMenuOpen',
+		command = function() M.repair_keymaps() end,
+	})
+
+	U.api.command('BlinkRepairKeymaps', M.repair_keymaps, { desc = 'Reaplica keymaps do blink no buffer atual' })
+end
+
 return M
