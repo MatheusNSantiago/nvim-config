@@ -33,19 +33,19 @@ function M.config()
     },
     keymaps = {
       -- normal & visual mode
-      confirm = '<CR>',
+      confirmAndSubstituteInBuffer = '<CR>',
       abort = 'q',
       prevSubstitutionInHistory = '<Up>',
       nextSubstitutionInHistory = '<Down>',
       openAtRegex101 = 'R',
-      insertModeConfirm = '<C-CR>', -- (except this one, obviously)
+      insertModeConfirmAndSubstituteInBuffer = '<C-CR>', -- (except this one, obviously)
     },
     incrementalPreview = {
       matchHlGroup = 'IncSearch',
-      rangeBackdrop = {
-        enabled = true,
-        blend = 50, -- between 0 and 100
-      },
+      -- rangeBackdrop = {
+      --   enabled = true,
+      --   blend = 50, -- between 0 and 100
+      -- },
     },
     regexOptions = {
       -- pcre2 enables lookarounds and backreferences, but performs slower
