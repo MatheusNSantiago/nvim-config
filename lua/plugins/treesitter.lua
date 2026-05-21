@@ -30,7 +30,7 @@ function M.config()
 		'vim', 'vimdoc', 'bash', 'regex', 'javascript', 'typescript',
 		'prisma', 'ruby', 'tsx', 'python', 'dart', 'json', 'html',
 		'lua', 'css', 'scss', 'toml', 'fish', 'jsdoc', 'yaml',
-		'trexx', 'cobol', 'copybook',
+		'rust', 'trexx', 'cobol', 'copybook',
 	})
 
 	vim.api.nvim_create_autocmd('FileType', {
