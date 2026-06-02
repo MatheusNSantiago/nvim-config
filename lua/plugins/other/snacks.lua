@@ -31,7 +31,16 @@ function M.setup()
 end
 
 function M.config()
-	if vim.env.KITTY_WINDOW_ID and vim.env.TMUX then
+	if vim.env.TMUX then
+		local ok, termname = pcall(vim.fn.system, { 'tmux', 'display-message', '-p', '#{client_termname}' })
+		if ok then
+			local terminal = require('snacks.image.terminal')
+			terminal._terminal = {
+				terminal = vim.trim(termname):gsub('^xterm%-', ''),
+				version = 'tmux',
+			}
+		end
+	elseif vim.env.KITTY_WINDOW_ID then
 		vim.env.SNACKS_KITTY = 'true'
 	end
 
