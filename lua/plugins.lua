@@ -171,6 +171,7 @@ local plugins = Array({
 	-- Python
 	setup('dev.venv-selector'),
 	{ 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
+	setup('dev.ipynb'),
 
 	-- Markdown
 	{ 'bullets-vim/bullets.vim', ft = 'markdown' }, -- bullet list automático
@@ -200,7 +201,6 @@ local plugins = Array({
 	--  ╰──────────────────────────────────────────────────────────╯
 
 	setup('other.snacks'), -- bundle de coisas uteis
-	-- setup('other.image'), -- bundle de coisas uteis
 	setup('other.aw-watcher'), -- bundle de coisas uteis
 
 	--  ╭──────────────────────────────────────────────────────────╮

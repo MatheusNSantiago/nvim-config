@@ -35,7 +35,7 @@ augroup('random_autocommands', {
   event = 'BufLeave',
   pattern = '*',
   command = function()
-    local save_excluded = { 'NvimTree', 'lua.luapad', 'gitcommit', 'NeogitCommitMessage' }
+    local save_excluded = { 'NvimTree', 'lua.luapad', 'gitcommit', 'NeogitCommitMessage', 'ipynb' }
     local can_save = utils.falsy(fn.win_gettype())
         and utils.falsy(vim.bo.buftype)
         and not utils.falsy(vim.bo.filetype)

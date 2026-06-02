@@ -31,8 +31,15 @@ function M.setup()
 end
 
 function M.config()
+	if vim.env.KITTY_WINDOW_ID and vim.env.TMUX then
+		vim.env.SNACKS_KITTY = 'true'
+	end
+
 	local MAX_LUA_INTEGER = 9223372036854775807
 	require('snacks').setup({
+		image = {
+			enabled = true,
+		},
 		bigfile = {
 			enabled = true,
 			notify = true, -- show notification when big file detected
