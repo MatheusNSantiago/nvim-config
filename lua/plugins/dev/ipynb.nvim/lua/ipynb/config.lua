@@ -20,12 +20,14 @@ local M = {}
 ---@field border string Border style - used for centered mode
 ---@field overlay boolean If true, float overlays cell inline; if false, centered popup
 ---@field show_line_numbers boolean Show line numbers in overlay mode
+---@field edit_in_place boolean Edit directly in the notebook cell instead of opening an edit float
 
 ---@class KeymapConfig
 --- Direct facade keys (high-frequency operations)
 ---@field next_cell string Jump to next cell (default: ']]')
 ---@field prev_cell string Jump to previous cell (default: '[[')
----@field cut_cell string Cut cell to register (default: 'dd')
+---@field cut_cell string|nil Cut cell to register (default: nil)
+---@field delete_cell string Delete current cell (default: '<leader>kd')
 ---@field paste_cell_below string Paste cell below (default: 'p')
 ---@field paste_cell_above string Paste cell above (default: 'P')
 ---@field move_cell_down string Move cell down (default: '<M-j>')
@@ -114,6 +116,7 @@ M.defaults = {
 		border = "rounded",
 		overlay = true, -- true = inline overlay, false = centered popup
 		show_line_numbers = false, -- line numbers in overlay mode (facade numbers visible behind)
+		edit_in_place = true,
 	},
 	--- TODO: make <leader>-_<prefix>_ key configurable?
 	keymaps = {
@@ -121,7 +124,8 @@ M.defaults = {
 		next_cell = "]]",
 		prev_cell = "[[",
 		jump_to_cell = "<leader>kj",
-		cut_cell = "dd",
+		cut_cell = nil,
+		delete_cell = "<leader>kd",
 		paste_cell_below = "p",
 		paste_cell_above = "P",
 		move_cell_down = "<M-j>",

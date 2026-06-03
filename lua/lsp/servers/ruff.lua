@@ -7,6 +7,7 @@ M.root_markers = { 'pyrightconfig.json', '.git' }
 
 M.init_options = {
 	settings = {
+		logLevel = 'warn',
 		configuration = vim.g.vim_dir .. '/lua/lsp/linter-config/ruff.toml',
 		configurationPreference = 'filesystemFirst',
 	},

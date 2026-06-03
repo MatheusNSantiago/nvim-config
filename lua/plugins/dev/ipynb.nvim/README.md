@@ -173,6 +173,14 @@ This updates the notebook metadata and re-attaches the appropriate LSP.
 <!-- config:start -->
 ```lua
 require("ipynb").setup({
+  float = {
+    width = 0.9,
+    height = 0.7,
+    border = "rounded",
+    overlay = true,
+    show_line_numbers = false,
+    edit_in_place = true,          -- edit directly in the visible notebook cell
+  },
   keymaps = {
     -- Navigation (Notebook mode)
     next_cell = "]]",              -- jump to next cell
@@ -180,7 +188,8 @@ require("ipynb").setup({
     -- Navigation (both Notebook mode and Cell mode)
     jump_to_cell = "<leader>kj",   -- open cell picker
     -- Cell operations (Notebook mode)
-    cut_cell = "dd",               -- cut cell to register
+    delete_cell = "<leader>kd",     -- delete current cell
+    cut_cell = nil,                 -- cut cell to register (disabled by default)
     paste_cell_below = "p",        -- paste cell below
     paste_cell_above = "P",        -- paste cell above
     move_cell_down = "<M-j>",      -- move cell down
@@ -293,8 +302,8 @@ require("ipynb").setup({
 | `:NotebookJumpToCell` | Open cell picker | `jump_to_cell` | `<leader>kj` |
 | `:NotebookInsertCellBelow` | Insert cell below | `add_cell_below` | `<leader>kb` |
 | `:NotebookInsertCellAbove` | Insert cell above | `add_cell_above` | `<leader>ka` |
-| `:NotebookDeleteCell` | Delete current cell | | |
-| `:NotebookCutCell` | Cut cell to register | `cut_cell` | `dd` |
+| `:NotebookDeleteCell` | Delete current cell | `delete_cell` | `<leader>kd` |
+| `:NotebookCutCell` | Cut cell to register | `cut_cell` | |
 | `:NotebookPasteCellBelow` | Paste cell below | `paste_cell_below` | `p` |
 | `:NotebookPasteCellAbove` | Paste cell above | `paste_cell_above` | `P` |
 | `:NotebookMoveCellUp` | Move cell up | `move_cell_up` | `<M-k>` |

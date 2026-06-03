@@ -15,6 +15,33 @@ local function preserve_shadow_handler_context(method)
   return method == 'textDocument/diagnostic' or method == 'workspace/diagnostic'
 end
 
+local function called_from_lsp_changetracking()
+  for level = 2, 8 do
+    local info = debug.getinfo(level, 'S')
+    if not info then
+      return false
+    end
+    if type(info.source) == 'string' and info.source:find('vim/lsp/_changetracking.lua', 1, true) then
+      return true
+    end
+  end
+  return false
+end
+
+local function called_from_copilot()
+  for level = 2, 12 do
+    local info = debug.getinfo(level, 'S')
+    if not info then
+      return false
+    end
+    if type(info.source) == 'string' and info.source:find('/copilot/', 1, true) then
+      return true
+    end
+  end
+  return false
+end
+
+
 ---Register an interceptor for a specific LSP method
 ---Handler signature: handler(ctx, method, params, orig_handler, client, req_bufnr) -> handled, req_id
 ---@param method string LSP method name (e.g., 'textDocument/formatting')
@@ -152,6 +179,10 @@ function M.install()
   vim.lsp.util.make_position_params = function(win, offset_encoding)
     local params = orig_make_position_params(win, offset_encoding)
 
+    if called_from_copilot() then
+      return params
+    end
+
     local bufnr = vim.api.nvim_win_get_buf(win or 0)
 
     -- Check edit buffer first (original behavior)
@@ -177,6 +208,10 @@ function M.install()
   vim.lsp.util.make_text_document_params = function(bufnr)
     bufnr = bufnr or vim.api.nvim_get_current_buf()
     local params = orig_make_text_document_params(bufnr)
+
+    if called_from_copilot() then
+      return params
+    end
 
     -- Check edit buffer first
     local state = state_mod.get_from_edit_buf(bufnr)
@@ -272,22 +307,37 @@ function M.install()
       local ctx = util.get_buffer_context(bufnr, state_mod)
       local state = ctx.state
 
-      if state
-        and not ctx.is_edit_buf
-        and not ctx.is_shadow_buf
-        and require('ipynb.config').get().float.edit_in_place
-      then
+      if state and called_from_lsp_changetracking() then
+        -- Facade/edit buffers proxy LSP requests to the shadow buffer, but they
+        -- are not attached to the LSP client's text document change tracker.
+        -- Returning shadow clients here makes Neovim try to send didChange for
+        -- the facade buffer and crashes in _changetracking with missing buffer
+        -- state. Completion/hover/etc. still see shadow clients outside this
+        -- internal change-tracking path.
         return orig_get_clients(filter)
       end
 
-
       if state and state.shadow_buf and vim.api.nvim_buf_is_valid(state.shadow_buf) then
-        -- Redirect to shadow buffer
-        filter = vim.tbl_extend('force', filter, { bufnr = state.shadow_buf })
-        local clients = orig_get_clients(filter)
-        for _, client in ipairs(clients) do
-          wrap_client(client, state.shadow_buf)
+        local clients_by_id = {}
+        local clients = {}
+
+        -- Keep clients really attached to the queried buffer, e.g. Copilot on
+        -- the visible notebook buffer. The shadow proxy must add Python LSP
+        -- clients, not hide unrelated facade clients.
+        for _, client in ipairs(orig_get_clients(filter)) do
+          clients_by_id[client.id] = true
+          clients[#clients + 1] = client
         end
+
+        local shadow_filter = vim.tbl_extend('force', filter, { bufnr = state.shadow_buf })
+        for _, client in ipairs(orig_get_clients(shadow_filter)) do
+          if not clients_by_id[client.id] then
+            clients_by_id[client.id] = true
+            wrap_client(client, state.shadow_buf)
+            clients[#clients + 1] = client
+          end
+        end
+
         return clients
       end
     end

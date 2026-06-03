@@ -58,6 +58,8 @@ require('ipynb').setup({opts})
                 height = 0.7,
                 border = 'rounded',
                 overlay = true,
+                show_line_numbers = false,
+                edit_in_place = true,
             },
             keymaps = {
                 next_cell = ']]',
@@ -106,6 +108,12 @@ FloatConfig                                                        *FloatConfig*
                                         Default: 0.7
         {border}             (string)   Border style
                                         Default: 'rounded'
+        {overlay}            (boolean)  Overlay the cell inline
+                                        Default: true
+        {show_line_numbers}  (boolean)  Show line numbers in overlay mode
+                                        Default: false
+        {edit_in_place}      (boolean)  Edit directly in the visible notebook cell
+                                        Default: true
 
 ------------------------------------------------------------------------------
 KeymapConfig                                                      *KeymapConfig*
@@ -124,8 +132,10 @@ KeymapConfig                                                      *KeymapConfig*
                                          Default: ']]'
         {prev_cell}            (string)  [N] Jump to previous cell
                                          Default: '[['
-        {cut_cell}             (string)  [N] Cut cell to register
-                                         Default: 'dd'
+        {delete_cell}          (string)  [N] Delete current cell
+                                         Default: '<leader>kd'
+        {cut_cell}             (string|nil) [N] Cut cell to register
+                                         Default: nil
         {paste_cell_below}     (string)  [N] Paste cell below
                                          Default: 'p'
         {paste_cell_above}     (string)  [N] Paste cell above
@@ -332,7 +342,7 @@ Notebook mode only (entering Cell mode, cell operations): ~
     `A`          [N]   Enter cell in Insert mode (append at line end)
     `o`          [N]   Enter cell in Insert mode (open line below)
     `O`          [N]   Enter cell in Insert mode (open line above)
-    `dd`         [N]   Cut cell
+    `<leader>kd` [N]   Delete current cell
     `p`          [N]   Paste cell below
     `P`          [N]   Paste cell above
     `]]`         [N]   Jump to next cell
@@ -409,8 +419,8 @@ Cell Operations: ~
 
     `:NotebookInsertCellBelow`     Insert a new cell below current
     `:NotebookInsertCellAbove`     Insert a new cell above current
-    `:NotebookDeleteCell`          Delete the current cell
-    `:NotebookCutCell`             Cut cell to register
+    `:NotebookDeleteCell`          Delete the current cell (`delete_cell`, default `<leader>kd`)
+    `:NotebookCutCell`             Cut cell to register (`cut_cell`, disabled by default)
     `:NotebookPasteCellBelow`      Paste cell below
     `:NotebookPasteCellAbove`      Paste cell above
     `:NotebookMoveCellUp`          Move current cell up

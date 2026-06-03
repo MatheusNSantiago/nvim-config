@@ -22,7 +22,7 @@ return {
 
 				local is_python_project = vim.fn.glob(vim.fn.getcwd() .. '/pyproject.toml') ~= ''
 				if is_python_project then
-					local project_root = require('venv-selector.utils').find_workspace_root()
+					local project_root = require('plugins.dev.venv-selector').find_workspace_root()
 					local lock_file = vim
 						.iter(vim.fn.readdir(project_root))
 						:find(function(file) return file:match('.*%.lock') end)

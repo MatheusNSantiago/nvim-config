@@ -13,12 +13,17 @@ function M.setup()
 	}
 end
 
+local function copilot_language_id(_, filetype)
+	if filetype == 'ipynb' then return 'python' end
+	return require('copilot.client.filetypes').language_for_file_type(filetype)
+end
+
 function M.config()
 	require('copilot').setup({
 		panel = { enabled = false },
 		suggestion = {
 			enabled = true,
-			auto_trigger = false,
+			auto_trigger = true,
 			debounce = 75,
 			hide_during_completion = true,
 			trigger_on_accept = true,
@@ -35,6 +40,9 @@ function M.config()
 		filetypes = {
 			help = false,
 			['*'] = true, -- disable for all other filetypes and ignore default `filetypes`
+		},
+		server_opts_overrides = {
+			get_language_id = copilot_language_id,
 		},
 		copilot_node_command = 'node', -- Node.js version must be > 16.x
 	})

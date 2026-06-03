@@ -71,7 +71,6 @@ end
 ---@param state NotebookState
 function M.setup_buffer(state)
   local buf = state.facade_buf
-  local facade = require('ipynb.facade')
   local keymaps = require('ipynb.keymaps')
   local kernel = require('ipynb.kernel')
   local cells = require('ipynb.cells')
@@ -102,16 +101,8 @@ function M.setup_buffer(state)
     keymaps.add_cell_above(state)
   end, { desc = 'Insert cell above current' })
 
-  -- Cell deletion (uses facade.delete_cell directly)
   vim.api.nvim_buf_create_user_command(buf, 'NotebookDeleteCell', function()
-    if #state.cells <= 1 then
-      vim.notify('Cannot delete the only cell', vim.log.levels.WARN)
-      return
-    end
-    local cell_idx = get_current_cell_idx()
-    if cell_idx then
-      facade.delete_cell(state, cell_idx)
-    end
+    keymaps.delete_cell(state)
   end, { desc = 'Delete current cell' })
 
   -- Cell type changes

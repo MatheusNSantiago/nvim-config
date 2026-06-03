@@ -938,6 +938,122 @@ h.run_test('format_cell_from_edit_float', function()
 end)
 
 --------------------------------------------------------------------------------
+-- Test: LSP clients available for facade when editing in place
+-- Completion plugins query clients on the current facade buffer in this mode.
+--------------------------------------------------------------------------------
+h.run_test('lsp_clients_available_for_edit_in_place_facade', function()
+  require('ipynb.config').setup({ float = { edit_in_place = true } })
+  h.open_notebook('lsp_test.ipynb')
+  h.assert_true(wait_for_lsp(), 'LSP should attach')
+
+  local state = h.get_state()
+  local facade_clients = vim.lsp.get_clients({ bufnr = state.facade_buf })
+  local shadow_clients = vim.lsp.get_clients({ bufnr = state.shadow_buf })
+
+  h.assert_true(#facade_clients > 0, 'Should get clients for edit-in-place facade buffer')
+  h.assert_eq(#facade_clients, #shadow_clients,
+    'Edit-in-place facade and shadow should have same number of clients')
+end)
+
+--------------------------------------------------------------------------------
+-- Test: Completion from facade when editing in place
+--------------------------------------------------------------------------------
+h.run_test('completion_from_edit_in_place_facade', function()
+  require('ipynb.config').setup({ float = { edit_in_place = true } })
+  h.open_notebook('lsp_test.ipynb')
+  h.assert_true(wait_for_lsp(), 'LSP should attach')
+
+  local state = h.get_state()
+  if not lsp_supports_method(state, 'textDocument/completion') then
+    print('  SKIP: completion not supported by LSP')
+    return
+  end
+
+  local cells_mod = require('ipynb.cells')
+  local content_start, _ = cells_mod.get_content_range(state, 1)
+  vim.api.nvim_win_set_cursor(0, { content_start + 1, 4 })
+
+  local got_result = false
+  local completion_result = nil
+  local params = vim.lsp.util.make_position_params()
+
+  vim.lsp.buf_request(state.facade_buf, 'textDocument/completion', params, function(_, result)
+    got_result = true
+    completion_result = result
+  end)
+
+  vim.wait(5000, function() return got_result end, 100)
+  h.assert_true(got_result, 'Should get completion response from edit-in-place facade')
+  h.assert_true(completion_result ~= nil, 'Completion result should not be nil')
+end)
+
+--------------------------------------------------------------------------------
+-- Test: Hover from facade when editing in place
+--------------------------------------------------------------------------------
+h.run_test('hover_from_edit_in_place_facade', function()
+  require('ipynb.config').setup({ float = { edit_in_place = true } })
+  h.open_notebook('lsp_test.ipynb')
+  h.assert_true(wait_for_lsp(), 'LSP should attach')
+
+  local state = h.get_state()
+  if not lsp_supports_method(state, 'textDocument/hover') then
+    print('  SKIP: hover not supported by LSP')
+    return
+  end
+
+  local cells_mod = require('ipynb.cells')
+  local content_start, _ = cells_mod.get_content_range(state, 1)
+  vim.api.nvim_win_set_cursor(0, { content_start + 1, 4 })
+
+  local got_result = false
+  local hover_result = nil
+  local params = vim.lsp.util.make_position_params()
+
+  vim.lsp.buf_request(state.facade_buf, 'textDocument/hover', params, function(_, result)
+    got_result = true
+    hover_result = result
+  end)
+
+  vim.wait(5000, function() return got_result and hover_result ~= nil end, 100)
+  h.assert_true(got_result, 'Should get hover response from edit-in-place facade')
+  h.assert_true(hover_result ~= nil and hover_result.contents ~= nil,
+    'Hover result should have contents')
+end)
+
+--------------------------------------------------------------------------------
+-- Test: Direct facade edits do not trigger LSP change-tracking crashes
+--------------------------------------------------------------------------------
+h.run_test('edit_in_place_facade_edit_does_not_changetracking_error', function()
+  require('ipynb.config').setup({ float = { edit_in_place = true } })
+  h.open_notebook('lsp_test.ipynb')
+  h.assert_true(wait_for_lsp(), 'LSP should attach')
+
+  local state = h.get_state()
+  local clients = vim.lsp.get_clients({ bufnr = state.facade_buf })
+  h.assert_true(#clients > 0, 'Facade should expose shadow LSP clients to plugins')
+
+  local cells_mod = require('ipynb.cells')
+  local content_start, _ = cells_mod.get_content_range(state, 1)
+  local ok, err = pcall(vim.api.nvim_buf_set_lines, state.facade_buf, content_start + 1, content_start + 1, false, {
+    'extra_value = 3',
+  })
+
+  h.assert_true(ok, 'Editing the facade should not crash LSP change tracking: ' .. tostring(err))
+end)
+
+--------------------------------------------------------------------------------
+-- Test: get_clients ignores invalid buffers
+--------------------------------------------------------------------------------
+h.run_test('lsp_get_clients_ignores_invalid_buffer', function()
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_delete(buf, { force = true })
+
+  local ok, clients = pcall(vim.lsp.get_clients, { bufnr = buf })
+  h.assert_true(ok, 'get_clients should not error for invalid buffers')
+  h.assert_eq(type(clients), 'table', 'get_clients should return a client list')
+end)
+
+--------------------------------------------------------------------------------
 -- Print summary and exit
 --------------------------------------------------------------------------------
 local success = h.summary()

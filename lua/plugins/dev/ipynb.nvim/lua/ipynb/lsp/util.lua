@@ -31,6 +31,10 @@ function M.get_buffer_context(bufnr, state_mod)
     line_offset = 0,
   }
 
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    return ctx
+  end
+
   -- Ignore our custom URI scheme buffers - they're for picker preview only
   -- and should not be handled by our LSP proxy
   local buf_name = vim.api.nvim_buf_get_name(bufnr)

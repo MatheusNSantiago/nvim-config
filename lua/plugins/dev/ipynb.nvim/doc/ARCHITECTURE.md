@@ -1,5 +1,4 @@
-   lua/plugins/dev/# Neovim Jupyter Notebook Plugin Architecture
-tty(0.46.2)
+# Neovim Jupyter Notebook Plugin Architecture
 ## Overview
 
 A modal Jupyter notebook editor for Neovim with partial LSP support.

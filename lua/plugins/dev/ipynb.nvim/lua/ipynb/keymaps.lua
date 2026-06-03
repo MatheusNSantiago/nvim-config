@@ -43,6 +43,7 @@ local function register_which_key()
     -- Cell operations
     { km.add_cell_above, desc = "Cell add above", icon = "󰐕" },
     { km.add_cell_below, desc = "Cell add below", icon = "󰐕" },
+    { km.delete_cell, desc = "Cell delete", icon = "󰆴" },
     { km.make_code, desc = "Cell type: code", icon = "" },
     { km.make_markdown, desc = "Cell type: markdown", icon = "󰽛" },
     { km.make_raw, desc = "Cell type: raw", icon = "󰦨" },
@@ -104,7 +105,7 @@ function M.setup_facade_keymaps(state)
   local execute_and_next_cb = function() M.execute_and_next(state) end
   local interrupt_kernel_cb = function() M.interrupt_kernel(state) end
 
-  local function start_in_place_insert(mode)
+  local function move_cursor_to_cell_content()
     local cells_mod = require('ipynb.cells')
     local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
     local cell_idx = cells_mod.get_cell_at_line(state, cursor_line)
@@ -114,14 +115,15 @@ function M.setup_facade_keymaps(state)
         vim.api.nvim_win_set_cursor(0, { content_start + 1, 0 })
       end
     end
+  end
+
+  local function start_in_place_insert(mode)
+    move_cursor_to_cell_content()
 
     if mode == 'i' then
       vim.cmd('startinsert')
     elseif mode == 'I' then
       vim.cmd('normal! ^')
-      vim.cmd('startinsert')
-    elseif mode == 'a' then
-      vim.cmd('normal! l')
       vim.cmd('startinsert')
     elseif mode == 'A' then
       vim.cmd('startinsert!')
@@ -160,8 +162,9 @@ function M.setup_facade_keymaps(state)
     end, vim.tbl_extend('force', opts, { desc = 'Edit cell in place at line start' }))
 
     vim.keymap.set('n', 'a', function()
-      start_in_place_insert('a')
-    end, vim.tbl_extend('force', opts, { desc = 'Edit cell in place append' }))
+      move_cursor_to_cell_content()
+      return 'a'
+    end, vim.tbl_extend('force', opts, { expr = true, desc = 'Edit cell in place append' }))
 
     vim.keymap.set('n', 'A', function()
       start_in_place_insert('A')
@@ -205,8 +208,12 @@ function M.setup_facade_keymaps(state)
     end, vim.tbl_extend('force', opts, { desc = 'Edit cell (open line above)' }))
   end
 
-  -- Cell cut/paste
-  vim.keymap.set('n', km.cut_cell, function()
+  -- Cell delete/cut/paste
+  vim.keymap.set('n', km.delete_cell, function()
+    M.delete_cell(state)
+  end, vim.tbl_extend('force', opts, { desc = 'Cell delete' }))
+
+  set_keymap_if_configured('n', km.cut_cell, function()
     M.cut_cell(state)
   end, vim.tbl_extend('force', opts, { desc = 'Cell cut' }))
 
@@ -358,6 +365,28 @@ function M.setup_facade_keymaps(state)
 
   -- Register with which-key for discoverability (if available)
   register_which_key()
+end
+
+---Delete current cell without touching the cell register
+---@param state NotebookState
+function M.delete_cell(state)
+  if #state.cells <= 1 then
+    vim.notify('Cannot delete the only cell', vim.log.levels.WARN)
+    return
+  end
+
+  local facade_mod = require('ipynb.facade')
+  local cell_idx = get_cell_at_cursor(state)
+
+  if cell_idx then
+    facade_mod.delete_cell(state, cell_idx)
+
+    -- Move cursor to next cell (or previous if at end)
+    local target_idx = math.min(cell_idx, #state.cells)
+    move_cursor_to_cell(state, target_idx)
+
+    vim.notify('Cell deleted', vim.log.levels.INFO)
+  end
 end
 
 ---Cut current cell to register

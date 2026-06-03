@@ -330,6 +330,58 @@ h.run_test('mixed_cell_type_boundaries', function()
 end)
 
 --------------------------------------------------------------------------------
+-- Test: dd remains normal line delete on notebook facade
+-- Expected: dd deletes one content line and does not cut/delete the whole cell.
+--------------------------------------------------------------------------------
+h.run_test('dd_deletes_line_not_cell', function()
+  require('ipynb.config').setup({ float = { edit_in_place = true } })
+  local state = h.open_notebook('three_cells.ipynb')
+  local ranges = h.get_all_cell_ranges()
+  h.assert_eq(#state.cells, 3, 'Should start with 3 cells')
+
+  local line = ranges[2].content_start + 1
+  local before_line_count = vim.api.nvim_buf_line_count(state.facade_buf)
+  vim.api.nvim_win_set_cursor(0, { line, 0 })
+  h.feedkeys('dd')
+
+  h.assert_eq(#state.cells, 3, 'dd should not delete/cut a cell')
+  h.assert_eq(vim.api.nvim_buf_line_count(state.facade_buf), before_line_count - 1,
+    'dd should delete exactly one facade line')
+end)
+
+--------------------------------------------------------------------------------
+-- Test: a appends after the last character in edit-in-place mode
+-- Expected: pressing a at end-of-line inserts after the final character.
+--------------------------------------------------------------------------------
+h.run_test('append_at_end_of_line_in_place', function()
+  require('ipynb.config').setup({ float = { edit_in_place = true } })
+  local state = h.open_notebook('three_cells.ipynb')
+  local ranges = h.get_all_cell_ranges()
+
+  local line = ranges[1].content_start + 2
+  vim.api.nvim_win_set_cursor(0, { line, #('a = 1') - 1 })
+  h.feedkeys('aX<Esc>')
+
+  local edited = vim.api.nvim_buf_get_lines(state.facade_buf, line - 1, line, false)[1]
+  h.assert_eq(edited, 'a = 1X', 'a should append after the final character')
+end)
+
+--------------------------------------------------------------------------------
+-- Test: configured delete key deletes the current cell
+-- Expected: <leader>kd deletes one cell without relying on dd.
+--------------------------------------------------------------------------------
+h.run_test('leader_kd_deletes_current_cell', function()
+  local state = h.open_notebook('three_cells.ipynb')
+  local ranges = h.get_all_cell_ranges()
+  h.assert_eq(#state.cells, 3, 'Should start with 3 cells')
+
+  vim.api.nvim_win_set_cursor(0, { ranges[2].content_start + 1, 0 })
+  h.feedkeys('<leader>kd')
+
+  h.assert_eq(#state.cells, 2, '<leader>kd should delete the current cell')
+end)
+
+--------------------------------------------------------------------------------
 -- Print summary and exit
 --------------------------------------------------------------------------------
 local success = h.summary()
