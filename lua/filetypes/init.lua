@@ -11,6 +11,7 @@ vim.filetype.add({
 
 local settings_map = {
   ['python'] = lazy_require('filetypes.python'),
+  ['ipynb'] = lazy_require('filetypes.python'),
   ['javascript'] = lazy_require('filetypes.javascript'),
   ['typescript'] = lazy_require('filetypes.typescript'),
   ['typescriptreact'] = lazy_require('filetypes.typescript'),

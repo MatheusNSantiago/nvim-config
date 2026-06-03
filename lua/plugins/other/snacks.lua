@@ -69,6 +69,7 @@ function M.config()
 		},
 		notifier = { ---@see https://github.com/folke/snacks.nvim/blob/main/docs/notifier.md
 			enabled = true,
+			level = vim.log.levels.INFO,
 			timeout = 3000, -- default timeout in ms
 			margin = { top = 0, right = 1, bottom = 0 },
 			padding = false, -- add 1 cell of left/right padding to the notification window

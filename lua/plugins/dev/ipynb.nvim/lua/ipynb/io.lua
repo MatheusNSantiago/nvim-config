@@ -358,7 +358,7 @@ function M.save_notebook(buf, path)
   -- Mark buffer as saved
   vim.bo[buf].modified = false
 
-  vim.notify('Saved notebook: ' .. path, vim.log.levels.INFO)
+  vim.notify('Saved notebook: ' .. path, vim.log.levels.DEBUG)
 end
 
 ---Simple JSON pretty printer

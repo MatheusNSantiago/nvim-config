@@ -35,8 +35,6 @@ end
 
 local function setup_facade_mappings(buf)
 	setup_save_mapping(buf)
-	vim.keymap.set('n', 'p', '<Nop>', { buffer = buf, desc = 'Notebook paste disabled; use <leader>kp' })
-	vim.keymap.set('n', 'P', '<Nop>', { buffer = buf, desc = 'Notebook paste disabled; use <leader>kP' })
 end
 
 local function setup_write_mappings()
