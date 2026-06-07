@@ -23,7 +23,7 @@ function M.config()
 		panel = { enabled = false },
 		suggestion = {
 			enabled = true,
-			auto_trigger = true,
+			auto_trigger = false,
 			debounce = 75,
 			hide_during_completion = true,
 			trigger_on_accept = true,

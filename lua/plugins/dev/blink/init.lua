@@ -11,6 +11,7 @@ end
 
 function M.config()
 	local kind_icons = U.icons.lspkind
+	local comparators = require('plugins.dev.blink.comparators')
 
 	require('blink.cmp').setup({
 		keymap = require('plugins.dev.blink.mappings'),
@@ -43,6 +44,16 @@ function M.config()
 				return require('luasnip').in_snippet()
 			end,
 			jump = function(direction) require('luasnip').jump(direction) end,
+		},
+
+		fuzzy = {
+			sorts = {
+				comparators.variables_first,
+				comparators.fields_first,
+				comparators.nerf_dunder_python,
+				'score',
+				'sort_text',
+			},
 		},
 
 		completion = {

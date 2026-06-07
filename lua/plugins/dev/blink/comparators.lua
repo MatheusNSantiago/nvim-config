@@ -1,45 +1,36 @@
 local M = {}
 
-local function get_kind(entry)
-	local kinds = require('cmp.types').lsp.CompletionItemKind
-	return kinds[entry:get_kind()]
-end
+local kinds = require('blink.cmp.types').CompletionItemKind
 
 local function pattern_score(text, pattern)
 	local _, _end = text:find(pattern)
 	return _end or 0
 end
 
-local function buff_kind(kind, entry1, entry2)
-	local kind1, kind2 = get_kind(entry1), get_kind(entry2)
-	if (kind1 == kind) and not (kind2 == kind) then return true end
-	if (kind2 == kind) and not (kind1 == kind) then return false end
+local function is_kind(item, kind)
+	return item.kind == kinds[kind] or item.kind_name == kind
 end
 
-function M.buff_variables(entry1, entry2)
-	local kind1, kind2 = get_kind(entry1), get_kind(entry2)
+local function prefer_kind(kind, item1, item2)
+	local item1_is_kind = is_kind(item1, kind)
+	local item2_is_kind = is_kind(item2, kind)
 
-	if kind1 ~= kind2 then
-		local is_in_the_file = entry2:get_offset() ~= 0
-
-		if kind1 ~= 'Variable' and kind2 == 'Variable' and is_in_the_file then
-			return false --
-		end
-	end
+	if item1_is_kind ~= item2_is_kind then return item1_is_kind end
 end
 
-M.buff_properties = function(entry1, entry2)
-	return buff_kind('Field', entry1, entry2) --
+function M.variables_first(item1, item2)
+	return prefer_kind('Variable', item1, item2)
 end
 
-M.nerf_dunder_python = function(entry1, entry2)
+function M.fields_first(item1, item2)
+	return prefer_kind('Field', item1, item2)
+end
+
+function M.nerf_dunder_python(item1, item2)
 	if vim.bo.ft ~= 'python' then return end
 
-	local label1 = entry1.completion_item.label
-	local label2 = entry2.completion_item.label
-
-	local dunder1_score = pattern_score(label1, '^__.+__$')
-	local dunder2_score = pattern_score(label2, '^__.+__$')
+	local dunder1_score = pattern_score(item1.label, '^__.+__$')
+	local dunder2_score = pattern_score(item2.label, '^__.+__$')
 
 	if dunder1_score > dunder2_score then
 		return false
