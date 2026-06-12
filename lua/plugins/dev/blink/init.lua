@@ -48,6 +48,8 @@ function M.config()
 
 		fuzzy = {
 			sorts = {
+				'exact',
+				comparators.python_public_members_first,
 				comparators.variables_first,
 				comparators.fields_first,
 				comparators.nerf_dunder_python,
@@ -101,13 +103,20 @@ function M.config()
 			per_filetype = {
 				codecompanion = { 'codecompanion' },
 			},
-			transform_items = function(_, items)
-				for _, item in ipairs(items) do
-					if item.kind == require('blink.cmp.types').CompletionItemKind.Snippet then
-						item.score_offset = item.score_offset - 3
-					end
+			transform_items = function(ctx, items)
+				local kinds = require('blink.cmp.types').CompletionItemKind
+				local char_before_query = ''
+				if ctx and ctx.line and ctx.bounds then
+					char_before_query = ctx.line:sub(ctx.bounds.start_col - 1, ctx.bounds.start_col - 1)
 				end
-				return items
+
+				return vim.tbl_filter(function(item)
+					if item.kind ~= kinds.Snippet then return true end
+					if char_before_query == '.' then return false end
+
+					item.score_offset = (item.score_offset or 0) - 3
+					return true
+				end, items)
 			end,
 			providers = {
 				lsp = {
@@ -128,6 +137,15 @@ function M.config()
 					},
 				},
 				snippets = {
+					should_show_items = function(ctx)
+						-- Em member access (`foo.|` / `foo.b|`), snippets globais como `if`, `class`,
+						-- `pdb` competem com métodos do LSP e poluem o ranking.
+						local trigger = ctx.trigger or {}
+						local line = ctx.line or ''
+						local char_before_query = line:sub(ctx.bounds.start_col - 1, ctx.bounds.start_col - 1)
+
+						return trigger.initial_character ~= '.' and trigger.character ~= '.' and char_before_query ~= '.'
+					end,
 					opts = {
 						friendly_snippets = true,
 						search_paths = { vim.fn.stdpath('config') .. '/snippets' },
