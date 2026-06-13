@@ -4,25 +4,32 @@ local keymap = utils.api.keymap
 function M.setup()
 	return {
 		'ThePrimeagen/refactoring.nvim',
-		dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter', 'lewis6991/async.nvim' },
+		dependencies = { 'lewis6991/async.nvim' },
 		config = M.config,
-		lazy = true,
 		keys = {
-			{ 'rf', mode = 'x', desc = 'refactoring: extract to function' },
-			{ 'rv', mode = 'x', desc = 'refactoring: extract to variable' },
-			{ '<leader>rp', mode = 'n', desc = 'refactoring: print variable' },
-			{ '<leader>rc', mode = 'n', desc = 'refactoring: clean prints' },
+			{ 'rf', ':Refactor extract_func <CR>', mode = 'x', desc = 'refactoring: extract to function' },
+			{ 'rv', ':Refactor extract_var <CR>', mode = 'x', desc = 'refactoring: extract to variable' },
 		},
 	}
 end
 
-function M.config()
-	local refactoring_debug = require('refactoring.debug')
+local function prefer_refactoring_async()
+	-- `lewis6991/async.nvim` e `kevinhwang91/promise-async` exportam `lua/async.lua`.
+	-- `refactoring.nvim` precisa da API do lewis6991 (`async.wrap`), mas o primeiro
+	-- módulo encontrado no runtimepath pode ser promise-async, que não tem `wrap`.
+	local async = package.loaded.async
+	if async and async.wrap then return end
 
-	keymap('x', 'rf', ':Refactor extract <CR>', { desc = 'refactoring: extract to function' })
-	keymap('x', 'rv', ':Refactor extract_var <CR>', { desc = 'refactoring: extract to variable' })
-	keymap('n', '<leader>rp', refactoring_debug.print_var, { expr = true, desc = 'refactoring: print variable' })
-	keymap('n', '<leader>rc', refactoring_debug.cleanup, { expr = true, desc = 'refactoring: clean prints' })
+	local ok, lazy_config = pcall(require, 'lazy.core.config')
+	local plugin = ok and lazy_config.plugins['async.nvim']
+	if not plugin or not plugin.dir then return end
+
+	package.loaded.async = nil
+	package.loaded.async = dofile(plugin.dir .. '/lua/async.lua')
+end
+
+function M.config()
+	prefer_refactoring_async()
 
 	require('refactoring').setup({
 		prompt_func_return_type = {
