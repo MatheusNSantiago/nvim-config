@@ -72,7 +72,9 @@ function M.common_on_attach(client, bufnr)
 	end
 
 	-- keymap('n', 'K', vim.lsp.buf.hover)
-	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
+	if client.name ~= 'cobol_lsp' then
+		keymap('n', 'K', ':Lspsaga hover_doc<CR>')
+	end
 
 	-- Diagnostic jump
 	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')
