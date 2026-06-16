@@ -52,9 +52,7 @@ function M.common_on_attach(client, bufnr)
 		if navbuddy_ok then navbuddy.attach(client, bufnr) end
 	end
 
-	if caps.inlayHintProvider then
-		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-	end
+	if caps.inlayHintProvider then vim.lsp.inlay_hint.enable(true, { bufnr = bufnr }) end
 
 	if caps.codeLensProvider then
 		if vim.lsp.codelens.enable then
@@ -72,9 +70,7 @@ function M.common_on_attach(client, bufnr)
 	end
 
 	-- keymap('n', 'K', vim.lsp.buf.hover)
-	if client.name ~= 'cobol_lsp' then
-		keymap('n', 'K', ':Lspsaga hover_doc<CR>')
-	end
+	keymap('n', 'K', ':Lspsaga hover_doc<CR>')
 
 	-- Diagnostic jump
 	keymap('n', '[e', ':Lspsaga diagnostic_jump_prev<CR>')

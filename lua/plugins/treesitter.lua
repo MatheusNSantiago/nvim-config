@@ -11,29 +11,53 @@ function M.setup()
 end
 
 function M.config()
-	vim.opt.runtimepath:prepend(vim.fn.stdpath('data') .. '/lazy/nvim-treesitter/runtime')
-
 	local ts = require('nvim-treesitter')
 	local max_filesize = 1024 * 1024 -- 1 MB
 
+	ts.setup()
+
+	local function register_custom_parsers()
+		local parsers = require('nvim-treesitter.parsers')
+		parsers.trexx = { install_info = { path = '~/dev/trexx/tree-sitter-trexx' } }
+		-- parsers.cobol = { install_info = { path = '~/dev/tree-sitter-cobol' } }
+		-- parsers.copybook = { install_info = { path = '~/dev/tree-sitter-cobol' } }
+	end
+
+	register_custom_parsers()
+
 	vim.api.nvim_create_autocmd('User', {
 		pattern = 'TSUpdate',
-		callback = function()
-			local parsers = require('nvim-treesitter.parsers')
-			parsers.trexx = { install_info = { path = '~/dev/trexx/tree-sitter-trexx' } }
-			parsers.cobol = { install_info = { path = '~/dev/tree-sitter-cobol' } }
-			parsers.copybook = { install_info = { path = '~/dev/tree-sitter-copybook' } }
-		end,
+		callback = register_custom_parsers,
 	})
 
-	ts.install({
-		'vim', 'vimdoc', 'bash', 'regex', 'javascript', 'typescript',
-		'prisma', 'ruby', 'tsx', 'python', 'dart', 'json', 'html',
-		'lua', 'css', 'scss', 'toml', 'fish', 'jsdoc', 'yaml',
-		'rust', 'trexx', 'cobol', 'copybook',
-	})
+	local languages = {
+		'vim',
+		'vimdoc',
+		'bash',
+		'regex',
+		'javascript',
+		'typescript',
+		'prisma',
+		'ruby',
+		'tsx',
+		'python',
+		'dart',
+		'json',
+		'html',
+		'lua',
+		'css',
+		'scss',
+		'toml',
+		'fish',
+		'jsdoc',
+		'yaml',
+		'rust',
+		'trexx',
+	}
+	ts.install(languages)
 
 	vim.api.nvim_create_autocmd('FileType', {
+		pattern = languages,
 		callback = function(ev)
 			local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(ev.buf))
 			if ok and stats and stats.size > max_filesize then return end

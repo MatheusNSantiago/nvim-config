@@ -105,7 +105,7 @@ local plugins = Array({
 	setup('lsp.goto-preview'), -- gp
 
 	setup('lsp.illuminate'), -- higlight a palavra em cima do cursor
-	setup('lsp.symbol-usage'), -- mostra quantas referências e definições a função tem
+	-- setup('lsp.symbol-usage'), -- mostra quantas referências e definições a função tem
 	setup('lsp.lazydev'), -- Faster LuaLS setup for Neovim
 
 	{ 'b0o/schemastore.nvim', lazy = true }, -- schemas para json
@@ -209,8 +209,8 @@ local plugins = Array({
 
 	setup('custom.hotreload'), --  Auto-reload de buffers quando arquivos mudarem no disco
 	setup('custom.last-place'), --  Lembrar a última posição do cursor
+	setup('custom.cobol-bundle'),
 
-	{ dir = '~/dev/cobol-bundle', config = true },
 })
 
 require('lazy').setup(plugins)

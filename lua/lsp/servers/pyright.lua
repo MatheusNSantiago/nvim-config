@@ -18,14 +18,14 @@ local function find_python_path()
 	end
 end
 
-function M.before_init(_, config)
-	local python = find_python_path()
-	if not python then return end
-
-	config.settings = config.settings or {}
-	config.settings.python = config.settings.python or {}
-	config.settings.python.pythonPath = python
-end
+-- function M.before_init(_, config)
+-- 	local python = find_python_path()
+-- 	if not python then return end
+--
+-- 	config.settings = config.settings or {}
+-- 	config.settings.python = config.settings.python or {}
+-- 	config.settings.python.pythonPath = python
+-- end
 
 
 M.settings = {
