@@ -4,6 +4,8 @@ M.cmd = { 'lua-language-server' }
 M.settings = {
 	Lua = {
 		completion = { callSnippet = 'Replace' },
+		hint = { enable = false },
+		codeLens = { enable = false },
 		diagnostics = {
 			globals = { 'vim', 'bit', 'packer_plugins' },
 			disable = { 'missing-fields' },
