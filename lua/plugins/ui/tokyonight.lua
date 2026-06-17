@@ -10,7 +10,8 @@ function M.setup()
 end
 
 function M.config()
-	local is_wsl = utils.is_wsl()
+	-- local is_wsl = utils.is_wsl()
+	local is_wsl = false
 
 	require('tokyonight').setup({
 		style = 'night', -- night | storm | moon

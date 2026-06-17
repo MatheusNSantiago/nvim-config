@@ -38,13 +38,14 @@ function M.config()
 			delay = 0,
 		},
 		indent = {
-			enable = not utils.is_wsl(),
+			enable = true,
 			use_treesitter = false,
 			chars = { '│', '¦', '┆', '┊' },
 			style = { '#3b4261' },
 			exclude_filetypes = {
 				text = true,
 				markdown = true,
+        cobol=true,
 			},
 		},
 		line_num = {
