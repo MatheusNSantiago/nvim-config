@@ -4,6 +4,7 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'olimorris/codecompanion.nvim',
 		version = '^18.0.0',
+    enabled = U.is_wsl(),
 		config = M.config,
 		keys = {
 			{ '<leader>ao', M.open_picker, mode = { 'n', 'v' }, desc = 'codecompanion: abrir picker' },
@@ -21,10 +22,10 @@ function M.config()
 		language = 'English', -- Default is "English"
 		interactions = {
 			chat = {
-				adapter = {
-					name = 'openrouter',
-					model = 'google/gemini-3-flash-preview',
-				},
+				adapter = "copilot",
+				-- 	name = 'openrouter',
+				-- 	model = 'google/gemini-3-flash-preview',
+				-- },
 			},
 			inline = { adapter = 'openrouter' },
 			cmd = { adapter = 'openai' },
@@ -43,7 +44,6 @@ function M.config()
 						-- schema = { model = { default = 'google/gemini-2.5-flash' } },
 					})
 				end,
-				opts = U.is_wsl() and { allow_insecure = true, proxy = 'http://192.168.127.254:3128' } or nil,
 			},
 			adapters = {
 				acp = {
