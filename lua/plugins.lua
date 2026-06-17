@@ -209,7 +209,7 @@ local plugins = Array({
 
 	setup('custom.hotreload'), --  Auto-reload de buffers quando arquivos mudarem no disco
 	setup('custom.last-place'), --  Lembrar a última posição do cursor
-	setup('custom.cobol-bundle'),
+	setup('custom.nvim-cobol'),
 
 })
 

@@ -287,7 +287,8 @@ hls.cobol = {
 	['@identifier.cobol'] = { fg = c.ice },
 
 	['@constant.cobol'] = { fg = c.ice, bold = true },
-	['@variable.cobol'] = { link = '@variable' },
+	['@variable.cobol'] = { link = '@identifier.cobol' },
+  ['@number.cobol'] = { link = '@identifier.cobol' },
 	['@keyword.cobol'] = { link = 'Keyword' },
 
 	['@level_number.cobol'] = { fg = c.red },
