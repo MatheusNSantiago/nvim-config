@@ -100,8 +100,8 @@ augroup('random_autocommands', {
     if system_register and contents then
       ---@diagnostic disable-next-line: param-type-mismatch
       local text = table.concat(vim.v.event.regcontents, "\n")
-      -- Encoda para UTF-16LE e manda pro clip.exe
-      vim.fn.system('iconv -f UTF-8 -t UTF-16LE | clip.exe', text)
+      -- clip.exe é um wrapper no WSL que já converte UTF-8 para UTF-16LE com BOM
+      vim.fn.system('clip.exe', text)
     end
   end,
 })

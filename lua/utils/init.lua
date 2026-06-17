@@ -100,6 +100,8 @@ end
 ---Executa um comando no pane tmux runner (vimux)
 ---@param cmd string
 function M.exec_cmd(cmd)
+  if U.is_wsl() then return vim.cmd(("TermExec cmd='%s'"):format(cmd))  end
+
 	vim.fn.VimuxRunCommand(cmd)
 end
 

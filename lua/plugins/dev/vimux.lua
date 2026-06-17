@@ -6,13 +6,14 @@ function M.setup()
   return {
     'preservim/vimux',
     lazy = false,
+    enabled = not U.is_wsl(),
     keys = {
-      { '<A-i>', function() M.toggle('v', '30%') end, mode = { 'n', 'i', 'x' }, desc = 'vimux: toggle runner horizontal' },
-      { '<A-v>', function() M.toggle('h', '25%') end, mode = { 'n', 'i', 'x' }, desc = 'vimux: toggle runner vertical' },
-      { '<leader>vi', '<cmd>VimuxInspectRunner<CR>', desc = 'vimux: inspecionar runner (copy mode)' },
+      { '<A-i>',      function() M.toggle('v', '30%') end, mode = { 'n', 'i', 'x' },                      desc = 'vimux: toggle runner horizontal' },
+      { '<A-v>',      function() M.toggle('h', '25%') end, mode = { 'n', 'i', 'x' },                      desc = 'vimux: toggle runner vertical' },
+      { '<leader>vi', '<cmd>VimuxInspectRunner<CR>',       desc = 'vimux: inspecionar runner (copy mode)' },
       -- { '<leader>vl', '<cmd>VimuxRunLastCommand<CR>', desc = 'vimux: reexecutar último comando' },
       -- { '<leader>vz', '<cmd>VimuxZoomRunner<CR>', desc = 'vimux: zoom no runner' },
-      { '<leader>vq', '<cmd>VimuxCloseRunner<CR>', desc = 'vimux: fechar runner' },
+      { '<leader>vq', '<cmd>VimuxCloseRunner<CR>',         desc = 'vimux: fechar runner' },
     },
     init = M.init,
   }

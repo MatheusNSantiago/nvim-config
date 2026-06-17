@@ -36,10 +36,11 @@ local plugins = Array({
 	setup('ui.bufferline'), -- Tabs/buffers
 	setup('ui.dressing'), -- selection e input
 	setup('ui.noice'), -- messages, cmdline and popupmenu
-	setup('ui.barbecue'), -- breadcrumbs
+	-- setup('ui.barbecue'), -- breadcrumbs
 	setup('ui.highlight-colors'), -- highlighter #FFF
-	setup('ui.vim-scrollbar'), -- scrollbar
+	-- setup('ui.vim-scrollbar'), -- scrollbar
 	setup('ui.todo-comments'), -- highlight TODO, FIXME, etc...
+	setup('ui.toggleterm'), -- Terminal
 	-- setup('ui.nvim-treesitter-context'), -- mostra qual a função/classe tu tá
 	-- setup('ui.stickybuf'), -- Trava abrir buffer dentro de um buffer específo (toggleterm, neotree)
 
@@ -55,10 +56,11 @@ local plugins = Array({
 	-- setup('navigation.hop'), -- tipo o easymotion
 	setup('navigation.tabout'), -- tabout
 	setup('navigation.marks'), -- marks
-	setup('navigation.nvim-navbuddy'), -- outline
+	-- setup('navigation.nvim-navbuddy'), -- outline
 	setup('navigation.leap'), -- sneap + easymotion
 	setup('navigation.arrow'),
 	setup('navigation.fff'),
+	setup('navigation.smart-splits'),
 
 	{ 'itchyny/vim-highlighturl' }, -- highlight URLs
 
@@ -171,7 +173,7 @@ local plugins = Array({
 	-- Python
 	setup('dev.venv-selector'),
 	{ 'vimjas/vim-python-pep8-indent', ft = 'python' }, -- Conserta o indent
-	setup('dev.ipynb'),
+	-- setup('dev.ipynb'),
 
 	-- Markdown
 	{ 'bullets-vim/bullets.vim', ft = 'markdown' }, -- bullet list automático
