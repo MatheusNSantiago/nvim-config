@@ -1,5 +1,4 @@
 local M = {}
-local keymap = utils.api.keymap
 
 function M.setup()
 	return {
