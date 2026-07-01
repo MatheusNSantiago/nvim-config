@@ -17,11 +17,6 @@ end
 local conditions = {
 	buffer_not_empty = function() return vim.fn.empty(statusline_path(':t')) ~= 1 end,
 	hide_in_width = function() return vim.fn.winwidth(0) > 80 end,
-	check_git_workspace = function()
-		local filepath = statusline_path(':p:h')
-		local gitdir = vim.fn.finddir('.git', filepath .. ';')
-		return gitdir and #gitdir > 0 and #gitdir < #filepath
-	end,
 	fileformat_is_not_unix = function()
 		local ff = vim.bo.fileformat
 		return ff ~= 'unix'
@@ -31,9 +26,7 @@ local conditions = {
 		return enc ~= 'utf-8'
 	end,
 	has_git = function()
-		local filepath = statusline_path(':p:h')
-		local gitdir = vim.fn.finddir('.git', filepath .. ';')
-		return gitdir and #gitdir > 0 and #gitdir < #filepath
+		return vim.b.gitsigns_head ~= nil and vim.b.gitsigns_head ~= ''
 	end,
 }
 
@@ -107,7 +100,7 @@ M.sections = {
 			},
 			cond = conditions.hide_in_width,
 		},
-		{ 'FugitiveHead', icon = icons.git.Branch },
+		{ function() return vim.b.gitsigns_head or '' end, icon = icons.git.Branch, cond = conditions.has_git },
 		{
 			'macro-recording',
 			fmt = show_macro_recording,

@@ -44,11 +44,11 @@ function M.config()
 				sections = {},
 				winbar = {
 					lualine_b = {
-						{
-							function()
-								local repo_name = vim.fn.fnamemodify(vim.fn.trim(vim.fn.system('git rev-parse --show-toplevel')), ':t')
-								return icons.git.Git .. ' ' .. repo_name
-							end,
+							{
+								function()
+									local repo_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+									return icons.git.Git .. ' ' .. repo_name
+								end,
 							color = { bg = 'None', fg = c.cyan, gui = 'underline,bold' },
 						},
 					},
