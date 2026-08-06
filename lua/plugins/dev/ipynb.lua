@@ -4,7 +4,7 @@ function M.setup()
 	vim.filetype.add({ extension = { ipynb = 'ipynb' } })
 
 	return { ---@type LazyPluginSpec
-		dir = vim.fn.stdpath('config') .. '/lua/plugins/dev/ipynb.nvim',
+		dir = '~/dev/side-projects/ipynb.nvim',
 		name = 'ipynb.nvim',
 		lazy = false,
 		dependencies = {
