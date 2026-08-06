@@ -8,11 +8,17 @@ local c = vim.tbl_extend('force', c, {
 	command = '#e6c384',
 })
 
+local function statusline_path(modifiers)
+	local notebook = vim.b.ipynb_edit_source_path
+	if notebook then return vim.fn.fnamemodify(notebook, modifiers) end
+	return vim.fn.expand('%' .. modifiers)
+end
+
 local conditions = {
-	buffer_not_empty = function() return vim.fn.empty(vim.fn.expand('%:t')) ~= 1 end,
+	buffer_not_empty = function() return vim.fn.empty(statusline_path(':t')) ~= 1 end,
 	hide_in_width = function() return vim.fn.winwidth(0) > 80 end,
 	check_git_workspace = function()
-		local filepath = vim.fn.expand('%:p:h')
+		local filepath = statusline_path(':p:h')
 		local gitdir = vim.fn.finddir('.git', filepath .. ';')
 		return gitdir and #gitdir > 0 and #gitdir < #filepath
 	end,
@@ -25,7 +31,7 @@ local conditions = {
 		return enc ~= 'utf-8'
 	end,
 	has_git = function()
-		local filepath = vim.fn.expand('%:p:h')
+		local filepath = statusline_path(':p:h')
 		local gitdir = vim.fn.finddir('.git', filepath .. ';')
 		return gitdir and #gitdir > 0 and #gitdir < #filepath
 	end,
@@ -111,10 +117,9 @@ M.sections = {
 		{ left_separator, color = { fg = c.outerbg }, padding = { right = 0, left = 0 }, cond = conditions.has_git },
 		{ '%=' },
 		{
-			'filename',
+			function() return statusline_path(':~:.') end,
 			cond = conditions.buffer_not_empty,
 			file_status = false,
-			path = 1,
 			color = { fg = c.magenta, gui = 'bold' },
 		},
 	},
@@ -191,10 +196,9 @@ M.inactive_sections = {
 	lualine_c = {
 		{ '%=' },
 		{
-			'filename',
+			function() return statusline_path(':~:.') end,
 			cond = conditions.buffer_not_empty,
 			file_status = false,
-			path = 1,
 		},
 	},
 }

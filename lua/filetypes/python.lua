@@ -52,6 +52,7 @@ return {
 				return run('python ' .. current_relative_path)
 			end,
 			desc = 'python: [R]un',
+			file_only = true,
 		},
 	},
 }

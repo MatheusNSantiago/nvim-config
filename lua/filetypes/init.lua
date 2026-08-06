@@ -11,7 +11,6 @@ vim.filetype.add({
 
 local settings_map = {
   ['python'] = lazy_require('filetypes.python'),
-  ['ipynb'] = lazy_require('filetypes.python'),
   ['javascript'] = lazy_require('filetypes.javascript'),
   ['typescript'] = lazy_require('filetypes.typescript'),
   ['typescriptreact'] = lazy_require('filetypes.typescript'),
@@ -75,9 +74,10 @@ U.api.augroup('filetype_configs', {
         mappings = function()
           Array(value):foreach(function(m)
             assert(m[1] and m[2] and m[3], 'mappings devem ter no mínimo 3 items')
+            if m.file_only and vim.b[args.buf].ipynb_is_edit_buffer then return end
 
             local opts = utils.fold(function(acc, item, key)
-              if type(key) == 'string' then acc[key] = item end
+              if type(key) == 'string' and key ~= 'file_only' then acc[key] = item end
               return acc
             end, m, { buffer = args.buf })
 
