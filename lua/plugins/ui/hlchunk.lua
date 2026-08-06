@@ -44,6 +44,7 @@ function M.config()
 			style = { '#3b4261' },
 			exclude_filetypes = {
 				text = true,
+				cobol = true,
 				markdown = true,
         cobol=true,
 			},

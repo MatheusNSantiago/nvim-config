@@ -19,8 +19,6 @@ function M.config()
 	local function register_custom_parsers()
 		local parsers = require('nvim-treesitter.parsers')
 		parsers.trexx = { install_info = { path = '~/dev/trexx/tree-sitter-trexx' } }
-		-- parsers.cobol = { install_info = { path = '~/dev/tree-sitter-cobol' } }
-		-- parsers.copybook = { install_info = { path = '~/dev/tree-sitter-cobol' } }
 	end
 
 	register_custom_parsers()

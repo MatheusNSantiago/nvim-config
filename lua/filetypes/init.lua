@@ -19,8 +19,6 @@ local settings_map = {
   ['markdown'] = lazy_require('filetypes.markdown'),
   ['rust'] = lazy_require('filetypes.rust'),
   --  ╾───────────────────────────────────────────────────────────────────────────────────╼
-  ['cobol'] = lazy_require('cobol-bundle', 'cobol_config'),
-  ['copybook'] = lazy_require('cobol-bundle', 'copybook_config'),
   ['foo'] = lazy_require('cobol-foo'),
   ['trexx'] = lazy_require('filetypes.trexx'),
   ['tmux'] = lazy_require('filetypes.tmux'),
