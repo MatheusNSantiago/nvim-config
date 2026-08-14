@@ -29,6 +29,7 @@ function M.config()
           search = '<leader>ss',
         },
       },
+      search_section = { enabled = true, keymaps = { open = '<leader>ss' } },
       hover = {
         enabled = true,
         keymaps = { open = 'K' },
