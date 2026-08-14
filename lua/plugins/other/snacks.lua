@@ -54,8 +54,7 @@ function M.config()
 			notify = true, -- show notification when big file detected
 			size = 800 * 1024, -- 800KB
 			line_length = MAX_LUA_INTEGER,
-			setup = function(a)
-				U.log(a)
+			setup = function()
 				local run = function(command)
 					if vim.fn.exists(':' .. command) ~= 0 then vim.cmd(command) end
 				end
