@@ -3,7 +3,7 @@
     "prefix": "cobol",
     "body": [
       "${1|      |}*================================================================*",
-      "      * SISTEMA...: ACH - ACOMPANHAMENTO DE CHEQUE-OURO",
+      "      * SISTEMA...: SGT - Sistema de Gerenciamento de Titulos",
       "      * PROGRAMA..: ${TM_FILENAME_BASE}",
       "      * ANALISTA..: F7023235 - MATHEUS SANTIAGO",
       "      * AUTOR.....: F7023235 - MATHEUS SANTIAGO",
@@ -159,7 +159,7 @@
     "prefix": "subrotina",
     "body": [
       "${1|      |}*================================================================*",
-      "      * SISTEMA...: ACH - ACOMPANHAMENTO DE CHEQUE-OURO",
+      "      * SISTEMA...: SGT - Sistema de Gerenciamento de Titulos",
       "      * PROGRAMA..: ${TM_FILENAME_BASE}",
       "      * ANALISTA..: F7023235 - MATHEUS SANTIAGO",
       "      * AUTOR.....: F7023235 - MATHEUS SANTIAGO",
@@ -304,7 +304,7 @@
     "prefix": "iibsql",
     "body": [
       "      *================================================================*",
-      "      * SISTEMA...: ACH - ACOMPANHAMENTO DE CHEQUE-OURO",
+      "      * SISTEMA...: SGT - Sistema de Gerenciamento de Titulos",
       "      * PROGRAMA..: ${TM_FILENAME_BASE}",
       "      * ANALISTA..: F7023235 - MATHEUS SANTIAGO",
       "      * AUTOR.....: F7023235 - MATHEUS SANTIAGO",
