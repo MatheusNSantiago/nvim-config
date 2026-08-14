@@ -49,10 +49,10 @@ function M.config()
 		fuzzy = {
 			sorts = {
 				'exact',
+        comparators.nerf_dunder_python,
+        comparators.variables_first,
 				comparators.python_public_members_first,
-				comparators.variables_first,
 				comparators.fields_first,
-				comparators.nerf_dunder_python,
 				'score',
 				'sort_text',
 			},
