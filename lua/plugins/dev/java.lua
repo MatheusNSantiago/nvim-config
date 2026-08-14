@@ -4,6 +4,7 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'mfussenegger/nvim-jdtls',
 		ft = { 'java' },
+    enabled=false,
 		config = M.config,
 	}
 end
