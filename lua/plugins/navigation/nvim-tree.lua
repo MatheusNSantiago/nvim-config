@@ -554,7 +554,7 @@ function M._custom_commands()
 
       local path = node.absolute_path
 
-      vim.cmd('silent !xdg-open ' .. vim.fn.shellescape(path))
+      vim.fn.jobstart({ 'gio', 'open', path }, { detach = true })
     end,
   }
 end
