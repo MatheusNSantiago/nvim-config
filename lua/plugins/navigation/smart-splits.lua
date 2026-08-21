@@ -12,12 +12,12 @@ function M.setup()
       --  │                     resizing splits                      │
       --  ╰──────────────────────────────────────────────────────────╯
       {
-        is_wsl and '<C-S-A-Up>' or '<C-S-A-l>',
+        is_wsl and '<A-Up>' or '<C-S-A-l>',
         function() require('smart-splits').resize_up() end,
         desc = 'smart-splits: resize up',
       },
       {
-        is_wsl and '<C-S-A-Down>' or '<C-S-A-k>',
+        is_wsl and '<A-Down>' or '<C-S-A-k>',
         function() require('smart-splits').resize_down() end,
         desc = 'smart-splits: resize down',
       },
