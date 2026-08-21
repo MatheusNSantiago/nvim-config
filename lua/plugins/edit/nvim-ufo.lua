@@ -32,7 +32,7 @@ function M.config()
 		close_fold_kinds_for_ft = { default = {} },
 		fold_virt_text_handler = M.custom_handler,
 		enable_get_fold_virt_text = false,
-		provider_selector = function(_, _, _) return { 'treesitter', 'indent' } end,
+		-- provider_selector = function(_, _, _) return { 'treesitter', 'indent' } end,
 	})
 
 	vim.schedule(function() M.started = true end)
