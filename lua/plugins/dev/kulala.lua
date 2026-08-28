@@ -1,15 +1,17 @@
 local M = {}
 
 function M.setup()
-  -- conserta os highlights
-  vim.filetype.add({ extension = { ['http'] = 'http' } })
-
   -- 1) `sudo pacman -Syu jq` (formatted JSON responses)
   -- 2) `sudo pacman -Syu jq` (formatted XML/HTML responses)
-  return {
+  return { ---@type LazyPluginSpec
     'mistweaverco/kulala.nvim',
     config = M.config,
+    enabled = not U.is_wsl(),
     ft = 'http',
+    init = function()
+      -- conserta os highlights
+      vim.filetype.add({ extension = { ['http'] = 'http' } })
+    end
   }
 end
 
