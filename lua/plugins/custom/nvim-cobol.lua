@@ -4,6 +4,17 @@ function M.setup()
   return { ---@type LazyPluginSpec
     dir = '~/dev/nvim-cobol',
     config = M.config,
+    ft = { 'cobol', 'copybook' },
+    init = function()
+      -- Filetype detection must exist before Lazy can use it as a load trigger.
+      vim.filetype.add({
+        extension = {
+          cbl = 'cobol',
+          cob = 'cobol',
+          cpy = 'copybook',
+        },
+      })
+    end,
     dependencies = {
       'MunifTanjim/nui.nvim',
       'gbprod/stay-in-place.nvim',
