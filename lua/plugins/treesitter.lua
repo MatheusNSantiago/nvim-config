@@ -103,6 +103,10 @@ function M.config()
 		local fn, query = spec[1], spec[2]
 		vim.keymap.set({ 'n', 'x', 'o' }, key, function()
 			if ts_disable[vim.bo.filetype] then return end
+			-- upstream find_best_range() retorna {} (truthy) sem parser;
+			-- sem esse guard o scoring_function recebe range vazio e quebra (E5108).
+			local ok, parser = pcall(vim.treesitter.get_parser, vim.api.nvim_get_current_buf())
+			if not ok or parser == nil then return end
 			move_to[fn](query, 'textobjects')
 		end)
 	end
