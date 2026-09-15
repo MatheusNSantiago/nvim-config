@@ -56,7 +56,7 @@ local plugins = Array({
 	-- setup('navigation.hop'), -- tipo o easymotion
 	setup('navigation.tabout'), -- tabout
 	setup('navigation.marks'), -- marks
-	-- setup('navigation.nvim-navbuddy'), -- outline
+	setup('navigation.nvim-navbuddy'), -- outline
 	setup('navigation.leap'), -- sneap + easymotion
 	setup('navigation.arrow'),
 	setup('navigation.fff'),
