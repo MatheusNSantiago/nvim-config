@@ -4,6 +4,7 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'MeanderingProgrammer/render-markdown.nvim',
 		config = M.config,
+    enabled=false,
 		ft = { 'codecompanion', 'markdown' },
 	}
 end

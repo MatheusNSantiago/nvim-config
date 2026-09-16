@@ -204,6 +204,7 @@ local plugins = Array({
 
 	setup('other.snacks'), -- bundle de coisas uteis
 	setup('other.aw-watcher'), -- bundle de coisas uteis
+	setup('other.obsidian'),
 
 	--  ╭──────────────────────────────────────────────────────────╮
 	--  │                          Custom                          │
