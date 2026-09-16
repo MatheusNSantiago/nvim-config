@@ -208,6 +208,30 @@ M.routes = { -- Skip Messages
 			},
 		},
 	},
+	{ -- gopls "InlayHint: no package metadata" dentro do CodeDiff: request do buffer real; display já é desligado pelo codediff, resta o toast
+		opts = { skip = true },
+		filter = {
+			any = {
+				{ event = 'notify', find = 'InlayHint' },
+				{ event = 'msg_show', find = 'InlayHint' },
+			},
+			cond = function()
+				local ok, in_diff = pcall(function()
+					for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+						if vim.w[win].codediff_restore then
+							return true
+						end
+						local name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(win)):lower()
+						if name:find('codediff', 1, true) then
+							return true
+						end
+					end
+					return false
+				end)
+				return ok and in_diff or false
+			end,
+		},
+	},
 	-- Warnings
 	-- {
 	--   view = 'notify',
