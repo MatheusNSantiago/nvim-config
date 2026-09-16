@@ -291,9 +291,9 @@ M.config = function()
 		ui = {
 			confirm = { remove = true, trash = true, default_yes = false },
 		},
-		experimental = {
-			actions = { open_file = { relative_path = false } },
-		},
+		-- experimental = {
+		-- 	actions = { open_file = { relative_path = false } },
+		-- },
 	})
 end
 

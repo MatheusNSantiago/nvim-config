@@ -19,7 +19,7 @@ M.servers = {
 	'pyright',
 	'ruff',
 	'sqlls',
-	'clangd',
+	-- 'clangd',
 	'rust-analyzer', -- inicializado pelo rustacean
 	'trexx_ls',
 }
