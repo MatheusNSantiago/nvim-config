@@ -3,11 +3,11 @@ local M = {}
 function M.setup()
   return { ---@type LazyPluginSpec
     'lowitea/aw-watcher.nvim',
-    enabled = not U.is_linux(),
+    enabled = not U.is_wsl(),
     opts = {
       bucket = {
         hostname = nil, -- by default hostname of computer
-        name = nil, -- by default "aw-watcher-neovim_" .. bucket.hostname
+        name = nil,     -- by default "aw-watcher-neovim_" .. bucket.hostname
       },
       aw_server = {
         host = '127.0.0.1',
