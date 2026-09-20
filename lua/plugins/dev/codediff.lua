@@ -10,6 +10,24 @@ function M.setup()
 end
 
 function M.config()
+
+	-- Workaround: layout.arrange() repina o explorer em explorer.width a cada
+	-- troca de arquivo; persiste resizes manuais de volta no config.
+	U.api.augroup('CodediffExplorerWidth', {
+		event = 'WinResized',
+		command = function()
+			local wins = Array(vim.v.event.windows or {})
+
+			local valid_win = wins:find(function(win) return vim.api.nvim_win_is_valid(win) end)
+			if not valid_win then return end
+
+			local buf = vim.api.nvim_win_get_buf(valid_win)
+			if vim.bo[buf].filetype == 'codediff-explorer' then
+				require('codediff.config').options.explorer.width = vim.api.nvim_win_get_width(valid_win)
+			end
+		end,
+	})
+
 	require('codediff').setup({
 		diff = {
 			layout = 'inline', -- Diff layout: "side-by-side" (two panes) or "inline" (single pane with virtual lines)
