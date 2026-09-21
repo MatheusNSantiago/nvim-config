@@ -10,7 +10,6 @@ function M.setup()
 end
 
 function M.config()
-
 	-- Workaround: layout.arrange() repina o explorer em explorer.width a cada
 	-- troca de arquivo; persiste resizes manuais de volta no config.
 	U.api.augroup('CodediffExplorerWidth', {
@@ -38,6 +37,7 @@ function M.config()
 			conflict_result_width_ratio = { 1, 1, 1 }, -- Width ratio for center layout panes {left, center, right} (e.g., {1, 2, 1} for wider result)
 			jump_to_first_change = true, -- Auto-scroll to first change when opening a diff: false to stay at same line
 			compute_moves = true, -- Detect moved code blocks (opt-in, matches VSCode experimental.showMoves)
+			cycle_hunks_across_files = true, -- ]c/[c at file boundary jumps to first/last hunk of next/prev file
 		},
 		explorer = {
 			position = 'left',
@@ -48,12 +48,10 @@ function M.config()
 			view = {
 				quit = 'q', -- Close diff tab
 				toggle_explorer = '<leader>e', -- Toggle explorer visibility (explorer mode only)
-				next_hunk = ']c', -- Jump to next change
-				prev_hunk = '[c', -- Jump to previous change
-				-- next_file = ']f', -- Next file in explorer mode
-				-- prev_file = '[f', -- Previous file in explorer mode
-				next_file = '<Tab>',
-				prev_file = '<S-Tab>',
+				next_hunk = '<Tab>', -- Jump to next change (crosses into next file at last hunk)
+				prev_hunk = '<S-Tab>', -- Jump to previous change (crosses into previous file at first hunk)
+				next_file = ']f', -- Next file in explorer mode
+				prev_file = '[f', -- Previous file in explorer mode
 				diff_get = 'do', -- Get change from other buffer (like vimdiff)
 				diff_put = 'dp', -- Put change to other buffer (like vimdiff)
 				--  ╾───────────────────────────────────────────────────────────────────────────────────╼

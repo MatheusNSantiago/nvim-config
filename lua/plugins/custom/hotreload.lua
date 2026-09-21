@@ -64,11 +64,46 @@ end)
 --- - Não recarrega buffers modificados (preserva suas mudanças não salvas)
 --- - Não recarrega buffers especiais (URIs como diffview://, fugitive://)
 --- - Pula em modos inseguros (command-line, replace, ex, select)
+
+---Fecha buffers de arquivos deletados no disco (com confirmação diferida).
+---O delay evita falso-positivo com saves atômicos (write tmp + rename),
+---onde o path some por milissegundos. Só fecha buffers sem mudanças.
+local pending_deletes = {} ---@type table<number, boolean>
+local function handle_possibly_deleted(buf, name)
+	if pending_deletes[buf] then return end
+	pending_deletes[buf] = true
+	vim.defer_fn(function()
+		pending_deletes[buf] = nil
+		if not vim.api.nvim_buf_is_valid(buf) then return end
+		if not should_reload_buffer(buf) then return end -- usuário editou nesse meio-tempo: mantém
+		if vim.uv.fs_stat(vim.api.nvim_buf_get_name(buf)) ~= nil then return end -- reapareceu: mantém
+		vim.notify('Arquivo deletado no disco, fechando buffer: ' .. name, vim.log.levels.WARN)
+		pcall(vim.api.nvim_buf_delete, buf, { force = false }) -- dispara didClose no LSP
+	end, 1000)
+end
+
+---Checa timestamps de todos os buffers reais.
+---Um :checktime sem argumento só checa o buffer atual, então buffers em
+---background (ex: arquivo que um agente editou enquanto você olha outro)
+---ficariam com conteúdo stale e o LSP nunca receberia didChange.
+local function check_all_buffers()
+	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) and should_reload_buffer(buf) then
+			local name = vim.api.nvim_buf_get_name(buf)
+			if vim.uv.fs_stat(name) == nil then
+				handle_possibly_deleted(buf, name)
+			else
+				pcall(vim.cmd, 'checktime ' .. buf)
+			end
+		end
+	end
+end
+
 M.setup = function()
 	U.api.augroup('hotreload', {
 		event = { 'FocusGained', 'TermLeave', 'BufEnter', 'WinEnter', 'CursorHold', 'CursorHoldI' },
 		command = function()
-			if should_check() then vim.cmd('checktime') end
+			if should_check() then check_all_buffers() end
 		end,
 	})
 end
