@@ -10,23 +10,6 @@ function M.setup()
 end
 
 function M.config()
-	-- Workaround: layout.arrange() repina o explorer em explorer.width a cada
-	-- troca de arquivo; persiste resizes manuais de volta no config.
-	U.api.augroup('CodediffExplorerWidth', {
-		event = 'WinResized',
-		command = function()
-			local wins = Array(vim.v.event.windows or {})
-
-			local valid_win = wins:find(function(win) return vim.api.nvim_win_is_valid(win) end)
-			if not valid_win then return end
-
-			local buf = vim.api.nvim_win_get_buf(valid_win)
-			if vim.bo[buf].filetype == 'codediff-explorer' then
-				require('codediff.config').options.explorer.width = vim.api.nvim_win_get_width(valid_win)
-			end
-		end,
-	})
-
 	require('codediff').setup({
 		diff = {
 			layout = 'inline', -- Diff layout: "side-by-side" (two panes) or "inline" (single pane with virtual lines)
@@ -37,7 +20,7 @@ function M.config()
 			conflict_result_width_ratio = { 1, 1, 1 }, -- Width ratio for center layout panes {left, center, right} (e.g., {1, 2, 1} for wider result)
 			jump_to_first_change = true, -- Auto-scroll to first change when opening a diff: false to stay at same line
 			compute_moves = true, -- Detect moved code blocks (opt-in, matches VSCode experimental.showMoves)
-			cycle_hunks_across_files = true, -- ]c/[c at file boundary jumps to first/last hunk of next/prev file
+			cycle_hunks_across_files = true, -- Tab/S-Tab at file boundary jump to first/last hunk of next/prev file
 		},
 		explorer = {
 			position = 'left',
@@ -54,8 +37,6 @@ function M.config()
 				prev_file = '[f', -- Previous file in explorer mode
 				diff_get = 'do', -- Get change from other buffer (like vimdiff)
 				diff_put = 'dp', -- Put change to other buffer (like vimdiff)
-				--  ╾───────────────────────────────────────────────────────────────────────────────────╼
-				-- focus_explorer = '<leader>e', -- Focus explorer panel (explorer mode only)
 				open_in_prev_tab = 'gf', -- Open current buffer in previous tab (or create one before)
 				close_on_open_in_prev_tab = false, -- Close codediff tab after gf opens file in previous tab
 				toggle_stage = '-', -- Stage/unstage current file (works in explorer and diff buffers)
@@ -118,6 +99,72 @@ function M.config()
 			},
 		},
 	})
+
+	M.fixes()
+end
+
+function M.fixes()
+	local codediff_config = require('codediff.config')
+
+	-- Resize manual do explorer sobrevive à troca de arquivo.
+	--
+	--   você arrasta: 30 ──► 50 ──WinResized──► config.width = 50
+	--                                                   │
+	--   troca de arquivo ──► arrange() repina config ──► 50 ✓
+	--
+	-- Sem isso, arrange() (codediff/ui/layout.lua) repinava sempre os 30
+	-- originais do config, descartando o resize.
+	U.api.augroup('CodediffExplorerWidth', {
+		event = 'WinResized',
+		command = function()
+			local valid_win = Array(vim.v.event.windows or {}):find(vim.api.nvim_win_is_valid)
+			if not valid_win then return end
+			local buf = vim.api.nvim_win_get_buf(valid_win)
+			if vim.bo[buf].filetype ~= 'codediff-explorer' then return end
+			codediff_config.options.explorer.width = vim.api.nvim_win_get_width(valid_win)
+		end,
+	})
+
+	-- Tab/Shift-Tab continuam atravessando arquivos mesmo quando o atual não
+	-- tem hunks (ex: arquivo novo ??).
+	--
+	--   a.txt: H1 → H2 ──Tab──► n1.txt (??) ──Tab──► n2.txt (??) ──Tab──► …
+	--                                    ▲
+	--                       sem o patch, o Tab morria aqui
+	--
+	-- Causa: next/prev_hunk retornam false quando #changes == 0 sem tentar o
+	-- arquivo vizinho (early return em codediff/ui/view/navigation.lua).
+	--
+	-- Patch feito aqui (e não na fonte do plugin, que o lazy update apagaria):
+	-- os keymaps leem navigation.next_hunk ao abrir cada tab, então trocar o
+	-- campo do módulo no setup vale para todas as tabs futuras. Se o upstream
+	-- corrigir o early return, deletar este bloco.
+	local navigation = require('codediff.ui.view.navigation')
+	local lifecycle = require('codediff.ui.lifecycle')
+	-- Réplica de hop_to_adjacent_file, que é local ao plugin e não dá para reutilizar.
+	local function hop_across_files(direction)
+		local tabpage = vim.api.nvim_get_current_tabpage()
+		if not lifecycle.get_explorer(tabpage) then return false end
+		local session = lifecycle.get_session(tabpage)
+		if session then session.pending_cursor_landing = direction == 'next' and 'first' or 'last' end
+		if direction == 'next' then return navigation.next_file() end
+		return navigation.prev_file()
+	end
+	local function wrap_hunk_hop(original, direction)
+		return function()
+			local session = lifecycle.get_session(vim.api.nvim_get_current_tabpage())
+			local diff = session and session.stored_diff_result
+			-- nil = diff ainda carregando (não atravessa); vazio = sem hunks (atravessa).
+			local should_hop = diff
+				and diff.changes
+				and #diff.changes == 0
+				and codediff_config.options.diff.cycle_hunks_across_files
+			if should_hop and hop_across_files(direction) then return true end
+			return original()
+		end
+	end
+	navigation.next_hunk = wrap_hunk_hop(navigation.next_hunk, 'next')
+	navigation.prev_hunk = wrap_hunk_hop(navigation.prev_hunk, 'prev')
 end
 
 return M
