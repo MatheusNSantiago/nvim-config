@@ -100,20 +100,21 @@ function M.config()
 		},
 	})
 
-	M.fixes()
+	M.fix_explorer_width()
+	M.fix_hunk_hop()
+	M.fix_wrap()
 end
 
-function M.fixes()
+--- Resize manual do explorer sobrevive à troca de arquivo.
+---
+---   você arrasta: 30 ──► 50 ──WinResized──► config.width = 50
+---                                                   │
+---   troca de arquivo ──► arrange() repina config ──► 50 ✓
+---
+--- Sem isso, arrange() (codediff/ui/layout.lua) repinava sempre os 30
+--- originais do config, descartando o resize.
+function M.fix_explorer_width()
 	local codediff_config = require('codediff.config')
-
-	-- Resize manual do explorer sobrevive à troca de arquivo.
-	--
-	--   você arrasta: 30 ──► 50 ──WinResized──► config.width = 50
-	--                                                   │
-	--   troca de arquivo ──► arrange() repina config ──► 50 ✓
-	--
-	-- Sem isso, arrange() (codediff/ui/layout.lua) repinava sempre os 30
-	-- originais do config, descartando o resize.
 	U.api.augroup('CodediffExplorerWidth', {
 		event = 'WinResized',
 		command = function()
@@ -124,24 +125,29 @@ function M.fixes()
 			codediff_config.options.explorer.width = vim.api.nvim_win_get_width(valid_win)
 		end,
 	})
+end
 
-	-- Tab/Shift-Tab continuam atravessando arquivos mesmo quando o atual não
-	-- tem hunks (ex: arquivo novo ??).
-	--
-	--   a.txt: H1 → H2 ──Tab──► n1.txt (??) ──Tab──► n2.txt (??) ──Tab──► …
-	--                                    ▲
-	--                       sem o patch, o Tab morria aqui
-	--
-	-- Causa: next/prev_hunk retornam false quando #changes == 0 sem tentar o
-	-- arquivo vizinho (early return em codediff/ui/view/navigation.lua).
-	--
-	-- Patch feito aqui (e não na fonte do plugin, que o lazy update apagaria):
-	-- os keymaps leem navigation.next_hunk ao abrir cada tab, então trocar o
-	-- campo do módulo no setup vale para todas as tabs futuras. Se o upstream
-	-- corrigir o early return, deletar este bloco.
+--- Tab/Shift-Tab atravessam arquivos mesmo quando o atual não tem hunks
+--- (ex: arquivo novo ??).
+---
+---   a.txt: H1 → H2 ──Tab──► n1.txt (??) ──Tab──► n2.txt (??) ──Tab──► …
+---                                    ▲
+---                       sem o patch, o Tab morria aqui
+---
+--- Causa: next/prev_hunk retornam false quando #changes == 0 sem tentar o
+--- arquivo vizinho (early return em codediff/ui/view/navigation.lua).
+---
+--- Patch feito aqui (e não na fonte do plugin, que o lazy update apagaria):
+--- os keymaps leem navigation.next_hunk ao abrir cada tab, então trocar o
+--- campo do módulo no setup vale para todas as tabs futuras. Se o upstream
+--- corrigir o early return, deletar esta função.
+function M.fix_hunk_hop()
+	local codediff_config = require('codediff.config')
 	local navigation = require('codediff.ui.view.navigation')
 	local lifecycle = require('codediff.ui.lifecycle')
-	-- Réplica de hop_to_adjacent_file, que é local ao plugin e não dá para reutilizar.
+	--- Réplica de hop_to_adjacent_file, que é local ao plugin e não dá para reutilizar.
+	---@param direction 'next'|'prev'
+	---@return boolean true se trocou de arquivo
 	local function hop_across_files(direction)
 		local tabpage = vim.api.nvim_get_current_tabpage()
 		if not lifecycle.get_explorer(tabpage) then return false end
@@ -150,6 +156,9 @@ function M.fixes()
 		if direction == 'next' then return navigation.next_file() end
 		return navigation.prev_file()
 	end
+	---@param original fun(): boolean next/prev_hunk original
+	---@param direction 'next'|'prev'
+	---@return fun(): boolean hunk hop com travessia de arquivos sem hunks
 	local function wrap_hunk_hop(original, direction)
 		return function()
 			local session = lifecycle.get_session(vim.api.nvim_get_current_tabpage())
@@ -165,6 +174,78 @@ function M.fixes()
 	end
 	navigation.next_hunk = wrap_hunk_hop(navigation.next_hunk, 'next')
 	navigation.prev_hunk = wrap_hunk_hop(navigation.prev_hunk, 'prev')
+end
+
+--- Wrap ligado nos painéis de diff.
+---
+---   plugin abre: wrap=false ──schedule──► wrap=true ✓
+---
+--- Sem isso, linha longa vaza para a direita sem quebrar: o plugin não
+--- expõe opção de wrap e impõe wrap=false hardcoded em vários pontos
+--- (ui/view/inline_view.lua, render.lua, side_by_side.lua,
+--- conflict_window.lua, lifecycle/state.lua), além de reaplicar via
+--- autocmd próprio (session.lua: BufWinEnter/BufEnter/WinEnter/FileType).
+--- wrap é window-local, então o wrap=true global do options.lua não
+--- sobrevive à abertura do diff.
+---
+--- Patch feito aqui (e não na fonte do plugin, que o lazy update
+--- apagaria): reaplicar wrap=true DEPOIS do plugin, sempre via
+--- vim.schedule — o autocmd do plugin é síncrono e foi registrado depois
+--- do nosso, então o agendado roda por último e vence. OptionSet não serve
+--- de gatilho: não dispara para vim.wo via API (testado). Se o upstream
+--- adicionar opção de wrap, deletar esta função.
+function M.fix_wrap()
+	local lifecycle = require('codediff.ui.lifecycle')
+	---@param win number? janela do painel de diff
+	local function enable_wrap(win)
+		if not win or not vim.api.nvim_win_is_valid(win) then return end
+		vim.wo[win].wrap = true
+		vim.wo[win].linebreak = true
+		vim.wo[win].breakindent = true
+	end
+	---@param tabpage number
+	local function wrap_session(tabpage)
+		local session = lifecycle.get_session(tabpage)
+		if not session then return end
+		enable_wrap(session.original_win)
+		enable_wrap(session.modified_win)
+		enable_wrap(session.result_win)
+	end
+	local function wrap_all_sessions()
+		for _, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
+			wrap_session(tabpage)
+		end
+	end
+	--- Revisão virtual renderiza dentro de dois schedules aninhados
+	--- (git.get_file_content ──► schedule ──► schedule(render)): um schedule
+	--- só empataria com o render, então agenda de novo para correr depois.
+	local function wrap_all_sessions_deferred()
+		vim.schedule(wrap_all_sessions)
+	end
+	U.api.augroup('CodediffWrap', {
+		event = 'User',
+		pattern = 'CodeDiffOpen',
+		command = function() vim.schedule(wrap_all_sessions) end,
+	}, {
+		event = 'User',
+		pattern = 'CodeDiffFileSelect',
+		command = function() vim.schedule(wrap_all_sessions) end,
+	}, {
+		event = 'User',
+		pattern = 'CodeDiffVirtualFileLoaded',
+		command = function() vim.schedule(wrap_all_sessions_deferred) end,
+	}, {
+		event = {
+			'WinEnter',
+			'BufWinEnter',
+			'BufEnter',
+			'WinNew',
+			'TabEnter',
+			'TextChanged',
+			'TextChangedI',
+		},
+		command = function() vim.schedule(wrap_all_sessions) end,
+	})
 end
 
 return M
