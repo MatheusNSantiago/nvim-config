@@ -12,6 +12,7 @@ end
 function M.config()
   local kind_icons = U.icons.lspkind
   local comparators = require('plugins.dev.blink.comparators')
+  local lsp_entry_filter = require('plugins.dev.blink.lsp-entry-filter')
 
   require('blink.cmp').setup({
     keymap = require('plugins.dev.blink.mappings'),
@@ -50,7 +51,7 @@ function M.config()
       sorts = {
         'exact',
         comparators.nerf_dunder_python,
-        comparators.variables_first,
+        -- comparators.variables_first,
         comparators.python_public_members_first,
         comparators.fields_first,
         'score',
@@ -121,11 +122,7 @@ function M.config()
       providers = {
         lsp = {
           transform_items = function(ctx, items)
-            return vim.tbl_filter(function(item) --
-              -- return lsp_entry_filter(entry, ctx, handler?)
-              return true
-              -- return item.kind == require('blink.cmp.types').CompletionItemKind.Text
-            end, items)
+            return vim.tbl_filter(function(item) return lsp_entry_filter(item, ctx) end, items)
           end,
         },
         path = {

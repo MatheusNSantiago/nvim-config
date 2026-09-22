@@ -7,9 +7,12 @@
 ---@return boolean
 return function(entry, ctx)
 		local kind = entry.kind_name
-		local prev_line = vim.fn.getline(ctx.cursor[1])
-		-- local cur_line = ctx.cursor_before_line .. '█' .. ctx.cursor_after_line
-		local cur_line = ''
+		-- blink.cmp.Context: cursor = { row 1-indexed, col 0-indexed em bytes }, line = linha atual
+		local line = ctx.line or ''
+		local cursor = ctx.cursor or { 1, 0 }
+		local col = cursor[2] or 0
+		local cur_line = line:sub(1, col) .. '█' .. line:sub(col + 1)
+		local prev_line = vim.fn.getline(cursor[1] - 1)
 
 		--  ╾───────────────────────────────────────────────────────────────────────────────────╼
 
