@@ -4,7 +4,7 @@ function M.setup()
 	return { ---@type LazyPluginSpec
 		'SmiteshP/nvim-navbuddy',
 		config = M.config,
-		enabled = U.is_wsl(),
+		enabled = not U.is_wsl(),
 		keys = {
 			{
 				'<leader>o',
