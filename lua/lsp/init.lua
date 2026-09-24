@@ -119,9 +119,6 @@ function M.setup()
 	vim.lsp.log.set_level('ERROR')
 	require('lspconfig.ui.windows').default_options.border = 'single' -- coloca borda no :LspInfo
 
-	-- Setup handlers
-	require('lsp.handlers').setup()
-
 	local lspconfig = require('lspconfig')
 	local configs = require('lspconfig.configs')
 
