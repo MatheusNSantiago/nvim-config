@@ -187,6 +187,7 @@ function M.config()
           })
         end, { desc = "'FFFind markdown files'" })
         U.api.keymap("n", "<leader>sg", ":Obsidian search<CR>", { desc = "Search in Obsidian" })
+        vim.keymap.set("n", "gd", "<cmd>Obsidian follow_link<cr>", { buffer = true, desc = "Obsidian follow link" })
         -- vim.keymap.set("n", "<leader>;", actions.add_property, { buffer = true, desc = "Add frontmatter property" })
         -- vim.keymap.set("n", "<Tab>", function()
         --   actions.nav_link "next"
