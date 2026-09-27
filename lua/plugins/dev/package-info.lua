@@ -37,6 +37,7 @@ function M.config()
 			},
 		},
 		autostart = true, -- Whether to autostart when `package.json` is opened
+		notifications = false, -- O spinner usa `replace`/`id`, que o noice ignora: cada tick vira uma notificação nova
 		hide_up_to_date = true, -- It hides up to date versions when displaying virtual text
 		hide_unstable_versions = true, -- It hides unstable versions from version list e.g next-11.1.3-canary3
 		-- Can be `npm`, `yarn`, or `pnpm`. Used for `delete`, `install` etc...
