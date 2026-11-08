@@ -101,7 +101,6 @@ function M.config()
 	})
 
 	M.fix_explorer_width()
-	M.fix_hunk_hop()
 	M.fix_wrap()
 end
 
@@ -125,55 +124,6 @@ function M.fix_explorer_width()
 			codediff_config.options.explorer.width = vim.api.nvim_win_get_width(valid_win)
 		end,
 	})
-end
-
---- Tab/Shift-Tab atravessam arquivos mesmo quando o atual não tem hunks
---- (ex: arquivo novo ??).
----
----   a.txt: H1 → H2 ──Tab──► n1.txt (??) ──Tab──► n2.txt (??) ──Tab──► …
----                                    ▲
----                       sem o patch, o Tab morria aqui
----
---- Causa: next/prev_hunk retornam false quando #changes == 0 sem tentar o
---- arquivo vizinho (early return em codediff/ui/view/navigation.lua).
----
---- Patch feito aqui (e não na fonte do plugin, que o lazy update apagaria):
---- os keymaps leem navigation.next_hunk ao abrir cada tab, então trocar o
---- campo do módulo no setup vale para todas as tabs futuras. Se o upstream
---- corrigir o early return, deletar esta função.
-function M.fix_hunk_hop()
-	local codediff_config = require('codediff.config')
-	local navigation = require('codediff.ui.view.navigation')
-	local lifecycle = require('codediff.ui.lifecycle')
-	--- Réplica de hop_to_adjacent_file, que é local ao plugin e não dá para reutilizar.
-	---@param direction 'next'|'prev'
-	---@return boolean true se trocou de arquivo
-	local function hop_across_files(direction)
-		local tabpage = vim.api.nvim_get_current_tabpage()
-		if not lifecycle.get_explorer(tabpage) then return false end
-		local session = lifecycle.get_session(tabpage)
-		if session then session.pending_cursor_landing = direction == 'next' and 'first' or 'last' end
-		if direction == 'next' then return navigation.next_file() end
-		return navigation.prev_file()
-	end
-	---@param original fun(): boolean next/prev_hunk original
-	---@param direction 'next'|'prev'
-	---@return fun(): boolean hunk hop com travessia de arquivos sem hunks
-	local function wrap_hunk_hop(original, direction)
-		return function()
-			local session = lifecycle.get_session(vim.api.nvim_get_current_tabpage())
-			local diff = session and session.stored_diff_result
-			-- nil = diff ainda carregando (não atravessa); vazio = sem hunks (atravessa).
-			local should_hop = diff
-				and diff.changes
-				and #diff.changes == 0
-				and codediff_config.options.diff.cycle_hunks_across_files
-			if should_hop and hop_across_files(direction) then return true end
-			return original()
-		end
-	end
-	navigation.next_hunk = wrap_hunk_hop(navigation.next_hunk, 'next')
-	navigation.prev_hunk = wrap_hunk_hop(navigation.prev_hunk, 'prev')
 end
 
 --- Wrap ligado nos painéis de diff.
