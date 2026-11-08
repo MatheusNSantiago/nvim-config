@@ -70,7 +70,12 @@ function M.config()
       },
       utilities = { enabled = true, keymaps = { open = '<leader><leader>o' } },
       virtcolumn = { enabled = true },
-      local_run = { enabled = true, keymaps = { run = '<leader>r' } },
+      test_runner = { enabled = true, keymaps = { run = '<leader>r', run_inprocess = '<leader><leader>r' } },
+      fuzz = { enabled = true, keymaps = { open = '<leader>z' } },
+    },
+    tools = {
+      nextcobol = '~/dev/nextcobol.feat-fuzzer/bin/mainframe',
+      nextcobol_fuzz = '~/dev/nextcobol.feat-fuzzer/bin/mainframe-fuzz',
     },
   })
 end
